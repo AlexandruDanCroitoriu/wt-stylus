@@ -79,9 +79,7 @@ MonacoEditor::MonacoEditor(std::string language)
 void MonacoEditor::layoutSizeChanged(int width, int height)
 {
     resetLayout(); // This is not needed as it is already called in setEditorText
-    if(width >= 240) {
-        width_changed_.emit(Wt::WString(std::to_string(width)));
-    }
+    width_changed_.emit(Wt::WString(std::to_string(width)));
 }
 
 

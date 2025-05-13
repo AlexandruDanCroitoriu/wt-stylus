@@ -26,43 +26,26 @@ namespace Stylus
         FilesManager(state, state->xml_editor_data_, state->xml_node_->IntAttribute("sidebar-width"), state->xml_node_->Attribute("selected-file-path"))
     {
         sidebar_->footer_->show();
-        if(!state_->xml_node_->BoolAttribute("editor-open"))
-        {
-            editor_->hide();
-        }
-
         
         // auto temp_wrapper = addWidget(std::make_unique<Wt::WContainerWidget>());
         auto temp_wrapper = grid_layout_->addWidget(std::make_unique<Wt::WContainerWidget>(), 0, 2);
         grid_layout_->setColumnResizable(1, true, Wt::WLength(state_->xml_node_->IntAttribute("editor-width"), Wt::LengthUnit::Pixel));
-        temp_wrapper->setStyleClass("p-[8px] stylus-background overflow-y-auto h-screen"); 
+        temp_wrapper->setStyleClass("p-[8px] stylus-background overflow-y-auto h-screen w-full flex"); 
 
 
         auto temp_view = temp_wrapper->addWidget(std::make_unique<Wt::WTemplate>());
         temp_view->setTemplateText(editor_->getUnsavedText(), Wt::TextFormat::UnsafeXHTML);
+        
+        // auto xml_tree_wrapper = temp_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
+        // auto xml_elem_wrapper = temp_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
+        
+        // xml_tree_wrapper->setStyleClass("bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md p-4 m-2");
+        // xml_elem_wrapper->setStyleClass("bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md p-4 m-2");
+        
+        // xml_tree_wrapper->addWidget(std::make_unique<Wt::WText>("XML Tree"));
+        // xml_elem_wrapper->addWidget(std::make_unique<Wt::WText>("XML Element"));
+
         dark_mode_toggle_ = sidebar_->footer_->addWidget(std::make_unique<DarkModeToggle>());
-      
-        auto editor_checkbox = sidebar_->footer_->addWidget(std::make_unique<Wt::WCheckBox>("Editor"));
-        editor_checkbox->setChecked(state_->xml_node_->BoolAttribute("editor-open"));
-        editor_checkbox->keyWentDown().connect(this, [=](Wt::WKeyEvent e) { 
-            Wt::WApplication::instance()->globalKeyWentDown().emit(e); // Emit the global key event
-        });
-
-
-        editor_checkbox->changed().connect(this, [=]()
-        {
-            if (editor_checkbox->isChecked())
-            {
-                grid_layout_->itemAt(1)->widget()->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-                state_->xml_node_->SetAttribute("editor-open", "true");
-            }
-            else
-            {
-                grid_layout_->itemAt(1)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-                state_->xml_node_->SetAttribute("editor-open", "false");
-            }
-            state_->doc_.SaveFile(state_->state_file_path_.c_str());
-        });
 
         file_selected().connect(this, [=]()
         {
@@ -78,6 +61,7 @@ namespace Stylus
         
         sidebar_->width_changed().connect(this, [=](Wt::WString width)
         {
+            std::cout << "sidebar width changed: " << width.toUTF8() << std::endl;
             if(std::stoi(width.toUTF8()) != state_->xml_node_->IntAttribute("sidebar-width"))
             {
                 state_->xml_node_->SetAttribute("sidebar-width", std::stoi(width.toUTF8()));

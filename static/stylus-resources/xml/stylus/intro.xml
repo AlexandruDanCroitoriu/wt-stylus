@@ -1,0 +1,35 @@
+<messages>
+	<message id="stylus:intro-script">
+		<div class="space-y-2">
+			<div>Hello Emweb</div>
+			<div>My name is Alex</div>
+			<div>A few years back, due to fortune i had the oportunity to work with your Wt library and i enjoyd most of it.</div>
+			<div>As i tryed to develop a product with only the guidance from your documentation, forum and widget galery i found it realy fun to develop applications in this manner, BUT, to make something look nice you need templates, css, maybe some js and while it is a joy working with the library, creting the templates and the styles is a pain</div>
+			<div>Heaving multiple type of files opend in one editor, especialy as a junior, was confusing.</div>
+			<div>Using bootstrap to style things did not make me enjoy my creation and from what i remember at the time i tried to extend the bootstrap scss files and the compiling time was 30/40 secconds. Not sure if i did something wrong there but agaen i was at a stop with how inconvenient is to make things look nice. Maybe i missed something.</div>
+		<div>After my adventure with Wt stopped i tryed working with Django SSR and HTMX to achive some kind of widget centric approch to building an application but failed probably due to skill issues</div>
+		<div>I also tryed React CSR but for some reason it did not atract me at all. Even worked with React for a short while but its not for me!</div>
+		<div>Therefor i keept thinking of how to make the development experiance with Wt better and a simple solution was to use Tailwind and css if needed.</div>
+		<div>BUT</div>
+		<div>Using tailwind in widgets still requiers you to build the app to see the changes. Alternative is to use templates and after changing the template you refresh the browser wihdow and the new templates are loaded</div>
+		<div>Using Drango and React i cound edit something and the application whould refresh and i whould see the changes in a matter of ms</div>
+		<div>In this regard i was thinking if i can achive something like this in Wt, it whould become my favorite framework</div>
+		<div>Mission started, this is my 3th atempt to create a visual builder in the hope of making the Wt Ui development FUN!!!</div>
+		<div class="p-2">
+			<div>Lets set some rules</div>
+			<div>0. We will call the visual builder as Stylus because i like the name</div>
+			<div>1. Stylus should handle all files except for C++ files as to let the developer work on code from his editor and work on the UI from the UI</div>
+			<div>2. Stylus should increase the speed of the development</div>
+		</div>
+		<div class="p-2">
+			<div>Stylus uses Tailwind to compile a final css file and uploads it. This process happends any time a css or xml file is saved that is the reason for some noticeble flickering after saving a css or xml file. The previous css file is removed</div>
+			<div>All files handled by Stylus can be seen in specific Monaco editors</div>
+			<div>Stylus handles css files where you can define classes as normal in any css file. Tailwind will compile those file and the classes will be present in the final css file to be automaticaly uploaded</div>
+			<div>Stylus handles xml files where you can define your templates, preview and edit them via visual widgets, keyboard shortcuts and general input control</div>
+		</div>
+		
+		<div>At the moment a developer could manadge his tailwind configuration, css files and templates from the UI. Also js files can be edited from the ui but they are not take into consideration when it comes to tailwind compiling or file includes and are also not automaticaly uploaded with the app, this is due to me not heaving a use for it.</div>
+		<div>Next steps include creating visual builder widgets for the template and controls for viewing/editing selected xml element classes </div>
+		</div>
+	</message>
+</message>

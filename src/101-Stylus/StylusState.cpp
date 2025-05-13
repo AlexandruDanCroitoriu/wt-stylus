@@ -63,7 +63,6 @@ namespace Stylus {
             xml_node_->SetAttribute("editor-width", 500);
             xml_node_->SetAttribute("sidebar-width", 300);
             xml_node_->SetAttribute("selected-file-path", "");
-            xml_node_->SetAttribute("editor-open", "true");
             xml_node_->SetAttribute("navigation-bar-hidden", "false");
             stylus_node_->InsertEndChild(xml_node_);
         }
