@@ -1,0 +1,11 @@
+<messages>
+	
+	<message id="examples:test">
+		<div class="space-y-2 text-black text-center font-bold text-2xl">
+			<div class="bg-[#FFC0CB]">tailwind class with arbitrary value</div>
+			<div class="test-class-1">css class using tailwind class with arbitrary value</div>
+			<div class="test-class-2">css class as generaly defined</div>
+		</div>
+	</massage>
+	
+</messages>

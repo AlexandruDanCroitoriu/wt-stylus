@@ -1,0 +1,87 @@
+/* Stylus background colors */
+.stylus-background {
+    background-color: #FFF;
+    color: inherit;
+}
+
+html.dark .stylus-background {
+    background-color: #1e1e1e;
+    color: #e8e8e8;
+}
+
+/* Main menu navigation styles for button menu item and selected */
+.filesManager-menu {
+    transition: background-color 0.2s;
+}
+
+.filesManager-menu:hover {
+    background-color: #dbeafe;
+}
+
+html.dark .filesManager-menu:hover {
+    background-color: #2563eb;
+}
+
+.filesManager-menu-selected {
+    background-color: #2563eb;
+}
+
+.filesManager-menu-selected:hover {
+    background-color: #2563eb;
+}
+
+html.dark .filesManager-menu-selected {
+    background-color: #1e40af;
+}
+
+html.dark .filesManager-menu-selected:hover {
+    background-color: #1e40af;
+}
+
+/* Wt-item */
+.Wt-item {
+    /* zoom: 125%; */
+    cursor: pointer;
+    min-width: fit-content;
+}
+.Wt-item:hover {
+    background-color: #dbeafe;
+}
+
+html.dark .Wt-item:hover:not(.Wt-selected) {
+    background-color: #2563eb;
+}
+
+
+/* Wt-selected */
+.Wt-selected {
+    background-color: #b9fca9;
+}
+
+html.dark .Wt-selected {
+    background-color: #a8ffaa;
+    font-weight: 700;
+    color: #000;
+}
+
+/* Unsaved changes with Wt-selected */
+.unsaved-changes > .Wt-selected {
+    background-color: #ff8c8c;
+}
+
+html.dark .unsaved-changes > .Wt-selected {
+    background-color: #ff4d4d;
+}
+
+/* Wt-vrh2 */
+html.dark .Wt-vrh2 {
+    background-color: #000;
+}
+
+html.dark .Wt-vrh2:hover {
+    background-color: #000;
+}
+
+html.dark .Wt-vrh2:active {
+    background-color: #000;
+}

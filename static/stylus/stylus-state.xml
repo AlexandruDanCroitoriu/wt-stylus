@@ -1,0 +1,6 @@
+<stylus navigation-bar-hidden="false" selected-menu="javascript" open="true" dark-mode="true">
+    <xml-manager editor-width="1070" sidebar-width="240" selected-file-path="examples/test.xml" editor-open="true" navigation-bar-hidden="false"/>
+    <css-manager sidebar-width="240" selected-file-path="examples/use-anything.css" navigation-bar-hidden="false"/>
+    <js-manager sidebar-width="300" selected-file-path="examples/example.js" navigation-bar-hidden="false"/>
+    <tailwind-config editor-width="1084" selected-file-name="0.css"/>
+</stylus>
