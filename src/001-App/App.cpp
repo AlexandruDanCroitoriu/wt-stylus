@@ -15,7 +15,7 @@ App::App(const Wt::WEnvironment &env)
 
     // Title
     setTitle("Starter App");
-    root()->setStyleClass("block min-h-[1000vh] bg-red-200");
+    // root()->setStyleClass("block min-h-[1000vh] bg-red-200");
   
     auto dark_mode_toggle = root()->addWidget(std::make_unique<DarkModeToggle>());
 

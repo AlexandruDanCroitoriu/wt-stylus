@@ -65,6 +65,7 @@ namespace Stylus {
             xml_node_->SetAttribute("selected-file-path", "");
             xml_node_->SetAttribute("navigation-bar-hidden", "false");
             xml_node_->SetAttribute("preview-type", "template");
+            xml_node_->SetAttribute("preview-widget-sidebar-width", "300");
             stylus_node_->InsertEndChild(xml_node_);
         }
         css_node_ = stylus_node_->FirstChildElement("css-manager");

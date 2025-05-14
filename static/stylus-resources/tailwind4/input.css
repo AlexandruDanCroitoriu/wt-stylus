@@ -8,8 +8,11 @@
 @source "../../../src/";
 
 /* Import custom CSS files */
+@import "./css/examples/tree.css";
 @import "./css/examples/use-anything.css";
 @import "./css/stylus/preview.css";
+@import "./css/stylus/general.css";
+@import "./css/stylus/scrollbar.css";
 /* Define custom theme */
 /* Define custom variants */
 @custom-variant dark (&:where(.dark, .dark *));

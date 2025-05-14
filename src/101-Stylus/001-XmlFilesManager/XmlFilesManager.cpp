@@ -36,7 +36,7 @@ namespace Stylus
 
 
         auto temp_view = temp_wrapper->addWidget(std::make_unique<Wt::WTemplate>());
-        auto file_preview = temp_wrapper->addWidget(std::make_unique<XmlFileUi>());
+        file_preview_ = temp_wrapper->addWidget(std::make_unique<XmlFileUi>(state_));
         
  
         dark_mode_toggle_ = sidebar_->footer_->addWidget(std::make_unique<DarkModeToggle>());
@@ -48,16 +48,16 @@ namespace Stylus
         });
 
         if(std::string(state_->xml_node_->Attribute("preview-type")).compare("template") == 0) {
-            file_preview->hide();
+            file_preview_->hide();
             temp_view->show();
-            temp_view->setTemplateText(editor_->getUnsavedText(), Wt::TextFormat::UnsafeXHTML);
             preview_checkbox->setChecked(false);
         }else if(std::string(state_->xml_node_->Attribute("preview-type")).compare("widgets") == 0) {
-            file_preview->show();
+            file_preview_->show();
             temp_view->hide();
-            file_preview->setFile(data_.root_folder_path_ + selected_file_path_);
             preview_checkbox->setChecked(true);
         }
+        temp_view->setTemplateText(editor_->getUnsavedText(), Wt::TextFormat::UnsafeXHTML);
+        file_preview_->setFile(data_.root_folder_path_ + selected_file_path_);
         
 
         preview_checkbox->changed().connect(this, [=]()
@@ -65,22 +65,23 @@ namespace Stylus
             if (preview_checkbox->isChecked())
             {
                 state_->xml_node_->SetAttribute("preview-type", "widgets");
-                file_preview->show();
-                temp_view->hide();   
+                file_preview_->show();
+                temp_view->hide();
             }
             else
             {
                 state_->xml_node_->SetAttribute("preview-type", "template");
-                file_preview->hide();
+                file_preview_->hide();
                 temp_view->show();
             }
+            state_->doc_.SaveFile(state_->state_file_path_.c_str());
         });
         file_selected().connect(this, [=]()
         {
             std::string file_path = data_.root_folder_path_ + selected_file_path_;
             state_->xml_node_->SetAttribute("selected-file-path", selected_file_path_.c_str());
             temp_view->setTemplateText(editor_->getUnsavedText(), Wt::TextFormat::UnsafeXHTML);
-            file_preview->setFile(file_path);
+            file_preview_->setFile(file_path);
             state_->doc_.SaveFile(state_->state_file_path_.c_str());
         });
         file_saved().connect(this, [=](Wt::WString file_path)

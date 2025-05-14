@@ -298,6 +298,9 @@
   .ml-2 {
     margin-left: calc(var(--spacing) * 2);
   }
+  .ml-3 {
+    margin-left: calc(var(--spacing) * 3);
+  }
   .ml-auto {
     margin-left: auto;
   }
@@ -599,6 +602,9 @@
   .p-2 {
     padding: calc(var(--spacing) * 2);
   }
+  .p-12 {
+    padding: calc(var(--spacing) * 12);
+  }
   .p-\[3px\] {
     padding: 3px;
   }
@@ -734,6 +740,12 @@
   }
   .capitalize {
     text-transform: capitalize;
+  }
+  .uppercase {
+    text-transform: uppercase;
+  }
+  .italic {
+    font-style: italic;
   }
   .shadow-md {
     --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
@@ -1243,6 +1255,49 @@
     }
   }
 }
+.tree {
+  --spacing: 1.5rem;
+  --radius: 10px;
+}
+.tree li {
+  display: block;
+  position: relative;
+  padding-left: calc(2 * var(--spacing) - var(--radius) - 2px);
+}
+.tree ul {
+  margin-left: calc(var(--radius) - var(--spacing));
+  padding-left: 0;
+}
+.tree ul li {
+  border-left: 2px solid #ddd;
+}
+.tree ul li:last-child {
+  border-color: transparent;
+}
+.tree ul li::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: calc(var(--spacing) / -2);
+  left: -2px;
+  width: calc(var(--spacing) + 2px);
+  height: calc(var(--spacing) + 1px);
+  border: solid #ddd;
+  border-width: 0 0 2px 2px;
+}
+.tree summary {
+  display: block;
+  cursor: pointer;
+}
+.tree summary::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 11px;
+  left: 8px;
+  width: calc(var(--spacing) + 2px);
+  border-width: 0 0 2px 2px;
+}
 @layer theme, base, components, utilities;
 @layer theme;
 @layer base {
@@ -1394,25 +1449,11 @@
 .test-class-2 {
   background-color: #FFC0CB;
 }
-.scrollbar-stylus::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  border-radius: 10px;
-  background-color: #F5F5F5;
-}
-.scrollbar-stylus::-webkit-scrollbar {
-  width: 12px;
-  background-color: #F5F5F5;
-}
-.scrollbar-stylus::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-  background-color: #555;
-}
 :root {
-  --questionmark-one-light: #f16bc9;
-  --questionmark-one-dark: #f71fb6;
-  --questionmark-two-light: #6BF193;
-  --questionmark-two-dark: #1FF760;
+  --questionmark-one-light: #6BF193;
+  --questionmark-one-dark: #1FF760;
+  --questionmark-two-light: #f16bc9;
+  --questionmark-two-dark: #f71fb6;
   --questionmark-outline-width-start: 1px;
   --questionmark-outline-width-end: 3px;
 }
@@ -1453,6 +1494,83 @@
     outline-color: var(--questionmark-one-dark);
     box-shadow: inset 2px 2px var(--questionmark-one-dark), inset -2px -2px var(--questionmark-one-dark);
   }
+}
+.stylus-background {
+  background-color: #FFF;
+  color: inherit;
+}
+html.dark .stylus-background {
+  background-color: #1e1e1e;
+  color: #e8e8e8;
+}
+.filesManager-menu {
+  transition: background-color 0.2s;
+}
+.filesManager-menu:hover {
+  background-color: #dbeafe;
+}
+html.dark .filesManager-menu:hover {
+  background-color: #2563eb;
+}
+.filesManager-menu-selected {
+  background-color: #2563eb;
+  color: black;
+}
+.filesManager-menu-selected:hover {
+  background-color: #2563eb;
+}
+html.dark .filesManager-menu-selected {
+  background-color: #1e40af;
+}
+html.dark .filesManager-menu-selected:hover {
+  background-color: #1e40af;
+}
+.Wt-item {
+  cursor: pointer;
+  min-width: fit-content;
+}
+.Wt-item:hover {
+  background-color: #dbeafe;
+}
+html.dark .Wt-item:hover:not(.Wt-selected) {
+  background-color: #2563eb;
+}
+.Wt-selected {
+  background-color: #b9fca9;
+}
+html.dark .Wt-selected {
+  background-color: #a8ffaa;
+  font-weight: 700;
+  color: #000;
+}
+.unsaved-changes > .Wt-selected {
+  background-color: #ff8c8c;
+}
+html.dark .unsaved-changes > .Wt-selected {
+  background-color: #ff4d4d;
+}
+html.dark .Wt-vrh2 {
+  background-color: #000;
+}
+html.dark .Wt-vrh2:hover {
+  background-color: #000;
+}
+html.dark .Wt-vrh2:active {
+  background-color: #000;
+}
+.scrollbar-stylus::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: #1e1e1e;
+}
+.scrollbar-stylus::-webkit-scrollbar {
+  width: 3px;
+  background-color: #1e1e1e;
+}
+.scrollbar-stylus::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #555;
 }
 @property --tw-border-spacing-x {
   syntax: "<length>";

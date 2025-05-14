@@ -1,8 +1,15 @@
 :root {
-    --questionmark-one-light: #f16bc9;
+  	--questionmark-one-light: #6BF193;
+    --questionmark-one-dark: #1FF760;
+    --questionmark-two-light: #f16bc9;
+    --questionmark-two-dark: #f71fb6;
+
+		/* Reverse
+		--questionmark-one-light: #f16bc9;
     --questionmark-one-dark: #f71fb6;
     --questionmark-two-light: #6BF193;
     --questionmark-two-dark: #1FF760;
+		*/
 
     --questionmark-outline-width-start: 1px;
     --questionmark-outline-width-end: 3px;
