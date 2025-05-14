@@ -5,6 +5,7 @@
     --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --color-red-200: oklch(0.885 0.062 18.334);
     --color-yellow-300: oklch(0.905 0.182 98.111);
     --color-green-400: oklch(0.792 0.209 151.711);
     --color-green-800: oklch(0.448 0.119 151.328);
@@ -270,9 +271,6 @@
   .m-1 {
     margin: calc(var(--spacing) * 1);
   }
-  .m-2 {
-    margin: calc(var(--spacing) * 2);
-  }
   .m-\[4px\] {
     margin: 4px;
   }
@@ -348,11 +346,20 @@
   .h-\[100vh\] {
     height: 100vh;
   }
+  .h-\[1000VH\] {
+    height: 1000VH;
+  }
   .h-full {
     height: 100%;
   }
   .h-screen {
     height: 100vh;
+  }
+  .max-h-screen {
+    max-height: 100vh;
+  }
+  .min-h-\[1000vh\] {
+    min-height: 1000vh;
   }
   .min-h-screen {
     min-height: 100vh;
@@ -571,6 +578,9 @@
   .bg-gray-300 {
     background-color: var(--color-gray-300);
   }
+  .bg-red-200 {
+    background-color: var(--color-red-200);
+  }
   .bg-rose-500 {
     background-color: var(--color-rose-500);
   }
@@ -588,9 +598,6 @@
   }
   .p-2 {
     padding: calc(var(--spacing) * 2);
-  }
-  .p-4 {
-    padding: calc(var(--spacing) * 4);
   }
   .p-\[3px\] {
     padding: 3px;
@@ -1386,6 +1393,66 @@
 }
 .test-class-2 {
   background-color: #FFC0CB;
+}
+.scrollbar-stylus::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: #F5F5F5;
+}
+.scrollbar-stylus::-webkit-scrollbar {
+  width: 12px;
+  background-color: #F5F5F5;
+}
+.scrollbar-stylus::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #555;
+}
+:root {
+  --questionmark-one-light: #f16bc9;
+  --questionmark-one-dark: #f71fb6;
+  --questionmark-two-light: #6BF193;
+  --questionmark-two-dark: #1FF760;
+  --questionmark-outline-width-start: 1px;
+  --questionmark-outline-width-end: 3px;
+}
+.preview-xml-node-hover {
+  outline-style: solid;
+  outline-width: var(--questionmark-outline-width-start);
+  outline-color: var(--questionmark-two-light);
+  box-shadow: inset 2px 2px var(--questionmark-two-light), inset -2px -2px var(--questionmark-two-light);
+  animation: preview-selected-xml-nodewobble 0.6s ease-in-out alternate infinite;
+}
+@keyframes preview-selected-xml-nodewobble {
+  0% {
+    outline-width: var(--questionmark-outline-width-start);
+    outline-color: var(--questionmark-two-light);
+    box-shadow: inset 2px 2px var(--questionmark-two-light), inset -2px -2px var(--questionmark-two-light);
+  }
+  100% {
+    outline-width: var(--questionmark-outline-width-end);
+    outline-color: var(--questionmark-two-dark);
+    box-shadow: inset 2px 2px var(--questionmark-two-dark), inset -2px -2px var(--questionmark-two-dark);
+  }
+}
+.selected-xml-node {
+  outline-style: solid;
+  outline-width: var(--questionmark-outline-width-start);
+  outline-color: var(--questionmark-one-light);
+  box-shadow: inset 2px 2px var(--questionmark-one-light), inset -2px -2px var(--questionmark-one-light);
+  animation: selected-xml-nodewobble 0.6s ease-in-out alternate infinite;
+}
+@keyframes selected-xml-nodewobble {
+  0% {
+    outline-width: var(--questionmark-outline-width-start);
+    outline-color: var(--questionmark-one-light);
+    box-shadow: inset 2px 2px var(--questionmark-one-light), inset -2px -2px var(--questionmark-one-light);
+  }
+  100% {
+    outline-width: var(--questionmark-outline-width-end);
+    outline-color: var(--questionmark-one-dark);
+    box-shadow: inset 2px 2px var(--questionmark-one-dark), inset -2px -2px var(--questionmark-one-dark);
+  }
 }
 @property --tw-border-spacing-x {
   syntax: "<length>";

@@ -17,6 +17,7 @@
 #include <Wt/WContainerWidget.h>
 #include <Wt/WLayout.h>
 #include "001-App/App.h"
+#include "101-Stylus/001-XmlFilesManager/XmlFileBrain.h"
 
 namespace Stylus
 {
@@ -30,28 +31,56 @@ namespace Stylus
         // auto temp_wrapper = addWidget(std::make_unique<Wt::WContainerWidget>());
         auto temp_wrapper = grid_layout_->addWidget(std::make_unique<Wt::WContainerWidget>(), 0, 2);
         grid_layout_->setColumnResizable(1, true, Wt::WLength(state_->xml_node_->IntAttribute("editor-width"), Wt::LengthUnit::Pixel));
-        temp_wrapper->setStyleClass("p-[8px] stylus-background overflow-y-auto h-screen w-full flex"); 
+        // temp_wrapper->setStyleClass("p-[8px] stylus-background overflow-y-auto h-screen w-full flex"); 
+        temp_wrapper->setStyleClass("stylus-background overflow-auto h-screen w-full"); 
 
 
         auto temp_view = temp_wrapper->addWidget(std::make_unique<Wt::WTemplate>());
-        temp_view->setTemplateText(editor_->getUnsavedText(), Wt::TextFormat::UnsafeXHTML);
+        auto file_preview = temp_wrapper->addWidget(std::make_unique<XmlFileUi>());
         
-        // auto xml_tree_wrapper = temp_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
-        // auto xml_elem_wrapper = temp_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
-        
-        // xml_tree_wrapper->setStyleClass("bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md p-4 m-2");
-        // xml_elem_wrapper->setStyleClass("bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md p-4 m-2");
-        
-        // xml_tree_wrapper->addWidget(std::make_unique<Wt::WText>("XML Tree"));
-        // xml_elem_wrapper->addWidget(std::make_unique<Wt::WText>("XML Element"));
-
+ 
         dark_mode_toggle_ = sidebar_->footer_->addWidget(std::make_unique<DarkModeToggle>());
+        
+        auto preview_checkbox = sidebar_->footer_->addWidget(std::make_unique<Wt::WCheckBox>("Change View"));
+        preview_checkbox->setChecked(state_->xml_node_->BoolAttribute("editor-open"));
+        preview_checkbox->keyWentDown().connect(this, [=](Wt::WKeyEvent e) { 
+            Wt::WApplication::instance()->globalKeyWentDown().emit(e); // Emit the global key event
+        });
 
+        if(std::string(state_->xml_node_->Attribute("preview-type")).compare("template") == 0) {
+            file_preview->hide();
+            temp_view->show();
+            temp_view->setTemplateText(editor_->getUnsavedText(), Wt::TextFormat::UnsafeXHTML);
+            preview_checkbox->setChecked(false);
+        }else if(std::string(state_->xml_node_->Attribute("preview-type")).compare("widgets") == 0) {
+            file_preview->show();
+            temp_view->hide();
+            file_preview->setFile(data_.root_folder_path_ + selected_file_path_);
+            preview_checkbox->setChecked(true);
+        }
+        
+
+        preview_checkbox->changed().connect(this, [=]()
+        {
+            if (preview_checkbox->isChecked())
+            {
+                state_->xml_node_->SetAttribute("preview-type", "widgets");
+                file_preview->show();
+                temp_view->hide();   
+            }
+            else
+            {
+                state_->xml_node_->SetAttribute("preview-type", "template");
+                file_preview->hide();
+                temp_view->show();
+            }
+        });
         file_selected().connect(this, [=]()
         {
             std::string file_path = data_.root_folder_path_ + selected_file_path_;
             state_->xml_node_->SetAttribute("selected-file-path", selected_file_path_.c_str());
             temp_view->setTemplateText(editor_->getUnsavedText(), Wt::TextFormat::UnsafeXHTML);
+            file_preview->setFile(file_path);
             state_->doc_.SaveFile(state_->state_file_path_.c_str());
         });
         file_saved().connect(this, [=](Wt::WString file_path)

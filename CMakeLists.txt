@@ -35,6 +35,7 @@ set(SOURCES
     ${SOURCE_DIR}101-Stylus/000-Utils/FilesManager.cpp
     ${SOURCE_DIR}101-Stylus/000-Utils/tinyxml2/tinyxml2.cpp
     ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/XmlFilesManager.cpp
+    ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/XmlFileBrain.cpp
     ${SOURCE_DIR}101-Stylus/002-CssFilesManager/CssFilesManager.cpp
     ${SOURCE_DIR}101-Stylus/003-JsFilesManager/JsFilesManager.cpp
     ${SOURCE_DIR}101-Stylus/004-TailwindConfigManager/TailwindConfigManager.cpp

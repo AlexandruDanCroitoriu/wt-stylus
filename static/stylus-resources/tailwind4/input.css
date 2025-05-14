@@ -9,6 +9,7 @@
 
 /* Import custom CSS files */
 @import "./css/examples/use-anything.css";
+@import "./css/stylus/preview.css";
 /* Define custom theme */
 /* Define custom variants */
 @custom-variant dark (&:where(.dark, .dark *));

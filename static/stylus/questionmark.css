@@ -8,15 +8,15 @@
     --questionmark-outline-width-end: 1px;
 }
 
-.\?\? {
+.selected-xml-node {
     outline-style: solid;
     outline-width: var(--questionmark-outline-width-start);
     outline-color: var(--questionmark-one-light);
     box-shadow: inset 2px 2px var(--questionmark-one-light), inset -2px -2px var(--questionmark-one-light);
-    animation: \?\?wobble 0.6s ease-in-out alternate infinite;
+    animation: selected-xml-nodewobble 0.6s ease-in-out alternate infinite;
 }
 
-@keyframes \?\?wobble {
+@keyframes selected-xml-nodewobble {
     0% {
         outline-width: var(--questionmark-outline-width-start);
         outline-color: var(--questionmark-one-light);
@@ -30,15 +30,15 @@
     }
 }
 
-.\? {
+.preview-xml-node:hover {
     outline-style: solid;
     outline-width: var(--questionmark-outline-width-start);
     outline-color: var(--questionmark-two-light);
     box-shadow: inset 2px 2px var(--questionmark-two-light), inset -2px -2px var(--questionmark-two-light);
-    animation: \?wobble 0.6s ease-in-out alternate infinite;
+    animation: preview-selected-xml-nodewobble 0.6s ease-in-out alternate infinite;
 }
 
-@keyframes \?wobble {
+@keyframes preview-selected-xml-nodewobble {
     0% {
         outline-width: var(--questionmark-outline-width-start);
         outline-color: var(--questionmark-two-light);

@@ -24,14 +24,14 @@ namespace Stylus
 
 FilesManagerSidebar::FilesManagerSidebar()
 {
-    setStyleClass("flex flex-col h-screen stylus-background select-none");
+    setStyleClass("flex flex-col max-h-screen stylus-background select-none");
     setLayoutSizeAware(true);
     // tree header
     setMinimumSize(Wt::WLength(240, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
     setMaximumSize(Wt::WLength(1000, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
 
     contents_ = addWidget(std::make_unique<Wt::WContainerWidget>());
-    contents_->setStyleClass("w-full flex-[1] overflow-y-auto overflow-x-hidden flex flex-col");
+    contents_->setStyleClass("w-full flex-[1] overflow-y-auto overflow-x-hidden flex flex-col scrollbar-stylus");
 
     footer_ = addWidget(std::make_unique<Wt::WContainerWidget>());
     footer_->setStyleClass("flex items-center justify-between p-[3px] border-t border-solid");
