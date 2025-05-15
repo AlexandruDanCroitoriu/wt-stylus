@@ -16,14 +16,6 @@ set(SOURCES
     ${SOURCE_DIR}/main.cpp
     ${SOURCE_DIR}/001-App/App.cpp
     ${SOURCE_DIR}/002-Dbo/Session.cpp
-    # ${SOURCE_DIR}/003-Tailwind/TVariable.cpp
-    # ${SOURCE_DIR}/003-Tailwind/WTConfig.cpp
-    # ${SOURCE_DIR}/003-Tailwind/WTVariable.cpp
-    # ${SOURCE_DIR}/003-Tailwind/WTVariableText.cpp
-    # ${SOURCE_DIR}/004-FilesManager/FilesManager.cpp
-    # ${SOURCE_DIR}/004-FilesManager/MonacoEdditor.cpp
-    # ${SOURCE_DIR}/005-TailwindConfigCenter/TailwindConfigCenter.cpp
-    # ${SOURCE_DIR}/006-TemplatesManager/TemplatesManager.cpp
     
     ${SOURCE_DIR}/010-TestWidgets/Test.cpp
     ${SOURCE_DIR}/010-TestWidgets/DarkModeToggle.cpp
@@ -36,13 +28,11 @@ set(SOURCES
     ${SOURCE_DIR}101-Stylus/000-Utils/tinyxml2/tinyxml2.cpp
     ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/XmlFilesManager.cpp
     ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/XmlFileBrain.cpp
+    ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/Preview/XMLFileBrain.cpp
+    ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/Preview/XMLElemNode.cpp
     ${SOURCE_DIR}101-Stylus/002-CssFilesManager/CssFilesManager.cpp
     ${SOURCE_DIR}101-Stylus/003-JsFilesManager/JsFilesManager.cpp
     ${SOURCE_DIR}101-Stylus/004-TailwindConfigManager/TailwindConfigManager.cpp
-    # ${SOURCE_DIR}101-Stylus/004-TailwindConfigManager/WTConfig.cpp
-    # ${SOURCE_DIR}101-Stylus/004-TailwindConfigManager/TVariable.cpp
-    # ${SOURCE_DIR}101-Stylus/004-TailwindConfigManager/WTVariable.cpp
-    # ${SOURCE_DIR}101-Stylus/004-TailwindConfigManager/WTVariableText.cpp
 
 )
 
