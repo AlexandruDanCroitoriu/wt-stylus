@@ -209,14 +209,15 @@ Stylus::Stylus()
                     }
                     state_->doc_.SaveFile(state_->state_file_path_.c_str());
                 }
-            }else if (e.key() == Wt::Key::Up){
-                auto selected_node = xml_files_manager_->file_preview_->xml_file_brain_->selected_node_;
+            }
+            else if (e.key() == Wt::Key::Up){
+                auto selected_node = xml_files_manager_->file_brain_->selected_node_;
                 if(selected_node != nullptr)
                 {
                     auto prev_node = selected_node->PreviousSiblingElement();
                     if(prev_node != nullptr)
                     {
-                        xml_files_manager_->file_preview_->xml_file_brain_->xml_node_selected_.emit(prev_node, true);
+                        xml_files_manager_->file_brain_->xml_node_selected_.emit(prev_node, true);
                         return;
                     }
                     auto parent_node = selected_node->Parent();
@@ -225,19 +226,19 @@ Stylus::Stylus()
                         auto last_child = parent_node->LastChildElement();
                         if(last_child != nullptr)
                         {
-                            xml_files_manager_->file_preview_->xml_file_brain_->xml_node_selected_.emit(last_child, true);
+                            xml_files_manager_->file_brain_->xml_node_selected_.emit(last_child, true);
                             return;
                         }
                     }
                 }
             }else if (e.key() == Wt::Key::Down){
-                auto selected_node = xml_files_manager_->file_preview_->xml_file_brain_->selected_node_;
+                auto selected_node = xml_files_manager_->file_brain_->selected_node_;
                 if(selected_node != nullptr)
                 {
                     auto next_node = selected_node->NextSiblingElement();
                     if(next_node != nullptr)
                     {
-                        xml_files_manager_->file_preview_->xml_file_brain_->xml_node_selected_.emit(next_node, true);
+                        xml_files_manager_->file_brain_->xml_node_selected_.emit(next_node, true);
                         return;
                     }
                     auto parent_node = selected_node->Parent();
@@ -246,30 +247,30 @@ Stylus::Stylus()
                         auto first_child = parent_node->FirstChildElement();
                         if(first_child != nullptr)
                         {
-                            xml_files_manager_->file_preview_->xml_file_brain_->xml_node_selected_.emit(first_child, true);
+                            xml_files_manager_->file_brain_->xml_node_selected_.emit(first_child, true);
                             return;
                         }
                     }
                 }
             }else if (e.key() == Wt::Key::Left){
-                auto selected_node = xml_files_manager_->file_preview_->xml_file_brain_->selected_node_;
-                if(selected_node != nullptr && selected_node->ToElement() != xml_files_manager_->file_preview_->xml_file_brain_->doc_.RootElement())
+                auto selected_node = xml_files_manager_->file_brain_->selected_node_;
+                if(selected_node != nullptr && selected_node->ToElement() != xml_files_manager_->file_brain_->doc_.RootElement())
                 {
                     auto parent_node = selected_node->Parent();
                     if(parent_node != nullptr)
                     {
-                        xml_files_manager_->file_preview_->xml_file_brain_->xml_node_selected_.emit(parent_node->ToElement(), true);
+                        xml_files_manager_->file_brain_->xml_node_selected_.emit(parent_node->ToElement(), true);
                         return;
                     }
                 }
             }else if (e.key() == Wt::Key::Right){
-                auto selected_node = xml_files_manager_->file_preview_->xml_file_brain_->selected_node_;
+                auto selected_node = xml_files_manager_->file_brain_->selected_node_;
                 if(selected_node != nullptr)
                 {
                     auto first_child = selected_node->FirstChildElement();
                     if(first_child != nullptr)
                     {
-                        xml_files_manager_->file_preview_->xml_file_brain_->xml_node_selected_.emit(first_child, true);
+                        xml_files_manager_->file_brain_->xml_node_selected_.emit(first_child, true);
                         return;
                     }
                 }

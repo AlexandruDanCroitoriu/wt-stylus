@@ -1,0 +1,21 @@
+
+
+<ul class="stylus-list-tree">
+	<li>
+		<div>${label}</div>
+		<div>
+			<ul>
+				<li>
+					<div>${label}</div>
+					<div>${content}</div>
+				</li> 
+			</ul>
+			<ul>
+				<li>
+					<div>${label}</div>
+					<div>${content}</div>
+				</li> 
+			</ul>
+		</div>
+	</li> 
+</ul>

@@ -9,6 +9,7 @@ App::App(const Wt::WEnvironment &env)
     stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>());
  
     messageResourceBundle().use("../static/stylus-resources/xml/stylus/override-wt");
+    messageResourceBundle().use("../static/stylus-resources/xml/stylus/stylus");
 
     // require("https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4");
     useStyleSheet("static/css/questionmark.css");

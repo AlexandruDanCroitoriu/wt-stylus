@@ -1,9 +1,10 @@
 #include "101-Stylus/001-XmlFilesManager/Preview/XMLElemNode.h"
+#include <Wt/WText.h>
 
 namespace Stylus
 {
 
-    XMLElemNode::XMLElemNode(std::shared_ptr<XmlFileBrain> file_brain, tinyxml2::XMLElement* node, bool scroll_into_view)
+    XMLElemNode::XMLElemNode(std::shared_ptr<XMLFileBrain> file_brain, tinyxml2::XMLElement* node, bool scroll_into_view)
     : Wt::WContainerWidget(), node_(node), file_brain_(file_brain)
     {
         // acceptDrops("file", "Wt-item");
@@ -55,22 +56,28 @@ namespace Stylus
     }
 
     
-    XMLElemView::XMLElemView(std::shared_ptr<StylusState> state)
-        : file_brain_(std::make_shared<XmlFileBrain>(state)),
-        state_(state)
+    XMLElemView::XMLElemView(std::shared_ptr<XMLFileBrain> file_brain)
+        : file_brain_(file_brain)
     {
-        
-    }
+        file_brain_->xml_node_selected_.connect(this, [=](tinyxml2::XMLNode* node, bool scroll_into_view)
+        {
+            file_brain_->selected_node_ = node;
+            resetUi(scroll_into_view);
+        });
 
-    void XMLElemView::setXmlFileBrain(std::string file_path)
-    {
-        file_brain_->setFile(file_path);
+        resetUi();
     }
 
     void XMLElemView::resetUi(bool scroll_into_view)
     {
         clear();
-        addWidget(std::make_unique<XMLElemNode>(file_brain_, file_brain_->doc_.RootElement(), scroll_into_view));
+        if(file_brain_->doc_.ErrorID() != tinyxml2::XML_SUCCESS)
+        {
+            std::cout << "\n\n ELEMENT file brain has errors: " << file_brain_->doc_.ErrorID() << "\n\n";
+            addWidget(std::make_unique<Wt::WText>("Error loading XML file"));
+        }else {
+            addWidget(std::make_unique<XMLElemNode>(file_brain_, file_brain_->doc_.RootElement(), scroll_into_view));
+        }
     }
 
     void XMLElemView::dropEvent(Wt::WDropEvent event)
