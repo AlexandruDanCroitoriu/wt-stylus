@@ -13,13 +13,14 @@ namespace Stylus
 
     struct StylusState {
         StylusState();
-        tinyxml2::XMLDocument doc_;
+        std::shared_ptr<tinyxml2::XMLDocument> doc_;
         std::string state_file_path_;
         tinyxml2::XMLElement* stylus_node_ = nullptr;
         tinyxml2::XMLElement* xml_node_ = nullptr;
         tinyxml2::XMLElement* css_node_ = nullptr;
         tinyxml2::XMLElement* js_node_ = nullptr;
         tinyxml2::XMLElement* tailwind_config_node_ = nullptr;
+        tinyxml2::XMLElement* copy_node_ = nullptr;
 
         std::string tailwind_input_file_path_;
     
@@ -29,6 +30,7 @@ namespace Stylus
         StylusEditorManagementData tailwind_config_editor_data_;
 
         std::string getFileText(std::string file_path);
+        void setCopyNode(tinyxml2::XMLElement* node);
 
     };
 

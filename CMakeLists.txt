@@ -31,6 +31,7 @@ set(SOURCES
     ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/Preview/XMLFileBrain.cpp
     ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/Preview/XMLElemNode.cpp
     ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/Preview/XMLTreeNode.cpp
+    ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/Preview/AttributeControl.cpp
     ${SOURCE_DIR}101-Stylus/002-CssFilesManager/CssFilesManager.cpp
     ${SOURCE_DIR}101-Stylus/003-JsFilesManager/JsFilesManager.cpp
     ${SOURCE_DIR}101-Stylus/004-TailwindConfigManager/TailwindConfigManager.cpp

@@ -72,7 +72,7 @@ namespace Stylus
         std::vector<std::pair<std::string, std::vector<std::string>>> folders_;
         
         void setTreeFolderWidgets();
-        
+        void reuploadFile();
         std::vector<std::pair<std::string, std::vector<std::string>>> getFolders();
 
         Wt::Signal<Wt::WString>& file_saved() { return file_saved_; }

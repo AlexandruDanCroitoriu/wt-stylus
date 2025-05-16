@@ -5,7 +5,8 @@
 namespace Stylus
 {
     XMLFileBrain::XMLFileBrain(std::shared_ptr<StylusState> state)
-    : state_(state)
+    : state_(state),
+    doc_(std::make_shared<tinyxml2::XMLDocument>())
     {
     }
     
@@ -13,11 +14,15 @@ namespace Stylus
     {
         file_path_ = file_path;
         // Load the XML file
-        tinyxml2::XMLError eResult = doc_.LoadFile(file_path.c_str());
+        tinyxml2::XMLError eResult = doc_->LoadFile(file_path.c_str());
         if (eResult != tinyxml2::XML_SUCCESS) {
-            std::cout << "\n\nError loading XML file: " << doc_.ErrorIDToName(eResult) << "\n\n";
+            std::cout << "\n\nError loading XML file: " << doc_->ErrorIDToName(eResult) << "\n\n";
+            selected_node_ = nullptr;
+        }else {
+            selected_node_ = doc_->RootElement();
         }
-        selected_node_ = doc_.RootElement();
+        xml_node_selected_.emit(selected_node_, false);
+        
     }
 
 

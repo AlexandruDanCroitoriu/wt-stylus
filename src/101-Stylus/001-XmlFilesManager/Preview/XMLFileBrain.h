@@ -14,16 +14,19 @@ namespace Stylus
         public:
             XMLFileBrain(std::shared_ptr<StylusState> state);
             
-            tinyxml2::XMLDocument doc_;
+            std::shared_ptr<tinyxml2::XMLDocument> doc_;
             std::string file_path_;
             
             void setFile(std::string file_path);
 
             // the selected node and if to scroll the selected into view
             Wt::Signal<tinyxml2::XMLNode*, bool> xml_node_selected_;
+            Wt::Signal<> file_saved_;
+            
             tinyxml2::XMLNode* selected_node_;
-        private:
             std::shared_ptr<StylusState> state_;
+        private:
+            
             
     };
 }

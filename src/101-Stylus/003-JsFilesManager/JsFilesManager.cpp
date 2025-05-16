@@ -16,6 +16,7 @@ namespace Stylus
         //     Wt::WApplication::instance()->require(file_path.toUTF8() + "?v=" + Wt::WRandom::generateId());
         // });
 
+
         file_selected().connect(this, [=]()
         {
             if(std::fstream(data_.root_folder_path_ + selected_file_path_).good() == false)
@@ -24,13 +25,13 @@ namespace Stylus
             }else {
                 state_->js_node_->SetAttribute("selected-file-path", selected_file_path_.c_str());
             }
-            state_->doc_.SaveFile(state_->state_file_path_.c_str());
+            state_->doc_->SaveFile(state_->state_file_path_.c_str());
         });
 
         sidebar_->width_changed().connect(this, [=](Wt::WString width)
         {
             state_->js_node_->SetAttribute("sidebar-width", std::stoi(width.toUTF8()));
-            state_->doc_.SaveFile(state_->state_file_path_.c_str());
+            state_->doc_->SaveFile(state_->state_file_path_.c_str());
         });
     }
 }

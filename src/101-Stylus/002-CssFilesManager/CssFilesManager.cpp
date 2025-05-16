@@ -15,7 +15,7 @@ namespace Stylus
         sidebar_->width_changed().connect(this, [=](Wt::WString width)
         {
             state_->css_node_->SetAttribute("sidebar-width", std::stoi(width.toUTF8()));
-            state_->doc_.SaveFile(state_->state_file_path_.c_str());
+            state_->doc_->SaveFile(state_->state_file_path_.c_str());
         });
 
         file_selected().connect(this, [=]()
@@ -27,7 +27,7 @@ namespace Stylus
             else {
                 state_->css_node_->SetAttribute("selected-file-path", selected_file_path_.c_str());
             }
-            state_->doc_.SaveFile(state_->state_file_path_.c_str());
+            state_->doc_->SaveFile(state_->state_file_path_.c_str());
         });
         
     }

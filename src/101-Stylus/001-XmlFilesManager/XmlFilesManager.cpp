@@ -20,6 +20,7 @@
 #include "101-Stylus/001-XmlFilesManager/XmlFileBrain.h"
 #include "101-Stylus/001-XmlFilesManager/Preview/XMLElemNode.h"
 #include "101-Stylus/001-XmlFilesManager/Preview/XMLTreeNode.h"
+#include "101-Stylus/001-XmlFilesManager/Preview/AttributeControl.h"
 
 namespace Stylus
 {
@@ -35,8 +36,13 @@ namespace Stylus
         // auto temp_wrapper = grid_layout_->addWidget(std::make_unique<Wt::WContainerWidget>(), 0, 2);
         auto xml_tree_preview = grid_layout_->addWidget(std::make_unique<XMLTreeView>(file_brain_), 0, 2);
         auto xml_elem_preview = grid_layout_->addWidget(std::make_unique<XMLElemView>(file_brain_), 0, 3);
+        auto attribute_control = grid_layout_->addWidget(std::make_unique<AttributeControl>(file_brain_), 0, 4);
+
         grid_layout_->setColumnResizable(1, true, Wt::WLength(state_->xml_node_->IntAttribute("editor-width"), Wt::LengthUnit::Pixel));
         grid_layout_->setColumnResizable(2, true, Wt::WLength(state_->xml_node_->IntAttribute("preview-widget-sidebar-width"), Wt::LengthUnit::Pixel));
+        
+
+        // grid_layout_->itemAt(0, 0)->widget()->setStyleClass("overflow-x-auto")
         // temp_wrapper->setStyleClass("p-[8px] stylus-background overflow-y-auto h-screen w-full flex"); 
         // temp_wrapper->setStyleClass("stylus-background overflow-auto h-screen w-full"); 
 
@@ -80,7 +86,7 @@ namespace Stylus
         //         file_preview_->hide();
         //         temp_view->show();
         //     }
-        //     state_->doc_.SaveFile(state_->state_file_path_.c_str());
+        //     state_->doc_->SaveFile(state_->state_file_path_.c_str());
         // });
 
         xml_tree_preview->width_changed_.connect(this, [=](int width)
@@ -88,27 +94,29 @@ namespace Stylus
             if(width != state_->xml_node_->IntAttribute("preview-widget-sidebar-width"))
             {
                 state_->xml_node_->SetAttribute("preview-widget-sidebar-width", width);
-                state_->doc_.SaveFile(state_->state_file_path_.c_str());
+                state_->doc_->SaveFile(state_->state_file_path_.c_str());
             }
         }); 
         file_selected().connect(this, [=]()
         {
             std::string file_path = data_.root_folder_path_ + selected_file_path_;
             state_->xml_node_->SetAttribute("selected-file-path", selected_file_path_.c_str());
+            state_->doc_->SaveFile(state_->state_file_path_.c_str());
             file_brain_->setFile(file_path);
-            xml_elem_preview->resetUi();
-            xml_tree_preview->resetUi();
-            // temp_view->setTemplateText(editor_->getUnsavedText(), Wt::TextFormat::UnsafeXHTML);
-            // file_preview_->setFile(file_path);
-            state_->doc_.SaveFile(state_->state_file_path_.c_str());
+            // xml_elem_preview->resetUi();
+            // xml_tree_preview->resetUi();
         });
         file_saved().connect(this, [=](Wt::WString file_path)
         {
             std::cout << "\n\nFile saved:sasdsad " << file_path.toUTF8() << "\n\n";
             file_brain_->setFile(data_.root_folder_path_ +  file_path.toUTF8());
-            xml_elem_preview->resetUi();
-            xml_tree_preview->resetUi();
-            // temp_view->setTemplateText(editor_->getUnsavedText(), Wt::TextFormat::UnsafeXHTML);
+            // xml_elem_preview->resetUi();
+            // xml_tree_preview->resetUi();
+        });
+
+        file_brain_->file_saved_.connect(this, [=](){
+            reuploadFile();
+            file_brain_->xml_node_selected_.emit(file_brain_->selected_node_, true);
         });
         
         sidebar_->width_changed().connect(this, [=](Wt::WString width)
@@ -117,7 +125,7 @@ namespace Stylus
             if(std::stoi(width.toUTF8()) != state_->xml_node_->IntAttribute("sidebar-width"))
             {
                 state_->xml_node_->SetAttribute("sidebar-width", std::stoi(width.toUTF8()));
-                state_->doc_.SaveFile(state_->state_file_path_.c_str());
+                state_->doc_->SaveFile(state_->state_file_path_.c_str());
             }
         });
 
@@ -126,7 +134,7 @@ namespace Stylus
             if(std::stoi(width.toUTF8()) != state_->xml_node_->IntAttribute("editor-width"))
             {
                 state_->xml_node_->SetAttribute("editor-width", std::stoi(width.toUTF8()));
-                state_->doc_.SaveFile(state_->state_file_path_.c_str());
+                state_->doc_->SaveFile(state_->state_file_path_.c_str());
             }
         });
 
@@ -134,7 +142,7 @@ namespace Stylus
         {
             editor_->setDarkTheme(dark);
             state_->stylus_node_->SetAttribute("dark-mode", dark ? "true" : "false");
-            state_->doc_.SaveFile(state_->state_file_path_.c_str());
+            state_->doc_->SaveFile(state_->state_file_path_.c_str());
         });
 
         if(state_->stylus_node_->BoolAttribute("dark-mode")){

@@ -4,6 +4,7 @@
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTemplate.h>
+#include <Wt/WPopupMenu.h>
 
 namespace Stylus 
 {
@@ -14,12 +15,15 @@ namespace Stylus
     public:
         XMLTreeNode(std::shared_ptr<XMLFileBrain> file_brain, tinyxml2::XMLElement* node, bool scroll_into_view = false);
         tinyxml2::XMLElement* node_;
+        void showPopup(const Wt::WMouseEvent& event);
         
         private:
         std::shared_ptr<XMLFileBrain> file_brain_;
 
         Wt::WContainerWidget* label_wrapper_;
         Wt::WContainerWidget* content_wrapper_;
+        std::unique_ptr<Wt::WPopupMenu> popup_;
+
     };
 
 

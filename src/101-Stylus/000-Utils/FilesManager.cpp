@@ -27,7 +27,8 @@ FilesManagerSidebar::FilesManagerSidebar()
     setStyleClass("flex flex-col max-h-screen stylus-background select-none");
     setLayoutSizeAware(true);
     // tree header
-    setMinimumSize(Wt::WLength(240, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
+    // setMinimumSize(Wt::WLength(240, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
+    setMinimumSize(Wt::WLength(240, Wt::LengthUnit::Pixel), Wt::WLength::Auto);
     setMaximumSize(Wt::WLength(1000, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
 
     contents_ = addWidget(std::make_unique<Wt::WContainerWidget>());
@@ -45,7 +46,7 @@ FilesManagerSidebar::FilesManagerSidebar()
 
 void FilesManagerSidebar::layoutSizeChanged(int width, int height)
 {
-    if(width >= 240) {
+    if(width >= 240 && width <= 1000) {
         width_changed_.emit(std::to_string(width));
     }
 }
@@ -555,7 +556,15 @@ FilesManager::FilesManager(std::shared_ptr<StylusState> state, StylusEditorManag
     });
   
     file_selected_.connect(this, [=]() {
-        std::string file_path = data_.root_folder_path_ + selected_file_path_;
+        reuploadFile();
+    });
+    
+    file_selected_.emit();
+}
+
+void FilesManager::reuploadFile() 
+{
+      std::string file_path = data_.root_folder_path_ + selected_file_path_;
         if(std::fstream(file_path).good() == false) {
             editor_->setEditorText("static/stylus-resources/empty-file", state_->getFileText("../static/stylus-resources/empty-file"));
             editor_->setEditorReadOnly(true);
@@ -565,10 +574,8 @@ FilesManager::FilesManager(std::shared_ptr<StylusState> state, StylusEditorManag
         }
         setTreeFolderWidgets();
 
-    });
-    
-    file_selected_.emit();
 }
+
 
 
 void FilesManager::setTreeFolderWidgets()

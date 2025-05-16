@@ -179,7 +179,7 @@ namespace Stylus {
         tree_root_node->width_changed().connect(this, [=](Wt::WString width)
         {
             state_->xml_node_->SetAttribute("preview-widget-sidebar-width", width.toUTF8().c_str());
-            state_->doc_.SaveFile(state_->state_file_path_.c_str());
+            state_->doc_->SaveFile(state_->state_file_path_.c_str());
         });
         recursiveAddChild(xml_file_brain_->doc_.RootElement()->FirstChild()->ToElement(), tree_root_node, scroll_into_view);
 

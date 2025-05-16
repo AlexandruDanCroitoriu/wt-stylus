@@ -1,5 +1,6 @@
 #include "101-Stylus/001-XmlFilesManager/Preview/XMLTreeNode.h"
 #include <Wt/WText.h>
+#include <Wt/WApplication.h>
 
 namespace Stylus
 {
@@ -14,20 +15,27 @@ namespace Stylus
         label_wrapper_ = addWidget(std::make_unique<Wt::WContainerWidget>());
         content_wrapper_ = addWidget(std::make_unique<Wt::WContainerWidget>());
 
-        label_wrapper_->setStyleClass("flex space-x-2 truncate");
+        label_wrapper_->setStyleClass("flex space-x-2 truncate rounded-md");
         content_wrapper_->setStyleClass("flex flex-col ml-[10px]");
 
-        label_wrapper_->addWidget(std::make_unique<Wt::WText>(node->Name()))->setStyleClass("uppercase font-medium");
+        label_wrapper_->addWidget(std::make_unique<Wt::WText>(node->Name()))->setStyleClass("font-medium pl-[5px]");
 
         if(node_ == file_brain_->selected_node_)
         {
             label_wrapper_->addStyleClass("selected-xml-node");
             if(scroll_into_view){
-                label_wrapper_->doJavaScript(jsRef() + ".scrollIntoView({ behavior: 'smooth', block: 'center' });");
+                label_wrapper_->doJavaScript(label_wrapper_->jsRef() + ".scrollIntoView({ behavior: 'smooth', block: 'center' });");
             }
         }
 
-        clicked().connect(this, [=]()
+        label_wrapper_->mouseWentUp().connect(this, [=](const Wt::WMouseEvent& event)
+        {
+            if (event.button() == Wt::MouseButton::Right) {
+                showPopup(event);
+            }
+        });
+
+        label_wrapper_->clicked().connect(this, [=]()
         {
             file_brain_->xml_node_selected_.emit(node_, false);
         });
@@ -46,16 +54,63 @@ namespace Stylus
                 auto child_node = std::make_unique<XMLTreeNode>(file_brain, first_child->ToElement(), scroll_into_view);
                 content_wrapper_->addWidget(std::move(child_node));
             } else if (first_child->ToText()) {
-                label_wrapper_->addWidget(std::make_unique<Wt::WText>(first_child->ToText()->Value()))->setStyleClass("truncate italic font-light");
+                
+                if(first_child->PreviousSiblingElement() || first_child->NextSiblingElement()){
+                    auto text_node = content_wrapper_->addWidget(std::make_unique<Wt::WText>(first_child->ToText()->Value()));
+                    text_node->setStyleClass("truncate italic font-light text-[#ff0000] text-bold");
+                }else {
+                    auto text_node = label_wrapper_->addWidget(std::make_unique<Wt::WText>(first_child->ToText()->Value()));
+                }
             }
             first_child = first_child->NextSibling();
         }
+    }
+
+
+    void XMLTreeNode::showPopup(const Wt::WMouseEvent& event)
+    {
+        if (!popup_) {
+            popup_ = std::make_unique<Wt::WPopupMenu>();
+
+            
+            // popup_->addItem("Create New File")->clicked().connect(this, [=](){ createNewFileDialog(); });
+            auto test_menu_item_1 = popup_->addItem("Copy Node")->clicked().connect(this, [=](){ 
+                file_brain_->state_->setCopyNode(node_);
+            });
+            popup_->addSeparator();
+            auto test_menu_item_2 = popup_->addItem("Paste Node")->clicked().connect(this, [=](){ 
+                auto copied_node = file_brain_->state_->copy_node_;
+                if(!copied_node)
+                    return;
+                auto new_node = copied_node->DeepClone(file_brain_->doc_.get());
+                if(node_->FirstChild() && node_->FirstChild()->ToText())
+                {
+                    
+                }
+            });
+          
+        }
+
+        if (popup_->isHidden())
+            popup_->popup(event);
+        else
+            popup_->hide();
     }
 
     
     XMLTreeView::XMLTreeView(std::shared_ptr<XMLFileBrain> file_brain)
         : file_brain_(file_brain)
     {
+        setLayoutSizeAware(true);
+        setMinimumSize(Wt::WLength(200, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
+        setMaximumSize(Wt::WLength(1000, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
+        setStyleClass("overflow-y-auto scrollbar-stylus");
+
+        Wt::WStringStream contextJS;
+        contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "
+                    << "function() { event.cancelBubble = true; event.returnValue = false; return false; };";
+        Wt::WApplication::instance()->doJavaScript(contextJS.str());
+
         file_brain_->xml_node_selected_.connect(this, [=](tinyxml2::XMLNode* node, bool scroll_into_view)
         {
             file_brain_->selected_node_ = node;
@@ -65,21 +120,17 @@ namespace Stylus
         if(file_brain_->selected_node_){
             resetUi();
         }
-        setLayoutSizeAware(true);
-        setMinimumSize(Wt::WLength(200, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
-        setMaximumSize(Wt::WLength(1000, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
-        setStyleClass("overflow-y-auto scrollbar-stylus");
     }
 
     void XMLTreeView::resetUi(bool scroll_into_view)
     {
-         clear();
-        if(file_brain_->doc_.ErrorID() != tinyxml2::XML_SUCCESS)
+        clear();
+        if(file_brain_->doc_->ErrorID() != tinyxml2::XML_SUCCESS)
         {
-            std::cout << "\n\n ELEMENT file brain has errors: " << file_brain_->doc_.ErrorID() << "\n\n";
+            std::cout << "\n\n ELEMENT file brain has errors: " << file_brain_->doc_->ErrorID() << "\n\n";
             addWidget(std::make_unique<Wt::WText>("Error loading XML file"));
         }else {
-            addWidget(std::make_unique<XMLTreeNode>(file_brain_, file_brain_->doc_.RootElement(), scroll_into_view))->addStyleClass("stylus-list-tree");
+            addWidget(std::make_unique<XMLTreeNode>(file_brain_, file_brain_->doc_->RootElement(), scroll_into_view))->addStyleClass("stylus-list-tree");
         }
     }
 

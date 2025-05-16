@@ -10,10 +10,14 @@ MonacoEditor::MonacoEditor(std::string language)
         current_text_("")
 {
     setLayoutSizeAware(true);
-    
+    setMinimumSize(Wt::WLength(240, Wt::LengthUnit::Pixel), Wt::WLength(240, Wt::LengthUnit::Pixel));
+    // setMaximumSize(Wt::WLength::Auto, Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
+    // setStyleClass("h-fill");
+
     js_signal_text_changed_.connect(this, &MonacoEditor::editorTextChanged);
     doJavaScript(R"(require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@0.34.1/min/vs' } });)");
     editor_js_var_name_ = language + Wt::WRandom::generateId() + "_editor";
+    
 
     std::string initializer =
         R"(

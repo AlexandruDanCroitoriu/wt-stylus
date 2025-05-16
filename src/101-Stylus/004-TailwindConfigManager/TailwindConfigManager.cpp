@@ -75,7 +75,7 @@ namespace Stylus
         config_editor_->width_changed().connect(this, [=](Wt::WString width)
         {
             state_->tailwind_config_node_->SetAttribute("editor-width", std::stoi(width.toUTF8()));
-            state_->doc_.SaveFile(state_->state_file_path_.c_str());
+            state_->doc_->SaveFile(state_->state_file_path_.c_str());
         });
 
         config_editor_->avalable_save().connect(this, [=]()
@@ -262,7 +262,7 @@ namespace Stylus
                 delete_file_btn_->setDisabled(false);
             }
             state_->tailwind_config_node_->SetAttribute("selected-file-name", file_name.c_str());
-            state_->doc_.SaveFile(state_->state_file_path_.c_str());
+            state_->doc_->SaveFile(state_->state_file_path_.c_str());
             save_file_btn->setDisabled(true);
             save_file_btn->setHidden(true);
         });
