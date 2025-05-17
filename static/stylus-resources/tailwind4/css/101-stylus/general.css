@@ -2,21 +2,24 @@
 
 :root {
 	/* used by all stylus widgets except text editors*/
-	--stylus-bg: rgb(255, 255, 255);
+	--stylus-bg: rgb(248, 248, 248);
 	--stylus-text: rgb(0, 0, 0);
 	--stylus-bg-dark: rgb(30, 30, 30);
 	--stylus-text-dark: rgb(232, 232, 232);
 	
 	/* used by widgets used to preview elements to indicate the selected or hovered node */
-	--selected-color: rgb(107, 241, 147);
-	--selected-color-background: rgb(107, 241, 147, 0.2); /* for tree nodes */
+	--selected: rgb(107, 241, 147);
+	--selected-hover: rgb(40, 107, 231);
 	
-	--selected-color-hover: rgb(40, 107, 231);
-	--selected-color-hover-background: rgb(37, 99, 235, 0.2); /* for tree nodes */
-	
-	--error-color: rgb(255, 140, 140);
+	--error: rgb(255, 140, 140);
+	--preview-message: #fff;
+	--preview-node: rgb(86, 156, 214);
+	--preview-node-text: rgb(212, 212, 212);
+	--tree-messages: #a21caf;
+	--tree-message: #9333ea;
+	--tree-message-id: #0891b2;
 }
-
+ 
 /* Scrollbar */
 .stylus-background::-webkit-scrollbar-track
 {
@@ -31,15 +34,15 @@
 	@apply dark:bg-[var(--stylus-text-dark)]/20 rounded-[10px];
 }
 
-/* background color for all the stylus panes */
+/* background for all the stylus panes */
 .stylus-background {
 	@apply bg-[var(--stylus-bg)] text-[var(--stylus-text)] dark:bg-[var(--stylus-bg-dark)] dark:text-[var(--stylus-text-dark)];
 }
 .stylus-menu {
-	@apply hover:bg-[var(--selected-color-hover)];
+	@apply hover:bg-[var(--selected-hover)];
 }
 .stylus-menu-selected {
-	@apply bg-[var(--selected-color-hover)];
+	@apply bg-[var(--selected-hover)];
 }
 
 /* Wt-item used by the folders/files tree and also by Wt::WTreeNode widget */
@@ -47,44 +50,51 @@
     /* zoom: 125%; */
 }
 .Wt-item {
-	@apply hover:bg-[var(--selected-color-hover)] hover:text-[white];
+	@apply hover:bg-[var(--selected-hover)] hover:text-[white];
 }
 .Wt-selected {
-	@apply !bg-[var(--selected-color)] text-[var(--stylus-text)] hover:text-[black];
+	@apply !bg-[var(--selected)] text-[var(--stylus-text)] hover:text-[black];
 }
 .unsaved-changes > .Wt-selected {
-    @apply !bg-[var(--error-color)];
+    @apply !bg-[var(--error)];
 }
 
 /* Wt-vrh2 used by draggable bar */
 .Wt-vrh2 {
-	@apply dark:bg-[#000] dark:hover:bg-[#000] dark:active:bg-[#000]
+	@apply dark:bg-[#000] dark:hover:bg-[#000] dark:active:bg-[#000];
 }
 
 /* Preview nodes selection */
 .selected-xml-node-hover {
-  outline-style: solid;
-  outline-width: 1px;
-  outline-color: var(--selected-color-hover);
-  box-shadow: inset 3px 3px var(--selected-color-hover), inset -3px -3px var(--selected-color-hover);
+	@apply outline-solid outline-[2px] outline-[var(--selected-hover)];
 }
 .selected-xml-node {
-  outline-style: solid;
-  outline-width: 1px;
-  outline-color: var(--selected-color);
-  box-shadow: inset 3px 3px var(--selected-color), inset -3px -3px var(--selected-color);
+	@apply outline-solid outline-[2px] outline-[var(--selected)];
 }
 .selected-xml-tree-node-hover {
-  outline-style: solid;
-  outline-width: 1px;
-  outline-color: var(--selected-color-hover);
-  box-shadow: inset 1px 1px var(--selected-color-hover), inset -1px -1px var(--selected-color-hover);
-	background-color: var(--selected-color-hover-background);
+	@apply outline-solid outline-[2px] outline-[var(--selected-hover)] bg-[var(--selected-hover)]/8;
 }
 .selected-xml-tree-node {
-  outline-style: solid;
-  outline-width: 1px;
-  outline-color: var(--selected-color);
-  box-shadow: inset 1px 1px var(--selected-color), inset -1px -1px var(--selected-color);
-	background-color: var(--selected-color-background);
+	@apply outline-solid outline-[2px] outline-[var(--selected)] bg-[var(--selected)]/8;
+}
+
+
+/* Preview */
+.preview-tree-node {
+	@apply text-[var(--preview-node)];
+}
+.preview-tree-node-text {
+	@apply text-[black] dark:text-[var(--preview-node-text)];
+}
+
+.preview-messages-node {
+	@apply text-[var(--tree-messages)];
+}
+
+.preview-message-node {
+	@apply text-[var(--tree-message)];
+} 
+
+.preview-message-node-id {
+	@apply text-[var(--tree-message-id)] font-semibold;
 }

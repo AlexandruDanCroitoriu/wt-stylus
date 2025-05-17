@@ -435,6 +435,9 @@
   .min-w-\[200px\] {
     min-width: 200px;
   }
+  .min-w-full {
+    min-width: 100%;
+  }
   .flex-1 {
     flex: 1;
   }
@@ -1656,15 +1659,19 @@
 }
 @layer utilities;
 :root {
-  --stylus-bg: rgb(255, 255, 255);
+  --stylus-bg: rgb(248, 248, 248);
   --stylus-text: rgb(0, 0, 0);
   --stylus-bg-dark: rgb(30, 30, 30);
   --stylus-text-dark: rgb(232, 232, 232);
-  --selected-color: rgb(107, 241, 147);
-  --selected-color-background: rgb(107, 241, 147, 0.2);
-  --selected-color-hover: rgb(40, 107, 231);
-  --selected-color-hover-background: rgb(37, 99, 235, 0.2);
-  --error-color: rgb(255, 140, 140);
+  --selected: rgb(107, 241, 147);
+  --selected-hover: rgb(40, 107, 231);
+  --error: rgb(255, 140, 140);
+  --preview-message: #fff;
+  --preview-node: rgb(86, 156, 214);
+  --preview-node-text: rgb(212, 212, 212);
+  --tree-messages: #a21caf;
+  --tree-message: #9333ea;
+  --tree-message-id: #0891b2;
 }
 .stylus-background::-webkit-scrollbar-track {
   border-radius: 10px;
@@ -1697,17 +1704,17 @@
 .stylus-menu {
   &:hover {
     @media (hover: hover) {
-      background-color: var(--selected-color-hover);
+      background-color: var(--selected-hover);
     }
   }
 }
 .stylus-menu-selected {
-  background-color: var(--selected-color-hover);
+  background-color: var(--selected-hover);
 }
 .Wt-item {
   &:hover {
     @media (hover: hover) {
-      background-color: var(--selected-color-hover);
+      background-color: var(--selected-hover);
     }
   }
   &:hover {
@@ -1717,7 +1724,7 @@
   }
 }
 .Wt-selected {
-  background-color: var(--selected-color) !important;
+  background-color: var(--selected) !important;
   color: var(--stylus-text);
   &:hover {
     @media (hover: hover) {
@@ -1726,7 +1733,7 @@
   }
 }
 .unsaved-changes > .Wt-selected {
-  background-color: var(--error-color) !important;
+  background-color: var(--error) !important;
 }
 .Wt-vrh2 {
   &:where(.dark, .dark *) {
@@ -1746,30 +1753,54 @@
   }
 }
 .selected-xml-node-hover {
+  outline-style: var(--tw-outline-style);
+  outline-width: 2px;
+  outline-color: var(--selected-hover);
+  --tw-outline-style: solid;
   outline-style: solid;
-  outline-width: 1px;
-  outline-color: var(--selected-color-hover);
-  box-shadow: inset 3px 3px var(--selected-color-hover), inset -3px -3px var(--selected-color-hover);
 }
 .selected-xml-node {
+  outline-style: var(--tw-outline-style);
+  outline-width: 2px;
+  outline-color: var(--selected);
+  --tw-outline-style: solid;
   outline-style: solid;
-  outline-width: 1px;
-  outline-color: var(--selected-color);
-  box-shadow: inset 3px 3px var(--selected-color), inset -3px -3px var(--selected-color);
 }
 .selected-xml-tree-node-hover {
+  background-color: color-mix(in oklab, var(--selected-hover) 8%, transparent);
+  outline-style: var(--tw-outline-style);
+  outline-width: 2px;
+  outline-color: var(--selected-hover);
+  --tw-outline-style: solid;
   outline-style: solid;
-  outline-width: 1px;
-  outline-color: var(--selected-color-hover);
-  box-shadow: inset 1px 1px var(--selected-color-hover), inset -1px -1px var(--selected-color-hover);
-  background-color: var(--selected-color-hover-background);
 }
 .selected-xml-tree-node {
+  background-color: color-mix(in oklab, var(--selected) 8%, transparent);
+  outline-style: var(--tw-outline-style);
+  outline-width: 2px;
+  outline-color: var(--selected);
+  --tw-outline-style: solid;
   outline-style: solid;
-  outline-width: 1px;
-  outline-color: var(--selected-color);
-  box-shadow: inset 1px 1px var(--selected-color), inset -1px -1px var(--selected-color);
-  background-color: var(--selected-color-background);
+}
+.preview-tree-node {
+  color: var(--preview-node);
+}
+.preview-tree-node-text {
+  color: black;
+  &:where(.dark, .dark *) {
+    color: var(--preview-node-text);
+  }
+}
+.preview-messages-node {
+  color: var(--tree-messages);
+}
+.preview-message-node {
+  color: var(--tree-message);
+}
+.preview-message-node-id {
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
+  color: var(--tree-message-id);
 }
 @property --tw-border-spacing-x {
   syntax: "<length>";

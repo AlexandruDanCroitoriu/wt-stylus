@@ -18,7 +18,26 @@ namespace Stylus
         label_wrapper_->setStyleClass("flex space-x-2 truncate rounded-md mr-[3px] cursor-pointer");
         content_wrapper_->setStyleClass("flex flex-col ml-[10px]");
 
-        label_wrapper_->addWidget(std::make_unique<Wt::WText>(node->Name()))->setStyleClass("font-medium pl-[5px]");
+        auto tag_name = label_wrapper_->addWidget(std::make_unique<Wt::WText>(node->Name()));
+        tag_name->setStyleClass("font-medium pl-[5px]");
+
+        if(std::string(node->Name()).compare("messages") == 0){
+            tag_name->addStyleClass("preview-messages-node");
+        }else if(std::string(node->Name()).compare("message") == 0){
+            tag_name->addStyleClass("preview-message-node");
+            if(node->Attribute("id")){
+                auto id = node->Attribute("id");
+                auto id_text = label_wrapper_->addWidget(std::make_unique<Wt::WText>(id));
+                id_text->setStyleClass("truncate italic font-light text-[#ff0000] text-bold select-none");
+                id_text->setStyleClass("preview-message-node-id");
+            }else {
+                auto id_text = label_wrapper_->addWidget(std::make_unique<Wt::WText>("No ID"));
+                id_text->setStyleClass("truncate italic font-light text-[#ff0000] text-bold select-none");
+                id_text->setStyleClass("preview-message-node-id");
+            }
+        }else {
+            tag_name->addStyleClass("preview-tree-node");
+        }
 
         if(node_ == file_brain_->selected_node_)
         {
@@ -60,7 +79,7 @@ namespace Stylus
                     text_node->setStyleClass("truncate italic font-light text-[#ff0000] text-bold select-none");
                 }else {
                     auto text_node = label_wrapper_->addWidget(std::make_unique<Wt::WText>(first_child->ToText()->Value()));
-                    text_node->setStyleClass("select-none");
+                    text_node->setStyleClass("select-none preview-tree-node-text");
                 }
             }
             first_child = first_child->NextSibling();

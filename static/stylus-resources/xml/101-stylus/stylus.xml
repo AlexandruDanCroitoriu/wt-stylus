@@ -30,15 +30,17 @@
                     </div>
                 </li>
                 <li>Item 2</li>
-                <li>Item 3
-					<ul><li>3.1</li>
+                <li>
+                    <span>Item 3</span>
+                    <ul>
+                        <li>3.1</li>
                     </ul>
                 </li>
                 <li>Item 4</li>
             </ul>
         </section>
     </message>
-    <message>
+    <message id="test">
         <div class="stylus-list-tree">
             <ul>
                 <li>

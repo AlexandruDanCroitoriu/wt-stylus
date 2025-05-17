@@ -1,0 +1,10 @@
+<messages>
+    <message id="test">
+        <div class="p-4 bg-red-200 text-black">some random text 1</div>
+        <div class="p-4 bg-red-200 text-black">some random text 2</div>
+    </message>
+    <message id="test">
+        <div class="p-4 bg-red-200 text-black">some random text 1</div>
+        <div class="p-4 bg-red-200 text-black">some random text 2</div>
+    </message>
+</messages>

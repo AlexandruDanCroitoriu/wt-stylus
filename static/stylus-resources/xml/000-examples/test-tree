@@ -12,7 +12,7 @@
 				<li>
 					<div>${label}</div>
 					<div>${content}</div>
-				</li> 
+				</li>  
 			</ul>
 		</div>
 	</li> 

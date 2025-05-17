@@ -48,7 +48,7 @@ namespace Stylus
         
         output_editor_->setEditorReadOnly(true);
         setStyleClass("flex flex-col h-[100vh] stylus-background");
-        sidebar->setStyleClass("flex items-center space-x-[10px] stylus-background border-b border-solid");
+        sidebar->setStyleClass("flex items-center space-x-[10px] stylus-background");
         // config_editor_->addStyleClass("h-full");
         config_files_combobox_ = sidebar->addWidget(std::make_unique<Wt::WComboBox>());
         config_files_combobox_->setStyleClass("max-w-[240px] m-[4px] bg-[#f9fafb] border border-[#d1d5db] text-[#111827] text-sm rounded-lg focus:ring-[#3b82f6] focus:border-[#3b82f6] block w-full p-[6px] dark:bg-[#374151] dark:border-[#4b5563] dark:placeholder-[#9ca3af] dark:text-[#FFF] dark:focus:ring-[#3b82f6] dark:focus:border-[#3b82f6] disabled:bg-[#374151] disabled:text-[#9ca3af] disabled:border-[#4b5563] disabled:cursor-not-allowed");
@@ -346,7 +346,23 @@ namespace Stylus
 
         auto session_id = Wt::WApplication::instance()->sessionId();
         Wt::WServer::instance()->ioService().post([this, session_id](){
-            std::system("cd ../static/stylus-resources/tailwind4 && npm run build");
+            std::array<char, 128> buffer;
+            std::string result;
+            FILE* pipe = popen("cd ../static/stylus-resources/tailwind4 && npm run build 2>&1", "r");
+            if (pipe) {
+                while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
+                    result += buffer.data();
+                }
+                pclose(pipe);
+            }
+            // Optionally, log or process 'result'
+            std::cout << "\n\nnpm run build output:\n" << result << "\n\n";
+            std::string error_output;
+            if (result.find("Error") != std::string::npos) {
+                error_output = result.substr(result.find("Error"));
+            }
+            std::cout << "\n\nError output:\n" << error_output << "\n\n";
+
             Wt::WServer::instance()->post(session_id, [this]() {
                 current_css_file_ = Wt::WApplication::instance()->docRoot() + "/../static/tailwind.css?v=" + Wt::WRandom::generateId();
                 Wt::WApplication::instance()->removeStyleSheet(prev_css_file_.toUTF8());

@@ -10,7 +10,8 @@ namespace Stylus
     {
         // acceptDrops("file", "Wt-item");
         // recive error if given a messages tag name to an element
-        if(std::string(node->Name()).compare("messages") != 0){
+        if(std::string(node->Name()).compare("messages") != 0 &&
+            std::string(node->Name()).compare("message") != 0){
             setHtmlTagName(node->Name());
         }
         for(auto attr = node->FirstAttribute(); attr != nullptr; attr = attr->Next()) {

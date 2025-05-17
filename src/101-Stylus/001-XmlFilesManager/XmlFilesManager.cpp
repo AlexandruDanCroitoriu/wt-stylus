@@ -23,25 +23,34 @@
 namespace Stylus
 {
 
+        // Wt::WStringStream contextJS;
+        // contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "
+        //             << "function() { event.cancelBubble = true; event.returnValue = false; return false; };";
+        // Wt::WApplication::instance()->doJavaScript(contextJS.str());
+
     XmlFilesManager::XmlFilesManager(std::shared_ptr<StylusState> state)
         : state_(state),
         FilesManager(state, state->xml_editor_data_, state->xml_node_->IntAttribute("sidebar-width"), state->xml_node_->Attribute("selected-file-path"))
     {
         setXmlFileBrains();
-        selected_file_brain_ = xml_file_brains_[state_->xml_node_->Attribute("selected-file-path")];
 
         
         tree_wrapper_ = grid_layout_->addWidget(std::make_unique<GridItemWrapper>(), 0, 2);
         elem_wrapper_ = grid_layout_->addWidget(std::make_unique<GridItemWrapper>(), 0, 3);
         control_center_ = grid_layout_->addWidget(std::make_unique<ControlCenter>(selected_file_brain_), 0, 4, Wt::AlignmentFlag::Right);
         grid_layout_->setColumnStretch(3, 1);
-        
+
+        editor_->addStyleClass("w-full min-w-full flwx-1");
+
         grid_layout_->setColumnResizable(1, true, Wt::WLength(state_->xml_node_->IntAttribute("editor-width"), Wt::LengthUnit::Pixel));
         grid_layout_->setColumnResizable(2, true, Wt::WLength(state_->xml_node_->IntAttribute("preview-widget-sidebar-width"), Wt::LengthUnit::Pixel));
-        grid_layout_->setColumnResizable(3, true, Wt::WLength(Wt::WLength::Auto));
+        
         tree_wrapper_->setStyleClass("overflow-y-auto stylus-background h-screen");
         elem_wrapper_->setStyleClass("overflow-y-auto stylus-background h-screen");
         
+
+        selected_file_brain_ = xml_file_brains_[state_->xml_node_->Attribute("selected-file-path")];
+
         setPreviewWidgets();
 
         if(state_->xml_node_->BoolAttribute("editor-hidden"))
@@ -81,16 +90,26 @@ namespace Stylus
         
         sidebar_->width_changed().connect(this, [=](Wt::WString width)
         {
-            std::cout << "sidebar width changed: " << width.toUTF8() << std::endl;
+            std::cout << "\n\nsidebar width changed: " << width.toUTF8() << std::endl;
             if(std::stoi(width.toUTF8()) != state_->xml_node_->IntAttribute("sidebar-width"))
             {
                 state_->xml_node_->SetAttribute("sidebar-width", std::stoi(width.toUTF8()));
                 state_->doc_->SaveFile(state_->state_file_path_.c_str());
             }
         });
+        // elem_wrapper_->width_changed_.connect(this, [=](int width)
+        // {
+        //     std::cout << "\n\nElem width changed: " << width << std::endl;
+        //     if(width != state_->xml_node_->IntAttribute("preview-widget--width"))
+        //     {
+        //         state_->xml_node_->SetAttribute("preview-widget-width", width);
+        //         state_->doc_->SaveFile(state_->state_file_path_.c_str());
+        //     }
+        // });
 
         editor_->width_changed().connect(this, [=](Wt::WString width)
         {
+            std::cout << "\n\nEditor width changed: " << width.toUTF8() << std::endl;
             if(std::stoi(width.toUTF8()) != state_->xml_node_->IntAttribute("editor-width"))
             {
                 state_->xml_node_->SetAttribute("editor-width", std::stoi(width.toUTF8()));
@@ -99,6 +118,7 @@ namespace Stylus
         });
         tree_wrapper_->width_changed_.connect(this, [=](int width)
         {
+            std::cout << "\n\nTree width changed: " << width << std::endl;
             if(width != state_->xml_node_->IntAttribute("preview-widget-sidebar-width"))
             {
                 state_->xml_node_->SetAttribute("preview-widget-sidebar-width", width);
@@ -126,10 +146,9 @@ namespace Stylus
         auto xml_tree_preview_ = tree_wrapper_->addWidget(std::make_unique<XMLTreeNode>(selected_file_brain_, selected_file_brain_->doc_->RootElement(), scroll_into_view));
         auto xml_elem_preview_ = elem_wrapper_->addWidget(std::make_unique<XMLElemNode>(selected_file_brain_, selected_file_brain_->doc_->RootElement(), scroll_into_view));
         
-        Wt::WStringStream contextJS;
-        contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "
-                    << "function() { event.cancelBubble = true; event.returnValue = false; return false; };";
-        Wt::WApplication::instance()->doJavaScript(contextJS.str());
+        xml_tree_preview_->addStyleClass("select-none");
+        xml_elem_preview_->addStyleClass("select-none");
+    
 
     }
 

@@ -25,7 +25,10 @@ Stylus::Stylus()
     setModal(false);
     setResizable(false);
     setMovable(false);
-    
+
+    setMinimumSize(Wt::WLength(100, Wt::LengthUnit::ViewportWidth), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
+    setLayoutSizeAware(true);
+
     Wt::WApplication::instance()->doJavaScript(R"(
         document.addEventListener('keydown', function(event) {
             if (event.altKey && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
@@ -34,7 +37,6 @@ Stylus::Stylus()
             }
         });
     )");
-
 
     // Wt::WApplication::instance()->useStyleSheet(Wt::WApplication::instance()->docRoot() + "/static/stylus/stylus.css?v=" + Wt::WRandom::generateId());
     Wt::WApplication::instance()->require(Wt::WApplication::instance()->docRoot() + "/static/stylus/monaco-edditor.js");
@@ -318,6 +320,7 @@ Stylus::Stylus()
                             xml_files_manager_->control_center_->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromRight, Wt::TimingFunction::EaseInOut, 500));
                             state_->xml_node_->SetAttribute("control-center-hidden", "true");
                         }
+                        state_->doc_->SaveFile(state_->state_file_path_.c_str());
                     }
                 }
             }else if (e.key() == Wt::Key::Q){
