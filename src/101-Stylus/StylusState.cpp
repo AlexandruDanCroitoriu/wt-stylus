@@ -62,10 +62,13 @@ namespace Stylus {
             std::cerr << "Error finding <xml-manager> node in XML file." << std::endl;
             xml_node_ = doc_->NewElement("xml-manager");
             xml_node_->SetAttribute("editor-width", 500);
+            xml_node_->SetAttribute("editor-hidden", false);
+            xml_node_->SetAttribute("preview-tree-hidden", false);
+            xml_node_->SetAttribute("preview-elem-hidden", false);
+            xml_node_->SetAttribute("control-center-hidden", false);
             xml_node_->SetAttribute("sidebar-width", 300);
             xml_node_->SetAttribute("selected-file-path", "");
             xml_node_->SetAttribute("navigation-bar-hidden", "false");
-            xml_node_->SetAttribute("preview-type", "template");
             xml_node_->SetAttribute("preview-widget-sidebar-width", "300");
             stylus_node_->InsertEndChild(xml_node_);
         }

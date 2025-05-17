@@ -28,21 +28,40 @@ namespace Stylus
         FilesManager(state, state->xml_editor_data_, state->xml_node_->IntAttribute("sidebar-width"), state->xml_node_->Attribute("selected-file-path"))
     {
         setXmlFileBrains();
+        selected_file_brain_ = xml_file_brains_[state_->xml_node_->Attribute("selected-file-path")];
 
         
-        // file_brain_ = std::make_shared<XMLFileBrain>(state_);
-        // file_brain_->setFile(data_.root_folder_path_ + state->xml_node_->Attribute("selected-file-path"));
-        // auto temp_wrapper = grid_layout_->addWidget(std::make_unique<Wt::WContainerWidget>(), 0, 2);
-        tree_wrapper_ = grid_layout_->addWidget(std::make_unique<Wt::WContainerWidget>(), 0, 2);
-        elem_wrapper_ = grid_layout_->addWidget(std::make_unique<Wt::WContainerWidget>(), 0, 3);
-        auto control_center = grid_layout_->addWidget(std::make_unique<ControlCenter>(selected_file_brain_), 0, 4);
+        tree_wrapper_ = grid_layout_->addWidget(std::make_unique<GridItemWrapper>(), 0, 2);
+        elem_wrapper_ = grid_layout_->addWidget(std::make_unique<GridItemWrapper>(), 0, 3);
+        control_center_ = grid_layout_->addWidget(std::make_unique<ControlCenter>(selected_file_brain_), 0, 4, Wt::AlignmentFlag::Right);
+        grid_layout_->setColumnStretch(3, 1);
         
         grid_layout_->setColumnResizable(1, true, Wt::WLength(state_->xml_node_->IntAttribute("editor-width"), Wt::LengthUnit::Pixel));
         grid_layout_->setColumnResizable(2, true, Wt::WLength(state_->xml_node_->IntAttribute("preview-widget-sidebar-width"), Wt::LengthUnit::Pixel));
-
-        selected_file_brain_ = xml_file_brains_[state_->xml_node_->Attribute("selected-file-path")];
-
+        grid_layout_->setColumnResizable(3, true, Wt::WLength(Wt::WLength::Auto));
+        tree_wrapper_->setStyleClass("overflow-y-auto stylus-background h-screen");
+        elem_wrapper_->setStyleClass("overflow-y-auto stylus-background h-screen");
+        
         setPreviewWidgets();
+
+        if(state_->xml_node_->BoolAttribute("editor-hidden"))
+        {
+            editor_->hide();
+        }
+        if(state_->xml_node_->BoolAttribute("preview-tree-hidden"))
+        {
+            tree_wrapper_->hide();
+        }
+        if(state_->xml_node_->BoolAttribute("preview-elem-hidden"))
+        {
+            elem_wrapper_->hide();
+        }
+        if(state_->xml_node_->BoolAttribute("control-center-hidden"))
+        {
+            control_center_->hide();
+        }
+        
+
      
         file_selected().connect(this, [=]()
         {
@@ -57,7 +76,7 @@ namespace Stylus
         {
             std::cout << "\n\nFile saved:sasdsad " << file_path.toUTF8() << "\n\n";
             selected_file_brain_->setFile(data_.root_folder_path_ +  file_path.toUTF8());
-            setPreviewWidgets();
+            setPreviewWidgets(true);
         });
         
         sidebar_->width_changed().connect(this, [=](Wt::WString width)
@@ -78,23 +97,7 @@ namespace Stylus
                 state_->doc_->SaveFile(state_->state_file_path_.c_str());
             }
         });
-
-        folders_changed_.connect(this, [=]()
-        {
-           setXmlFileBrains();
-        });
-
-    }
-
-    void XmlFilesManager::setPreviewWidgets()
-    {
-        tree_wrapper_->clear();
-        elem_wrapper_->clear();
-        
-        xml_tree_preview_ = tree_wrapper_->addWidget(std::make_unique<XMLTreeView>(selected_file_brain_));
-        xml_elem_preview_ = elem_wrapper_->addWidget(std::make_unique<XMLElemView>(selected_file_brain_));
-
-        xml_tree_preview_->width_changed_.connect(this, [=](int width)
+        tree_wrapper_->width_changed_.connect(this, [=](int width)
         {
             if(width != state_->xml_node_->IntAttribute("preview-widget-sidebar-width"))
             {
@@ -102,6 +105,32 @@ namespace Stylus
                 state_->doc_->SaveFile(state_->state_file_path_.c_str());
             }
         }); 
+        folders_changed_.connect(this, [=]()
+        {
+           setXmlFileBrains();
+        });
+
+    }
+
+    void XmlFilesManager::setPreviewWidgets(bool scroll_into_view)
+    {
+        tree_wrapper_->clear();
+        elem_wrapper_->clear();
+        
+        if(selected_file_path_ == "")
+        {
+            tree_wrapper_->addWidget(std::make_unique<Wt::WText>("No file selected"));
+            elem_wrapper_->addWidget(std::make_unique<Wt::WText>("No file selected"));
+            return;
+        }
+        auto xml_tree_preview_ = tree_wrapper_->addWidget(std::make_unique<XMLTreeNode>(selected_file_brain_, selected_file_brain_->doc_->RootElement(), scroll_into_view));
+        auto xml_elem_preview_ = elem_wrapper_->addWidget(std::make_unique<XMLElemNode>(selected_file_brain_, selected_file_brain_->doc_->RootElement(), scroll_into_view));
+        
+        Wt::WStringStream contextJS;
+        contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "
+                    << "function() { event.cancelBubble = true; event.returnValue = false; return false; };";
+        Wt::WApplication::instance()->doJavaScript(contextJS.str());
+
     }
 
 
@@ -128,7 +157,7 @@ namespace Stylus
                 {
                     selected_file_brain_ = file_brain;
                     selected_file_brain_->selected_node_ = node;
-                    setPreviewWidgets();
+                    setPreviewWidgets(scroll_into_view);
                 });
 
             }

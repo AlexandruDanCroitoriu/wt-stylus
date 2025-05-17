@@ -27,6 +27,8 @@ namespace Stylus
             if(scroll_into_view){
                 // doJavaScript(jsRef() + ".scrollIntoView({ behavior: 'smooth', block: 'center' });");
                 doJavaScript(jsRef() + ".scrollIntoView({ block: 'center' });");
+                // doJavaScript(jsRef() + ".scrollIntoView({ behavior: 'smooth', block: 'center' });");
+                
             }
             
         }
@@ -83,46 +85,6 @@ namespace Stylus
             }
             first_child = first_child->NextSibling();
         }
-    }
-
-    
-    XMLElemView::XMLElemView(std::shared_ptr<XMLFileBrain> file_brain)
-        : file_brain_(file_brain)
-    {
-        setLayoutSizeAware(true);
-        setMinimumSize(Wt::WLength(200, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
-        setMaximumSize(Wt::WLength::Auto, Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
-        setStyleClass("overflow-auto stylus-background");
-
-        
-        file_brain_->xml_node_selected_.connect(this, [=](tinyxml2::XMLNode* node, bool scroll_into_view)
-        {
-            file_brain_->selected_node_ = node;
-            resetUi(scroll_into_view);
-        });
-        resetUi();
-    }
-
-    void XMLElemView::resetUi(bool scroll_into_view)
-    {
-        clear();
-        if(file_brain_->doc_->ErrorID() != tinyxml2::XML_SUCCESS)
-        {
-            std::cout << "\n\n ELEMENT file brain has errors: " << file_brain_->doc_->ErrorID() << "\n\n";
-            addWidget(std::make_unique<Wt::WText>("Error loading XML file"));
-        }else {
-            addWidget(std::make_unique<XMLElemNode>(file_brain_, file_brain_->doc_->RootElement(), scroll_into_view));
-        }
-    }
-
-    void XMLElemView::dropEvent(Wt::WDropEvent event)
-    {
-        std::cout << "Drop event on XML element node: " << event.mimeType() << "\n";
-    }
-
-    void XMLElemView::layoutSizeChanged(int width, int height)
-    {
-        std::cout << "XMLElemView size changed: " << width << "x" << height << "\n";
     }
 
 }

@@ -18,21 +18,4 @@ namespace Stylus
         std::shared_ptr<XMLFileBrain> file_brain_;
     };
 
-
-    class XMLElemView : public Wt::WContainerWidget
-    {
-        public:
-            XMLElemView(std::shared_ptr<XMLFileBrain> file_brain);
-
-            void resetUi(bool scroll_into_view = false);
-            void dropEvent(Wt::WDropEvent event) override;
-
-            std::shared_ptr<XMLFileBrain> file_brain_;
-        protected:
-            // Custom implementation
-            void layoutSizeChanged(int width, int height) override;
-        
-        private:
-    };
-
 }

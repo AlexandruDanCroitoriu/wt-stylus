@@ -66,7 +66,6 @@ Stylus::Stylus()
     js_files_manager_ = content_wrapper->addWidget(std::make_unique<JsFilesManager>(state_));
     tailwind_config_ = content_wrapper->addWidget(std::make_unique<TailwindConfigManager>(state_));
 
-
     templates_menu_item->clicked().connect(this, [=]() {
         templates_menu_item->toggleStyleClass("stylus-menu-selected", true);
         tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
@@ -227,6 +226,99 @@ Stylus::Stylus()
                         xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
                         xml_files_manager_->selected_file_brain_->file_saved_.emit();                            
                     }
+                }else if(e.key() == Wt::Key::Key_1){
+                    if(content_wrapper->currentWidget() == xml_files_manager_)
+                    {
+                        if(state_->xml_node_->BoolAttribute("navigation-bar-hidden"))
+                        {
+                            xml_files_manager_->grid_layout_->itemAt(0)->widget()->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+                            state_->xml_node_->SetAttribute("navigation-bar-hidden", "false");
+                        }else
+                        {
+                            xml_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+                            state_->xml_node_->SetAttribute("navigation-bar-hidden", "true");
+                        }
+                        state_->doc_->SaveFile(state_->state_file_path_.c_str());
+                    }else if(content_wrapper->currentWidget() == css_files_manager_)
+                    {
+                        if(state_->css_node_->BoolAttribute("navigation-bar-hidden"))
+                        {
+                            css_files_manager_->grid_layout_->itemAt(0)->widget()->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+                            state_->css_node_->SetAttribute("navigation-bar-hidden", "false");
+                        }else
+                        {
+                            css_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+                            state_->css_node_->SetAttribute("navigation-bar-hidden", "true");
+                        }
+                        state_->doc_->SaveFile(state_->state_file_path_.c_str());
+                    }else if(content_wrapper->currentWidget() == js_files_manager_)
+                    {
+                        if(state_->js_node_->BoolAttribute("navigation-bar-hidden"))
+                        {
+                            js_files_manager_->grid_layout_->itemAt(0)->widget()->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+                            state_->js_node_->SetAttribute("navigation-bar-hidden", "false");
+                        }else
+                        {
+                            js_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+                            state_->js_node_->SetAttribute("navigation-bar-hidden", "true");
+                        }
+                        state_->doc_->SaveFile(state_->state_file_path_.c_str());
+                    }
+                }else if(e.key() == Wt::Key::Key_2){
+                    if(content_wrapper->currentWidget() == xml_files_manager_)
+                    {
+                        if(state_->xml_node_->BoolAttribute("editor-hidden"))
+                        {
+                            xml_files_manager_->editor_->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+                            state_->xml_node_->SetAttribute("editor-hidden", "false");
+                        }else
+                        {
+                            xml_files_manager_->editor_->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+                            state_->xml_node_->SetAttribute("editor-hidden", "true");
+                        }
+                        state_->doc_->SaveFile(state_->state_file_path_.c_str());
+                    }
+                }else if(e.key() == Wt::Key::Key_3){
+                    if(content_wrapper->currentWidget() == xml_files_manager_)
+                    {
+                        if(state_->xml_node_->BoolAttribute("preview-tree-hidden"))
+                        {
+                            xml_files_manager_->tree_wrapper_->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+                            state_->xml_node_->SetAttribute("preview-tree-hidden", "false");
+                        }else
+                        {
+                            xml_files_manager_->tree_wrapper_->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+                            state_->xml_node_->SetAttribute("preview-tree-hidden", "true");
+                        }
+                        state_->doc_->SaveFile(state_->state_file_path_.c_str());
+                    }
+                }else if(e.key() == Wt::Key::Key_4){
+                    if(content_wrapper->currentWidget() == xml_files_manager_)
+                    {
+                        if(state_->xml_node_->BoolAttribute("preview-elem-hidden"))
+                        {
+                            xml_files_manager_->elem_wrapper_->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromRight, Wt::TimingFunction::EaseInOut, 500));
+                            state_->xml_node_->SetAttribute("preview-elem-hidden", "false");
+                        }else
+                        {
+                            xml_files_manager_->elem_wrapper_->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromRight, Wt::TimingFunction::EaseInOut, 500));
+                            state_->xml_node_->SetAttribute("preview-elem-hidden", "true");
+                        }
+                        state_->doc_->SaveFile(state_->state_file_path_.c_str());
+                    }
+                }else if(e.key() == Wt::Key::Key_5){
+                    if(content_wrapper->currentWidget() == xml_files_manager_)
+                    {
+                        if(state_->xml_node_->BoolAttribute("control-center-hidden"))
+                        {
+                            xml_files_manager_->control_center_->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromRight, Wt::TimingFunction::EaseInOut, 500));
+                            state_->xml_node_->SetAttribute("control-center-hidden", "false");
+                        }else
+                        {
+                            xml_files_manager_->control_center_->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromRight, Wt::TimingFunction::EaseInOut, 500));
+                            state_->xml_node_->SetAttribute("control-center-hidden", "true");
+                        }
+                    }
                 }
             }else if (e.key() == Wt::Key::Q){
                 if(isHidden()){
@@ -248,44 +340,6 @@ Stylus::Stylus()
                 tailwind_menu_item->clicked().emit(Wt::WMouseEvent());
             }else if(e.key() == Wt::Key::Key_5){
                 dynamic_cast<App*>(Wt::WApplication::instance())->dark_mode_changed_.emit(!state_->stylus_node_->BoolAttribute("dark-mode"));
-            }else if (e.key() == Wt::Key::A){
-                if(content_wrapper->currentWidget() == xml_files_manager_)
-                {
-                    if(state_->xml_node_->BoolAttribute("navigation-bar-hidden"))
-                    {
-                        xml_files_manager_->grid_layout_->itemAt(0)->widget()->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-                        state_->xml_node_->SetAttribute("navigation-bar-hidden", "false");
-                    }else
-                    {
-                        xml_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-                        state_->xml_node_->SetAttribute("navigation-bar-hidden", "true");
-                    }
-                    state_->doc_->SaveFile(state_->state_file_path_.c_str());
-                }else if(content_wrapper->currentWidget() == css_files_manager_)
-                {
-                    if(state_->css_node_->BoolAttribute("navigation-bar-hidden"))
-                    {
-                        css_files_manager_->grid_layout_->itemAt(0)->widget()->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-                        state_->css_node_->SetAttribute("navigation-bar-hidden", "false");
-                    }else
-                    {
-                        css_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-                        state_->css_node_->SetAttribute("navigation-bar-hidden", "true");
-                    }
-                    state_->doc_->SaveFile(state_->state_file_path_.c_str());
-                }else if(content_wrapper->currentWidget() == js_files_manager_)
-                {
-                    if(state_->js_node_->BoolAttribute("navigation-bar-hidden"))
-                    {
-                        js_files_manager_->grid_layout_->itemAt(0)->widget()->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-                        state_->js_node_->SetAttribute("navigation-bar-hidden", "false");
-                    }else
-                    {
-                        js_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-                        state_->js_node_->SetAttribute("navigation-bar-hidden", "true");
-                    }
-                    state_->doc_->SaveFile(state_->state_file_path_.c_str());
-                }
             }else if (e.key() == Wt::Key::Up){
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node) return;
@@ -415,6 +469,8 @@ Stylus::Stylus()
     {
         tailwind_config_->generateCssFile();
     });
+
+    tailwind_config_->generateCssFile();
 
 }
 
