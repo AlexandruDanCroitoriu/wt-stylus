@@ -15,14 +15,14 @@ namespace Stylus
         label_wrapper_ = addWidget(std::make_unique<Wt::WContainerWidget>());
         content_wrapper_ = addWidget(std::make_unique<Wt::WContainerWidget>());
 
-        label_wrapper_->setStyleClass("flex space-x-2 truncate rounded-md");
+        label_wrapper_->setStyleClass("flex space-x-2 truncate rounded-md mr-[3px] cursor-pointer");
         content_wrapper_->setStyleClass("flex flex-col ml-[10px]");
 
         label_wrapper_->addWidget(std::make_unique<Wt::WText>(node->Name()))->setStyleClass("font-medium pl-[5px]");
 
         if(node_ == file_brain_->selected_node_)
         {
-            label_wrapper_->addStyleClass("selected-xml-node");
+            label_wrapper_->addStyleClass("selected-xml-tree-node");
             if(scroll_into_view){
                 label_wrapper_->doJavaScript(label_wrapper_->jsRef() + ".scrollIntoView({ behavior: 'smooth', block: 'center' });");
             }
@@ -39,14 +39,14 @@ namespace Stylus
         {
             file_brain_->xml_node_selected_.emit(node_, false);
         });
-        mouseWentOver().preventPropagation();
-        mouseWentOver().connect(this, [=]()
+        label_wrapper_->mouseWentOver().preventPropagation();
+        label_wrapper_->mouseWentOver().connect(this, [=]()
         {
-            label_wrapper_->toggleStyleClass("preview-xml-node-hover", true, true);
+            label_wrapper_->toggleStyleClass("selected-xml-tree-node-hover", true, true);
         });
-        mouseWentOut().connect(this, [=]()
+        label_wrapper_->mouseWentOut().connect(this, [=]()
         {
-            label_wrapper_->toggleStyleClass("preview-xml-node-hover", false, true);
+            label_wrapper_->toggleStyleClass("selected-xml-tree-node-hover", false, true);
         });
         auto first_child = node->FirstChild();
         while (first_child) {
@@ -57,9 +57,10 @@ namespace Stylus
                 
                 if(first_child->PreviousSiblingElement() || first_child->NextSiblingElement()){
                     auto text_node = content_wrapper_->addWidget(std::make_unique<Wt::WText>(first_child->ToText()->Value()));
-                    text_node->setStyleClass("truncate italic font-light text-[#ff0000] text-bold");
+                    text_node->setStyleClass("truncate italic font-light text-[#ff0000] text-bold select-none");
                 }else {
                     auto text_node = label_wrapper_->addWidget(std::make_unique<Wt::WText>(first_child->ToText()->Value()));
+                    text_node->setStyleClass("select-none");
                 }
             }
             first_child = first_child->NextSibling();
@@ -104,7 +105,7 @@ namespace Stylus
         setLayoutSizeAware(true);
         setMinimumSize(Wt::WLength(200, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
         setMaximumSize(Wt::WLength(1000, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
-        setStyleClass("overflow-y-auto scrollbar-stylus");
+        setStyleClass("overflow-y-auto stylus-background select-none");
 
         Wt::WStringStream contextJS;
         contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "

@@ -6,6 +6,8 @@
 #include <Wt/WStackedWidget.h>
 #include <fstream>
 #include <Wt/WRandom.h>
+#include "010-TestWidgets/DarkModeToggle.h"
+#include "001-App/App.h"
 
 namespace Stylus {
 
@@ -33,6 +35,7 @@ Stylus::Stylus()
         });
     )");
 
+
     // Wt::WApplication::instance()->useStyleSheet(Wt::WApplication::instance()->docRoot() + "/static/stylus/stylus.css?v=" + Wt::WRandom::generateId());
     Wt::WApplication::instance()->require(Wt::WApplication::instance()->docRoot() + "/static/stylus/monaco-edditor.js");
 
@@ -49,7 +52,9 @@ Stylus::Stylus()
     auto css_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-css-logo")));
     auto javascript_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-javascript-logo")));
     auto tailwind_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-tailwind-logo")));
-    std::string nav_btns_styles = "w-[40px] p-[4px] m-[4px] cursor-pointer rounded-md flex items-center filesManager-menu";
+    auto dark_mode_toggle = navbar->addWidget(std::make_unique<DarkModeToggle>());
+
+    std::string nav_btns_styles = "w-[40px] p-[4px] m-[4px] cursor-pointer rounded-md flex items-center stylus-menu";
 
     templates_menu_item->setStyleClass(nav_btns_styles);
     tailwind_menu_item->setStyleClass(nav_btns_styles);
@@ -63,40 +68,40 @@ Stylus::Stylus()
 
 
     templates_menu_item->clicked().connect(this, [=]() {
-        templates_menu_item->toggleStyleClass("filesManager-menu-selected", true);
-        tailwind_menu_item->toggleStyleClass("filesManager-menu-selected", false);
-        css_menu_item->toggleStyleClass("filesManager-menu-selected", false);
-        javascript_menu_item->toggleStyleClass("filesManager-menu-selected", false);
+        templates_menu_item->toggleStyleClass("stylus-menu-selected", true);
+        tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
+        css_menu_item->toggleStyleClass("stylus-menu-selected", false);
+        javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
         content_wrapper->setCurrentWidget(xml_files_manager_);
         state_->stylus_node_->SetAttribute("selected-menu", "templates");
         state_->doc_->SaveFile(state_->state_file_path_.c_str());
     });
 
     tailwind_menu_item->clicked().connect(this, [=]() {
-        templates_menu_item->toggleStyleClass("filesManager-menu-selected", false);
-        tailwind_menu_item->toggleStyleClass("filesManager-menu-selected", true);
-        css_menu_item->toggleStyleClass("filesManager-menu-selected", false);
-        javascript_menu_item->toggleStyleClass("filesManager-menu-selected", false);
+        templates_menu_item->toggleStyleClass("stylus-menu-selected", false);
+        tailwind_menu_item->toggleStyleClass("stylus-menu-selected", true);
+        css_menu_item->toggleStyleClass("stylus-menu-selected", false);
+        javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
         content_wrapper->setCurrentWidget(tailwind_config_);
         state_->stylus_node_->SetAttribute("selected-menu", "tailwind");
         state_->doc_->SaveFile(state_->state_file_path_.c_str());
     });
 
     css_menu_item->clicked().connect(this, [=]() {
-        templates_menu_item->toggleStyleClass("filesManager-menu-selected", false);
-        tailwind_menu_item->toggleStyleClass("filesManager-menu-selected", false);
-        css_menu_item->toggleStyleClass("filesManager-menu-selected", true);
-        javascript_menu_item->toggleStyleClass("filesManager-menu-selected", false);
+        templates_menu_item->toggleStyleClass("stylus-menu-selected", false);
+        tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
+        css_menu_item->toggleStyleClass("stylus-menu-selected", true);
+        javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
         content_wrapper->setCurrentWidget(css_files_manager_);
         state_->stylus_node_->SetAttribute("selected-menu", "css");
         state_->doc_->SaveFile(state_->state_file_path_.c_str());
     });
 
     javascript_menu_item->clicked().connect(this, [=]() {
-        templates_menu_item->toggleStyleClass("filesManager-menu-selected", false);
-        tailwind_menu_item->toggleStyleClass("filesManager-menu-selected", false);
-        css_menu_item->toggleStyleClass("filesManager-menu-selected", false);
-        javascript_menu_item->toggleStyleClass("filesManager-menu-selected", true);
+        templates_menu_item->toggleStyleClass("stylus-menu-selected", false);
+        tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
+        css_menu_item->toggleStyleClass("stylus-menu-selected", false);
+        javascript_menu_item->toggleStyleClass("stylus-menu-selected", true);
         content_wrapper->setCurrentWidget(js_files_manager_);
         state_->stylus_node_->SetAttribute("selected-menu", "javascript");
         state_->doc_->SaveFile(state_->state_file_path_.c_str());
@@ -134,6 +139,17 @@ Stylus::Stylus()
         js_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
     }
 
+    dark_mode_toggle->dark_mode_changed_.connect(this, [=](bool dark)
+    {
+        xml_files_manager_->editor_->setDarkTheme(dark);
+        state_->stylus_node_->SetAttribute("dark-mode", dark ? "true" : "false");
+        state_->doc_->SaveFile(state_->state_file_path_.c_str());
+    });
+
+    if(state_->stylus_node_->BoolAttribute("dark-mode")){
+        dynamic_cast<App*>(Wt::WApplication::instance())->dark_mode_changed_.emit(true);
+        xml_files_manager_->editor_->setDarkTheme(true);
+    }
 
     Wt::WApplication::instance()->globalKeyWentDown().connect([=](Wt::WKeyEvent e)
     { 
@@ -152,7 +168,7 @@ Stylus::Stylus()
                     }
                     state_->doc_->SaveFile(state_->state_file_path_.c_str());
                 }else if(e.key() == Wt::Key::Up){
-                    auto selected_node = xml_files_manager_->file_brain_->selected_node_;
+                    auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                     if(selected_node)
                     {
                         auto parent_node = selected_node->Parent();
@@ -166,12 +182,12 @@ Stylus::Stylus()
                             }else {
                                 parent_node->InsertFirstChild(selected_node);
                             }
-                            xml_files_manager_->file_brain_->doc_->SaveFile(xml_files_manager_->file_brain_->file_path_.c_str());
-                            xml_files_manager_->file_brain_->file_saved_.emit();
+                            xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
+                            xml_files_manager_->selected_file_brain_->file_saved_.emit();
                         }
                     }
                 }else if(e.key() == Wt::Key::Down){
-                    auto selected_node = xml_files_manager_->file_brain_->selected_node_;
+                    auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                     if(selected_node)
                     {
                         auto parent_node = selected_node->Parent();
@@ -179,15 +195,15 @@ Stylus::Stylus()
                         if(next_node && parent_node)
                         {
                             parent_node->InsertAfterChild(next_node, selected_node);
-                            xml_files_manager_->file_brain_->doc_->SaveFile(xml_files_manager_->file_brain_->file_path_.c_str());
-                            xml_files_manager_->file_brain_->file_saved_.emit();
+                            xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
+                            xml_files_manager_->selected_file_brain_->file_saved_.emit();
                         }
                     }
                 }else if(e.key() == Wt::Key::Left){
-                    auto selected_node = xml_files_manager_->file_brain_->selected_node_;
+                    auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                     if(selected_node && 
-                        selected_node != xml_files_manager_->file_brain_->doc_->RootElement() &&
-                        selected_node->Parent() != xml_files_manager_->file_brain_->doc_->RootElement())
+                        selected_node != xml_files_manager_->selected_file_brain_->doc_->RootElement() &&
+                        selected_node->Parent() != xml_files_manager_->selected_file_brain_->doc_->RootElement())
                     {
                         auto parent_node = selected_node->Parent();
                         auto grand_parent_node = parent_node->Parent();
@@ -197,19 +213,19 @@ Stylus::Stylus()
                         }else {
                             grand_parent_node->InsertFirstChild(selected_node);
                         }
-                        xml_files_manager_->file_brain_->doc_->SaveFile(xml_files_manager_->file_brain_->file_path_.c_str());
-                        xml_files_manager_->file_brain_->file_saved_.emit();
+                        xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
+                        xml_files_manager_->selected_file_brain_->file_saved_.emit();
                     }
                 }else if(e.key() == Wt::Key::Right){
-                    auto selected_node = xml_files_manager_->file_brain_->selected_node_;
+                    auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                     if(selected_node && selected_node->NextSiblingElement() &&
-                            selected_node != xml_files_manager_->file_brain_->doc_->RootElement() &&
+                            selected_node != xml_files_manager_->selected_file_brain_->doc_->RootElement() &&
                             !(selected_node->NextSiblingElement()->FirstChild() && selected_node->NextSiblingElement()->FirstChild()->ToText())){
                                 
                         auto next_node = selected_node->NextSiblingElement();
                         next_node->InsertFirstChild(selected_node);
-                        xml_files_manager_->file_brain_->doc_->SaveFile(xml_files_manager_->file_brain_->file_path_.c_str());
-                        xml_files_manager_->file_brain_->file_saved_.emit();                            
+                        xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
+                        xml_files_manager_->selected_file_brain_->file_saved_.emit();                            
                     }
                 }
             }else if (e.key() == Wt::Key::Q){
@@ -230,6 +246,8 @@ Stylus::Stylus()
                 javascript_menu_item->clicked().emit(Wt::WMouseEvent());
             }else if (e.key() == Wt::Key::Key_4){
                 tailwind_menu_item->clicked().emit(Wt::WMouseEvent());
+            }else if(e.key() == Wt::Key::Key_5){
+                dynamic_cast<App*>(Wt::WApplication::instance())->dark_mode_changed_.emit(!state_->stylus_node_->BoolAttribute("dark-mode"));
             }else if (e.key() == Wt::Key::A){
                 if(content_wrapper->currentWidget() == xml_files_manager_)
                 {
@@ -269,12 +287,12 @@ Stylus::Stylus()
                     state_->doc_->SaveFile(state_->state_file_path_.c_str());
                 }
             }else if (e.key() == Wt::Key::Up){
-                auto selected_node = xml_files_manager_->file_brain_->selected_node_;
+                auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node) return;
                 auto prev_node = selected_node->PreviousSiblingElement();
                 if(prev_node != nullptr)
                 {
-                    xml_files_manager_->file_brain_->xml_node_selected_.emit(prev_node, true);
+                    xml_files_manager_->selected_file_brain_->xml_node_selected_.emit(prev_node, true);
                     return;
                 }
                 auto parent_node = selected_node->Parent();
@@ -283,17 +301,17 @@ Stylus::Stylus()
                     auto last_child = parent_node->LastChildElement();
                     if(last_child != nullptr)
                     {
-                        xml_files_manager_->file_brain_->xml_node_selected_.emit(last_child, true);
+                        xml_files_manager_->selected_file_brain_->xml_node_selected_.emit(last_child, true);
                         return;
                     }
                 }
             }else if (e.key() == Wt::Key::Down){
-                auto selected_node = xml_files_manager_->file_brain_->selected_node_;
+                auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node) return;
                 auto next_node = selected_node->NextSiblingElement();
                 if(next_node != nullptr)
                 {
-                    xml_files_manager_->file_brain_->xml_node_selected_.emit(next_node, true);
+                    xml_files_manager_->selected_file_brain_->xml_node_selected_.emit(next_node, true);
                     return;
                 }
                 auto parent_node = selected_node->Parent();
@@ -302,36 +320,36 @@ Stylus::Stylus()
                     auto first_child = parent_node->FirstChildElement();
                     if(first_child != nullptr)
                     {
-                        xml_files_manager_->file_brain_->xml_node_selected_.emit(first_child, true);
+                        xml_files_manager_->selected_file_brain_->xml_node_selected_.emit(first_child, true);
                         return;
                     }
                 }
             }else if (e.key() == Wt::Key::Left){
-                auto selected_node = xml_files_manager_->file_brain_->selected_node_;
-                if(selected_node != nullptr && selected_node->ToElement() != xml_files_manager_->file_brain_->doc_->RootElement())
+                auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
+                if(selected_node != nullptr && selected_node->ToElement() != xml_files_manager_->selected_file_brain_->doc_->RootElement())
                 {
                     auto parent_node = selected_node->Parent();
                     if(parent_node != nullptr)
                     {
-                        xml_files_manager_->file_brain_->xml_node_selected_.emit(parent_node->ToElement(), true);
+                        xml_files_manager_->selected_file_brain_->xml_node_selected_.emit(parent_node->ToElement(), true);
                         return;
                     }
                 }
             }else if (e.key() == Wt::Key::Right){
-                auto selected_node = xml_files_manager_->file_brain_->selected_node_;
+                auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node) return;
                 {
                     auto first_child = selected_node->FirstChildElement();
                     if(first_child != nullptr)
                     {
-                        xml_files_manager_->file_brain_->xml_node_selected_.emit(first_child, true);
+                        xml_files_manager_->selected_file_brain_->xml_node_selected_.emit(first_child, true);
                         return;
                     }
                 }
             }else if (e.key() == Wt::Key::Enter){
-                auto selected_node = xml_files_manager_->file_brain_->selected_node_;
+                auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node) return;
-                auto new_node = xml_files_manager_->file_brain_->doc_->NewElement("div");
+                auto new_node = xml_files_manager_->selected_file_brain_->doc_->NewElement("div");
 
                 auto first_child = selected_node->FirstChild();
                 if(first_child && first_child->ToText()){
@@ -341,38 +359,38 @@ Stylus::Stylus()
                     !selected_node->FirstChild()){
                     selected_node->InsertFirstChild(new_node);
                 }
-                xml_files_manager_->file_brain_->doc_->SaveFile(xml_files_manager_->file_brain_->file_path_.c_str());
-                xml_files_manager_->file_brain_->selected_node_ = new_node;
-                xml_files_manager_->file_brain_->file_saved_.emit();
+                xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
+                xml_files_manager_->selected_file_brain_->selected_node_ = new_node;
+                xml_files_manager_->selected_file_brain_->file_saved_.emit();
             }else if( e.key() == Wt::Key::Delete){
-                auto selected_node = xml_files_manager_->file_brain_->selected_node_;
-                if(!selected_node || selected_node == xml_files_manager_->file_brain_->doc_->RootElement()) return;
+                auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
+                if(!selected_node || selected_node == xml_files_manager_->selected_file_brain_->doc_->RootElement()) return;
                 auto parent_node = selected_node->Parent();
                 auto prev_node = selected_node->PreviousSiblingElement();
                 auto next_node = selected_node->NextSiblingElement();
                 if(parent_node)
                 {
                     parent_node->DeleteChild(selected_node);
-                    xml_files_manager_->file_brain_->doc_->SaveFile(xml_files_manager_->file_brain_->file_path_.c_str());
+                    xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
                     if(prev_node)
                     {
-                        xml_files_manager_->file_brain_->selected_node_ = prev_node;
+                        xml_files_manager_->selected_file_brain_->selected_node_ = prev_node;
                     }else if(next_node)
                     {
-                        xml_files_manager_->file_brain_->selected_node_ = next_node;
+                        xml_files_manager_->selected_file_brain_->selected_node_ = next_node;
                     }else{
-                        xml_files_manager_->file_brain_->selected_node_ = parent_node;
+                        xml_files_manager_->selected_file_brain_->selected_node_ = parent_node;
                     }
-                    xml_files_manager_->file_brain_->file_saved_.emit();
+                    xml_files_manager_->selected_file_brain_->file_saved_.emit();
                 }
             }else if(e.key() == Wt::Key::C){
-                state_->setCopyNode(xml_files_manager_->file_brain_->selected_node_->ToElement());
+                state_->setCopyNode(xml_files_manager_->selected_file_brain_->selected_node_->ToElement());
             }else if(e.key() == Wt::Key::V){
-                auto selected_node = xml_files_manager_->file_brain_->selected_node_;
+                auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node) return;
                 auto copied_node = state_->copy_node_;
                 if(!copied_node) return;
-                auto new_node = copied_node->FirstChild()->DeepClone(xml_files_manager_->file_brain_->doc_.get());
+                auto new_node = copied_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
                 if(selected_node->FirstChild() && selected_node->FirstChild()->ToText())
                 {
                     auto parent_node = selected_node->Parent();
@@ -382,9 +400,9 @@ Stylus::Stylus()
                     !selected_node->FirstChild()){
                     selected_node->InsertFirstChild(new_node);
                 }
-                xml_files_manager_->file_brain_->doc_->SaveFile(xml_files_manager_->file_brain_->file_path_.c_str());
-                xml_files_manager_->file_brain_->selected_node_ = new_node;
-                xml_files_manager_->file_brain_->file_saved_.emit();
+                xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
+                xml_files_manager_->selected_file_brain_->selected_node_ = new_node;
+                xml_files_manager_->selected_file_brain_->file_saved_.emit();
             }
         }
     });

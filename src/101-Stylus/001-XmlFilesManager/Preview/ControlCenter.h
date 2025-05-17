@@ -8,10 +8,10 @@ namespace Stylus
 {
 
     
-    class AttributeControl : public Wt::WContainerWidget
+    class ControlCenter : public Wt::WContainerWidget
     {
         public:
-            AttributeControl(std::shared_ptr<XMLFileBrain> file_brain);
+            ControlCenter(std::shared_ptr<XMLFileBrain> file_brain);
 
         private:
             std::shared_ptr<XMLFileBrain> file_brain_;

@@ -38,11 +38,11 @@ namespace Stylus
         mouseWentOver().preventPropagation();
         mouseWentOver().connect(this, [=]()
         {
-            toggleStyleClass("preview-xml-node-hover", true, true);
+            toggleStyleClass("selected-xml-node-hover", true, true);
         });
         mouseWentOut().connect(this, [=]()
         {
-            toggleStyleClass("preview-xml-node-hover", false, true);
+            toggleStyleClass("selected-xml-node-hover", false, true);
         });
         auto first_child = node->FirstChild();
         while (first_child) {
@@ -92,7 +92,7 @@ namespace Stylus
         setLayoutSizeAware(true);
         setMinimumSize(Wt::WLength(200, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
         setMaximumSize(Wt::WLength::Auto, Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
-        setStyleClass("overflow-auto scrollbar-stylus");
+        setStyleClass("overflow-auto stylus-background");
 
         
         file_brain_->xml_node_selected_.connect(this, [=](tinyxml2::XMLNode* node, bool scroll_into_view)

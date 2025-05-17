@@ -10,7 +10,7 @@ MonacoEditor::MonacoEditor(std::string language)
         current_text_("")
 {
     setLayoutSizeAware(true);
-    setMinimumSize(Wt::WLength(240, Wt::LengthUnit::Pixel), Wt::WLength(240, Wt::LengthUnit::Pixel));
+    // setMinimumSize(Wt::WLength(240, Wt::LengthUnit::Pixel), Wt::WLength(240, Wt::LengthUnit::Pixel));
     // setMaximumSize(Wt::WLength::Auto, Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
     // setStyleClass("h-fill");
 

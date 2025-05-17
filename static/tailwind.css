@@ -296,6 +296,9 @@
   .mt-12 {
     margin-top: calc(var(--spacing) * 12);
   }
+  .mr-\[3px\] {
+    margin-right: 3px;
+  }
   .-mb-48 {
     margin-bottom: calc(var(--spacing) * -48);
   }
@@ -304,9 +307,6 @@
   }
   .ml-2 {
     margin-left: calc(var(--spacing) * 2);
-  }
-  .ml-3 {
-    margin-left: calc(var(--spacing) * 3);
   }
   .ml-\[10px\] {
     margin-left: 10px;
@@ -358,9 +358,6 @@
   }
   .h-\[100vh\] {
     height: 100vh;
-  }
-  .h-\[1000VH\] {
-    height: 1000VH;
   }
   .h-full {
     height: 100%;
@@ -583,6 +580,9 @@
   .border-\[\#d1d5db\] {
     border-color: #d1d5db;
   }
+  .border-\[var\(--stylus-text\)\/50\] {
+    border-color: var(--stylus-text)/50;
+  }
   .border-gray-200 {
     border-color: var(--color-gray-200);
   }
@@ -794,9 +794,6 @@
   }
   .capitalize {
     text-transform: capitalize;
-  }
-  .uppercase {
-    text-transform: uppercase;
   }
   .italic {
     font-style: italic;
@@ -1507,129 +1504,266 @@
 .test-class-2 {
   background-color: #FFC0CB;
 }
+@layer theme, base, components, utilities;
+@layer theme;
+@layer base {
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+  html, :host {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
+    font-feature-settings: var(--default-font-feature-settings, normal);
+    font-variation-settings: var(--default-font-variation-settings, normal);
+    -webkit-tap-highlight-color: transparent;
+  }
+  hr {
+    height: 0;
+    color: inherit;
+    border-top-width: 1px;
+  }
+  abbr:where([title]) {
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+  a {
+    color: inherit;
+    -webkit-text-decoration: inherit;
+    text-decoration: inherit;
+  }
+  b, strong {
+    font-weight: bolder;
+  }
+  code, kbd, samp, pre {
+    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+    font-feature-settings: var(--default-mono-font-feature-settings, normal);
+    font-variation-settings: var(--default-mono-font-variation-settings, normal);
+    font-size: 1em;
+  }
+  small {
+    font-size: 80%;
+  }
+  sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  sub {
+    bottom: -0.25em;
+  }
+  sup {
+    top: -0.5em;
+  }
+  table {
+    text-indent: 0;
+    border-color: inherit;
+    border-collapse: collapse;
+  }
+  :-moz-focusring {
+    outline: auto;
+  }
+  progress {
+    vertical-align: baseline;
+  }
+  summary {
+    display: list-item;
+  }
+  ol, ul, menu {
+    list-style: none;
+  }
+  img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    vertical-align: middle;
+  }
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+  button, input, select, optgroup, textarea, ::file-selector-button {
+    font: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 1;
+  }
+  :where(select:is([multiple], [size])) optgroup {
+    font-weight: bolder;
+  }
+  :where(select:is([multiple], [size])) optgroup option {
+    padding-inline-start: 20px;
+  }
+  ::file-selector-button {
+    margin-inline-end: 4px;
+  }
+  ::placeholder {
+    opacity: 1;
+  }
+  @supports (not (-webkit-appearance: -apple-pay-button))  or (contain-intrinsic-size: 1px) {
+    ::placeholder {
+      color: color-mix(in oklab, currentColor 50%, transparent);
+    }
+  }
+  textarea {
+    resize: vertical;
+  }
+  ::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+  ::-webkit-date-and-time-value {
+    min-height: 1lh;
+    text-align: inherit;
+  }
+  ::-webkit-datetime-edit {
+    display: inline-flex;
+  }
+  ::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+  }
+  ::-webkit-datetime-edit, ::-webkit-datetime-edit-year-field, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute-field, ::-webkit-datetime-edit-second-field, ::-webkit-datetime-edit-millisecond-field, ::-webkit-datetime-edit-meridiem-field {
+    padding-block: 0;
+  }
+  :-moz-ui-invalid {
+    box-shadow: none;
+  }
+  button, input:where([type="button"], [type="reset"], [type="submit"]), ::file-selector-button {
+    appearance: button;
+  }
+  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
+    height: auto;
+  }
+  [hidden]:where(:not([hidden="until-found"])) {
+    display: none !important;
+  }
+}
+@layer utilities;
 :root {
-  --questionmark-one-light: #6BF193;
-  --questionmark-one-dark: #1FF760;
-  --questionmark-two-light: #f16bc9;
-  --questionmark-two-dark: #f71fb6;
-  --questionmark-outline-width-start: 1px;
-  --questionmark-outline-width-end: 3px;
+  --stylus-bg: rgb(255, 255, 255);
+  --stylus-text: rgb(0, 0, 0);
+  --stylus-bg-dark: rgb(30, 30, 30);
+  --stylus-text-dark: rgb(232, 232, 232);
+  --selected-color: rgb(107, 241, 147);
+  --selected-color-background: rgb(107, 241, 147, 0.2);
+  --selected-color-hover: rgb(40, 107, 231);
+  --selected-color-hover-background: rgb(37, 99, 235, 0.2);
+  --error-color: rgb(255, 140, 140);
 }
-.preview-xml-node-hover {
-  outline-style: solid;
-  outline-width: var(--questionmark-outline-width-start);
-  outline-color: var(--questionmark-two-light);
-  box-shadow: inset 2px 2px var(--questionmark-two-light), inset -2px -2px var(--questionmark-two-light);
-  animation: preview-selected-xml-nodewobble 0.6s ease-in-out alternate infinite;
-}
-@keyframes preview-selected-xml-nodewobble {
-  0% {
-    outline-width: var(--questionmark-outline-width-start);
-    outline-color: var(--questionmark-two-light);
-    box-shadow: inset 2px 2px var(--questionmark-two-light), inset -2px -2px var(--questionmark-two-light);
-  }
-  100% {
-    outline-width: var(--questionmark-outline-width-end);
-    outline-color: var(--questionmark-two-dark);
-    box-shadow: inset 2px 2px var(--questionmark-two-dark), inset -2px -2px var(--questionmark-two-dark);
+.stylus-background::-webkit-scrollbar-track {
+  border-radius: 10px;
+  &:where(.dark, .dark *) {
+    background-color: var(--stylus-bg-dark);
   }
 }
-.selected-xml-node {
-  outline-style: solid;
-  outline-width: var(--questionmark-outline-width-start);
-  outline-color: var(--questionmark-one-light);
-  box-shadow: inset 2px 2px var(--questionmark-one-light), inset -2px -2px var(--questionmark-one-light);
-  animation: selected-xml-nodewobble 0.6s ease-in-out alternate infinite;
-}
-@keyframes selected-xml-nodewobble {
-  0% {
-    outline-width: var(--questionmark-outline-width-start);
-    outline-color: var(--questionmark-one-light);
-    box-shadow: inset 2px 2px var(--questionmark-one-light), inset -2px -2px var(--questionmark-one-light);
+.stylus-background::-webkit-scrollbar {
+  width: 3px;
+  &:where(.dark, .dark *) {
+    background-color: var(--stylus-bg-dark);
   }
-  100% {
-    outline-width: var(--questionmark-outline-width-end);
-    outline-color: var(--questionmark-one-dark);
-    box-shadow: inset 2px 2px var(--questionmark-one-dark), inset -2px -2px var(--questionmark-one-dark);
+}
+.stylus-background::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  &:where(.dark, .dark *) {
+    background-color: color-mix(in oklab, var(--stylus-text-dark) 20%, transparent);
   }
 }
 .stylus-background {
-  background-color: #FFF;
-  color: inherit;
+  background-color: var(--stylus-bg);
+  color: var(--stylus-text);
+  &:where(.dark, .dark *) {
+    background-color: var(--stylus-bg-dark);
+  }
+  &:where(.dark, .dark *) {
+    color: var(--stylus-text-dark);
+  }
 }
-html.dark .stylus-background {
-  background-image: radial-gradient(circle, rgba(175, 208, 84, .25) 1px, rgba(0, 0, 0, 0) 1px);
-  background-color: #1e1e1e;
-  color: #e8e8e8;
+.stylus-menu {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--selected-color-hover);
+    }
+  }
 }
-.filesManager-menu {
-  transition: background-color 0.2s;
-}
-.filesManager-menu:hover {
-  background-color: #dbeafe;
-}
-html.dark .filesManager-menu:hover {
-  background-color: #2563eb;
-}
-.filesManager-menu-selected {
-  background-color: #2563eb;
-  color: black;
-}
-.filesManager-menu-selected:hover {
-  background-color: #2563eb;
-}
-html.dark .filesManager-menu-selected {
-  background-color: #1e40af;
-}
-html.dark .filesManager-menu-selected:hover {
-  background-color: #1e40af;
+.stylus-menu-selected {
+  background-color: var(--selected-color-hover);
 }
 .Wt-item {
-  cursor: pointer;
-  min-width: fit-content;
-}
-.Wt-item:hover {
-  background-color: #dbeafe;
-}
-html.dark .Wt-item:hover:not(.Wt-selected) {
-  background-color: #2563eb;
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--selected-color-hover);
+    }
+  }
+  &:hover {
+    @media (hover: hover) {
+      color: white;
+    }
+  }
 }
 .Wt-selected {
-  background-color: #b9fca9;
-}
-html.dark .Wt-selected {
-  background-color: #a8ffaa;
-  font-weight: 700;
-  color: #000;
+  background-color: var(--selected-color) !important;
+  color: var(--stylus-text);
+  &:hover {
+    @media (hover: hover) {
+      color: black;
+    }
+  }
 }
 .unsaved-changes > .Wt-selected {
-  background-color: #ff8c8c;
+  background-color: var(--error-color) !important;
 }
-html.dark .unsaved-changes > .Wt-selected {
-  background-color: #ff4d4d;
+.Wt-vrh2 {
+  &:where(.dark, .dark *) {
+    background-color: #000;
+  }
+  &:where(.dark, .dark *) {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #000;
+      }
+    }
+  }
+  &:where(.dark, .dark *) {
+    &:active {
+      background-color: #000;
+    }
+  }
 }
-html.dark .Wt-vrh2 {
-  background-color: #000;
+.selected-xml-node-hover {
+  outline-style: solid;
+  outline-width: 1px;
+  outline-color: var(--selected-color-hover);
+  box-shadow: inset 3px 3px var(--selected-color-hover), inset -3px -3px var(--selected-color-hover);
 }
-html.dark .Wt-vrh2:hover {
-  background-color: #000;
+.selected-xml-node {
+  outline-style: solid;
+  outline-width: 1px;
+  outline-color: var(--selected-color);
+  box-shadow: inset 3px 3px var(--selected-color), inset -3px -3px var(--selected-color);
 }
-html.dark .Wt-vrh2:active {
-  background-color: #000;
+.selected-xml-tree-node-hover {
+  outline-style: solid;
+  outline-width: 1px;
+  outline-color: var(--selected-color-hover);
+  box-shadow: inset 1px 1px var(--selected-color-hover), inset -1px -1px var(--selected-color-hover);
+  background-color: var(--selected-color-hover-background);
 }
-.scrollbar-stylus::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  border-radius: 10px;
-  background-color: #1e1e1e;
-}
-.scrollbar-stylus::-webkit-scrollbar {
-  width: 3px;
-  background-color: #1e1e1e;
-}
-.scrollbar-stylus::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-  background-color: #555;
+.selected-xml-tree-node {
+  outline-style: solid;
+  outline-width: 1px;
+  outline-color: var(--selected-color);
+  box-shadow: inset 1px 1px var(--selected-color), inset -1px -1px var(--selected-color);
+  background-color: var(--selected-color-background);
 }
 @property --tw-border-spacing-x {
   syntax: "<length>";

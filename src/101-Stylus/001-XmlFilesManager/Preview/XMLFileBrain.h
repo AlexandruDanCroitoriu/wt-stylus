@@ -12,7 +12,7 @@ namespace Stylus
     class XMLFileBrain
     {
         public:
-            XMLFileBrain(std::shared_ptr<StylusState> state);
+            XMLFileBrain(std::shared_ptr<StylusState> state, std::string file_path);
             
             std::shared_ptr<tinyxml2::XMLDocument> doc_;
             std::string file_path_;

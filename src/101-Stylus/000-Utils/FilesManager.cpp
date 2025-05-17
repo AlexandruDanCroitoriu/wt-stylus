@@ -18,6 +18,7 @@
 #include <Wt/WLineEdit.h>
 #include <Wt/WMessageBox.h>
 #include <Wt/WDialog.h>
+#include <Wt/WIcon.h>
 
 namespace Stylus
 {
@@ -32,7 +33,7 @@ FilesManagerSidebar::FilesManagerSidebar()
     setMaximumSize(Wt::WLength(1000, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
 
     contents_ = addWidget(std::make_unique<Wt::WContainerWidget>());
-    contents_->setStyleClass("w-full flex-[1] overflow-y-auto overflow-x-hidden flex flex-col scrollbar-stylus");
+    contents_->setStyleClass("w-full flex-[1] overflow-y-auto overflow-x-hidden flex flex-col stylus-background");
 
     footer_ = addWidget(std::make_unique<Wt::WContainerWidget>());
     footer_->setStyleClass("flex items-center justify-between p-[3px] border-t border-solid");
@@ -59,7 +60,7 @@ TreeNode::TreeNode(std::string name, TreeNodeType type, std::string path)
 {
     // setStyleClass("relative");
     label_wrapper_ = labelArea();
-    label_wrapper_->setStyleClass("flex items-center");
+    label_wrapper_->setStyleClass("flex items-center cursor-pointer mr-[3px] ");
 
 
     if(type_ == TreeNodeType::Folder) 
@@ -96,13 +97,11 @@ TreeNode::TreeNode(std::string name, TreeNodeType type, std::string path)
     std::unique_ptr<Wt::WIconPair> icon;
     if(type_ == TreeNodeType::Folder)
     {
-        icon = std::make_unique<Wt::WIconPair>("folder","folder-open", false);
+        setLabelIcon(std::make_unique<Wt::WIconPair>("./static/stylus/yellow-folder-closed.png", "./static/stylus/yellow-folder-open.png", false));
     }else if(type_ == TreeNodeType::File)
     {
-        icon = std::make_unique<Wt::WIconPair>("file","file", false);
+        setLabelIcon(std::make_unique<Wt::WIconPair>("static/stylus/document.png", "static/stylus/document.png", false));
     }
-    icon->setIconsType(Wt::WIconPair::IconType::IconName);
-    setLabelIcon(std::move(icon));
 }
 
 void TreeNode::dropEvent(Wt::WDropEvent event)
@@ -680,7 +679,7 @@ std::vector<std::pair<std::string, std::vector<std::string>>> FilesManager::getF
     {
         std::sort(folder.second.begin(), folder.second.end());
     }
-    
+    folders_changed_.emit();
     return return_folders;
 }
 

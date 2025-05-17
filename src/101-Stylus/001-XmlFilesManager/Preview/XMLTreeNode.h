@@ -11,7 +11,7 @@ namespace Stylus
 
     
     class XMLTreeNode : public Wt::WContainerWidget
-    {
+{
     public:
         XMLTreeNode(std::shared_ptr<XMLFileBrain> file_brain, tinyxml2::XMLElement* node, bool scroll_into_view = false);
         tinyxml2::XMLElement* node_;
@@ -37,12 +37,12 @@ namespace Stylus
 
             Wt::Signal<int> width_changed_;
 
+            std::shared_ptr<XMLFileBrain> file_brain_;
         protected:
             // Custom implementation
             void layoutSizeChanged(int width, int height) override;
 
         private:
-            std::shared_ptr<XMLFileBrain> file_brain_;
     };
 
 }

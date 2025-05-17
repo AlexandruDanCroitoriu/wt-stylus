@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+	/* used by all stylus widgets except text editors*/
+	--stylus-bg: rgb(255, 255, 255);
+	--stylus-text: rgb(0, 0, 0);
+	--stylus-bg-dark: rgb(30, 30, 30);
+	--stylus-text-dark: rgb(232, 232, 232);
+	
+	/* used by widgets used to preview elements to indicate the selected or hovered node */
+	--selected-color: rgb(107, 241, 147);
+	--selected-color-background: rgb(107, 241, 147, 0.2); /* for tree nodes */
+	
+	--selected-color-hover: rgb(40, 107, 231);
+	--selected-color-hover-background: rgb(37, 99, 235, 0.2); /* for tree nodes */
+	
+	--error-color: rgb(255, 140, 140);
+}
+
+/* Scrollbar */
+.stylus-background::-webkit-scrollbar-track
+{
+	@apply dark:bg-[var(--stylus-bg-dark)] rounded-[10px];
+}
+.stylus-background::-webkit-scrollbar
+{
+	@apply dark:bg-[var(--stylus-bg-dark)] w-[3px];
+}
+.stylus-background::-webkit-scrollbar-thumb
+{
+	@apply dark:bg-[var(--stylus-text-dark)]/20 rounded-[10px];
+}
+
+/* background color for all the stylus panes */
+.stylus-background {
+	@apply bg-[var(--stylus-bg)] text-[var(--stylus-text)] dark:bg-[var(--stylus-bg-dark)] dark:text-[var(--stylus-text-dark)];
+}
+.stylus-menu {
+	@apply hover:bg-[var(--selected-color-hover)];
+}
+.stylus-menu-selected {
+	@apply bg-[var(--selected-color-hover)];
+}
+
+/* Wt-item used by the folders/files tree and also by Wt::WTreeNode widget */
+.Wt-item {
+    /* zoom: 125%; */
+}
+.Wt-item {
+	@apply hover:bg-[var(--selected-color-hover)] hover:text-[white];
+}
+.Wt-selected {
+	@apply !bg-[var(--selected-color)] text-[var(--stylus-text)] hover:text-[black];
+}
+.unsaved-changes > .Wt-selected {
+    @apply !bg-[var(--error-color)];
+}
+
+/* Wt-vrh2 used by draggable bar */
+.Wt-vrh2 {
+	@apply dark:bg-[#000] dark:hover:bg-[#000] dark:active:bg-[#000]
+}
+
+/* Preview nodes selection */
+.selected-xml-node-hover {
+  outline-style: solid;
+  outline-width: 1px;
+  outline-color: var(--selected-color-hover);
+  box-shadow: inset 3px 3px var(--selected-color-hover), inset -3px -3px var(--selected-color-hover);
+}
+.selected-xml-node {
+  outline-style: solid;
+  outline-width: 1px;
+  outline-color: var(--selected-color);
+  box-shadow: inset 3px 3px var(--selected-color), inset -3px -3px var(--selected-color);
+}
+.selected-xml-tree-node-hover {
+  outline-style: solid;
+  outline-width: 1px;
+  outline-color: var(--selected-color-hover);
+  box-shadow: inset 1px 1px var(--selected-color-hover), inset -1px -1px var(--selected-color-hover);
+	background-color: var(--selected-color-hover-background);
+}
+.selected-xml-tree-node {
+  outline-style: solid;
+  outline-width: 1px;
+  outline-color: var(--selected-color);
+  box-shadow: inset 1px 1px var(--selected-color), inset -1px -1px var(--selected-color);
+	background-color: var(--selected-color-background);
+}
