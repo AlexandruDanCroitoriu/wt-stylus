@@ -1672,6 +1672,7 @@
   --tree-messages: #a21caf;
   --tree-message: #9333ea;
   --tree-message-id: #0891b2;
+  --tree-condition: #84cc16;
 }
 .stylus-background::-webkit-scrollbar-track {
   border-radius: 10px;
@@ -1801,6 +1802,9 @@
   --tw-font-weight: var(--font-weight-semibold);
   font-weight: var(--font-weight-semibold);
   color: var(--tree-message-id);
+}
+.preview-condition-node {
+  color: var(--tree-condition);
 }
 @property --tw-border-spacing-x {
   syntax: "<length>";

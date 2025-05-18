@@ -18,6 +18,7 @@
 	--tree-messages: #a21caf;
 	--tree-message: #9333ea;
 	--tree-message-id: #0891b2;
+	--tree-condition: #84cc16;
 }
  
 /* Scrollbar */
@@ -97,4 +98,8 @@
 
 .preview-message-node-id {
 	@apply text-[var(--tree-message-id)] font-semibold;
+}
+
+.preview-condition-node {
+	@apply text-[var(--tree-condition)];
 }

@@ -115,6 +115,53 @@ void TreeNode::dropEvent(Wt::WDropEvent event)
         std::unique_ptr<Wt::WTreeNode> removed_node = source_node->parentNode()->removeChildNode(source_node);
         new_node = addChildNode(std::move(removed_node));
 
+        // check if there is a file with the same name
+        std::string new_file_name = source_node->label()->text().toUTF8();
+        std::string new_file_path = path_ + new_file_name;
+        if (std::filesystem::exists(new_file_path)) {
+            auto message_box = addChild(std::make_unique<Wt::WMessageBox>(
+                "File already exists", 
+                R"(
+                    <div class='flex-1 text-center font-bold text-2xl'>)" + new_file_name + R"(</div>
+                )",
+                Wt::Icon::Warning, Wt::StandardButton::None));
+            message_box->setOffsets(100, Wt::Side::Top);
+            message_box->setModal(true);
+
+            message_box->setStyleClass("stylus-background");
+            message_box->titleBar()->setStyleClass("flex items-center justify-center p-[8px] cursor-pointer border-b border-solid text-xl font-bold");
+            message_box->contents()->setStyleClass("flex flex-col");
+            auto content = message_box->contents()->addWidget(std::make_unique<Wt::WContainerWidget>());
+            auto footer = message_box->contents()->addWidget(std::make_unique<Wt::WContainerWidget>());
+            content->setStyleClass("p-[8px]");
+            footer->setStyleClass("flex items-center justify-between p-[8px]");
+            auto error_label = content->addWidget(std::make_unique<Wt::WText>(""));
+            error_label->setStyleClass("w-full text-[#B22222] text-md font-semibold");
+            auto label = content->addWidget(std::make_unique<Wt::WLabel>("File with the same name already exists. Do you want to replace it?"));
+            auto confirm_btn = footer->addWidget(std::make_unique<Wt::WPushButton>("Confirm"));
+            confirm_btn->setStyleClass("btn-default");
+            auto cancel_btn = footer->addWidget(std::make_unique<Wt::WPushButton>("Cancel"));
+            cancel_btn->setStyleClass("btn-red");
+            cancel_btn->clicked().connect(this, [=](){ message_box->reject(); });
+            confirm_btn->clicked().connect(this, [=](){ 
+                message_box->accept();
+            });
+            message_box->finished().connect(this, [=](){
+                if (message_box->result() == Wt::DialogCode::Accepted) {
+                    std::filesystem::path old_path(source_node->path_ + source_node->label()->text().toUTF8());
+                    std::filesystem::path new_path(path_ + this->label()->text().toUTF8() + "/" + source_node->label()->text().toUTF8());
+                    std::filesystem::rename(old_path, new_path);
+                    folders_changed_.emit(this->label()->text().toUTF8() + "/" + source_node->label()->text().toUTF8());
+                }else {
+                    source_node->selected().emit(true);
+                }
+                removeChild(message_box);
+            });
+            message_box->show();
+            return;
+        }
+
+
         // move file to this folder
         std::filesystem::path old_path(source_node->path_ + source_node->label()->text().toUTF8());
         std::filesystem::path new_path(path_ + label()->text().toUTF8() + "/" + source_node->label()->text().toUTF8());

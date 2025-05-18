@@ -35,8 +35,23 @@ namespace Stylus
                 id_text->setStyleClass("truncate italic font-light text-[#ff0000] text-bold select-none");
                 id_text->setStyleClass("preview-message-node-id");
             }
-        }else {
+        }else if(node->NextSibling() && node->NextSibling()->ToText() &&
+                node->PreviousSibling() && node->PreviousSibling()->ToText()
+            ){
+                std::string prev_node_text = node->PreviousSibling()->ToText()->Value();
+                std::string next_node_text = node->NextSibling()->ToText()->Value();
+                //remove whitespace
+                prev_node_text.erase(remove_if(prev_node_text.begin(), prev_node_text.end(), isspace), prev_node_text.end());
+                next_node_text.erase(remove_if(next_node_text.begin(), next_node_text.end(), isspace), next_node_text.end());
+                if(prev_node_text.compare("${") == 0 && next_node_text.compare("}") == 0){
+                    tag_name->addStyleClass("preview-condition-node");
+                }else 
+                {
+                    tag_name->addStyleClass("preview-tree-node");
+                }
+        } else {
             tag_name->addStyleClass("preview-tree-node");
+
         }
 
         if(node_ == file_brain_->selected_node_)
@@ -73,12 +88,21 @@ namespace Stylus
                 auto child_node = std::make_unique<XMLTreeNode>(file_brain, first_child->ToElement(), scroll_into_view);
                 content_wrapper_->addWidget(std::move(child_node));
             } else if (first_child->ToText()) {
-                
-                if(first_child->PreviousSiblingElement() || first_child->NextSiblingElement()){
-                    auto text_node = content_wrapper_->addWidget(std::make_unique<Wt::WText>(first_child->ToText()->Value()));
-                    text_node->setStyleClass("truncate italic font-light text-[#ff0000] text-bold select-none");
+                std::string child_text = first_child->ToText()->Value();
+                // remove whitespace
+                child_text.erase(remove_if(child_text.begin(), child_text.end(), isspace), child_text.end());
+                // std::cout << "\n\nText content: <" << child_text << "> \n";
+                if(first_child->NextSiblingElement() || first_child->PreviousSiblingElement()){
+                    if(child_text.compare("${") == 0 || child_text.compare("}") == 0){
+                        // std::cout << "\n\n text node of start condition: <" << child_text << ">\n";
+                    }else {
+                        auto text_node = content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_text));
+                        text_node->setStyleClass("truncate italic font-light text-[#ff0000] text-bold select-none");
+                    }
+                }else if(child_text.compare("}") == 0){
+                    std::cout << "\n\n text node of end condition: <" << child_text << ">\n";
                 }else {
-                    auto text_node = label_wrapper_->addWidget(std::make_unique<Wt::WText>(first_child->ToText()->Value()));
+                    auto text_node = label_wrapper_->addWidget(std::make_unique<Wt::WText>(child_text));
                     text_node->setStyleClass("select-none preview-tree-node-text");
                 }
             }

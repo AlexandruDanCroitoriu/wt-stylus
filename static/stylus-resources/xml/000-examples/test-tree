@@ -1,19 +1,5 @@
 <ul class="stylus-list-tree">
-	<li>
-		<div>${label}</div>
-		<div>
-			<ul>
-				<li>
-					<div>${label}</div>
-					<div>${content}</div>
-				</li> 
-			</ul>
-			<ul>
-				<li>
-					<div>${label}</div>
-					<div>${content}</div>
-				</li>  
-			</ul>
-		</div>
-	</li> 
+	${<if:cond>}
+		<div class="test-class-1">css class using tailwind class with arbitrary value</div>
+	${</if:cond>}
 </ul>
