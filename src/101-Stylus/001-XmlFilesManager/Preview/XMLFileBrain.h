@@ -19,11 +19,13 @@ namespace Stylus
             
             void setFile(std::string file_path);
 
+            std::string trimWitespace(std::string str);
+
             // the selected node and if to scroll the selected into view
-            Wt::Signal<tinyxml2::XMLNode*, bool> xml_node_selected_;
+            Wt::Signal<tinyxml2::XMLElement*, bool> xml_node_selected_;
             Wt::Signal<> file_saved_;
             
-            tinyxml2::XMLNode* selected_node_;
+            tinyxml2::XMLElement* selected_node_;
             std::shared_ptr<StylusState> state_;
         private:
             

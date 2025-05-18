@@ -170,35 +170,85 @@ Stylus::Stylus()
                     state_->doc_->SaveFile(state_->state_file_path_.c_str());
                 }else if(e.key() == Wt::Key::Up){
                     auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
-                    if(selected_node)
-                    {
-                        auto parent_node = selected_node->Parent();
-                        auto prev_node = selected_node->PreviousSiblingElement();
-                        if(prev_node && parent_node)
-                        {
-                            if(prev_node->PreviousSiblingElement())
-                            {
+                    if(!selected_node) return;
+                    auto parent_node = selected_node->Parent();
+                    auto prev_node = selected_node->PreviousSibling();
+                    auto next_node = selected_node->NextSibling();
+                    if(prev_node && next_node && prev_node->ToText() && next_node->ToText() &&
+                        xml_files_manager_->selected_file_brain_->trimWitespace(prev_node->ToText()->Value()).compare("${") == 0 &&
+                        xml_files_manager_->selected_file_brain_->trimWitespace(next_node->ToText()->Value()).compare("}") == 0
+                    ) { 
+                        if(parent_node && selected_node->PreviousSiblingElement() &&
+                            selected_node->PreviousSiblingElement()->PreviousSiblingElement() 
+                        ){
+                            std::cout << "\n\n prev_prev_node avalable \n\n";
+                            parent_node->InsertAfterChild(selected_node->PreviousSiblingElement()->PreviousSiblingElement(), prev_node);
+                            parent_node->InsertAfterChild(prev_node, selected_node);
+                            parent_node->InsertAfterChild(selected_node, next_node);
+                        }else {
+                            std::cout << "\n\n prev_prev_node not avalable \n\n";
+                            parent_node->InsertFirstChild(next_node);
+                            parent_node->InsertFirstChild(selected_node);
+                            parent_node->InsertFirstChild(prev_node);
+                        }
+                        xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
+                        xml_files_manager_->selected_file_brain_->file_saved_.emit();
+                    }else if(prev_node && parent_node){
 
-                                parent_node->InsertAfterChild(prev_node->PreviousSiblingElement(), selected_node);
+                        if(prev_node->ToText() && xml_files_manager_->selected_file_brain_->trimWitespace(prev_node->ToText()->Value()).compare("}") == 0
+                            && prev_node->PreviousSiblingElement() && prev_node->PreviousSiblingElement()->PreviousSibling() && prev_node->PreviousSiblingElement()->PreviousSibling()->ToText() &&
+                            xml_files_manager_->selected_file_brain_->trimWitespace(prev_node->PreviousSiblingElement()->PreviousSibling()->ToText()->Value()).compare("${") == 0
+                        ){
+                            if(selected_node->PreviousSiblingElement()->PreviousSiblingElement()){
+                                std::cout << "\n\n prev_prev_node avalable \n\n";
+                                parent_node->InsertAfterChild(selected_node->PreviousSiblingElement()->PreviousSiblingElement(), selected_node);
+                            }else {
+                                std::cout << "\n\n prev_prev_node not avalable \n\n";
+                                parent_node->InsertFirstChild(selected_node);
+                            }
+                        }else {
+
+                            if(prev_node->PreviousSibling())
+                            {
+                                
+                                parent_node->InsertAfterChild(prev_node->PreviousSibling(), selected_node);
                             }else {
                                 parent_node->InsertFirstChild(selected_node);
                             }
-                            xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
-                            xml_files_manager_->selected_file_brain_->file_saved_.emit();
                         }
+                        xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
+                        xml_files_manager_->selected_file_brain_->file_saved_.emit();
                     }
                 }else if(e.key() == Wt::Key::Down){
                     auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
-                    if(selected_node)
-                    {
-                        auto parent_node = selected_node->Parent();
-                        auto next_node = selected_node->NextSiblingElement();
-                        if(next_node && parent_node)
-                        {
-                            parent_node->InsertAfterChild(next_node, selected_node);
+                    if(!selected_node) return;
+                    auto parent_node = selected_node->Parent();
+                    auto next_node = selected_node->NextSibling();
+                    auto prev_node = selected_node->PreviousSibling();
+                    if(next_node && prev_node && next_node->ToText() && prev_node->ToText() &&
+                        xml_files_manager_->selected_file_brain_->trimWitespace(prev_node->ToText()->Value()).compare("${") == 0 &&
+                        xml_files_manager_->selected_file_brain_->trimWitespace(next_node->ToText()->Value()).compare("}") == 0
+                    ) {
+                        if(selected_node->NextSiblingElement()){
+
+                            parent_node->InsertAfterChild(selected_node->NextSiblingElement(), prev_node);
+                            parent_node->InsertAfterChild(prev_node, selected_node);
+                            parent_node->InsertAfterChild(selected_node, next_node);
                             xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
                             xml_files_manager_->selected_file_brain_->file_saved_.emit();
                         }
+                    }else if(next_node && parent_node)
+                    {
+                        if(next_node->ToText() && xml_files_manager_->selected_file_brain_->trimWitespace(next_node->ToText()->Value()).compare("${") == 0
+                            && next_node->NextSiblingElement() && next_node->NextSiblingElement()->NextSibling() && next_node->NextSiblingElement()->NextSibling()->ToText() &&
+                            xml_files_manager_->selected_file_brain_->trimWitespace(next_node->NextSiblingElement()->NextSibling()->ToText()->Value()).compare("}") == 0
+                        ){
+                            parent_node->InsertAfterChild(selected_node->NextSiblingElement()->NextSibling(), selected_node);
+                        }else {
+                            parent_node->InsertAfterChild(next_node, selected_node);
+                        }
+                        xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
+                        xml_files_manager_->selected_file_brain_->file_saved_.emit();
                     }
                 }else if(e.key() == Wt::Key::Left){
                     auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
@@ -436,7 +486,7 @@ Stylus::Stylus()
                     {
                         xml_files_manager_->selected_file_brain_->selected_node_ = next_node;
                     }else{
-                        xml_files_manager_->selected_file_brain_->selected_node_ = parent_node;
+                        xml_files_manager_->selected_file_brain_->selected_node_ = parent_node->ToElement();
                     }
                     xml_files_manager_->selected_file_brain_->file_saved_.emit();
                 }
@@ -458,7 +508,7 @@ Stylus::Stylus()
                     selected_node->InsertFirstChild(new_node);
                 }
                 xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
-                xml_files_manager_->selected_file_brain_->selected_node_ = new_node;
+                xml_files_manager_->selected_file_brain_->selected_node_ = new_node->ToElement();
                 xml_files_manager_->selected_file_brain_->file_saved_.emit();
             }
         }

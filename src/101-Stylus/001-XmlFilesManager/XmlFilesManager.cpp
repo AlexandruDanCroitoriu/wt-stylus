@@ -157,10 +157,10 @@ namespace Stylus
         std::shared_ptr<XMLFileBrain> file_brain;
         for(auto folder : folders_)
         {
-            std::cout << "\nFolder: " << folder.first << std::endl;
+            // std::cout << "\nFolder: " << folder.first << std::endl;
             for(const auto &file : folder.second)
             {
-                std::cout << "File: " << file << std::endl;
+                // std::cout << "File: " << file << std::endl;
                 file_path = folder.first + "/" + file;
                 file_brain = std::make_shared<XMLFileBrain>(state_, data_.root_folder_path_ + file_path);
                 xml_file_brains_[folder.first + "/" + file] = file_brain;
@@ -173,7 +173,7 @@ namespace Stylus
                 file_brain->xml_node_selected_.connect(this, [=](tinyxml2::XMLNode* node, bool scroll_into_view)
                 {
                     selected_file_brain_ = file_brain;
-                    selected_file_brain_->selected_node_ = node;
+                    selected_file_brain_->selected_node_ = node->ToElement();
                     setPreviewWidgets(scroll_into_view);
                 });
                 if(selected_file_path_.compare(file_path) == 0)

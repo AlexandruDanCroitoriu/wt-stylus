@@ -30,6 +30,6 @@ App::App(const Wt::WEnvironment &env)
 
 
     auto temp = root()->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("examples:test-1")));
-    
+    temp->setCondition("if:cond", true);
 
 }

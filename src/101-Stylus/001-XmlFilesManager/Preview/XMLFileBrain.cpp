@@ -27,5 +27,12 @@ namespace Stylus
         
     }
 
+    std::string XMLFileBrain::trimWitespace(std::string str)
+    {
+        str.erase(0, str.find_first_not_of(" \t\n\r\f\v")); // trim from start
+        str.erase(str.find_last_not_of(" \t\n\r\f\v") + 1); // trim from end
+        return str;
+    }
+
 
 }

@@ -6,7 +6,6 @@
     --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --color-red-200: oklch(0.885 0.062 18.334);
-    --color-yellow-200: oklch(0.945 0.129 101.54);
     --color-yellow-300: oklch(0.905 0.182 98.111);
     --color-green-200: oklch(0.925 0.084 155.995);
     --color-green-400: oklch(0.792 0.209 151.711);
@@ -18,8 +17,6 @@
     --color-blue-500: oklch(0.623 0.214 259.815);
     --color-blue-600: oklch(0.546 0.245 262.881);
     --color-blue-800: oklch(0.424 0.199 265.638);
-    --color-purple-200: oklch(0.902 0.063 306.703);
-    --color-pink-200: oklch(0.899 0.061 343.231);
     --color-rose-500: oklch(0.645 0.246 16.439);
     --color-rose-600: oklch(0.586 0.253 17.585);
     --color-slate-400: oklch(0.704 0.04 256.788);
@@ -281,9 +278,6 @@
   }
   .m-1 {
     margin: calc(var(--spacing) * 1);
-  }
-  .m-2 {
-    margin: calc(var(--spacing) * 2);
   }
   .m-\[4px\] {
     margin: 4px;
@@ -628,12 +622,6 @@
   .bg-green-200 {
     background-color: var(--color-green-200);
   }
-  .bg-pink-200 {
-    background-color: var(--color-pink-200);
-  }
-  .bg-purple-200 {
-    background-color: var(--color-purple-200);
-  }
   .bg-red-200 {
     background-color: var(--color-red-200);
   }
@@ -642,9 +630,6 @@
   }
   .bg-rose-600 {
     background-color: var(--color-rose-600);
-  }
-  .bg-yellow-200 {
-    background-color: var(--color-yellow-200);
   }
   .bg-yellow-300 {
     background-color: var(--color-yellow-300);
@@ -690,6 +675,9 @@
   }
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
+  }
+  .px-\[3px\] {
+    padding-inline: 3px;
   }
   .py-1\.5 {
     padding-block: calc(var(--spacing) * 1.5);

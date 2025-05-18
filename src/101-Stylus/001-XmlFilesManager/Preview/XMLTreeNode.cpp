@@ -36,35 +36,32 @@ namespace Stylus
                 id_text->setStyleClass("preview-message-node-id");
             }
         }else if(node->NextSibling() && node->NextSibling()->ToText() &&
-                node->PreviousSibling() && node->PreviousSibling()->ToText()
+                node->PreviousSibling() && node->PreviousSibling()->ToText() && 
+                file_brain_->trimWitespace(node->NextSibling()->ToText()->Value()).compare("}") == 0 &&
+                file_brain_->trimWitespace(node->PreviousSibling()->ToText()->Value()).compare("${") == 0
             ){
-                std::string prev_node_text = node->PreviousSibling()->ToText()->Value();
-                std::string next_node_text = node->NextSibling()->ToText()->Value();
-                //remove whitespace
-                prev_node_text.erase(remove_if(prev_node_text.begin(), prev_node_text.end(), isspace), prev_node_text.end());
-                next_node_text.erase(remove_if(next_node_text.begin(), next_node_text.end(), isspace), next_node_text.end());
-                if(prev_node_text.compare("${") == 0 && next_node_text.compare("}") == 0){
-                    tag_name->addStyleClass("preview-condition-node");
-                    Wt::WText* condition_switcher; 
-                    if(node->BoolAttribute("true")){
-                        condition_switcher = label_wrapper_->addWidget(std::make_unique<Wt::WText>("true"));
-                        condition_switcher->setStyleClass("outline-[#4ade80]/70 bg-[#ecfdf5]/10");
-                    }else {
-                        condition_switcher = label_wrapper_->addWidget(std::make_unique<Wt::WText>("false"));
-                        condition_switcher->setStyleClass("outline-[#ef4444]/70 bg-[#fef2f2]/10");
-                    }
-                    condition_switcher->addStyleClass("truncate text-[12px] italic font-light rounded-[30%] outline-1 outline-solid");
-                    condition_switcher->clicked().preventPropagation();
-                    condition_switcher->clicked().connect(this, [=]()
-                    {
-                        node->SetAttribute("true", !node->BoolAttribute("true"));
-                        file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
-                        file_brain_->file_saved_.emit();
-                    });
-                }else 
-                {
-                    tag_name->addStyleClass("preview-tree-node");
+             
+                tag_name->addStyleClass("preview-condition-node");
+                Wt::WText* condition_switcher; 
+                if(node->BoolAttribute("true")){
+                    condition_switcher = label_wrapper_->addWidget(std::make_unique<Wt::WText>("true"));
+                    condition_switcher->setStyleClass("outline-[#4ade80]/70 bg-[#ecfdf5]/10");
+                }else {
+                    condition_switcher = label_wrapper_->addWidget(std::make_unique<Wt::WText>("false"));
+                    condition_switcher->setStyleClass("outline-[#ef4444]/70 bg-[#fef2f2]/10");
                 }
+                condition_switcher->addStyleClass("truncate px-[3px] text-[12px] italic font-light rounded-[30%] outline-1 outline-solid");
+                condition_switcher->clicked().preventPropagation();
+                condition_switcher->clicked().connect(this, [=]()
+                {
+                    if(node->BoolAttribute("true")){
+                        node->DeleteAttribute("true");
+                    }else {
+                        node->SetAttribute("true", true);
+                    }
+                    file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
+                    file_brain_->file_saved_.emit();
+                });
         } else {
             tag_name->addStyleClass("preview-tree-node");
 
@@ -111,8 +108,6 @@ namespace Stylus
                 if((child_node->NextSiblingElement() || child_node->PreviousSiblingElement()) &&
                     (child_text_nowitespace.compare("}") == 0 || child_text_nowitespace.compare("${") == 0)){   
                         // std::cout << "\n\n text node of start condition: <" << child_text << ">\n";
-                        // auto text_node = content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_text));
-                        // text_node->setStyleClass("truncate italic font-light text-[#ff0000] text-bold select-none");
                 }else {
                     auto text_node = label_wrapper_->addWidget(std::make_unique<Wt::WText>(child_text));
                     text_node->setStyleClass("select-none preview-tree-node-text");
