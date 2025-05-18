@@ -18,6 +18,7 @@ namespace Stylus
         tinyxml2::XMLError eResult = doc_->LoadFile(file_path.c_str());
         if (eResult != tinyxml2::XML_SUCCESS) {
             std::cout << "\n\nError loading XML file: " << doc_->ErrorIDToName(eResult) << "\n\n";
+            std::cout << "File not found: " << file_path << "\n\n";
             selected_node_ = nullptr;
         }else {
             selected_node_ = doc_->RootElement();

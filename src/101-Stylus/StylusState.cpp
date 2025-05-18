@@ -35,7 +35,7 @@ namespace Stylus {
         doc_->LoadFile(state_file_path_.c_str());
         if (doc_->ErrorID() != tinyxml2::XML_SUCCESS)
         {
-            std::cerr << "Error loading XML file: " << doc_->ErrorID() << std::endl;
+            std::cerr << "Error loading stylus state XML file: " << doc_->ErrorID() << std::endl;
             // crete file 
             std::ofstream file(state_file_path_);
             if (!file.is_open())

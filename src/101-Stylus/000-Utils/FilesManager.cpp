@@ -66,10 +66,11 @@ TreeNode::TreeNode(std::string name, TreeNodeType type, std::string path)
     if(type_ == TreeNodeType::Folder) 
     {
         setSelectable(false);
-        if(name.compare(path_) != 0)
-        {
+        // if(name.compare(path_) != 0)
+        // {
+            // std::cout << "\n\nFolder name: " << name << " path: " << path_ << std::endl;
             acceptDrops("file", "Wt-item");
-        }
+        // }
     }else if (type_ == TreeNodeType::File) 
     {
         setSelectable(true);
@@ -107,8 +108,8 @@ TreeNode::TreeNode(std::string name, TreeNodeType type, std::string path)
 void TreeNode::dropEvent(Wt::WDropEvent event)
 {
     TreeNode* source_node = static_cast<TreeNode*>(event.source());
-    
-    if(source_node->parentNode() != this)
+
+    if(source_node->parentNode() != this && label()->text().toUTF8().compare(path_) != 0)
     {
         Wt::WTreeNode* new_node;
         std::unique_ptr<Wt::WTreeNode> removed_node = source_node->parentNode()->removeChildNode(source_node);
@@ -501,7 +502,7 @@ FilesManager::FilesManager(std::shared_ptr<StylusState> state, StylusEditorManag
     grid_layout_ = grid_layout.get();
     setLayout(std::move(grid_layout));
  
-    folders_ = getFolders();
+    getFolders();
     tree_ = sidebar_->contents_->addWidget(std::make_unique<Wt::WTree>());
 
     editor_->avalable_save().connect(this, [=]()
@@ -617,7 +618,7 @@ void FilesManager::setTreeFolderWidgets()
                 if(selected_file_path.compare("") != 0) {
                     selected_file_path_ = selected_file_path;
                 }
-                folders_ = getFolders();
+                getFolders();
                 file_selected_.emit();
             });
 
@@ -633,7 +634,7 @@ void FilesManager::setTreeFolderWidgets()
             if(selected_file_path.compare("") != 0) {
                 selected_file_path_ = selected_file_path;
             }
-            folders_ = getFolders();
+            getFolders();
             file_selected_.emit();
         });
     }
@@ -643,7 +644,7 @@ void FilesManager::setTreeFolderWidgets()
         if(selected_file_path.compare("") != 0) {
             selected_file_path_ = selected_file_path;
         }
-        folders_ = getFolders();
+        getFolders();
         file_selected_.emit();
     });
 }
@@ -679,6 +680,7 @@ std::vector<std::pair<std::string, std::vector<std::string>>> FilesManager::getF
     {
         std::sort(folder.second.begin(), folder.second.end());
     }
+    folders_ = return_folders;
     folders_changed_.emit();
     return return_folders;
 }

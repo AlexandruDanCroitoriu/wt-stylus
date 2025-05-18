@@ -77,7 +77,6 @@ namespace Stylus
             std::string file_path = data_.root_folder_path_ + selected_file_path_;
             state_->xml_node_->SetAttribute("selected-file-path", selected_file_path_.c_str());
             state_->doc_->SaveFile(state_->state_file_path_.c_str());
-            // selected_file_brain_->setFile(file_path);
             selected_file_brain_ = xml_file_brains_[selected_file_path_];
             setPreviewWidgets();
         });
@@ -97,15 +96,6 @@ namespace Stylus
                 state_->doc_->SaveFile(state_->state_file_path_.c_str());
             }
         });
-        // elem_wrapper_->width_changed_.connect(this, [=](int width)
-        // {
-        //     std::cout << "\n\nElem width changed: " << width << std::endl;
-        //     if(width != state_->xml_node_->IntAttribute("preview-widget--width"))
-        //     {
-        //         state_->xml_node_->SetAttribute("preview-widget-width", width);
-        //         state_->doc_->SaveFile(state_->state_file_path_.c_str());
-        //     }
-        // });
 
         editor_->width_changed().connect(this, [=](Wt::WString width)
         {
@@ -160,11 +150,12 @@ namespace Stylus
         std::shared_ptr<XMLFileBrain> file_brain;
         for(auto folder : folders_)
         {
+            std::cout << "\nFolder: " << folder.first << std::endl;
             for(const auto &file : folder.second)
             {
+                std::cout << "File: " << file << std::endl;
                 file_path = folder.first + "/" + file;
                 file_brain = std::make_shared<XMLFileBrain>(state_, data_.root_folder_path_ + file_path);
-                // file_brain->setFile(data_.root_folder_path_ + file_path);
                 xml_file_brains_[folder.first + "/" + file] = file_brain;
                 file_brain->file_saved_.connect(this, [=]()
                 {
@@ -178,6 +169,10 @@ namespace Stylus
                     selected_file_brain_->selected_node_ = node;
                     setPreviewWidgets(scroll_into_view);
                 });
+                if(selected_file_path_.compare(file_path) == 0)
+                {
+                    selected_file_brain_ = file_brain;
+                }
 
             }
         }
