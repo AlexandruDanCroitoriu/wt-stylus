@@ -15,7 +15,7 @@ namespace Stylus
         label_wrapper_ = addWidget(std::make_unique<Wt::WContainerWidget>());
         content_wrapper_ = addWidget(std::make_unique<Wt::WContainerWidget>());
 
-        label_wrapper_->setStyleClass("flex space-x-2 truncate rounded-md mr-[3px] cursor-pointer");
+        label_wrapper_->setStyleClass("flex space-x-2 truncate rounded-md mr-[3px] cursor-pointer overflow-visible");
         content_wrapper_->setStyleClass("flex flex-col ml-[10px]");
 
         auto tag_name = label_wrapper_->addWidget(std::make_unique<Wt::WText>(node->Name()));
@@ -45,6 +45,22 @@ namespace Stylus
                 next_node_text.erase(remove_if(next_node_text.begin(), next_node_text.end(), isspace), next_node_text.end());
                 if(prev_node_text.compare("${") == 0 && next_node_text.compare("}") == 0){
                     tag_name->addStyleClass("preview-condition-node");
+                    Wt::WText* condition_switcher; 
+                    if(node->BoolAttribute("true")){
+                        condition_switcher = label_wrapper_->addWidget(std::make_unique<Wt::WText>("true"));
+                        condition_switcher->setStyleClass("outline-[#4ade80]/70 bg-[#ecfdf5]/10");
+                    }else {
+                        condition_switcher = label_wrapper_->addWidget(std::make_unique<Wt::WText>("false"));
+                        condition_switcher->setStyleClass("outline-[#ef4444]/70 bg-[#fef2f2]/10");
+                    }
+                    condition_switcher->addStyleClass("truncate text-[12px] italic font-light rounded-[30%] outline-1 outline-solid");
+                    condition_switcher->clicked().preventPropagation();
+                    condition_switcher->clicked().connect(this, [=]()
+                    {
+                        node->SetAttribute("true", !node->BoolAttribute("true"));
+                        file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
+                        file_brain_->file_saved_.emit();
+                    });
                 }else 
                 {
                     tag_name->addStyleClass("preview-tree-node");
@@ -90,10 +106,11 @@ namespace Stylus
             } else if (first_child->ToText()) {
                 std::string child_text = first_child->ToText()->Value();
                 // remove whitespace
-                child_text.erase(remove_if(child_text.begin(), child_text.end(), isspace), child_text.end());
+                std::string child_text_nowitespace = child_text;
+                child_text_nowitespace.erase(remove_if(child_text_nowitespace.begin(), child_text_nowitespace.end(), isspace), child_text_nowitespace.end());
                 // std::cout << "\n\nText content: <" << child_text << "> \n";
                 if(first_child->NextSiblingElement() || first_child->PreviousSiblingElement()){
-                    if(child_text.compare("${") == 0 || child_text.compare("}") == 0){
+                    if(child_text_nowitespace.compare("${") == 0 || child_text_nowitespace.compare("}") == 0){
                         // std::cout << "\n\n text node of start condition: <" << child_text << ">\n";
                     }else {
                         auto text_node = content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_text));

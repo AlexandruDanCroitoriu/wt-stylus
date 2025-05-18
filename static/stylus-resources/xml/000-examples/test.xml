@@ -1,7 +1,7 @@
 <messages>
     <message id="examples:test-1">
         <div class="space-y-2 text-black text-center font-bold text-2xl">
-						${<if:cond>}
+						${<if:cond true="true">}
             <div class="test-class-1">css class using tailwind class with arbitrary value</div>
 						${</if:cond>}
             <div class="bg-[#FFC0CB]">tailwind class with arbitrary value</div>
