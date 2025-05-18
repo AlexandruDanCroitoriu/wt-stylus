@@ -47,26 +47,46 @@ namespace Stylus
         {
             toggleStyleClass("selected-xml-node-hover", false, true);
         });
-        auto first_child = node->FirstChild();
-        while (first_child) {
-            if (first_child->ToElement()) {
-                auto child_node = std::make_unique<XMLElemNode>(file_brain, first_child->ToElement(), scroll_into_view);
-                addWidget(std::move(child_node));
-            } else if (first_child->ToText()) {
-                auto text_node = addWidget(std::make_unique<Wt::WText>(first_child->ToText()->Value()));
+        if(node->PreviousSibling() && node->PreviousSibling()->ToText() &&
+            node->NextSibling() && node->NextSibling()->ToText()
+        ){
+            std::string prev_node_text = node->PreviousSibling()->ToText()->Value();
+            std::string next_node_text = node->NextSibling()->ToText()->Value();   
+            
+            //remove whitespace 
+            prev_node_text.erase(remove_if(prev_node_text.begin(), prev_node_text.end(), isspace), prev_node_text.end());
+            next_node_text.erase(remove_if(next_node_text.begin(), next_node_text.end(), isspace), next_node_text.end());
 
-
-                if(first_child->PreviousSiblingElement() || first_child->NextSiblingElement()){
-
+            if(prev_node_text.compare("${") == 0 && next_node_text.compare("}") == 0 &&
+                node->BoolAttribute("true") == false){
+                    return;   
+            }
+        }
+        auto child_node = node->FirstChild();
+        while (child_node) {
+            if (child_node->ToElement()) {
+                auto tree_child_node = addWidget(std::make_unique<XMLElemNode>(file_brain, child_node->ToElement(), scroll_into_view));
+            } else if (child_node->ToText()) {
+                std::string child_text = child_node->ToText()->Value();
+                // remove whitespace
+                std::string child_text_nowitespace = child_text;
+                child_text_nowitespace.erase(remove_if(child_text_nowitespace.begin(), child_text_nowitespace.end(), isspace), child_text_nowitespace.end());
+                // std::cout << "\n\nText content: <" << child_text << "> \n";
+                
+                if((child_node->PreviousSiblingElement() || child_node->NextSiblingElement()) &&
+                    (child_text_nowitespace.compare("}") == 0 || child_text_nowitespace.compare("${") == 0)){
+                        // std::cout << "\n\n text node of start condition: <" << child_text << ">\n";
+                }else if(child_node->PreviousSiblingElement() || child_node->NextSiblingElement()) {
+                    auto text_node = addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()));
                     text_node->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
                     text_node->clicked().preventPropagation();
                     text_node->clicked().connect(this, [=](const Wt::WMouseEvent& event)
                     {
                         auto new_node = file_brain_->doc_->NewElement("span");
-                        auto parent_node = first_child->Parent();
-                        auto prev_node = first_child->PreviousSibling();
+                        auto parent_node = child_node->Parent();
+                        auto prev_node = child_node->PreviousSibling();
 
-                        std::string text = first_child->ToText()->Value();
+                        std::string text = child_node->ToText()->Value();
                         // remove whitespace from start and end of the string
                         text.erase(0, text.find_first_not_of(" \t\n\r\f\v"));
                         text.erase(text.find_last_not_of(" \t\n\r\f\v") + 1);
@@ -77,14 +97,17 @@ namespace Stylus
                             parent_node->InsertFirstChild(new_node);
                         }
                         new_node->SetText(text.c_str());
-                        file_brain_->doc_->DeleteNode(first_child);
+                        file_brain_->doc_->DeleteNode(child_node);
                         file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
                         file_brain_->file_saved_.emit();
                         file_brain_->xml_node_selected_.emit(new_node, true);
                     });
+                }else {
+                    auto text_node = addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()));
                 }
             }
-            first_child = first_child->NextSibling();
+            child_node = child_node->NextSibling();
+            
         }
     }
 

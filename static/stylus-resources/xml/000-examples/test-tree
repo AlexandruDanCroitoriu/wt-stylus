@@ -1,5 +1,6 @@
-<ul class="stylus-list-tree">
-	${<if:cond>}
-		<div class="test-class-1">css class using tailwind class with arbitrary value</div>
+<ul class="stylus-list-tree p-12">
+    <div class="test-class-1"/>
+	${<if:cond true="true">}
+    <span>css class using tailwind class with arbitrary value</span>
 	${</if:cond>}
 </ul>

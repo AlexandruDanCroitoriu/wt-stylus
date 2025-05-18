@@ -98,32 +98,27 @@ namespace Stylus
         {
             label_wrapper_->toggleStyleClass("selected-xml-tree-node-hover", false, true);
         });
-        auto first_child = node->FirstChild();
-        while (first_child) {
-            if (first_child->ToElement()) {
-                auto child_node = std::make_unique<XMLTreeNode>(file_brain, first_child->ToElement(), scroll_into_view);
-                content_wrapper_->addWidget(std::move(child_node));
-            } else if (first_child->ToText()) {
-                std::string child_text = first_child->ToText()->Value();
+        auto child_node = node->FirstChild();
+        while (child_node) {
+            if (child_node->ToElement()) {
+                content_wrapper_->addWidget(std::make_unique<XMLTreeNode>(file_brain, child_node->ToElement(), scroll_into_view));
+            } else if (child_node->ToText()) {
+                std::string child_text = child_node->ToText()->Value();
                 // remove whitespace
                 std::string child_text_nowitespace = child_text;
                 child_text_nowitespace.erase(remove_if(child_text_nowitespace.begin(), child_text_nowitespace.end(), isspace), child_text_nowitespace.end());
                 // std::cout << "\n\nText content: <" << child_text << "> \n";
-                if(first_child->NextSiblingElement() || first_child->PreviousSiblingElement()){
-                    if(child_text_nowitespace.compare("${") == 0 || child_text_nowitespace.compare("}") == 0){
+                if((child_node->NextSiblingElement() || child_node->PreviousSiblingElement()) &&
+                    (child_text_nowitespace.compare("}") == 0 || child_text_nowitespace.compare("${") == 0)){   
                         // std::cout << "\n\n text node of start condition: <" << child_text << ">\n";
-                    }else {
-                        auto text_node = content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_text));
-                        text_node->setStyleClass("truncate italic font-light text-[#ff0000] text-bold select-none");
-                    }
-                }else if(child_text.compare("}") == 0){
-                    std::cout << "\n\n text node of end condition: <" << child_text << ">\n";
+                        // auto text_node = content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_text));
+                        // text_node->setStyleClass("truncate italic font-light text-[#ff0000] text-bold select-none");
                 }else {
                     auto text_node = label_wrapper_->addWidget(std::make_unique<Wt::WText>(child_text));
                     text_node->setStyleClass("select-none preview-tree-node-text");
                 }
             }
-            first_child = first_child->NextSibling();
+            child_node = child_node->NextSibling();
         }
     }
 
