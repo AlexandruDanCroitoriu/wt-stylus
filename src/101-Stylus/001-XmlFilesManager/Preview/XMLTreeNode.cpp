@@ -96,19 +96,18 @@ namespace Stylus
             if (child_node->ToElement()) {
                 content_wrapper_->addWidget(std::make_unique<XMLTreeNode>(file_brain, child_node->ToElement(), scroll_into_view));
             } else if (child_node->ToText()) {
-                std::cout << "\nText trimmed: <" << file_brain_->trimAllWitespace(child_node->ToText()->Value()) << ">\n";
+                // std::cout << "\nText trimmed: <" << file_brain_->trimAllWitespace(child_node->ToText()->Value()) << ">\n";
                 if(file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("}${") == 0){
                     std::cout << "\n Success \n";
                     child_node->ToText()->SetValue("}");
                     auto parent_node = child_node->Parent();
                     parent_node->InsertAfterChild(child_node, file_brain_->doc_->NewText("${"));
-                    std::string save_path = std::string(file_brain_->file_path_.c_str()) + "test";
-                    file_brain_->doc_->SaveFile(save_path.c_str());
                 }
                 if((file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("${") == 0 && child_node->NextSiblingElement()) || 
                     file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("}") == 0 && child_node->PreviousSiblingElement())
                 {
                     // text outside the condition ${ and }
+                    // content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()));
                 }else if(file_brain_->isCondNode(child_node->Parent()->ToElement()) && 
                     ((file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("}") == 0 && child_node == child_node->Parent()->FirstChild()) ||
                     (file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("${") == 0 && child_node == child_node->Parent()->LastChild()))

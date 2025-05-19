@@ -9,27 +9,27 @@
 #include "010-TestWidgets/DarkModeToggle.h"
 #include "001-App/App.h"
 
-namespace Stylus {
-
-
-Stylus::Stylus()
-    : state_(std::make_shared<StylusState>())
+namespace Stylus
 {
-    
-    setOffsets(0, Wt::Side::Top | Wt::Side::Bottom | Wt::Side::Left | Wt::Side::Right);
-    titleBar()->children()[0]->removeFromParent();
-    setStyleClass("!border-0 overflow-auto stylus-background");
-    titleBar()->hide();
-    titleBar()->setStyleClass("p-0 flex items-center overflow-x-visible h-[40px]");
-    contents()->setStyleClass("h-[100vh] overflow-y-auto overflow-x-visible flex");
-    setModal(false);
-    setResizable(false);
-    setMovable(false);
 
-    setMinimumSize(Wt::WLength(100, Wt::LengthUnit::ViewportWidth), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
-    setLayoutSizeAware(true);
+    Stylus::Stylus()
+        : state_(std::make_shared<StylusState>())
+    {
 
-    Wt::WApplication::instance()->doJavaScript(R"(
+        setOffsets(0, Wt::Side::Top | Wt::Side::Bottom | Wt::Side::Left | Wt::Side::Right);
+        titleBar()->children()[0]->removeFromParent();
+        setStyleClass("!border-0 overflow-auto stylus-background");
+        titleBar()->hide();
+        titleBar()->setStyleClass("p-0 flex items-center overflow-x-visible h-[40px]");
+        contents()->setStyleClass("h-[100vh] overflow-y-auto overflow-x-visible flex");
+        setModal(false);
+        setResizable(false);
+        setMovable(false);
+
+        setMinimumSize(Wt::WLength(100, Wt::LengthUnit::ViewportWidth), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
+        setLayoutSizeAware(true);
+
+        Wt::WApplication::instance()->doJavaScript(R"(
         document.addEventListener('keydown', function(event) {
             if (event.altKey && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
                 event.preventDefault();
@@ -38,122 +38,122 @@ Stylus::Stylus()
         });
     )");
 
-    // Wt::WApplication::instance()->useStyleSheet(Wt::WApplication::instance()->docRoot() + "/static/stylus/stylus.css?v=" + Wt::WRandom::generateId());
-    Wt::WApplication::instance()->require(Wt::WApplication::instance()->docRoot() + "/static/stylus/monaco-edditor.js");
+        // Wt::WApplication::instance()->useStyleSheet(Wt::WApplication::instance()->docRoot() + "/static/stylus/stylus.css?v=" + Wt::WRandom::generateId());
+        Wt::WApplication::instance()->require(Wt::WApplication::instance()->docRoot() + "/static/stylus/monaco-edditor.js");
 
-    Wt::WApplication::instance()->messageResourceBundle().use(Wt::WApplication::instance()->docRoot() + "/static/stylus/templates");
+        Wt::WApplication::instance()->messageResourceBundle().use(Wt::WApplication::instance()->docRoot() + "/static/stylus/templates");
 
-    auto navbar = contents()->addWidget(std::make_unique<Wt::WContainerWidget>());
-    auto content_wrapper = contents()->addWidget(std::make_unique<Wt::WStackedWidget>());
-    // content_wrapper->setTransitionAnimation(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500)); // this line represents a bug in Wt probably :P
+        auto navbar = contents()->addWidget(std::make_unique<Wt::WContainerWidget>());
+        auto content_wrapper = contents()->addWidget(std::make_unique<Wt::WStackedWidget>());
+        // content_wrapper->setTransitionAnimation(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500)); // this line represents a bug in Wt probably :P
 
-    navbar->setStyleClass("flex flex-col h-full border-r border-solid dark:border-[#FFF]/50 stylus-background");
-    content_wrapper->setStyleClass("w-screen h-screen stylus-background");
+        navbar->setStyleClass("flex flex-col h-full border-r border-solid dark:border-[#FFF]/50 stylus-background");
+        content_wrapper->setStyleClass("w-screen h-screen stylus-background");
 
-    auto templates_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-xml-logo")));
-    auto css_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-css-logo")));
-    auto javascript_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-javascript-logo")));
-    auto tailwind_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-tailwind-logo")));
-    auto dark_mode_toggle = navbar->addWidget(std::make_unique<DarkModeToggle>());
+        auto templates_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-xml-logo")));
+        auto css_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-css-logo")));
+        auto javascript_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-javascript-logo")));
+        auto tailwind_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-tailwind-logo")));
+        auto dark_mode_toggle = navbar->addWidget(std::make_unique<DarkModeToggle>());
 
-    std::string nav_btns_styles = "w-[40px] p-[4px] m-[4px] cursor-pointer rounded-md flex items-center stylus-menu";
+        std::string nav_btns_styles = "w-[40px] p-[4px] m-[4px] cursor-pointer rounded-md flex items-center stylus-menu";
 
-    templates_menu_item->setStyleClass(nav_btns_styles);
-    tailwind_menu_item->setStyleClass(nav_btns_styles);
-    css_menu_item->setStyleClass(nav_btns_styles);
-    javascript_menu_item->setStyleClass(nav_btns_styles);
-    
-    xml_files_manager_ = content_wrapper->addWidget(std::make_unique<XmlFilesManager>(state_));    
-    css_files_manager_ = content_wrapper->addWidget(std::make_unique<CssFilesManager>(state_));
-    js_files_manager_ = content_wrapper->addWidget(std::make_unique<JsFilesManager>(state_));
-    tailwind_config_ = content_wrapper->addWidget(std::make_unique<TailwindConfigManager>(state_));
+        templates_menu_item->setStyleClass(nav_btns_styles);
+        tailwind_menu_item->setStyleClass(nav_btns_styles);
+        css_menu_item->setStyleClass(nav_btns_styles);
+        javascript_menu_item->setStyleClass(nav_btns_styles);
 
-    templates_menu_item->clicked().connect(this, [=]() {
+        xml_files_manager_ = content_wrapper->addWidget(std::make_unique<XmlFilesManager>(state_));
+        css_files_manager_ = content_wrapper->addWidget(std::make_unique<CssFilesManager>(state_));
+        js_files_manager_ = content_wrapper->addWidget(std::make_unique<JsFilesManager>(state_));
+        tailwind_config_ = content_wrapper->addWidget(std::make_unique<TailwindConfigManager>(state_));
+
+        templates_menu_item->clicked().connect(this, [=]()
+                                               {
         templates_menu_item->toggleStyleClass("stylus-menu-selected", true);
         tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
         css_menu_item->toggleStyleClass("stylus-menu-selected", false);
         javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
         content_wrapper->setCurrentWidget(xml_files_manager_);
         state_->stylus_node_->SetAttribute("selected-menu", "templates");
-        state_->doc_->SaveFile(state_->state_file_path_.c_str());
-    });
+        state_->doc_->SaveFile(state_->state_file_path_.c_str()); });
 
-    tailwind_menu_item->clicked().connect(this, [=]() {
+        tailwind_menu_item->clicked().connect(this, [=]()
+                                              {
         templates_menu_item->toggleStyleClass("stylus-menu-selected", false);
         tailwind_menu_item->toggleStyleClass("stylus-menu-selected", true);
         css_menu_item->toggleStyleClass("stylus-menu-selected", false);
         javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
         content_wrapper->setCurrentWidget(tailwind_config_);
         state_->stylus_node_->SetAttribute("selected-menu", "tailwind");
-        state_->doc_->SaveFile(state_->state_file_path_.c_str());
-    });
+        state_->doc_->SaveFile(state_->state_file_path_.c_str()); });
 
-    css_menu_item->clicked().connect(this, [=]() {
+        css_menu_item->clicked().connect(this, [=]()
+                                         {
         templates_menu_item->toggleStyleClass("stylus-menu-selected", false);
         tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
         css_menu_item->toggleStyleClass("stylus-menu-selected", true);
         javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
         content_wrapper->setCurrentWidget(css_files_manager_);
         state_->stylus_node_->SetAttribute("selected-menu", "css");
-        state_->doc_->SaveFile(state_->state_file_path_.c_str());
-    });
+        state_->doc_->SaveFile(state_->state_file_path_.c_str()); });
 
-    javascript_menu_item->clicked().connect(this, [=]() {
+        javascript_menu_item->clicked().connect(this, [=]()
+                                                {
         templates_menu_item->toggleStyleClass("stylus-menu-selected", false);
         tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
         css_menu_item->toggleStyleClass("stylus-menu-selected", false);
         javascript_menu_item->toggleStyleClass("stylus-menu-selected", true);
         content_wrapper->setCurrentWidget(js_files_manager_);
         state_->stylus_node_->SetAttribute("selected-menu", "javascript");
-        state_->doc_->SaveFile(state_->state_file_path_.c_str());
-    });
+        state_->doc_->SaveFile(state_->state_file_path_.c_str()); });
 
-    auto selected_menu = state_->stylus_node_->Attribute("selected-menu");
-    if (std::strcmp(selected_menu, "templates") == 0)
-        templates_menu_item->clicked().emit(Wt::WMouseEvent());
-    else if (std::strcmp(selected_menu, "tailwind") == 0)
-        tailwind_menu_item->clicked().emit(Wt::WMouseEvent());
-    else if (std::strcmp(selected_menu, "css") == 0)
-        css_menu_item->clicked().emit(Wt::WMouseEvent());
-    else if (std::strcmp(selected_menu, "javascript") == 0)
-        javascript_menu_item->clicked().emit(Wt::WMouseEvent());
+        auto selected_menu = state_->stylus_node_->Attribute("selected-menu");
+        if (std::strcmp(selected_menu, "templates") == 0)
+            templates_menu_item->clicked().emit(Wt::WMouseEvent());
+        else if (std::strcmp(selected_menu, "tailwind") == 0)
+            tailwind_menu_item->clicked().emit(Wt::WMouseEvent());
+        else if (std::strcmp(selected_menu, "css") == 0)
+            css_menu_item->clicked().emit(Wt::WMouseEvent());
+        else if (std::strcmp(selected_menu, "javascript") == 0)
+            javascript_menu_item->clicked().emit(Wt::WMouseEvent());
 
-    if(state_->stylus_node_->BoolAttribute("open"))
-        show();
-    else
-        hide();
+        if (state_->stylus_node_->BoolAttribute("open"))
+            show();
+        else
+            hide();
 
-    if(state_->stylus_node_->BoolAttribute("navigation-bar-hidden"))
-    {
-        navbar->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-    }
-    if(state_->xml_node_->BoolAttribute("navigation-bar-hidden"))
-    {
-        xml_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-    }
-    if(state_->css_node_->BoolAttribute("navigation-bar-hidden"))
-    {
-        css_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-    }
-    if(state_->js_node_->BoolAttribute("navigation-bar-hidden"))
-    {
-        js_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-    }
+        if (state_->stylus_node_->BoolAttribute("navigation-bar-hidden"))
+        {
+            navbar->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+        }
+        if (state_->xml_node_->BoolAttribute("navigation-bar-hidden"))
+        {
+            xml_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+        }
+        if (state_->css_node_->BoolAttribute("navigation-bar-hidden"))
+        {
+            css_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+        }
+        if (state_->js_node_->BoolAttribute("navigation-bar-hidden"))
+        {
+            js_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+        }
 
-    dark_mode_toggle->dark_mode_changed_.connect(this, [=](bool dark)
-    {
+        dark_mode_toggle->dark_mode_changed_.connect(this, [=](bool dark)
+                                                     {
         xml_files_manager_->editor_->setDarkTheme(dark);
         state_->stylus_node_->SetAttribute("dark-mode", dark ? "true" : "false");
-        state_->doc_->SaveFile(state_->state_file_path_.c_str());
-    });
+        state_->doc_->SaveFile(state_->state_file_path_.c_str()); });
 
-    if(state_->stylus_node_->BoolAttribute("dark-mode")){
-        dynamic_cast<App*>(Wt::WApplication::instance())->dark_mode_changed_.emit(true);
-        xml_files_manager_->editor_->setDarkTheme(true);
-    }
+        if (state_->stylus_node_->BoolAttribute("dark-mode"))
+        {
+            dynamic_cast<App *>(Wt::WApplication::instance())->dark_mode_changed_.emit(true);
+            xml_files_manager_->editor_->setDarkTheme(true);
+        }
 
-    Wt::WApplication::instance()->globalKeyWentDown().connect([=](Wt::WKeyEvent e)
-    { 
+        Wt::WApplication::instance()->globalKeyWentDown().connect([=](Wt::WKeyEvent e)
+                                                                  { 
         if (e.modifiers().test(Wt::KeyboardModifier::Alt)){
             if(e.modifiers().test(Wt::KeyboardModifier::Shift)){
                 if(e.key() == Wt::Key::Q){
@@ -265,39 +265,59 @@ Stylus::Stylus()
                     {
                         auto parent_node = selected_node->Parent();
                         auto grand_parent_node = parent_node->Parent();
-                        auto parent_prev_node = parent_node->PreviousSiblingElement();
-                               
-                        if(parent_prev_node){
-                            if(selected_node->PreviousSibling() && selected_node->PreviousSibling()->ToText() &&
-                            xml_files_manager_->selected_file_brain_->trimWitespace(selected_node->PreviousSibling()->ToText()->Value()).compare("${") == 0 &&
-                            selected_node->NextSibling() && selected_node->NextSibling()->ToText() &&
-                            xml_files_manager_->selected_file_brain_->trimWitespace(selected_node->NextSibling()->ToText()->Value()).compare("}") == 0
+                        auto parent_prev_node_elem = parent_node->PreviousSiblingElement();
+                        auto prev_node = selected_node->PreviousSibling();
+                        auto next_node = selected_node->NextSibling();
+                        if(parent_prev_node_elem){
+                            if(xml_files_manager_->selected_file_brain_->isCondNode(parent_prev_node_elem) && 
+                                xml_files_manager_->selected_file_brain_->isCondNode(selected_node)
                             ){
-                                auto prev_node = selected_node->PreviousSibling();
-                                auto next_node = selected_node->NextSibling();
+                                // parent prev node and selected node are condition nodes
+                                std::cout << "\n\nparent prev node and selected node are condition nodes\n";
+                                auto parent_prev_node = parent_prev_node_elem->NextSibling();
                                 grand_parent_node->InsertAfterChild(parent_prev_node, prev_node);
                                 grand_parent_node->InsertAfterChild(prev_node, selected_node);
                                 grand_parent_node->InsertAfterChild(selected_node, next_node);
-                            }else if(parent_prev_node->ToText() && xml_files_manager_->selected_file_brain_->trimWitespace(parent_prev_node->ToText()->Value()).compare("${") == 0 &&
-                            parent_node->NextSibling() && parent_node->NextSibling()->ToText() && xml_files_manager_->selected_file_brain_->trimWitespace(parent_node->NextSibling()->ToText()->Value()).compare("}") == 0 &&
-                            parent_node->PreviousSiblingElement()
-                            ){
-                                grand_parent_node->InsertAfterChild(parent_node->PreviousSiblingElement(), selected_node);
+                            }else if(xml_files_manager_->selected_file_brain_->isCondNode(parent_prev_node_elem)){
+                                // parent prev node is condition node
+                                std::cout << "\n\nparent prev node is condition node\n";
+                                grand_parent_node->InsertAfterChild(parent_prev_node_elem->NextSibling(), selected_node);
+                            }else if(xml_files_manager_->selected_file_brain_->isCondNode(selected_node)){
+                                // selected node is condition node
+                                std::cout << "\n\nselected node is condition node\n";
+                                grand_parent_node->InsertAfterChild(parent_prev_node_elem, prev_node);
+                                grand_parent_node->InsertAfterChild(prev_node, selected_node); 
+                                grand_parent_node->InsertAfterChild(selected_node, next_node);
                             }else {
-                                grand_parent_node->InsertAfterChild(parent_prev_node, selected_node);
+                                std::cout << "\n\nselected node and parent prev node are not condition nodes\n";
+                                grand_parent_node->InsertAfterChild(parent_prev_node_elem, selected_node);
                             }
                         }else {
-                            if(selected_node->PreviousSibling() && selected_node->PreviousSibling()->ToText() &&
-                            xml_files_manager_->selected_file_brain_->trimWitespace(selected_node->PreviousSibling()->ToText()->Value()).compare("${") == 0 &&
-                            selected_node->NextSibling() && selected_node->NextSibling()->ToText() &&
-                            xml_files_manager_->selected_file_brain_->trimWitespace(selected_node->NextSibling()->ToText()->Value()).compare("}") == 0
+                            if(xml_files_manager_->selected_file_brain_->isCondNode(selected_node) && 
+                                xml_files_manager_->selected_file_brain_->isCondNode(grand_parent_node->ToElement())
                             ){
-                                auto prev_node = selected_node->PreviousSibling();
-                                auto next_node = selected_node->NextSibling();
+                                // selected node and grand parent node are condition nodes
+                                std::cout << "\n\nselected node and grand parent node are condition nodes"<<grand_parent_node->FirstChild()->ToText()->Value() << "|" <<
+                                grand_parent_node->LastChild()->ToText()->Value() << "\n";
+                                auto end_condition_node = grand_parent_node->FirstChild();
+                                grand_parent_node->InsertAfterChild(end_condition_node, prev_node);
+                                grand_parent_node->InsertAfterChild(prev_node, selected_node);
+                                grand_parent_node->InsertAfterChild(selected_node, next_node);                                
+
+                            }else if (xml_files_manager_->selected_file_brain_->isCondNode(selected_node)){
+                                // selected node is condition node
+                                std::cout << "\n\nselected node is condition node\n";
                                 grand_parent_node->InsertFirstChild(prev_node);
                                 grand_parent_node->InsertAfterChild(prev_node, selected_node);
                                 grand_parent_node->InsertAfterChild(selected_node, next_node);
+                            }else if(xml_files_manager_->selected_file_brain_->isCondNode(grand_parent_node->ToElement())){
+                                // grand parent node is condition node
+                                std::cout << "\n\ngrand parent node is condition node\n";
+                                auto end_condition_node = grand_parent_node->FirstChild();
+                                grand_parent_node->InsertAfterChild(end_condition_node, selected_node);
                             }else {
+                                // selected node and grand parent node are not condition nodes
+                                std::cout << "\n\nselected node and grand parent node are not condition nodes\n";
                                 grand_parent_node->InsertFirstChild(selected_node);
                             }
                         }
@@ -307,37 +327,39 @@ Stylus::Stylus()
                 }else if(e.key() == Wt::Key::Right){
                     auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                     if(selected_node && selected_node != xml_files_manager_->selected_file_brain_->doc_->RootElement() &&
-                        selected_node->NextSiblingElement()
-                    ){
+                        selected_node->NextSiblingElement()){
                         auto next_node_elem = selected_node->NextSiblingElement();
                         auto next_node = selected_node->NextSibling();
                         auto prev_node = selected_node->PreviousSibling();
-                        if(next_node->ToText() && xml_files_manager_->selected_file_brain_->trimWitespace(next_node->ToText()->Value()).compare("}") == 0 &&
-                        prev_node && prev_node->ToText() && xml_files_manager_->selected_file_brain_->trimWitespace(prev_node->ToText()->Value()).compare("${") == 0
+
+                        if(xml_files_manager_->selected_file_brain_->isCondNode(next_node_elem) &&
+                        xml_files_manager_->selected_file_brain_->isCondNode(selected_node)
                         ){
-                            next_node_elem->InsertFirstChild(next_node);
-                            next_node_elem->InsertFirstChild(selected_node);
+                            // selected node and next node are condition nodes
+                            std::cout << "\n\nselected node and next node are condition nodes\n";
+                            auto end_condition_node = next_node_elem->FirstChild();
+                            next_node_elem->InsertAfterChild(end_condition_node, prev_node);
+                            next_node_elem->InsertAfterChild(prev_node, selected_node);
+                            next_node_elem->InsertAfterChild(selected_node, next_node);
+                        }else if(xml_files_manager_->selected_file_brain_->isCondNode(selected_node)){
+                            // selected node is condition node
+                            std::cout << "\n\nselected node is condition node\n";
                             next_node_elem->InsertFirstChild(prev_node);
-                        }else if(next_node_elem->NextSibling() && next_node_elem->NextSibling()->ToText() &&
-                            xml_files_manager_->selected_file_brain_->trimWitespace(next_node_elem->NextSibling()->ToText()->Value()).compare("}") == 0 &&
-                            next_node_elem->PreviousSibling() && next_node_elem->PreviousSibling()->ToText() && 
-                            xml_files_manager_->selected_file_brain_->trimWitespace(next_node_elem->PreviousSibling()->ToText()->Value()).compare("${") == 0
-                        ){
-                            auto cond_node_first_child = next_node_elem->FirstChild();
-                            if(cond_node_first_child && cond_node_first_child->ToText() &&
-                            xml_files_manager_->selected_file_brain_->trimWitespace(cond_node_first_child->ToText()->Value()).compare("${") == 0
-                            ){
-                                next_node_elem->InsertAfterChild(cond_node_first_child, selected_node);
-                            }else {
-                                cond_node_first_child->ToText()->SetValue("}");
-                                next_node_elem->InsertAfterChild(cond_node_first_child, selected_node);
-                            }
+                            next_node_elem->InsertAfterChild(prev_node, selected_node);
+                            next_node_elem->InsertAfterChild(selected_node, next_node);
+                        }else if(xml_files_manager_->selected_file_brain_->isCondNode(next_node_elem)){
+                            // next node is condition node
+                            std::cout << "\n\nnext node is condition node\n";
+                            auto end_condition_node = next_node_elem->FirstChild();
+                            next_node_elem->InsertAfterChild(end_condition_node, selected_node);
                         }else {
+                            // selected node and next node are not condition nodes
+                            std::cout << "\n\nselected node and next node are not condition nodes\n";
                             next_node_elem->InsertFirstChild(selected_node);
-                        }              
-                        xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
-                        xml_files_manager_->selected_file_brain_->file_saved_.emit();                            
+                        }        
                     }
+                    xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
+                    xml_files_manager_->selected_file_brain_->file_saved_.emit();
                 }else if(e.key() == Wt::Key::Key_1){
                     if(content_wrapper->currentWidget() == xml_files_manager_)
                     {
@@ -518,26 +540,22 @@ Stylus::Stylus()
                 if(!selected_node) return;
                 auto new_node = xml_files_manager_->selected_file_brain_->doc_->NewElement("div");
 
-                auto first_child = selected_node->FirstChild();
-                if(selected_node->PreviousSibling() && selected_node->PreviousSibling()->ToText() &&
-                    xml_files_manager_->selected_file_brain_->trimWitespace(selected_node->PreviousSibling()->ToText()->Value()).compare("${") == 0 &&
-                    selected_node->NextSibling() && selected_node->NextSibling()->ToText() &&
-                    xml_files_manager_->selected_file_brain_->trimWitespace(selected_node->NextSibling()->ToText()->Value()).compare("}") == 0
-                ){
-                    if(selected_node->FirstChild() && selected_node->FirstChild()->ToText() &&
-                        xml_files_manager_->selected_file_brain_->trimWitespace(selected_node->FirstChild()->ToText()->Value()).compare("}") == 0
-                    ){
-                        selected_node->InsertAfterChild(selected_node->FirstChild(), new_node);
-                    }else {
-                        selected_node->FirstChild()->ToText()->SetValue("}");
-                        selected_node->InsertAfterChild(selected_node->FirstChild(), new_node);
-                    }
-                }else if(first_child && first_child->ToText()){
-                    auto parent_node = selected_node->Parent();
-                    parent_node->InsertAfterChild(selected_node, new_node);
-                }else if ((selected_node->FirstChild() && selected_node->FirstChild()->ToElement()) ||
-                    !selected_node->FirstChild()){
+                if(xml_files_manager_->selected_file_brain_->isCondNode(selected_node))
+                {
+                    auto end_condition_node = selected_node->FirstChild();
+                    selected_node->InsertAfterChild(end_condition_node, new_node);
+                }else if (xml_files_manager_->selected_file_brain_->isCondNode(selected_node->FirstChildElement()))
+                {
                     selected_node->InsertFirstChild(new_node);
+                }else {
+                    auto first_child = selected_node->FirstChild();
+                    if(first_child && first_child->ToText()){
+                        auto parent_node = selected_node->Parent();
+                        parent_node->InsertAfterChild(selected_node, new_node);
+                    }else if ((selected_node->FirstChild() && selected_node->FirstChild()->ToElement()) ||
+                    !selected_node->FirstChild()){
+                        selected_node->InsertFirstChild(new_node);
+                    }
                 }
                 xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
                 xml_files_manager_->selected_file_brain_->selected_node_ = new_node;
@@ -550,8 +568,12 @@ Stylus::Stylus()
                 auto next_node = selected_node->NextSiblingElement();
                 if(parent_node)
                 {
+                    if(xml_files_manager_->selected_file_brain_->isCondNode(selected_node))
+                    {
+                        parent_node->DeleteChild(selected_node->NextSibling());
+                        parent_node->DeleteChild(selected_node->PreviousSibling());
+                    }
                     parent_node->DeleteChild(selected_node);
-                    xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
                     if(prev_node)
                     {
                         xml_files_manager_->selected_file_brain_->selected_node_ = prev_node;
@@ -561,6 +583,7 @@ Stylus::Stylus()
                     }else{
                         xml_files_manager_->selected_file_brain_->selected_node_ = parent_node->ToElement();
                     }
+                    xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
                     xml_files_manager_->selected_file_brain_->file_saved_.emit();
                 }
             }else if(e.key() == Wt::Key::C){
@@ -584,20 +607,14 @@ Stylus::Stylus()
                 xml_files_manager_->selected_file_brain_->selected_node_ = new_node->ToElement();
                 xml_files_manager_->selected_file_brain_->file_saved_.emit();
             }
-        }
-    });
+        } });
 
-    css_files_manager_->file_saved().connect(this, [=]()
-    {
+        css_files_manager_->file_saved().connect(this, [=]()
+                                                 { tailwind_config_->generateCssFile(); });
+        xml_files_manager_->file_saved().connect(this, [=]()
+                                                 { tailwind_config_->generateCssFile(); });
+
         tailwind_config_->generateCssFile();
-    });
-    xml_files_manager_->file_saved().connect(this, [=]()
-    {
-        tailwind_config_->generateCssFile();
-    });
-
-    tailwind_config_->generateCssFile();
-
-}
+    }
 
 }
