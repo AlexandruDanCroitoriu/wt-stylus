@@ -33,6 +33,42 @@ namespace Stylus
         str.erase(str.find_last_not_of(" \t\n\r\f\v") + 1); // trim from end
         return str;
     }
+    std::string XMLFileBrain::trimAllWitespace(std::string str)
+    {
+        str.erase(std::remove_if(str.begin(), str.end(), ::isspace), str.end());
+        return str;
+    }
+
+    bool XMLFileBrain::isCondNode(tinyxml2::XMLElement* node)
+    {
+        auto prev_node = node->PreviousSibling();
+        auto next_node = node->NextSibling();
+        if(prev_node && prev_node->ToText() && next_node && next_node->ToText()){
+            
+            std::string prev_node_text = trimAllWitespace(prev_node->ToText()->Value());
+            std::string next_node_text = trimAllWitespace(next_node->ToText()->Value());
+            // if(std::string(node->Name()).compare("cond5") == 0)
+            // {
+            //     std::cout << "\nprev_node_text: <" << prev_node_text << "> length: "<< prev_node_text.length() <<"\n";
+            //     std::cout << "next_node_text: <" << next_node_text << "> length: "<< next_node_text.length() <<"\n\n";
+            // }
+
+            if(prev_node_text.length() < 2 || next_node_text.length() < 1)
+                return false;
+            prev_node_text = prev_node_text.substr(prev_node_text.length()-2, 2);
+            next_node_text = next_node_text.substr(0, 1);
+            // if(std::string(node->Name()).compare("cond5") == 0)
+            // {
+            //     std::cout << "\nprev_node_text: <" << prev_node_text << "> length: "<< prev_node_text.length() <<"\n";
+            //     std::cout << "next_node_text: <" << next_node_text << "> length: "<< next_node_text.length() <<"\n\n";
+            // }
+            if(prev_node_text.compare("${") == 0 && next_node_text.compare("}") == 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 }

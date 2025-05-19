@@ -1,8 +1,24 @@
-<div class="stylus-list-tree p-12">
-    <div class="test-class-1"/>
-    <div class="test-class-1"/>
-    <div class="test-class-1"/>
-    ${<if:cond>}
-		<div class="test-class-1">css class using tailwind class with arbitrary value</div>
-		${</if:cond>}
-<div class="test-class-1"/><div class="test-class-1"/><div class="test-class-1"/><div class="test-class-1"/><div class="test-class-1"/><div class="test-class-1"/><div class="test-class-1"/></div>
+<div class="stylus-list-tree p-12 text-black">${<cond3 true="true">}
+			<div class="test-class-1">test</div>
+		${</cond3>}${<cond2 true="true">}
+			<div class="test-class-1">test</div>
+		${</cond2>}<div class="test-class-1">test</div>
+		${<cond1 true="true">}
+			<div class="test-class-1">test</div>
+		${</cond1>}<div class="test-class-1">test</div>${<cond5 true="true">}
+			<div class="test-class-1">test</div>
+		${</cond5>}
+			<div class="test-class-1">test</div>${<cond4 true="true">}
+			<div class="test-class-1">test</div>
+		${</cond4>}<div class="test-class-1">test</div>
+    <div class="test-class-1">test</div>
+    <div>
+        <div>
+            <div>
+                <div>
+                    <div/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

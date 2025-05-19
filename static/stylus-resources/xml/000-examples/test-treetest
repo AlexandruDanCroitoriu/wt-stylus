@@ -1,0 +1,16 @@
+<div class="stylus-list-tree p-12 text-black">
+    <div class="test-class-1">test</div>
+    <div class="test-class-1">test</div>
+    <div class="test-class-1">test</div>${<cond2 true="true">}
+			<div class="test-class-1">test</div>
+		${</cond2>}<div class="test-class-1">test</div>
+		${<cond1 true="true">}
+			<div class="test-class-1">test</div>
+		${</cond1>}<div class="test-class-1">test</div>${<cond3 true="true">}
+			<div class="test-class-1">test</div>
+		${</cond3>}${<cond4 true="true">}
+			<div class="test-class-1">test</div>
+		${</cond4>}${<cond5 true="true">}
+			<div class="test-class-1">test</div>
+		${</cond5>}
+			</div>

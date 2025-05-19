@@ -35,12 +35,8 @@ namespace Stylus
                 id_text->setStyleClass("truncate italic font-light text-[#ff0000] text-bold select-none");
                 id_text->setStyleClass("preview-message-node-id");
             }
-        }else if(node->NextSibling() && node->NextSibling()->ToText() &&
-                node->PreviousSibling() && node->PreviousSibling()->ToText() && 
-                file_brain_->trimWitespace(node->NextSibling()->ToText()->Value()).compare("}") == 0 &&
-                file_brain_->trimWitespace(node->PreviousSibling()->ToText()->Value()).compare("${") == 0
-            ){
-             
+        }else if(file_brain_->isCondNode(node)){
+            std::cout << "\n\nCondition node\n";
                 tag_name->addStyleClass("preview-condition-node");
                 Wt::WText* condition_switcher; 
                 if(node->BoolAttribute("true")){
@@ -100,16 +96,27 @@ namespace Stylus
             if (child_node->ToElement()) {
                 content_wrapper_->addWidget(std::make_unique<XMLTreeNode>(file_brain, child_node->ToElement(), scroll_into_view));
             } else if (child_node->ToText()) {
-                std::string child_text = child_node->ToText()->Value();
-                // remove whitespace
-                std::string child_text_nowitespace = child_text;
-                child_text_nowitespace.erase(remove_if(child_text_nowitespace.begin(), child_text_nowitespace.end(), isspace), child_text_nowitespace.end());
-                // std::cout << "\n\nText content: <" << child_text << "> \n";
-                if((child_node->NextSiblingElement() || child_node->PreviousSiblingElement()) &&
-                    (child_text_nowitespace.compare("}") == 0 || child_text_nowitespace.compare("${") == 0)){   
-                        // std::cout << "\n\n text node of start condition: <" << child_text << ">\n";
-                }else {
-                    auto text_node = label_wrapper_->addWidget(std::make_unique<Wt::WText>(child_text));
+                std::cout << "\nText trimmed: <" << file_brain_->trimAllWitespace(child_node->ToText()->Value()) << ">\n";
+                if(file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("}${") == 0){
+                    std::cout << "\n Success \n";
+                    child_node->ToText()->SetValue("}");
+                    auto parent_node = child_node->Parent();
+                    parent_node->InsertAfterChild(child_node, file_brain_->doc_->NewText("${"));
+                    std::string save_path = std::string(file_brain_->file_path_.c_str()) + "test";
+                    file_brain_->doc_->SaveFile(save_path.c_str());
+                }
+                if((file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("${") == 0 && child_node->NextSiblingElement()) || 
+                    file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("}") == 0 && child_node->PreviousSiblingElement())
+                {
+                    // text outside the condition ${ and }
+                }else if(file_brain_->isCondNode(child_node->Parent()->ToElement()) && 
+                    ((file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("}") == 0 && child_node == child_node->Parent()->FirstChild()) ||
+                    (file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("${") == 0 && child_node == child_node->Parent()->LastChild()))
+                ){
+                    // text inside a condition ${ and }
+                }else 
+                {
+                    auto text_node = label_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()));
                     text_node->setStyleClass("select-none preview-tree-node-text");
                 }
             }

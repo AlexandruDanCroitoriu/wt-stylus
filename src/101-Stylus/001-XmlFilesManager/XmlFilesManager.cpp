@@ -31,7 +31,7 @@ namespace Stylus
         FilesManager(state, state->xml_editor_data_, state->xml_node_->IntAttribute("sidebar-width"), state->xml_node_->Attribute("selected-file-path"))
     {
         setXmlFileBrains();
-
+    
         // Wt::WStringStream contextJS;
         // contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "
         //             << "function() { event.cancelBubble = true; event.returnValue = false; return false; };";
@@ -43,6 +43,7 @@ namespace Stylus
         grid_layout_->setColumnStretch(3, 1);
 
         editor_->addStyleClass("w-full min-w-full flwx-1");
+        editor_->setMinimumSize(Wt::WLength::Auto, Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
 
         grid_layout_->setColumnResizable(1, true, Wt::WLength(state_->xml_node_->IntAttribute("editor-width"), Wt::LengthUnit::Pixel));
         grid_layout_->setColumnResizable(2, true, Wt::WLength(state_->xml_node_->IntAttribute("preview-widget-sidebar-width"), Wt::LengthUnit::Pixel));
@@ -76,8 +77,6 @@ namespace Stylus
         {
             control_center_->hide();
         }
-        
-
      
         file_selected().connect(this, [=]()
         {
@@ -143,7 +142,7 @@ namespace Stylus
         auto xml_tree_preview_ = tree_wrapper_->addWidget(std::make_unique<XMLTreeNode>(selected_file_brain_, selected_file_brain_->doc_->RootElement(), scroll_into_view));
         auto xml_elem_preview_ = elem_wrapper_->addWidget(std::make_unique<XMLElemNode>(selected_file_brain_, selected_file_brain_->doc_->RootElement(), scroll_into_view));
         
-        xml_tree_preview_->addStyleClass("select-none");
+        xml_tree_preview_->addStyleClass("select-non");
         xml_elem_preview_->addStyleClass("select-none");
     
 

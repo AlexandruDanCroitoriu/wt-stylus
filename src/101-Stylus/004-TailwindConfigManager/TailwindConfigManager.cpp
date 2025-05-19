@@ -356,12 +356,12 @@ namespace Stylus
                 pclose(pipe);
             }
             // Optionally, log or process 'result'
-            std::cout << "\n\nnpm run build output:\n" << result << "\n\n";
+            // std::cout << "\n\nnpm run build output:\n" << result << "\n\n";
             std::string error_output;
             if (result.find("Error") != std::string::npos) {
                 error_output = result.substr(result.find("Error"));
             }
-            std::cout << "\n\nError output:\n" << error_output << "\n\n";
+            // std::cout << "\n\nError output:\n" << error_output << "\n\n";
 
             Wt::WServer::instance()->post(session_id, [this]() {
                 current_css_file_ = Wt::WApplication::instance()->docRoot() + "/../static/tailwind.css?v=" + Wt::WRandom::generateId();
