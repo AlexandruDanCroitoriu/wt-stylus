@@ -364,46 +364,6 @@ namespace Stylus
                     }
                     xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
                     xml_files_manager_->selected_file_brain_->file_saved_.emit();
-                }else if(e.key() == Wt::Key::Enter){
-                    if(!xml_files_manager_->selected_file_brain_) return;
-                    auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
-                    if(!selected_node) return;
-                    auto new_prev_cond = xml_files_manager_->selected_file_brain_->doc_->NewText("${");
-                    auto new_next_cond = xml_files_manager_->selected_file_brain_->doc_->NewText("}");
-                    auto new_cond = xml_files_manager_->selected_file_brain_->doc_->NewElement("condition");
-                    new_cond->SetAttribute("true", "true");
-                    new_cond->InsertFirstChild(xml_files_manager_->selected_file_brain_->doc_->NewText("}"));
-                    new_cond->InsertEndChild(xml_files_manager_->selected_file_brain_->doc_->NewText("${"));
-                    bool selected_is_cond = state_->isCondNode(selected_node);
-
-                    if(selected_is_cond){
-                        selected_node->InsertAfterChild(selected_node->FirstChild(), new_prev_cond);
-                        selected_node->InsertAfterChild(new_prev_cond, new_cond);
-                        selected_node->InsertAfterChild(new_cond, new_next_cond);
-                    }else if(selected_node != xml_files_manager_->selected_file_brain_->doc_->RootElement())
-                    {
-                        std::cout << "\n\nselected node is not root element\n";
-                        if(selected_node->FirstChild() && selected_node->FirstChild()->ToText()){
-                            std::cout << "\n\nselected node first child is text \n";
-                            auto parent_node = selected_node->Parent();
-
-
-                        }else {
-                            std::cout << "\n\nselected node has child element and first child is not text\n";
-
-                        }
-                    }else {
-                        std::cout << "\n\nselected node is root element\n";
-
-                        if(selected_node->FirstChild() && selected_node->FirstChild()->ToText() && selected_node->FirstChildElement() && 
-                        state_->isCondNode(selected_node->FirstChildElement())
-                        ){
-                            std::cout << "\n\nselected node first child is not text 2\n";
-                        }else if (selected_node->FirstChildElement()) {
-                            std::cout << "\n\nselected node first child is not text 3\n";
-                        }
-                    }
-
                 }else if(e.key() == Wt::Key::Key_1){
                     if(content_wrapper->currentWidget() == xml_files_manager_)
                     {
