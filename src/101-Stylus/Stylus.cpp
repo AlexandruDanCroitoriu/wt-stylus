@@ -169,6 +169,7 @@ namespace Stylus
                     }
                     state_->doc_->SaveFile(state_->state_file_path_.c_str());
                 }else if(e.key() == Wt::Key::Up){
+                    if(!xml_files_manager_->selected_file_brain_) return;
                     auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                     if(!selected_node) return;
                     auto parent_node = selected_node->Parent();
@@ -225,6 +226,7 @@ namespace Stylus
                     xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
                     xml_files_manager_->selected_file_brain_->file_saved_.emit();
                 }else if(e.key() == Wt::Key::Down){
+                    if(!xml_files_manager_->selected_file_brain_) return;
                     auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                     if(!selected_node) return;
                     auto parent_node = selected_node->Parent();
@@ -258,6 +260,7 @@ namespace Stylus
                     xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
                     xml_files_manager_->selected_file_brain_->file_saved_.emit();
                 }else if(e.key() == Wt::Key::Left){
+                    if(!xml_files_manager_->selected_file_brain_) return;
                     auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                     if(selected_node && 
                         selected_node != xml_files_manager_->selected_file_brain_->doc_->RootElement() &&
@@ -325,6 +328,7 @@ namespace Stylus
                         xml_files_manager_->selected_file_brain_->file_saved_.emit();
                     }
                 }else if(e.key() == Wt::Key::Right){
+                    if(!xml_files_manager_->selected_file_brain_) return;
                     auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                     if(selected_node && selected_node != xml_files_manager_->selected_file_brain_->doc_->RootElement() &&
                         selected_node->NextSiblingElement()){
@@ -341,7 +345,7 @@ namespace Stylus
                             next_node_elem->InsertAfterChild(end_condition_node, prev_node);
                             next_node_elem->InsertAfterChild(prev_node, selected_node);
                             next_node_elem->InsertAfterChild(selected_node, next_node);
-                        }else if(state_->isCondNode(selected_node)){
+                        }else if(state_->isCondNode(selected_node) && !(next_node_elem->FirstChild() && next_node_elem->FirstChild()->ToText())){
                             // selected node is condition node
                             std::cout << "\n\nselected node is condition node\n";
                             next_node_elem->InsertFirstChild(prev_node);
@@ -352,7 +356,7 @@ namespace Stylus
                             std::cout << "\n\nnext node is condition node\n";
                             auto end_condition_node = next_node_elem->FirstChild();
                             next_node_elem->InsertAfterChild(end_condition_node, selected_node);
-                        }else {
+                        }else if(!(next_node_elem->FirstChild() && next_node_elem->FirstChild()->ToText())){
                             // selected node and next node are not condition nodes
                             std::cout << "\n\nselected node and next node are not condition nodes\n";
                             next_node_elem->InsertFirstChild(selected_node);
@@ -360,6 +364,46 @@ namespace Stylus
                     }
                     xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
                     xml_files_manager_->selected_file_brain_->file_saved_.emit();
+                }else if(e.key() == Wt::Key::Enter){
+                    if(!xml_files_manager_->selected_file_brain_) return;
+                    auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
+                    if(!selected_node) return;
+                    auto new_prev_cond = xml_files_manager_->selected_file_brain_->doc_->NewText("${");
+                    auto new_next_cond = xml_files_manager_->selected_file_brain_->doc_->NewText("}");
+                    auto new_cond = xml_files_manager_->selected_file_brain_->doc_->NewElement("condition");
+                    new_cond->SetAttribute("true", "true");
+                    new_cond->InsertFirstChild(xml_files_manager_->selected_file_brain_->doc_->NewText("}"));
+                    new_cond->InsertEndChild(xml_files_manager_->selected_file_brain_->doc_->NewText("${"));
+                    bool selected_is_cond = state_->isCondNode(selected_node);
+
+                    if(selected_is_cond){
+                        selected_node->InsertAfterChild(selected_node->FirstChild(), new_prev_cond);
+                        selected_node->InsertAfterChild(new_prev_cond, new_cond);
+                        selected_node->InsertAfterChild(new_cond, new_next_cond);
+                    }else if(selected_node != xml_files_manager_->selected_file_brain_->doc_->RootElement())
+                    {
+                        std::cout << "\n\nselected node is not root element\n";
+                        if(selected_node->FirstChild() && selected_node->FirstChild()->ToText()){
+                            std::cout << "\n\nselected node first child is text \n";
+                            auto parent_node = selected_node->Parent();
+
+
+                        }else {
+                            std::cout << "\n\nselected node has child element and first child is not text\n";
+
+                        }
+                    }else {
+                        std::cout << "\n\nselected node is root element\n";
+
+                        if(selected_node->FirstChild() && selected_node->FirstChild()->ToText() && selected_node->FirstChildElement() && 
+                        state_->isCondNode(selected_node->FirstChildElement())
+                        ){
+                            std::cout << "\n\nselected node first child is not text 2\n";
+                        }else if (selected_node->FirstChildElement()) {
+                            std::cout << "\n\nselected node first child is not text 3\n";
+                        }
+                    }
+
                 }else if(e.key() == Wt::Key::Key_1){
                     if(content_wrapper->currentWidget() == xml_files_manager_)
                     {
@@ -476,6 +520,7 @@ namespace Stylus
             }else if(e.key() == Wt::Key::Key_5){
                 dynamic_cast<App*>(Wt::WApplication::instance())->dark_mode_changed_.emit(!state_->stylus_node_->BoolAttribute("dark-mode"));
             }else if (e.key() == Wt::Key::Up){
+                    if(!xml_files_manager_->selected_file_brain_) return;
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node) return;
                 auto prev_node = selected_node->PreviousSiblingElement();
@@ -495,6 +540,7 @@ namespace Stylus
                     }
                 }
             }else if (e.key() == Wt::Key::Down){
+                if(!xml_files_manager_->selected_file_brain_) return;
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node) return;
                 auto next_node = selected_node->NextSiblingElement();
@@ -514,8 +560,9 @@ namespace Stylus
                     }
                 }
             }else if (e.key() == Wt::Key::Left){
+                if(!xml_files_manager_->selected_file_brain_) return;
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
-                if(selected_node != nullptr && selected_node->ToElement() != xml_files_manager_->selected_file_brain_->doc_->RootElement())
+                if(selected_node && selected_node->ToElement() != xml_files_manager_->selected_file_brain_->doc_->RootElement())
                 {
                     auto parent_node = selected_node->Parent();
                     if(parent_node != nullptr)
@@ -525,6 +572,7 @@ namespace Stylus
                     }
                 }
             }else if (e.key() == Wt::Key::Right){
+                if(!xml_files_manager_->selected_file_brain_) return;
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node) return;
                 {
@@ -536,6 +584,7 @@ namespace Stylus
                     }
                 }
             }else if (e.key() == Wt::Key::Enter){
+                if(!xml_files_manager_->selected_file_brain_) return;
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 std::cout << "\n\n enter key pressed\n";
                 if(!selected_node) return;
@@ -571,6 +620,7 @@ namespace Stylus
                 xml_files_manager_->selected_file_brain_->selected_node_ = new_node;
                 xml_files_manager_->selected_file_brain_->file_saved_.emit();
             }else if( e.key() == Wt::Key::Delete){
+                if(!xml_files_manager_->selected_file_brain_) return;
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node || selected_node == xml_files_manager_->selected_file_brain_->doc_->RootElement()) return;
                 auto parent_node = selected_node->Parent();
@@ -597,6 +647,7 @@ namespace Stylus
                     xml_files_manager_->selected_file_brain_->file_saved_.emit();
                 }
             }else if(e.key() == Wt::Key::C){
+                if(!xml_files_manager_->selected_file_brain_) return;
                 if(!state_->copy_node_) return;
                 state_->copy_node_->DeleteChildren();
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
@@ -616,6 +667,7 @@ namespace Stylus
                 state_->organizeXmlNode(state_->copy_node_->ToElement());
                 state_->doc_->SaveFile(state_->state_file_path_.c_str());
             }else if(e.key() == Wt::Key::V){
+                if(!xml_files_manager_->selected_file_brain_) return;
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node) return;
                 auto copy_node = state_->copy_node_;
@@ -691,8 +743,18 @@ namespace Stylus
                     // selected and copy are not conditions
                     std::cout << "\n\nselected and copy are not conditions\n";
                     auto copy_node_child = copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
-                    auto new_selected_node = selected_node->InsertFirstChild(copy_node_child);
-                    xml_files_manager_->selected_file_brain_->selected_node_ = new_selected_node->ToElement();                    
+                    if(selected_node->FirstChild() && selected_node->FirstChild()->ToText()){
+                        if(selected_node != xml_files_manager_->selected_file_brain_->doc_->RootElement())
+                        {
+                            std::cout << "\n\nselected node is not root element\n";
+                            auto parent_node = selected_node->Parent();
+                            auto new_selected = parent_node->InsertAfterChild(selected_node, copy_node_child);
+                            xml_files_manager_->selected_file_brain_->selected_node_ = new_selected->ToElement();
+                        }
+                    }else {
+                        xml_files_manager_->selected_file_brain_->selected_node_ = selected_node->InsertFirstChild(copy_node_child)->ToElement();
+                    }
+                                        
                 }
                 
                 xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());

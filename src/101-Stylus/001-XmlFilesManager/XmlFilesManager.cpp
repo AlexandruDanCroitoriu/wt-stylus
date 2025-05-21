@@ -32,11 +32,6 @@ namespace Stylus
     {
         setXmlFileBrains();
     
-        // Wt::WStringStream contextJS;
-        // contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "
-        //             << "function() { event.cancelBubble = true; event.returnValue = false; return false; };";
-        // Wt::WApplication::instance()->doJavaScript(contextJS.str());
-
         tree_wrapper_ = grid_layout_->addWidget(std::make_unique<GridItemWrapper>(), 0, 2);
         elem_wrapper_ = grid_layout_->addWidget(std::make_unique<GridItemWrapper>(), 0, 3);
         control_center_ = grid_layout_->addWidget(std::make_unique<ControlCenter>(selected_file_brain_), 0, 4, Wt::AlignmentFlag::Right);
@@ -58,13 +53,13 @@ namespace Stylus
         Wt::WApplication::instance()->doJavaScript(contextJS.str());
 
         selected_file_brain_ = xml_file_brains_[state_->xml_node_->Attribute("selected-file-path")];
-        if(selected_file_brain_->selected_node_)
+        if(selected_file_brain_ && selected_file_brain_->selected_node_)
         {
             std::cout << "\n\nSelected file brain is null\n\n";
             state_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
             setPreviewWidgets();
+            selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
         }
-        // selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
 
         if(state_->xml_node_->BoolAttribute("editor-hidden"))
         {
