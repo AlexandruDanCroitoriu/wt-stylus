@@ -53,14 +53,18 @@ namespace Stylus
         
 
         Wt::WStringStream contextJS;
-        contextJS << WT_CLASS << ".$('" << tree_wrapper_->id() << "').oncontextmenu = "
+        contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "
                     << "function() { event.cancelBubble = true; event.returnValue = false; return false; };";
         Wt::WApplication::instance()->doJavaScript(contextJS.str());
 
         selected_file_brain_ = xml_file_brains_[state_->xml_node_->Attribute("selected-file-path")];
-        selected_file_brain_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
-        selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
-        setPreviewWidgets();
+        if(selected_file_brain_->selected_node_)
+        {
+            std::cout << "\n\nSelected file brain is null\n\n";
+            state_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
+            setPreviewWidgets();
+        }
+        // selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
 
         if(state_->xml_node_->BoolAttribute("editor-hidden"))
         {
@@ -85,17 +89,27 @@ namespace Stylus
             state_->xml_node_->SetAttribute("selected-file-path", selected_file_path_.c_str());
             state_->doc_->SaveFile(state_->state_file_path_.c_str());
             selected_file_brain_ = xml_file_brains_[selected_file_path_];
-            selected_file_brain_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
+            if(selected_file_brain_->doc_->Error() != tinyxml2::XML_SUCCESS)
+            {
+                std::cout << "\n\nFile not found: " << file_path << "\n\n";
+                return;
+            }
+            state_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
             setPreviewWidgets();
-            selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
+            // selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
 
         });
         file_saved().connect(this, [=](Wt::WString file_path)
         {
             std::cout << "\n\nFile saved:sasdsad " << file_path.toUTF8() << "\n\n";
             selected_file_brain_->setFile(data_.root_folder_path_ +  file_path.toUTF8());
-            selected_file_brain_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
-            selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
+            if(selected_file_brain_->doc_->Error() != tinyxml2::XML_SUCCESS)
+            {
+                std::cout << "\n\nFile not found: " << file_path.toUTF8() << "\n\n";
+                return;
+            }
+            state_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
+            // selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
             setPreviewWidgets(true);
         });
         

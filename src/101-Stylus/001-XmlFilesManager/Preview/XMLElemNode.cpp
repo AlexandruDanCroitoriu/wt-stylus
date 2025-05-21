@@ -44,131 +44,93 @@ namespace Stylus
                                 { toggleStyleClass("selected-xml-node-hover", true, true); });
         mouseWentOut().connect(this, [=]()
                                { toggleStyleClass("selected-xml-node-hover", false, true); });
-        // if (node->PreviousSibling() && node->PreviousSibling()->ToText() &&
-        //     node->NextSibling() && node->NextSibling()->ToText())
-        // {
-        //     std::string prev_node_text = node->PreviousSibling()->ToText()->Value();
-        //     std::string next_node_text = node->NextSibling()->ToText()->Value();
 
-        //     // remove whitespace
-        //     prev_node_text.erase(remove_if(prev_node_text.begin(), prev_node_text.end(), isspace), prev_node_text.end());
-        //     next_node_text.erase(remove_if(next_node_text.begin(), next_node_text.end(), isspace), next_node_text.end());
-
-        //     if (prev_node_text.compare("${") == 0 && next_node_text.compare("}") == 0 &&
-        //         node->BoolAttribute("true") == false)
-        //     {
-        //         return;
-        //     }
-        // }
         auto child_node = node_->FirstChild();
         while (child_node)
         {
-            child_node = addChildNode(child_node, scroll_into_view);
-        }
-    }
-
-    tinyxml2::XMLNode* XMLElemNode::addChildNode(tinyxml2::XMLNode* child_node, bool scroll_into_view)
-    {
-    
-        if (child_node->ToElement())
-        {
-            auto tree_child_node = addWidget(std::make_unique<XMLElemNode>(file_brain_, child_node->ToElement(), scroll_into_view));
-            
-        }
-        else if (child_node->ToText())
-        {
-            auto child_text = child_node->ToText()->Value();
-            // remove whitespace
-
-            if (file_brain_->trimWitespace(child_node->Value()).compare("${") == 0 && child_node->NextSiblingElement() &&
-                child_node->NextSiblingElement()->NextSibling() &&
-                child_node->NextSiblingElement()->NextSibling()->ToText())
+            if(child_node->ToElement())
             {
-                std::string next_next_node_text = child_node->NextSiblingElement()->NextSibling()->ToText()->Value();
-                next_next_node_text.erase(remove_if(next_next_node_text.begin(), next_next_node_text.end(), isspace), next_next_node_text.end());
-                if(file_brain_->trimWitespace(child_node->NextSiblingElement()->NextSibling()->ToText()->Value()).compare("}") == 0)
+                if(file_brain_->state_->isCondNode(child_node->ToElement()))
                 {
-                    if(child_node->NextSiblingElement()->BoolAttribute("true")){
-
-                        auto cond_child_node = child_node->NextSiblingElement()->FirstChild()->NextSibling();
-                        while (cond_child_node)
+                    if(child_node->ToElement()->BoolAttribute("true"))
+                    {
+                        auto first_child_inside_cond = child_node->FirstChild();
+                        while(first_child_inside_cond)
                         {
-                            cond_child_node = addChildNode(cond_child_node, scroll_into_view);
-                            if(cond_child_node && cond_child_node->ToText())
+                            if(first_child_inside_cond->ToText())
                             {
-                                std::string cond_text = cond_child_node->ToText()->Value();
-                                cond_text.erase(remove_if(cond_text.begin(), cond_text.end(), isspace), cond_text.end());
-                                if(cond_text.compare("${") == 0)
-                                {
-                                    break;
-                                }
+                                addTextNode(first_child_inside_cond->ToText());
+                            }else if(first_child_inside_cond->ToElement())
+                            {
+                                // addChildNode(first_child_inside_cond, scroll_into_view);
+                                addWidget(std::make_unique<XMLElemNode>(file_brain_, first_child_inside_cond->ToElement(), scroll_into_view));
+                            }else {
+                                addWidget(std::make_unique<Wt::WText>("This node is not text or element nodes, WHAT DID YOU DO ?"))->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
                             }
+                            first_child_inside_cond = first_child_inside_cond->NextSibling();
                         }
                     }
-                    return child_node->NextSibling()->NextSibling()->NextSibling();
                 }else {
-                    addTextNode(child_node->ToText());
+                    addWidget(std::make_unique<XMLElemNode>(file_brain_, child_node->ToElement(), scroll_into_view));
                 }
-            }else {
+            }else if(child_node->ToText())
+            {
                 addTextNode(child_node->ToText());
+                // std::cout << "\n node text : " << child_node->ToText()->Value();
+            }else {
+                addWidget(std::make_unique<Wt::WText>("This node is not text or element nodes, WHAT DID YOU DO ?"))->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
             }
+            
+            child_node = child_node->NextSibling();
         }
-      
-        return child_node->NextSibling();
+        std::cout << "\n";
     }
 
-    void XMLElemNode::addTextNode(tinyxml2::XMLText* node)
+    void XMLElemNode::addTextNode(tinyxml2::XMLText* text_node)
     {
-        if (node->PreviousSiblingElement() || node->NextSiblingElement())
+        if(file_brain_->state_->trimAllWitespace(text_node->ToText()->Value()).compare("${") == 0 && text_node->NextSiblingElement() &&
+            file_brain_->state_->isCondNode(text_node->NextSiblingElement()))
         {
-            auto text_node = addWidget(std::make_unique<Wt::WText>(node->Value()));
-            text_node->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
-        }
-        else
+            // text outside the condition ${ 
+            // addWidget(std::make_unique<Wt::WText>(text_node->Value()))->setStyleClass("preview-condition-node");
+        }else if(file_brain_->state_->trimAllWitespace(text_node->ToText()->Value()).compare("}") == 0 && text_node->PreviousSiblingElement() &&
+            file_brain_->state_->isCondNode(text_node->PreviousSiblingElement()))
         {
-            auto text_node = addWidget(std::make_unique<Wt::WText>(node->Value()));
+            // text outside the condition }
+            // addWidget(std::make_unique<Wt::WText>(text_node->Value()))->setStyleClass("preview-condition-node");
+        }else if(file_brain_->state_->trimAllWitespace(text_node->ToText()->Value()).compare("}") == 0 && 
+            file_brain_->state_->isCondNode(text_node->Parent()->ToElement()))
+        {
+            // text inside the condition }
+            // addWidget(std::make_unique<Wt::WText>(text_node->Value()))->setStyleClass("preview-condition-node");
+        }else if(file_brain_->state_->trimAllWitespace(text_node->ToText()->Value()).compare("${") == 0 &&
+            file_brain_->state_->isCondNode(text_node->Parent()->ToElement()))
+        {
+            // text inside the condition ${ 
+            // addWidget(std::make_unique<Wt::WText>(text_node->Value()))->setStyleClass("preview-condition-node");
+        }else if(text_node->PreviousSiblingElement() || text_node->NextSiblingElement())
+        {
+            auto error_text = addWidget(std::make_unique<Wt::WText>(text_node->Value()));
+            error_text->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
+            error_text->mouseWentUp().connect(this, [=](const Wt::WMouseEvent& event)
+            {
+                if (event.button() == Wt::MouseButton::Right) {
+                    
+                    auto parent_node = text_node->Parent();
+                    auto new_span = file_brain_->doc_->NewElement("span");
+                    if(text_node->PreviousSibling()){
+                        parent_node->InsertAfterChild(text_node->PreviousSibling(), new_span);
+                    }else {
+                        parent_node->InsertFirstChild(new_span);
+                    }
+                    new_span->InsertFirstChild(text_node);
+                    file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
+                    file_brain_->file_saved_.emit();
+                }
+            });
+        }else {
+            addWidget(std::make_unique<Wt::WText>(text_node->Value()));
         }
     }
 
 }
-
-
-
-    // std::string child_text = child_node->ToText()->Value();
-            // // remove whitespace
-            // std::string child_text_nowitespace = child_text;
-            // child_text_nowitespace.erase(remove_if(child_text_nowitespace.begin(), child_text_nowitespace.end(), isspace), child_text_nowitespace.end());
-            // // std::cout << "\n\nText content: <" << child_text << "> \n";
-
-            // if((child_node->PreviousSiblingElement() || child_node->NextSiblingElement()) &&
-            //     (child_text_nowitespace.compare("}") == 0 || child_text_nowitespace.compare("${") == 0)){
-            //         // std::cout << "\n\n text node of start condition: <" << child_text << ">\n";
-            // }else if(child_node->PreviousSiblingElement() || child_node->NextSiblingElement()) {
-            // auto text_node = addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()));
-            // text_node->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
-            // text_node->clicked().preventPropagation();
-            // text_node->clicked().connect(this, [=](const Wt::WMouseEvent& event)
-            // {
-            //     auto new_node = file_brain_->doc_->NewElement("span");
-            //     auto parent_node = child_node->Parent();
-            //     auto prev_node = child_node->PreviousSibling();
-
-            //     std::string text = child_node->ToText()->Value();
-            //     // remove whitespace from start and end of the string
-            //     text.erase(0, text.find_first_not_of(" \t\n\r\f\v"));
-            //     text.erase(text.find_last_not_of(" \t\n\r\f\v") + 1);
-            //     if(prev_node && parent_node)
-            //     {
-            //         parent_node->InsertAfterChild(prev_node, new_node);
-            //     }else {
-            //         parent_node->InsertFirstChild(new_node);
-            //     }
-            //     new_node->SetText(text.c_str());
-            //     file_brain_->doc_->DeleteNode(child_node);
-            //     file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
-            //     file_brain_->file_saved_.emit();
-            //     file_brain_->xml_node_selected_.emit(new_node, true);
-            // });
-            // }else {
-            //     auto text_node = addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()));
-            // }
