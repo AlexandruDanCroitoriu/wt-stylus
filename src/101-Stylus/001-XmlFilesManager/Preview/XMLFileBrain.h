@@ -22,6 +22,11 @@ namespace Stylus
             std::string trimWitespace(std::string str);
             std::string trimAllWitespace(std::string str);
             bool isCondNode(tinyxml2::XMLElement* node);
+            /* 
+                organizeXmlNode is used to split condition ${} brackets into separate text nodes,
+                and in the future tu propagate changes to the xml tree
+            */
+            void organizeXmlNode(tinyxml2::XMLElement* node);
             // the selected node and if to scroll the selected into view
             Wt::Signal<tinyxml2::XMLElement*, bool> xml_node_selected_;
             Wt::Signal<> file_saved_;

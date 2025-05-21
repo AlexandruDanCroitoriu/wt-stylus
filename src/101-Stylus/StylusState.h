@@ -30,7 +30,11 @@ namespace Stylus
         StylusEditorManagementData tailwind_config_editor_data_;
 
         std::string getFileText(std::string file_path);
-        void setCopyNode(tinyxml2::XMLElement* node);
+        /* 
+        organizeXmlNode is used to split condition ${} brackets into separate text nodes,
+        and in the future tu propagate changes to the xml tree
+        */
+        // void organizeXmlNode(tinyxml2::XMLElement* node);
 
     };
 

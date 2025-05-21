@@ -36,7 +36,7 @@ namespace Stylus
                 id_text->setStyleClass("preview-message-node-id");
             }
         }else if(file_brain_->isCondNode(node)){
-            std::cout << "\n\nCondition node\n";
+            // std::cout << "\n\nCondition node\n";
                 tag_name->addStyleClass("preview-condition-node");
                 Wt::WText* condition_switcher; 
                 if(node->BoolAttribute("true")){
@@ -97,25 +97,41 @@ namespace Stylus
                 content_wrapper_->addWidget(std::make_unique<XMLTreeNode>(file_brain, child_node->ToElement(), scroll_into_view));
             } else if (child_node->ToText()) {
                 // std::cout << "\nText trimmed: <" << file_brain_->trimAllWitespace(child_node->ToText()->Value()) << ">\n";
-                if(file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("}${") == 0){
-                    std::cout << "\n Success \n";
-                    child_node->ToText()->SetValue("}");
-                    auto parent_node = child_node->Parent();
-                    parent_node->InsertAfterChild(child_node, file_brain_->doc_->NewText("${"));
-                }
-                if((file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("${") == 0 && child_node->NextSiblingElement()) || 
-                    file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("}") == 0 && child_node->PreviousSiblingElement())
+                // if(file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("}${") == 0){
+                //     std::cout << "\n Success \n";
+                //     child_node->ToText()->SetValue("}");
+                //     auto parent_node = child_node->Parent();
+                //     parent_node->InsertAfterChild(child_node, file_brain_->doc_->NewText("${"));
+                // }
+                if(file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("${") == 0 && child_node->NextSiblingElement() &&
+                    file_brain_->isCondNode(child_node->NextSiblingElement()))
                 {
-                    // text outside the condition ${ and }
-                    // content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()));
-                }else if(file_brain_->isCondNode(child_node->Parent()->ToElement()) && 
-                    ((file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("}") == 0 && child_node == child_node->Parent()->FirstChild()) ||
-                    (file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("${") == 0 && child_node == child_node->Parent()->LastChild()))
-                ){
-                    // text inside a condition ${ and }
-                }else 
+                    // text outside the condition ${ 
+                    content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()))->setStyleClass("preview-condition-node inline-block hover:bg-gray-400 p-1");
+                }else if(file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("}") == 0 && child_node->PreviousSiblingElement() &&
+                    file_brain_->isCondNode(child_node->PreviousSiblingElement()))
+                {
+                    // text outside the condition }
+                    content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()))->setStyleClass("preview-condition-node inline-block hover:bg-gray-400 p-1");
+                }else if(file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("}") == 0 && 
+                    file_brain_->isCondNode(child_node->Parent()->ToElement()))
+                {
+                    // text inside the condition }
+                    content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()))->setStyleClass("preview-condition-node inline-block hover:bg-gray-400 p-1");
+                }else if(file_brain_->trimAllWitespace(child_node->ToText()->Value()).compare("${") == 0 &&
+                    file_brain_->isCondNode(child_node->Parent()->ToElement()))
+                {
+                    // text inside the condition ${ 
+                    content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()))->setStyleClass("preview-condition-node inline-block hover:bg-gray-400 p-1");
+                }else if(child_node->PreviousSiblingElement() || child_node->NextSiblingElement())
+                {                    
+                    // text outside the condition and between elements (Wrongly placed and not sigle paranted)
+                    auto text_node = content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()));
+                    text_node->setStyleClass("preview-error-text");
+                }else
                 {
                     auto text_node = label_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()));
+                    // auto text_node = content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()));
                     text_node->setStyleClass("select-none preview-tree-node-text");
                 }
             }
@@ -130,21 +146,21 @@ namespace Stylus
             popup_ = std::make_unique<Wt::WPopupMenu>();
 
             
-            // popup_->addItem("Create New File")->clicked().connect(this, [=](){ createNewFileDialog(); });
-            auto test_menu_item_1 = popup_->addItem("Copy Node")->clicked().connect(this, [=](){ 
-                file_brain_->state_->setCopyNode(node_);
-            });
-            popup_->addSeparator();
-            auto test_menu_item_2 = popup_->addItem("Paste Node")->clicked().connect(this, [=](){ 
-                auto copied_node = file_brain_->state_->copy_node_;
-                if(!copied_node)
-                    return;
-                auto new_node = copied_node->DeepClone(file_brain_->doc_.get());
-                if(node_->FirstChild() && node_->FirstChild()->ToText())
-                {
+            popup_->addItem("Create New File")->clicked();
+            // auto test_menu_item_1 = popup_->addItem("Copy Node")->clicked().connect(this, [=](){ 
+            //     file_brain_->state_->setCopyNode(node_);
+            // });
+            // popup_->addSeparator();
+            // auto test_menu_item_2 = popup_->addItem("Paste Node")->clicked().connect(this, [=](){ 
+            //     auto copied_node = file_brain_->state_->copy_node_;
+            //     if(!copied_node)
+            //         return;
+            //     auto new_node = copied_node->DeepClone(file_brain_->doc_.get());
+            //     if(node_->FirstChild() && node_->FirstChild()->ToText())
+            //     {
                     
-                }
-            });
+            //     }
+            // });
           
         }
 

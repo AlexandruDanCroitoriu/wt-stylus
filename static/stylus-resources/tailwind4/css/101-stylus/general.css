@@ -103,3 +103,6 @@
 .preview-condition-node {
 	@apply text-[var(--tree-condition)];
 }
+.preview-error-text {
+	@apply text-[var(--error)]
+}

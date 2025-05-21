@@ -537,17 +537,25 @@ namespace Stylus
                 }
             }else if (e.key() == Wt::Key::Enter){
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
+                std::cout << "\n\n enter key pressed\n";
                 if(!selected_node) return;
+                std::cout << "\n\n enter key pressed\n";
+
                 auto new_node = xml_files_manager_->selected_file_brain_->doc_->NewElement("div");
+                std::cout << "\n\n enter key pressed\n";
 
                 if(xml_files_manager_->selected_file_brain_->isCondNode(selected_node))
                 {
+                    std::cout << "\n\nselected node is condition node\n";
                     auto end_condition_node = selected_node->FirstChild();
                     selected_node->InsertAfterChild(end_condition_node, new_node);
-                }else if (xml_files_manager_->selected_file_brain_->isCondNode(selected_node->FirstChildElement()))
+                }else 
+                if (selected_node->FirstChildElement() && xml_files_manager_->selected_file_brain_->isCondNode(selected_node->FirstChildElement()))
                 {
+                    std::cout << "\n\nselected node first child is condition node\n";
                     selected_node->InsertFirstChild(new_node);
                 }else {
+                    std::cout << "\n\nselected node and first child are not condition nodes\n";
                     auto first_child = selected_node->FirstChild();
                     if(first_child && first_child->ToText()){
                         auto parent_node = selected_node->Parent();
@@ -555,6 +563,8 @@ namespace Stylus
                     }else if ((selected_node->FirstChild() && selected_node->FirstChild()->ToElement()) ||
                     !selected_node->FirstChild()){
                         selected_node->InsertFirstChild(new_node);
+                    }else {
+
                     }
                 }
                 xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
@@ -587,24 +597,95 @@ namespace Stylus
                     xml_files_manager_->selected_file_brain_->file_saved_.emit();
                 }
             }else if(e.key() == Wt::Key::C){
-                state_->setCopyNode(xml_files_manager_->selected_file_brain_->selected_node_->ToElement());
+                if(!state_->copy_node_) return;
+                state_->copy_node_->DeleteChildren();
+                auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
+                if(!selected_node) return;
+                if(xml_files_manager_->selected_file_brain_->isCondNode(selected_node))
+                {
+                    std::cout << "\n\nselected node is condition node\n";
+                    auto prev_node = selected_node->PreviousSibling()->DeepClone(state_->doc_.get());
+                    auto next_node = selected_node->NextSibling()->DeepClone(state_->doc_.get());
+                    state_->copy_node_->InsertFirstChild(prev_node);
+                    auto copy_selected_node = state_->copy_node_->InsertAfterChild(prev_node, selected_node->DeepClone(state_->doc_.get()));
+                    state_->copy_node_->InsertAfterChild(copy_selected_node, next_node);
+                }else {
+                    std::cout << "\n\nselected node and first child are not condition nodes\n";
+                    state_->copy_node_->InsertFirstChild(selected_node->DeepClone(state_->doc_.get()));
+                }
+                state_->doc_->SaveFile(state_->state_file_path_.c_str());
             }else if(e.key() == Wt::Key::V){
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node) return;
-                auto copied_node = state_->copy_node_;
-                if(!copied_node) return;
-                auto new_node = copied_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
-                if(selected_node->FirstChild() && selected_node->FirstChild()->ToText())
+                auto copy_node = state_->copy_node_;
+                if(!copy_node) return;
+                std::cout << "\n\n Paste node \n";
+                bool is_selected_cond = xml_files_manager_->selected_file_brain_->isCondNode(selected_node);
+                bool is_copy_cond = xml_files_manager_->selected_file_brain_->isCondNode(copy_node->FirstChildElement());
+                if(is_selected_cond && is_copy_cond)
                 {
-                    auto parent_node = selected_node->Parent();
-                    parent_node->InsertAfterChild(selected_node, new_node);
+                    // copy and selected are conditions
+                    std::cout << "\n\ncopy and selected are conditions\n";
+                    auto prev_node = copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
+                    auto cond_node = selected_node->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
+                    auto next_node = copy_node->LastChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
+                    selected_node->InsertAfterChild(selected_node->FirstChild(), prev_node);
+                    selected_node->InsertAfterChild(prev_node, cond_node);
+                    selected_node->InsertAfterChild(cond_node, next_node);
+                    xml_files_manager_->selected_file_brain_->selected_node_ = cond_node->ToElement();
+                }else if(is_selected_cond && !is_copy_cond)
+                {
+                    // copy is not condition
+                    std::cout << "\n\ncopy is not condition\n";
+                    auto copy_node_child = copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
+                    selected_node->InsertAfterChild(selected_node->FirstChild(), copy_node_child);
+                    xml_files_manager_->selected_file_brain_->selected_node_ = copy_node_child->ToElement();
+                }else if(!is_selected_cond && is_copy_cond)
+                {
+                    // selected is not condition
+                    std::cout << "\n\nselected is not condition copy is condition\n";
+
+                    if(selected_node != xml_files_manager_->selected_file_brain_->doc_->RootElement())
+                    {
+                        std::cout << "\n\nselected node is not root element\n";
+                        if(selected_node->FirstChild() && selected_node->FirstChild()->ToText()){
+                            std::cout << "\n\nselected node first child is not text 1\n";
+                            auto parent_node = selected_node->Parent();
+                            auto prev = parent_node->InsertAfterChild(selected_node, copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
+                            auto new_selected = parent_node->InsertAfterChild(prev, copy_node->FirstChildElement()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
+                            parent_node->InsertAfterChild(new_selected, copy_node->LastChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
+                            xml_files_manager_->selected_file_brain_->selected_node_ = new_selected->ToElement();
+                        }else {
+                            std::cout << "\n\nselected node has child element and first child is not text\n";
+                            auto prev = selected_node->InsertFirstChild(copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
+                            auto new_selected = selected_node->InsertAfterChild(prev, copy_node->FirstChildElement()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
+                            selected_node->InsertAfterChild(new_selected, copy_node->LastChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
+                            xml_files_manager_->selected_file_brain_->selected_node_ = new_selected->ToElement();
+                        }
+                    }else {
+                        std::cout << "\n\nselected node is root element\n";
+
+                        if(selected_node->FirstChild() && selected_node->FirstChild()->ToText() && selected_node->FirstChildElement() && 
+                        xml_files_manager_->selected_file_brain_->isCondNode(selected_node->FirstChildElement())
+                        ){
+                            std::cout << "\n\nselected node first child is not text 2\n";
+                            auto prev = selected_node->InsertFirstChild(copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
+                            auto new_selected = selected_node->InsertAfterChild(prev, copy_node->FirstChildElement()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
+                            selected_node->InsertAfterChild(new_selected, copy_node->LastChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
+                            xml_files_manager_->selected_file_brain_->selected_node_ = new_selected->ToElement();
+                               
+                        }
+                    }
+                }else {
+                    // selected and copy are not conditions
+                    std::cout << "\n\nselected and copy are not conditions\n";
+                    auto copy_node_child = copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
+                    auto new_selected_node = selected_node->InsertFirstChild(copy_node_child);
+                    xml_files_manager_->selected_file_brain_->selected_node_ = new_selected_node->ToElement();                    
                 }
-                else if ((selected_node->FirstChild() && selected_node->FirstChild()->ToElement()) ||
-                    !selected_node->FirstChild()){
-                    selected_node->InsertFirstChild(new_node);
-                }
+                
                 xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
-                xml_files_manager_->selected_file_brain_->selected_node_ = new_node->ToElement();
+                std::cout << "\n\n selected node is askjdflaksdjflkjasdf\n\n";
                 xml_files_manager_->selected_file_brain_->file_saved_.emit();
             }
         } });

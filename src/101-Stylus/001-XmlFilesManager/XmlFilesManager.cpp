@@ -58,7 +58,8 @@ namespace Stylus
         Wt::WApplication::instance()->doJavaScript(contextJS.str());
 
         selected_file_brain_ = xml_file_brains_[state_->xml_node_->Attribute("selected-file-path")];
-
+        selected_file_brain_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
+        selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
         setPreviewWidgets();
 
         if(state_->xml_node_->BoolAttribute("editor-hidden"))
@@ -84,12 +85,17 @@ namespace Stylus
             state_->xml_node_->SetAttribute("selected-file-path", selected_file_path_.c_str());
             state_->doc_->SaveFile(state_->state_file_path_.c_str());
             selected_file_brain_ = xml_file_brains_[selected_file_path_];
+            selected_file_brain_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
             setPreviewWidgets();
+            selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
+
         });
         file_saved().connect(this, [=](Wt::WString file_path)
         {
             std::cout << "\n\nFile saved:sasdsad " << file_path.toUTF8() << "\n\n";
             selected_file_brain_->setFile(data_.root_folder_path_ +  file_path.toUTF8());
+            selected_file_brain_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
+            selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
             setPreviewWidgets(true);
         });
         
@@ -144,8 +150,6 @@ namespace Stylus
         
         xml_tree_preview_->addStyleClass("select-non");
         xml_elem_preview_->addStyleClass("select-none");
-    
-
     }
 
 

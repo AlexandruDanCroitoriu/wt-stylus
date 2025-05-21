@@ -133,12 +133,13 @@ namespace Stylus {
         Wt::WString file_content_wt = Wt::WString::fromUTF8(file_content);
         return file_content;
     }
-    void StylusState::setCopyNode(tinyxml2::XMLElement* node)
-    {
-        copy_node_->DeleteChildren();
-        auto clone = node->DeepClone(doc_.get());
-        copy_node_->InsertFirstChild(clone);
-        doc_->SaveFile(state_file_path_.c_str());
-    }
+    // void StylusState::setCopyNode(tinyxml2::XMLElement* node)
+    // {
+    //     copy_node_->DeleteChildren();
+    //     auto clone = node->DeepClone(doc_.get());
+    //     if(
+    //     copy_node_->InsertFirstChild(clone);
+    //     doc_->SaveFile(state_file_path_.c_str());
+    // }
     
 }

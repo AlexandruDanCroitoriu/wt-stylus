@@ -24,6 +24,7 @@
     --color-gray-100: oklch(0.967 0.003 264.542);
     --color-gray-200: oklch(0.928 0.006 264.531);
     --color-gray-300: oklch(0.872 0.01 258.338);
+    --color-gray-400: oklch(0.707 0.022 261.325);
     --color-gray-500: oklch(0.551 0.027 264.364);
     --color-gray-600: oklch(0.446 0.03 256.802);
     --color-gray-700: oklch(0.373 0.034 259.733);
@@ -640,6 +641,9 @@
   .p-0 {
     padding: calc(var(--spacing) * 0);
   }
+  .p-1 {
+    padding: calc(var(--spacing) * 1);
+  }
   .p-2 {
     padding: calc(var(--spacing) * 2);
   }
@@ -995,6 +999,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: color-mix(in oklab, #ff0000 30%, transparent);
+      }
+    }
+  }
+  .hover\:bg-gray-400 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-400);
       }
     }
   }
@@ -1822,6 +1833,9 @@
 }
 .preview-condition-node {
   color: var(--tree-condition);
+}
+.preview-error-text {
+  color: var(--error);
 }
 @property --tw-border-spacing-x {
   syntax: "<length>";
