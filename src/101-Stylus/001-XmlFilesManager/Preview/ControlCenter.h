@@ -3,6 +3,12 @@
 #include "101-Stylus/001-XmlFilesManager/Preview/XMLFileBrain.h"
 
 #include <Wt/WContainerWidget.h>
+#include <Wt/WLineEdit.h>
+#include <Wt/WCheckBox.h>
+#include <Wt/WTextArea.h>
+
+#include <vector>
+#include <map>
 
 namespace Stylus 
 {
@@ -11,9 +17,16 @@ namespace Stylus
     class ControlCenter : public Wt::WContainerWidget
     {
         public:
-            ControlCenter(std::shared_ptr<XMLFileBrain> file_brain);
+            ControlCenter();
 
+            void setFileBrain(std::shared_ptr<XMLFileBrain> file_brain);
         private:
             std::shared_ptr<XMLFileBrain> file_brain_;
+            Wt::WLineEdit* elem_tag_;
+            Wt::WTextArea* elem_text_;
+            Wt::WLineEdit* elem_classes_;
+            Wt::WCheckBox* is_condition_;
+            std::map<std::string, std::string> style_classes_;
+            Wt::WContainerWidget* style_classes_wrapper_;
     };
 }

@@ -461,12 +461,15 @@ namespace Stylus
                 }
             }else if (e.key() == Wt::Key::Q){
                 if(isHidden()){
-                    animateShow(Wt::WAnimation(Wt::AnimationEffect::Fade, Wt::TimingFunction::EaseInOut, 500));
+                    animateShow(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500));
                     content_wrapper->currentWidget()->refresh();
                     state_->stylus_node_->SetAttribute("open", "true");
                 }else{
-                    animateHide(Wt::WAnimation(Wt::AnimationEffect::Fade, Wt::TimingFunction::EaseInOut, 500));
+                    animateHide(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500));
                     state_->stylus_node_->SetAttribute("open", "false");
+                    Wt::WMessageResourceBundle& resource_boundle = Wt::WApplication::instance()->messageResourceBundle();
+                    Wt::WApplication::instance()->refresh();
+                    
                 }
                 state_->doc_->SaveFile(state_->state_file_path_.c_str());
             }else if (e.key() == Wt::Key::Key_1){

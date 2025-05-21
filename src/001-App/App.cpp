@@ -28,6 +28,7 @@ App::App(const Wt::WEnvironment &env)
   
     auto dark_mode_toggle = root()->addWidget(std::make_unique<DarkModeToggle>());
 
+    
 
     auto temp = root()->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("examples:test-1")));
     temp->setCondition("if:cond", true);

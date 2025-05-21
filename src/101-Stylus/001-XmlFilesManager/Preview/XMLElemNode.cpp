@@ -83,7 +83,6 @@ namespace Stylus
             
             child_node = child_node->NextSibling();
         }
-        std::cout << "\n";
     }
 
     void XMLElemNode::addTextNode(tinyxml2::XMLText* text_node)

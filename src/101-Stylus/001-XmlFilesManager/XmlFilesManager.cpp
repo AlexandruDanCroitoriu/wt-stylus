@@ -20,11 +20,10 @@
 
 #include "101-Stylus/001-XmlFilesManager/Preview/ControlCenter.h"
 #include <Wt/WStringStream.h>
+#include <regex>
 
 namespace Stylus
 {
-
-     
 
     XmlFilesManager::XmlFilesManager(std::shared_ptr<StylusState> state)
         : state_(state),
@@ -34,7 +33,7 @@ namespace Stylus
     
         tree_wrapper_ = grid_layout_->addWidget(std::make_unique<GridItemWrapper>(), 0, 2);
         elem_wrapper_ = grid_layout_->addWidget(std::make_unique<GridItemWrapper>(), 0, 3);
-        control_center_ = grid_layout_->addWidget(std::make_unique<ControlCenter>(selected_file_brain_), 0, 4, Wt::AlignmentFlag::Right);
+        control_center_ = grid_layout_->addWidget(std::make_unique<ControlCenter>(), 0, 4, Wt::AlignmentFlag::Right);
         grid_layout_->setColumnStretch(3, 1);
 
         editor_->addStyleClass("w-full min-w-full flwx-1");
@@ -57,9 +56,9 @@ namespace Stylus
         {
             std::cout << "\n\nSelected file brain is null\n\n";
             state_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
-            setPreviewWidgets();
             selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
         }
+        setPreviewWidgets();
 
         if(state_->xml_node_->BoolAttribute("editor-hidden"))
         {
@@ -90,7 +89,6 @@ namespace Stylus
                 selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
             }
             setPreviewWidgets();
-
         });
         file_saved().connect(this, [=](Wt::WString file_path)
         {
@@ -101,7 +99,7 @@ namespace Stylus
                 state_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
                 selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
             }
-            setPreviewWidgets(true);
+            setPreviewWidgets();
         });
         
         sidebar_->width_changed().connect(this, [=](Wt::WString width)
@@ -146,8 +144,23 @@ namespace Stylus
         
         if(selected_file_path_ == "" || selected_file_brain_->doc_->Error() != tinyxml2::XML_SUCCESS)
         {
-            tree_wrapper_->addWidget(std::make_unique<Wt::WText>("No file selected"));
-            elem_wrapper_->addWidget(std::make_unique<Wt::WText>("No file selected"));
+            std::string xml_error = selected_file_brain_->doc_->ErrorStr();
+            // place words split by whitespace in vector
+            std::regex re("\\s+");
+            std::sregex_token_iterator it(xml_error.begin(), xml_error.end(), re, -1);
+            std::vector<std::string> words(it, {});
+            Wt::WStringStream error_stream;
+            error_stream << "<div class='flex flex-col space-y-2'>";
+            for(auto word : words)
+            {
+                error_stream << "<div class=''>" << word << "</div>";
+            }
+            error_stream << "</div>";
+            xml_error = error_stream.str();
+            
+
+            tree_wrapper_->addWidget(std::make_unique<Wt::WText>(xml_error));
+            elem_wrapper_->addWidget(std::make_unique<Wt::WText>(xml_error));
             return;
         }
         auto xml_tree_preview_ = tree_wrapper_->addWidget(std::make_unique<XMLTreeNode>(selected_file_brain_, selected_file_brain_->doc_->RootElement(), scroll_into_view));
@@ -183,6 +196,7 @@ namespace Stylus
                     selected_file_brain_ = file_brain;
                     selected_file_brain_->selected_node_ = node->ToElement();
                     setPreviewWidgets(scroll_into_view);
+                    control_center_->setFileBrain(file_brain);
                 });
                 if(selected_file_path_.compare(file_path) == 0)
                 {
