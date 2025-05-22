@@ -47,20 +47,10 @@ namespace Stylus
 
     void ControlCenter::setFileBrain(std::shared_ptr<XMLFileBrain> file_brain)
     {
-        style_classes_wrapper_->clear();
-        style_classes_.clear();
+
         file_brain_ = file_brain;
         auto selected_node = file_brain_->selected_node_;
-        if (!selected_node) {
-            elem_tag_->setText("");
-            elem_classes_->setText("");
-            elem_text_->setText("");
-            elem_tag_->disable();
-            elem_classes_->disable();
-            elem_text_->disable();
-            is_condition_->setChecked(false);
-            return;
-        }
+
         std::string name = selected_node->Name();
         elem_tag_->setText(name);
         elem_tag_->enable();
@@ -85,24 +75,7 @@ namespace Stylus
             
             is_condition_->setChecked(false);
             elem_classes_->enable();
-            if(selected_node->Attribute("class")){
-
-                std::string classes = selected_node->Attribute("class");
-                // split by whitespace and add to style_classes_ 
-                std::regex re("\\s+");
-                std::sregex_token_iterator it(classes.begin(), classes.end(), re, -1);
-                std::sregex_token_iterator end;
-                for (; it != end; ++it)
-                {
-                    if (!it->str().empty()) {
-                        style_classes_[it->str()] = it->str();
-                        auto style_class = style_classes_wrapper_->addWidget(std::make_unique<Wt::WText>(it->str()));
-                        style_class->setStyleClass("p-[6px] border border-solid border-[#000] hover:border-[gray] cursor-pointer text-nowrap");
-                        
-                    }
-                }
-                
-            }
+         
 
 
             if(selected_node->FirstChild() && selected_node->FirstChild()->ToText())
@@ -116,6 +89,65 @@ namespace Stylus
                 elem_text_->disable();
             }
         }
+    }
+
+    void ControlCenter::setTagName()
+    {
+        if(!file_brain_) return;
+        if(!file_brain_->selected_node_) return;
+        auto selected_node = file_brain_->selected_node_;
+        std::string tag_name = selected_node->Name();
+        elem_tag_->setText(tag_name);
+        
+        if(tag_name.compare("messages") == 0 || tag_name.compare("message") == 0)
+        {
+            elem_tag_->enable();
+        }else {
+            elem_tag_->disable();
+        }
+    
+
+    }
+    void ControlCenter::setClasses()
+    {
+        style_classes_wrapper_->clear();
+        style_classes_.clear();
+        if(!file_brain_ || !file_brain_->selected_node_) {
+            elem_classes_->disable();
+            elem_classes_->setText("");
+            return;
+        }
+        auto selected_node = file_brain_->selected_node_;
+
+        elem_classes_->enable();
+        if(selected_node->Attribute("class")){
+
+            std::string classes = selected_node->Attribute("class");
+            // split by whitespace and add to style_classes_ 
+            std::regex re("\\s+");
+            std::sregex_token_iterator it(classes.begin(), classes.end(), re, -1);
+            std::sregex_token_iterator end;
+            for (; it != end; ++it)
+            {
+                if (!it->str().empty()) {
+                    style_classes_[it->str()] = it->str();
+                    auto style_class = style_classes_wrapper_->addWidget(std::make_unique<Wt::WText>(it->str()));
+                    style_class->setStyleClass("p-[6px] border border-solid border-[#000] hover:border-[gray] cursor-pointer text-nowrap");
+                    
+                }
+            }
+            
+        }
+    }
+    void ControlCenter::setText()
+    {
+        if(!file_brain_) return;
+        if(!file_brain_->selected_node_) return;
+    }
+    void ControlCenter::setCondition()
+    {
+        if(!file_brain_) return;
+        if(!file_brain_->selected_node_) return;
     }
 
 

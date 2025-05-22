@@ -28,5 +28,11 @@ namespace Stylus
             Wt::WCheckBox* is_condition_;
             std::map<std::string, std::string> style_classes_;
             Wt::WContainerWidget* style_classes_wrapper_;
+
+            void setTagName();
+            void setClasses();
+            void setText();
+            void setCondition();
+            
     };
 }
