@@ -20,6 +20,7 @@ namespace Stylus
             ControlCenter();
 
             void setFileBrain(std::shared_ptr<XMLFileBrain> file_brain);
+            void disableAll();
         private:
             std::shared_ptr<XMLFileBrain> file_brain_;
             Wt::WLineEdit* elem_tag_;
@@ -33,6 +34,5 @@ namespace Stylus
             void setClasses();
             void setText();
             void setCondition();
-            
     };
 }

@@ -34,7 +34,7 @@ namespace Stylus
         organizeXmlNode is used to split condition ${} brackets into separate text nodes,
         and in the future tu propagate changes to the xml tree
         */
-        void organizeXmlNode(tinyxml2::XMLElement* node);
+        void organizeXmlNode(tinyxml2::XMLElement* node, std::string file_path); // file path is used to save the file after organizing it.
         bool isCondNode(tinyxml2::XMLElement* node);
         std::string trimWitespace(std::string str);
         std::string trimAllWitespace(std::string str);

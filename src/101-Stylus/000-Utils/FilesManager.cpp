@@ -38,11 +38,6 @@ FilesManagerSidebar::FilesManagerSidebar()
     footer_ = addWidget(std::make_unique<Wt::WContainerWidget>());
     footer_->setStyleClass("flex items-center justify-between p-[3px] border-t border-solid");
     footer_->hide();
-
-    Wt::WStringStream contextJS;
-    contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "
-              << "function() { event.cancelBubble = true; event.returnValue = false; return false; };";
-    Wt::WApplication::instance()->doJavaScript(contextJS.str());
 }
 
 void FilesManagerSidebar::layoutSizeChanged(int width, int height)

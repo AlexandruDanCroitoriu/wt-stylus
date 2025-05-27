@@ -110,7 +110,7 @@ namespace Stylus {
             copy_node_ = doc_->NewElement("copy");
             doc_->InsertEndChild(copy_node_);
         }
-        organizeXmlNode(copy_node_);
+        organizeXmlNode(copy_node_, state_file_path_);
         doc_->SaveFile(state_file_path_.c_str());
         if (doc_->ErrorID() != tinyxml2::XML_SUCCESS)
         {
@@ -134,7 +134,7 @@ namespace Stylus {
         return file_content;
     }
     
-    void StylusState::organizeXmlNode(tinyxml2::XMLElement* node)
+    void StylusState::organizeXmlNode(tinyxml2::XMLElement* node, std::string file_path)
     {
         if(node != node->GetDocument()->RootElement())
         {
@@ -195,11 +195,20 @@ namespace Stylus {
                 //     node->InsertAfterChild(node->LastChild()->PreviousSibling(), doc_->NewText(before_end_cond.c_str()));
                 // }
             }
+        }else {
+            if(std::string(node->Name()).compare("messages") != 0 &&
+                std::string(node->Name()).compare("message") != 0 && 
+                std::string(node->Name()).compare("div") != 0 && 
+                std::string(node->Name()).compare("stylus") !=  0)
+            {
+                node->SetName("div");
+                node->GetDocument()->SaveFile(file_path.c_str());
+            }
         }
         auto child_node = node->FirstChild();
         while (child_node) {
             if (child_node->ToElement()) {
-                organizeXmlNode(child_node->ToElement());
+                organizeXmlNode(child_node->ToElement(), file_path);
             } else if (child_node->ToText()) {
             }
             child_node = child_node->NextSibling();

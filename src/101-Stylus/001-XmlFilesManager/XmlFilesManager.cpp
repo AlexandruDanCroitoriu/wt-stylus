@@ -36,26 +36,26 @@ namespace Stylus
         control_center_ = grid_layout_->addWidget(std::make_unique<ControlCenter>(), 0, 4, Wt::AlignmentFlag::Right);
         grid_layout_->setColumnStretch(3, 1);
 
-        editor_->addStyleClass("w-full min-w-full flwx-1");
+        editor_->addStyleClass("w-full min-w-full");
         editor_->setMinimumSize(Wt::WLength::Auto, Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
 
         grid_layout_->setColumnResizable(1, true, Wt::WLength(state_->xml_node_->IntAttribute("editor-width"), Wt::LengthUnit::Pixel));
         grid_layout_->setColumnResizable(2, true, Wt::WLength(state_->xml_node_->IntAttribute("preview-widget-sidebar-width"), Wt::LengthUnit::Pixel));
         
-        tree_wrapper_->setStyleClass("overflow-y-auto stylus-background h-screen");
-        elem_wrapper_->setStyleClass("overflow-y-auto stylus-background h-screen");
+        tree_wrapper_->setStyleClass("overflow-y-auto stylus-background h-screen select-none");
+        elem_wrapper_->setStyleClass("overflow-y-auto stylus-background h-screen select-none");
         
 
-        Wt::WStringStream contextJS;
-        contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "
-                    << "function() { event.cancelBubble = true; event.returnValue = false; return false; };";
-        Wt::WApplication::instance()->doJavaScript(contextJS.str());
+        // Wt::WStringStream contextJS;
+        // contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "
+        //             << "function() { event.cancelBubble = true; event.returnValue = false; return false; };";
+        // Wt::WApplication::instance()->doJavaScript(contextJS.str());
 
         selected_file_brain_ = xml_file_brains_[state_->xml_node_->Attribute("selected-file-path")];
         if(selected_file_brain_ && selected_file_brain_->selected_node_)
         {
             std::cout << "\n\nSelected file brain is null\n\n";
-            state_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
+            state_->organizeXmlNode(selected_file_brain_->doc_->RootElement(), selected_file_brain_->file_path_);
             selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
         }
         setPreviewWidgets();
@@ -85,7 +85,7 @@ namespace Stylus
             selected_file_brain_ = xml_file_brains_[selected_file_path_];
             if(selected_file_brain_->doc_->RootElement())
             {
-                state_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
+                state_->organizeXmlNode(selected_file_brain_->doc_->RootElement(), selected_file_brain_->file_path_);
                 selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
             }
             setPreviewWidgets();
@@ -96,7 +96,7 @@ namespace Stylus
             selected_file_brain_->setFile(data_.root_folder_path_ +  file_path.toUTF8());
             if(selected_file_brain_->doc_->RootElement())
             {
-                state_->organizeXmlNode(selected_file_brain_->doc_->RootElement());
+                state_->organizeXmlNode(selected_file_brain_->doc_->RootElement(), selected_file_brain_->file_path_);
                 selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
             }
             setPreviewWidgets();
@@ -161,13 +161,14 @@ namespace Stylus
 
             tree_wrapper_->addWidget(std::make_unique<Wt::WText>(xml_error));
             elem_wrapper_->addWidget(std::make_unique<Wt::WText>(xml_error));
+            control_center_->disableAll();
             return;
         }
         auto xml_tree_preview_ = tree_wrapper_->addWidget(std::make_unique<XMLTreeNode>(selected_file_brain_, selected_file_brain_->doc_->RootElement(), scroll_into_view));
         auto xml_elem_preview_ = elem_wrapper_->addWidget(std::make_unique<XMLElemNode>(selected_file_brain_, selected_file_brain_->doc_->RootElement(), scroll_into_view));
         
-        xml_tree_preview_->addStyleClass("select-non");
-        xml_elem_preview_->addStyleClass("select-none");
+        control_center_->setFileBrain(selected_file_brain_);
+
     }
 
 
@@ -196,7 +197,6 @@ namespace Stylus
                     selected_file_brain_ = file_brain;
                     selected_file_brain_->selected_node_ = node->ToElement();
                     setPreviewWidgets(scroll_into_view);
-                    control_center_->setFileBrain(file_brain);
                 });
                 if(selected_file_path_.compare(file_path) == 0)
                 {

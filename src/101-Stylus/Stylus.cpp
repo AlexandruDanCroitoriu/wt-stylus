@@ -28,16 +28,22 @@ namespace Stylus
 
         setMinimumSize(Wt::WLength(100, Wt::LengthUnit::ViewportWidth), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
         setLayoutSizeAware(true);
-
-        Wt::WApplication::instance()->doJavaScript(R"(
-        document.addEventListener('keydown', function(event) {
-            if (event.altKey && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
-                event.preventDefault();
-                // Your custom logic here if needed
-            }
-        });
-    )");
-
+     
+        Wt::WApplication::instance()->doJavaScript(WT_CLASS R"(
+            .$(')" + id() + R"(').oncontextmenu = function() {
+                event.cancelBubble = true;
+                event.returnValue = false;
+                return false;
+            };
+            document.addEventListener('keydown', function(event) {
+                if (event.altKey && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
+                    event.preventDefault();
+                    // Your custom logic here if needed
+                } else if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+                    event.preventDefault();
+                }
+            });
+        )");
         // Wt::WApplication::instance()->useStyleSheet(Wt::WApplication::instance()->docRoot() + "/static/stylus/stylus.css?v=" + Wt::WRandom::generateId());
         Wt::WApplication::instance()->require(Wt::WApplication::instance()->docRoot() + "/static/stylus/monaco-edditor.js");
 
@@ -556,27 +562,34 @@ namespace Stylus
                 auto new_node = xml_files_manager_->selected_file_brain_->doc_->NewElement("div");
                 std::cout << "\n\n enter key pressed\n";
 
-                if(state_->isCondNode(selected_node))
-                {
-                    std::cout << "\n\nselected node is condition node\n";
-                    auto end_condition_node = selected_node->FirstChild();
-                    selected_node->InsertAfterChild(end_condition_node, new_node);
-                }else 
-                if (selected_node->FirstChildElement() && state_->isCondNode(selected_node->FirstChildElement()))
-                {
-                    std::cout << "\n\nselected node first child is condition node\n";
-                    selected_node->InsertFirstChild(new_node);
+                if(xml_files_manager_->selected_file_brain_->selected_node_ == xml_files_manager_->selected_file_brain_->doc_->RootElement()) {
+                    std::cout << "\n\n selected node is root element\n";
+                    if(selected_node->FirstChildElement() && state_->isCondNode(selected_node->FirstChildElement())){
+                        std::cout << "\n\nselected node first child is condition node\n";
+                        selected_node->InsertFirstChild(new_node);
+
+                    }else if(selected_node->FirstChild() && selected_node->FirstChild()->ToText()){
+
+                    }
                 }else {
-                    std::cout << "\n\nselected node and first child are not condition nodes\n";
-                    auto first_child = selected_node->FirstChild();
-                    if(first_child && first_child->ToText()){
-                        auto parent_node = selected_node->Parent();
-                        parent_node->InsertAfterChild(selected_node, new_node);
-                    }else if ((selected_node->FirstChild() && selected_node->FirstChild()->ToElement()) ||
-                    !selected_node->FirstChild()){
+                    if(state_->isCondNode(selected_node))
+                    {
+                        std::cout << "\n\nselected node is condition node\n";
+                        auto end_condition_node = selected_node->FirstChild();
+                        selected_node->InsertAfterChild(end_condition_node, new_node);
+                    }else if (selected_node->FirstChildElement() && state_->isCondNode(selected_node->FirstChildElement()))
+                    {
+                        std::cout << "\n\nselected node first child is condition node\n";
                         selected_node->InsertFirstChild(new_node);
                     }else {
-
+                        std::cout << "\n\nselected node and first child are not condition nodes\n";
+                        auto first_child = selected_node->FirstChild();
+                        if(first_child && first_child->ToText()){
+                            auto parent_node = selected_node->Parent();
+                            parent_node->InsertAfterChild(selected_node, new_node);
+                        }else if ((selected_node->FirstChild() && selected_node->FirstChild()->ToElement()) || !selected_node->FirstChild()){
+                            selected_node->InsertFirstChild(new_node);
+                        }
                     }
                 }
                 xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
@@ -627,7 +640,7 @@ namespace Stylus
                     std::cout << "\n\nselected node and first child are not condition nodes\n";
                     state_->copy_node_->InsertFirstChild(selected_node->DeepClone(state_->doc_.get()));
                 }
-                state_->organizeXmlNode(state_->copy_node_->ToElement());
+                state_->organizeXmlNode(state_->copy_node_->ToElement(), state_->state_file_path_);
                 state_->doc_->SaveFile(state_->state_file_path_.c_str());
             }else if(e.key() == Wt::Key::V){
                 if(!xml_files_manager_->selected_file_brain_) return;
@@ -649,7 +662,7 @@ namespace Stylus
                     selected_node->InsertAfterChild(prev_node, cond_node);
                     selected_node->InsertAfterChild(cond_node, next_node);
                     xml_files_manager_->selected_file_brain_->selected_node_ = cond_node->ToElement();
-                    state_->organizeXmlNode(cond_node->ToElement());
+                    state_->organizeXmlNode(cond_node->ToElement(), state_->state_file_path_);
                 }else if(is_selected_cond && !is_copy_cond)
                 {
                     // copy is not condition
@@ -672,14 +685,14 @@ namespace Stylus
                             auto new_selected = parent_node->InsertAfterChild(prev, copy_node->FirstChildElement()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             parent_node->InsertAfterChild(new_selected, copy_node->LastChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             xml_files_manager_->selected_file_brain_->selected_node_ = new_selected->ToElement();
-                            state_->organizeXmlNode(new_selected->ToElement());
+                            state_->organizeXmlNode(new_selected->ToElement(), state_->state_file_path_);
                         }else {
                             std::cout << "\n\nselected node has child element and first child is not text\n";
                             auto prev = selected_node->InsertFirstChild(copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             auto new_selected = selected_node->InsertAfterChild(prev, copy_node->FirstChildElement()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             selected_node->InsertAfterChild(new_selected, copy_node->LastChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             xml_files_manager_->selected_file_brain_->selected_node_ = new_selected->ToElement();
-                            state_->organizeXmlNode(new_selected->ToElement());
+                            state_->organizeXmlNode(new_selected->ToElement(), state_->state_file_path_);
                         }
                     }else {
                         std::cout << "\n\nselected node is root element\n";
@@ -692,14 +705,14 @@ namespace Stylus
                             auto new_selected = selected_node->InsertAfterChild(prev, copy_node->FirstChildElement()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             selected_node->InsertAfterChild(new_selected, copy_node->LastChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             xml_files_manager_->selected_file_brain_->selected_node_ = new_selected->ToElement();
-                            state_->organizeXmlNode(new_selected->ToElement());
-                        }else if (selected_node->FirstChildElement()) {
+                            state_->organizeXmlNode(new_selected->ToElement(), state_->state_file_path_);
+                        }else if((selected_node->FirstChild() && !selected_node->FirstChild()->ToText() || !selected_node->FirstChild())){
                             std::cout << "\n\nselected node first child is not text 3\n";
                             auto prev = selected_node->InsertFirstChild(copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             auto new_selected = selected_node->InsertAfterChild(prev, copy_node->FirstChildElement()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             selected_node->InsertAfterChild(new_selected, copy_node->LastChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             xml_files_manager_->selected_file_brain_->selected_node_ = new_selected->ToElement();
-                            state_->organizeXmlNode(new_selected->ToElement());
+                            state_->organizeXmlNode(new_selected->ToElement(), state_->state_file_path_);
                         }
                     }
                 }else {

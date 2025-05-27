@@ -63,7 +63,7 @@ MonacoEditor::MonacoEditor(std::string language)
         });
     )";
 
-    setJavaScriptMember("editorTextChanged", initializer);
+    setJavaScriptMember("something", initializer);
 
     keyWentDown().connect([=](Wt::WKeyEvent e){ 
         Wt::WApplication::instance()->globalKeyWentDown().emit(e); // Emit the global key event
