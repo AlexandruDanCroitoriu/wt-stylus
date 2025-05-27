@@ -123,7 +123,7 @@ namespace Stylus
                     text_node->setStyleClass("preview-error-text");
                 }else
                 {
-                    auto text_node = label_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()));
+                    auto text_node = label_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value(), Wt::TextFormat::Plain));
                     // auto text_node = content_wrapper_->addWidget(std::make_unique<Wt::WText>(child_node->ToText()->Value()));
                     text_node->setStyleClass("select-none preview-tree-node-text");
                 }

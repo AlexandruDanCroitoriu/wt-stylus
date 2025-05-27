@@ -1,6 +1,7 @@
 #include "101-Stylus/001-XmlFilesManager/Preview/XMLElemNode.h"
 #include <Wt/WText.h>
 #include <Wt/WApplication.h>
+#include <Wt/WTemplate.h>
 
 namespace Stylus
 {
@@ -128,7 +129,7 @@ namespace Stylus
                 }
             });
         }else {
-            addWidget(std::make_unique<Wt::WText>(text_node->Value()));
+            addWidget(std::make_unique<Wt::WText>(text_node->Value(), Wt::TextFormat::Plain))->setStyleClass("text-node");
         }
     }
 
