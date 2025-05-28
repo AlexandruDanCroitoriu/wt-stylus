@@ -13,4 +13,7 @@ sh ./scripts/wt_code_server.sh
 
 
 
+
+mkdir work
+cd work
 sh ./scripts/setup_vps.sh
