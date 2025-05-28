@@ -1,0 +1,41 @@
+FROM lscr.io/linuxserver/code-server:latest
+
+USER root
+
+RUN apt-get update
+RUN apt-get install cmake -y
+RUN apt-get install build-essential -y
+RUN apt-get install libboost-all-dev -y
+
+RUN git clone --branch 4.11-release https://github.com/emweb/wt.git wt 
+RUN cd wt/ && mkdir build
+RUN cd wt/build/ && cmake ../ \
+-DENABLE_SQLITE=ON \
+-DENABLE_POSTGRES=ON \
+-DBUILD_EXAMPLES=OFF \
+-DBUILD_TESTS=OFF \
+-DENABLE_LIBWTTEST=OFF
+# -GNinja \
+# -DCMAKE_CXX_STANDARD=17 \
+# -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+# -DWT_WRASTERIMAGE_IMPLEMENTATION=GraphicsMagick \
+# ninja install 
+
+RUN cd wt/build/ && make
+RUN cd wt/build/ && make install
+RUN cp /usr/local/lib/libwt*.so.* /usr/lib/
+RUN rm -rf wt
+
+# install docker and get access to run docker in host 
+RUN apt-get update && apt-get install -y docker.io
+
+RUN if ! getent group docker; then \
+       GID=$(awk -F: '{if ($3 >= 1000 && $3 < 65534) print $3}' /etc/group | sort -n | tail -1); \
+       groupadd -g $((GID+1)) docker; \
+    fi
+RUN usermod -aG docker root
+
+RUN touch /var/run/docker.sock && chown root:docker /var/run/docker.sock
+
+# RUN git config --global user.email "croitoriu.alexandru.code@gmail.com"
+# RUN git config --global user.name "Alexandru Dan Croitoriu"

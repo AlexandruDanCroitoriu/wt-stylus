@@ -44,7 +44,7 @@ target_link_libraries(${PROJECT_NAME}
     wt
     wtdbo
     wtdbosqlite3
-    wtdbopostgres
+    # wtdbopostgres
     boost_regex
 )
 

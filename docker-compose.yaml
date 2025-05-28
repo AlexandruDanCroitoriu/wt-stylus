@@ -1,0 +1,133 @@
+name: VPS-starter-containers
+
+services:
+
+  # caddy:
+  #   image: caddy:2.8-alpine
+  #   restart: unless-stopped
+  #   container_name: caddy
+  #   ports:
+  #     - 9000:80
+  #     - 443:443
+  #     - 2019:2019
+  #   volumes:
+  #     - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+  #     - ./caddy/site:/srv
+  #     - ./containers/caddy/caddy_data:/data 
+  #     - ./containers/caddy/caddy_config:/config
+
+  portainer:
+    image: portainer/portainer-ce:2.21.1
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./containers/portainer/portainer-data:/data
+    ports:
+      - 9001:9000
+
+  # gitea:
+  #   image: docker.io/gitea/gitea:1.23.1
+  #   container_name: gitea
+  #   environment:
+  #     - USER_UID=1000
+  #     - USER_GID=1000
+  #   restart: always
+  #   volumes:
+  #     - ./containers/gitea:/data
+  #     - /etc/timezone:/etc/timezone:ro
+  #     - /etc/localtime:/etc/localtime:ro
+  #   ports:
+  #     - "9002:3000"
+  #     - "222:22"
+
+  # jenkins:
+  #   image: jenkins-docker:latest
+  #   user: root
+  #   container_name: jenkins
+  #   restart: unless-stopped
+  #   ports:
+  #     - 9003:8080
+  #     - 50000:50000
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - ./containers/jenkins/jenkins_home:/var/jenkins_home
+  #   group_add:
+  #     - ${DOCKER_SOCK_GROUP_ID}
+  
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: croitoriu.alexandru.code@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: asdfghj1
+    volumes:
+      - ./containers/pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "9004:80"
+    depends_on:
+      - postgres
+
+  wt-code-server:
+    image: wt_code_server
+    container_name: wt_code_server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PASSWORD=asdfghj1 #optional
+      # - HASHED_PASSWORD= #optional
+      - SUDO_PASSWORD=asdfghj1 #optional
+      # - SUDO_PASSWORD_HASH= #optional
+      # - PROXY_DOMAIN=code-server.my.domain #optional
+      - DEFAULT_WORKSPACE=/config/workspace #optional
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./containers/wt_code_server:/config/
+      - ./:/config/workspace
+    ports:
+      - 9010:8443
+    restart: unless-stopped
+    # group_add:
+      # - ${DOCKER_SOCK_GROUP_ID}
+    user: root
+
+  # django-code-server:
+  #   image: maxuli/django-code-server:latest
+  #   container_name: django-code-server
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Etc/UTC
+  #     - PASSWORD=asdfghj1 #optional
+  #     # - HASHED_PASSWORD= #optional
+  #     - SUDO_PASSWORD=asdfghj1 #optional
+  #     # - SUDO_PASSWORD_HASH= #optional
+  #     # - PROXY_DOMAIN=code-server.my.domain #optional
+  #     - DEFAULT_WORKSPACE=/config/workspace #optional
+  #   volumes:
+  #     # - /var/run/docker.sock:/var/run/docker.sock
+  #     - ./containers/django-code-server:/config
+  #     - ./projects/django:/config/workspace
+  #   ports:
+  #     - 9020:8443
+  #   restart: unless-stopped
+  #   user: root
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: asdfghj1
+    volumes:
+      - ./containers/postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+ 
