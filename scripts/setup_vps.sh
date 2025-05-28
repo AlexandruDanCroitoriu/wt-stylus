@@ -33,3 +33,4 @@ systemctl start docker || service docker start
 sh ./scripts/wt_builder.sh
 sh ./scripts/wt_code_server.sh
 sh ./scripts/jenkins.sh
+sh ./scripts/compose_up.sh
