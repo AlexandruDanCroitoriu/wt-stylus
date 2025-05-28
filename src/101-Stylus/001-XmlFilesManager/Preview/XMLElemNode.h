@@ -13,8 +13,8 @@ namespace Stylus
     public:
         XMLElemNode(std::shared_ptr<XMLFileBrain> file_brain, tinyxml2::XMLElement* node, bool scroll_into_view = false);
         tinyxml2::XMLElement* node_;
-        // void addChildNode(tinyxml2::XMLNode* child_node, bool scroll_into_view = false);
         void addTextNode(tinyxml2::XMLText* text_node);
+        void addElemNode(tinyxml2::XMLElement* elem_node, bool scroll_into_view);
     private:
         std::shared_ptr<XMLFileBrain> file_brain_;
     };

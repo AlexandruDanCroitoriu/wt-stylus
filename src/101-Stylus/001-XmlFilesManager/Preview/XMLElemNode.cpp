@@ -34,7 +34,6 @@ namespace Stylus
             {
                 // doJavaScript(jsRef() + ".scrollIntoView({ behavior: 'smooth', block: 'center' });");
                 doJavaScript(jsRef() + ".scrollIntoView({ block: 'center' });");
-                // doJavaScript(jsRef() + ".scrollIntoView({ behavior: 'smooth', block: 'center' });");
             }
         }
 
@@ -51,33 +50,10 @@ namespace Stylus
         {
             if(child_node->ToElement())
             {
-                if(file_brain_->state_->isCondNode(child_node->ToElement()))
-                {
-                    if(child_node->ToElement()->BoolAttribute("true"))
-                    {
-                        auto first_child_inside_cond = child_node->FirstChild();
-                        while(first_child_inside_cond)
-                        {
-                            if(first_child_inside_cond->ToText())
-                            {
-                                addTextNode(first_child_inside_cond->ToText());
-                            }else if(first_child_inside_cond->ToElement())
-                            {
-                                // addChildNode(first_child_inside_cond, scroll_into_view);
-                                addWidget(std::make_unique<XMLElemNode>(file_brain_, first_child_inside_cond->ToElement(), scroll_into_view));
-                            }else {
-                                addWidget(std::make_unique<Wt::WText>("This node is not text or element nodes, WHAT DID YOU DO ?"))->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
-                            }
-                            first_child_inside_cond = first_child_inside_cond->NextSibling();
-                        }
-                    }
-                }else {
-                    addWidget(std::make_unique<XMLElemNode>(file_brain_, child_node->ToElement(), scroll_into_view));
-                }
+                addElemNode(child_node->ToElement(), scroll_into_view);
             }else if(child_node->ToText())
             {
                 addTextNode(child_node->ToText());
-                // std::cout << "\n node text : " << child_node->ToText()->Value();
             }else {
                 addWidget(std::make_unique<Wt::WText>("This node is not text or element nodes, WHAT DID YOU DO ?"))->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
             }
@@ -85,6 +61,34 @@ namespace Stylus
             child_node = child_node->NextSibling();
         }
     }
+
+    void XMLElemNode::addElemNode(tinyxml2::XMLElement* elem_node, bool scroll_into_view)
+    {
+        if(file_brain_->state_->isCondNode(elem_node))
+        {
+            if(elem_node->BoolAttribute("true"))
+            {
+                auto first_child_inside_cond = elem_node->FirstChild();
+                while(first_child_inside_cond)
+                {
+                    if(first_child_inside_cond->ToText())
+                    {
+                        addTextNode(first_child_inside_cond->ToText());
+                    }else if(first_child_inside_cond->ToElement())
+                    {
+                        addElemNode(first_child_inside_cond->ToElement(), scroll_into_view);
+                    }else {
+                        addWidget(std::make_unique<Wt::WText>("This node is not text or element nodes, WHAT DID YOU DO ?"))->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
+                    }
+                    first_child_inside_cond = first_child_inside_cond->NextSibling();
+                }
+            }
+        }else {
+            addWidget(std::make_unique<XMLElemNode>(file_brain_, elem_node, scroll_into_view));
+        }
+    }
+
+
 
     void XMLElemNode::addTextNode(tinyxml2::XMLText* text_node)
     {

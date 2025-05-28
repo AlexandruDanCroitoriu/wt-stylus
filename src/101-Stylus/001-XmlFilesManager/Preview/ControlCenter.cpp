@@ -113,6 +113,9 @@ namespace Stylus
                 }
             }
         });
+        elem_classes_->keyWentDown().connect([=](Wt::WKeyEvent event) { 
+            Wt::WApplication::instance()->globalKeyWentDown().emit(event); 
+        });
         elem_text_->keyWentDown().connect([=](Wt::WKeyEvent event) { 
             Wt::WApplication::instance()->globalKeyWentDown().emit(event); 
             if(event.modifiers().test(Wt::KeyboardModifier::Control) && event.key() == Wt::Key::S){

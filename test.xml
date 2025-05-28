@@ -1,7 +1,4 @@
-<div class="stylus-list-tree p-12 text-white">
-${<div true="true">}
-
-${<div true="true">}<span>asd</span>${</div>}
+<div class="stylus-list-tree p-12 text-white">${<cond0 true="true">}${<cond1 true="true">}<span>asd</span>${</cond1>}
 
 ${<if:cond>}asdasdas
 
@@ -11,5 +8,4 @@ ${<div>}
 slkdjhflksdf
 ${</div>}
 
-${</div>}
-</div>
+${</cond0>}</div>
