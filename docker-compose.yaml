@@ -2,19 +2,19 @@ name: VPS-starter-containers
 
 services:
 
-  # caddy:
-  #   image: caddy:2.8-alpine
-  #   restart: unless-stopped
-  #   container_name: caddy
-  #   ports:
-  #     - 9000:80
-  #     - 443:443
-  #     - 2019:2019
-  #   volumes:
-  #     - ./caddy/Caddyfile:/etc/caddy/Caddyfile
-  #     - ./caddy/site:/srv
-  #     - ./containers/caddy/caddy_data:/data 
-  #     - ./containers/caddy/caddy_config:/config
+  caddy:
+    image: caddy:2.8-alpine
+    restart: unless-stopped
+    container_name: caddy
+    ports:
+      - 9000:80
+      - 443:443
+      - 2019:2019
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/site:/srv
+      - ./containers/caddy/caddy_data:/data 
+      - ./containers/caddy/caddy_config:/config
 
   portainer:
     image: portainer/portainer-ce:2.21.1
@@ -44,19 +44,19 @@ services:
   #     - "9002:3000"
   #     - "222:22"
 
-  # jenkins:
-  #   image: jenkins-docker:latest
-  #   user: root
-  #   container_name: jenkins
-  #   restart: unless-stopped
-  #   ports:
-  #     - 9003:8080
-  #     - 50000:50000
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - ./containers/jenkins/jenkins_home:/var/jenkins_home
-  #   group_add:
-  #     - ${DOCKER_SOCK_GROUP_ID}
+  jenkins:
+    image: jenkins-docker:latest
+    user: root
+    container_name: jenkins
+    restart: unless-stopped
+    ports:
+      - 9003:8080
+      - 50000:50000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./containers/jenkins/jenkins_home:/var/jenkins_home
+    group_add:
+      - ${DOCKER_SOCK_GROUP_ID}
   
   pgadmin:
     container_name: pgadmin
@@ -67,7 +67,7 @@ services:
     volumes:
       - ./containers/pgadmin-data:/var/lib/pgadmin
     ports:
-      - "9004:80"
+      - "8081:80"
     depends_on:
       - postgres
 
@@ -91,8 +91,8 @@ services:
     ports:
       - 9010:8443
     restart: unless-stopped
-    # group_add:
-      # - ${DOCKER_SOCK_GROUP_ID}
+    group_add:
+      - ${DOCKER_SOCK_GROUP_ID}
     user: root
 
   # django-code-server:
