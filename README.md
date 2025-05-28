@@ -10,3 +10,7 @@ Wt designer dose not suport wt 4.0 or above
 
 sh ./scripts/wt_builder.sh
 sh ./scripts/wt_code_server.sh
+
+
+
+sh ./scripts/setup_vps.sh
