@@ -1,5 +1,19 @@
-<div class="stylus-list-tree p-12 text-black">
-    <div>&lt;div&gt;test&lt;/div&gt;</div>
-    <div>asdasd eqwe q asdw ew</div>${<if:cond true="true">}asd${</if:cond>}
-${<if:cond true="true">}${</if:cond>}
+<div class="stylus-list-tree p-12 text-white">
+${<div true="true">}
+
+${<div true="true">}<div/><span>
+
+asdasd eqwe q asdw ew
+
+</span>${</div>}
+
+${<if:cond>}
+
+${</if:cond>}
+
+${<div>}
+slkdjhflksdf
+${</div>}
+
+${</div>}
 </div>

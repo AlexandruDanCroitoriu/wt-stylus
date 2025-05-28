@@ -23,10 +23,10 @@ namespace Stylus
             void disableAll();
         private:
             std::shared_ptr<XMLFileBrain> file_brain_;
-            Wt::WLineEdit* elem_tag_;
-            Wt::WTextArea* elem_text_;
-            Wt::WLineEdit* elem_classes_;
             Wt::WCheckBox* is_condition_;
+            Wt::WLineEdit* elem_tag_;
+            Wt::WLineEdit* elem_classes_;
+            Wt::WTextArea* elem_text_;
             std::map<std::string, std::string> style_classes_;
             Wt::WContainerWidget* style_classes_wrapper_;
 

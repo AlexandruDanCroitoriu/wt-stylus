@@ -136,6 +136,7 @@ namespace Stylus {
     
     void StylusState::organizeXmlNode(tinyxml2::XMLElement* node, std::string file_path)
     {
+        std::cout << "\n\nOrganizing XML node: " << node->Name() << "\n\n";
         if(node != node->GetDocument()->RootElement())
         {
             if(isCondNode(node))

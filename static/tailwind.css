@@ -359,9 +359,6 @@
   .h-\[4px\] {
     height: 4px;
   }
-  .h-\[20px\] {
-    height: 20px;
-  }
   .h-\[30px\] {
     height: 30px;
   }
@@ -737,6 +734,9 @@
   }
   .pt-10 {
     padding-top: calc(var(--spacing) * 10);
+  }
+  .pr-\[10px\] {
+    padding-right: 10px;
   }
   .pb-20 {
     padding-bottom: calc(var(--spacing) * 20);

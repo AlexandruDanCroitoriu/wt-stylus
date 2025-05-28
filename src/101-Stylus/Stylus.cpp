@@ -489,7 +489,7 @@ namespace Stylus
             }else if(e.key() == Wt::Key::Key_5){
                 dynamic_cast<App*>(Wt::WApplication::instance())->dark_mode_changed_.emit(!state_->stylus_node_->BoolAttribute("dark-mode"));
             }else if (e.key() == Wt::Key::Up){
-                    if(!xml_files_manager_->selected_file_brain_) return;
+                if(!xml_files_manager_->selected_file_brain_) return;
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
                 if(!selected_node) return;
                 auto prev_node = selected_node->PreviousSiblingElement();
@@ -567,9 +567,13 @@ namespace Stylus
                     if(selected_node->FirstChildElement() && state_->isCondNode(selected_node->FirstChildElement())){
                         std::cout << "\n\nselected node first child is condition node\n";
                         selected_node->InsertFirstChild(new_node);
-
                     }else if(selected_node->FirstChild() && selected_node->FirstChild()->ToText()){
-
+                        std::cout << "\n\nselected node first child is text node\n";
+                        new_node = xml_files_manager_->selected_file_brain_->selected_node_;
+                    }else {
+                        std::cout << "\n\nselected node root and first child are not condition or text nodes\n";
+                        new_node = xml_files_manager_->selected_file_brain_->doc_->NewElement("div");
+                        selected_node->InsertFirstChild(new_node);
                     }
                 }else {
                     if(state_->isCondNode(selected_node))

@@ -23,7 +23,7 @@ namespace Stylus
         is_condition_ = content_wrapper->addWidget(std::make_unique<Wt::WCheckBox>());
         is_condition_->setText("set as condition");
         is_condition_->disable();
-        // is_condition_->setStyleClass("w-[20px] h-[20px] border-l border-solid border-[#000] absolute top-0 right-[-20px] stylus-background");
+        is_condition_->setStyleClass("pr-[10px]");
 
         auto elem_tag_wrapper = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
         elem_tag_wrapper->setStyleClass("relative");
@@ -35,17 +35,59 @@ namespace Stylus
         elem_label->setBuddy(elem_tag_);
         elem_tag_->disable();
 
-        elem_classes_ = content_wrapper->addWidget(std::make_unique<Wt::WLineEdit>());
+        auto elem_classes_wrapper = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
+        elem_classes_wrapper->setStyleClass("relative");
+        auto elem_classes_label = elem_classes_wrapper->addWidget(std::make_unique<Wt::WLabel>(""));
+        elem_classes_label->setStyleClass("absolute -top-[10px] left-[6px] text-xs font-medium !text-red-500 dark:!text-red-400 stylus-background");
+        elem_classes_ = elem_classes_wrapper->addWidget(std::make_unique<Wt::WLineEdit>());
+        elem_classes_label->setBuddy(elem_classes_);
         elem_classes_->setPlaceholderText("Element Classes");
         elem_classes_->setStyleClass("shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-500");
         elem_classes_->disable();
 
-        elem_text_ = content_wrapper->addWidget(std::make_unique<Wt::WTextArea>());
+        auto elem_text_wrapper = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
+        elem_text_wrapper->setStyleClass("relative");
+        auto elem_text_label = elem_text_wrapper->addWidget(std::make_unique<Wt::WLabel>(""));
+        elem_text_label->setStyleClass("absolute -top-[10px] left-[6px] text-xs font-medium !text-red-500 dark:!text-red-400 stylus-background");
+        elem_text_ = elem_text_wrapper->addWidget(std::make_unique<Wt::WTextArea>());
+        elem_text_label->setBuddy(elem_text_);
         elem_text_->setPlaceholderText("Element Text");
         elem_text_->setStyleClass("shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-500");
         elem_text_->setRows(5);
         elem_text_->disable();
 
+        is_condition_->changed().connect([=]() {
+            std::cout << "\n\n is condition checkbox changed \n\n";
+            if(!file_brain_ || !file_brain_->selected_node_ || 
+                file_brain_->selected_node_ == file_brain_->doc_->RootElement()
+            ) 
+            {
+                return;
+            }
+            auto selected_node = file_brain_->selected_node_;
+            if(is_condition_->isChecked()) {
+                std::cout << "\n\n is condition checkbox checked \n\n";
+                selected_node->SetAttribute("true", true);
+                selected_node->InsertFirstChild(file_brain_->doc_->NewText("}"));
+                selected_node->InsertEndChild(file_brain_->doc_->NewText("${"));
+                if(selected_node->PreviousSibling()){
+                    selected_node->Parent()->InsertAfterChild(selected_node->PreviousSibling(), file_brain_->doc_->NewText("${"));
+                }else {
+                    selected_node->Parent()->InsertFirstChild(file_brain_->doc_->NewText("${"));
+                }
+                selected_node->Parent()->InsertAfterChild(selected_node, file_brain_->doc_->NewText("}"));
+            
+            } else {
+                std::cout << "\n\n is condition checkbox unchecked \n\n";
+                selected_node->DeleteAttribute("true");
+                selected_node->DeleteChild(selected_node->FirstChild());
+                selected_node->DeleteChild(selected_node->LastChild());
+                selected_node->Parent()->DeleteChild(selected_node->PreviousSibling());
+                selected_node->Parent()->DeleteChild(selected_node->NextSibling());
+            }
+            file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
+            file_brain_->file_saved_.emit();
+        });
         elem_tag_->keyWentDown().connect([=](Wt::WKeyEvent event) { 
             Wt::WApplication::instance()->globalKeyWentDown().emit(event); 
             if(event.modifiers().test(Wt::KeyboardModifier::Control) && event.key() == Wt::Key::S){
@@ -69,7 +111,6 @@ namespace Stylus
                 }
             }
         });
-        elem_classes_->keyWentDown().connect([=](Wt::WKeyEvent event) { Wt::WApplication::instance()->globalKeyWentDown().emit(event); });
         elem_text_->keyWentDown().connect([=](Wt::WKeyEvent event) { 
             Wt::WApplication::instance()->globalKeyWentDown().emit(event); 
             if(event.modifiers().test(Wt::KeyboardModifier::Control) && event.key() == Wt::Key::S){
@@ -103,50 +144,6 @@ namespace Stylus
 
         style_classes_wrapper_ = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
         style_classes_wrapper_->setStyleClass("flex-1 flex flex-wrap space-x-[3px] space-y-[3px] items-start justify-start content-baseline");
-
-        elem_tag_->textInput().connect([=]() {
-            // if(!file_brain_ || !file_brain_->selected_node_ ||
-            //     file_brain_->selected_node_->Name() == "messages" || 
-            //     file_brain_->selected_node_->Name() == "message"
-            // ) return;
-            // auto selected_node = file_brain_->selected_node_;
-            // if(elem_tag_->text().empty()) {
-            //     return;
-            // }
-            // if(selected_node->Name() != elem_tag_->text().toUTF8()) {
-            //     selected_node->SetName(elem_tag_->text().toUTF8().c_str());
-            //     file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
-            //     file_brain_->file_saved_.emit();
-            // }
-        });
-
-        // elem_text_->textInput().connect([=]() {
-        //     if(!file_brain_) return;
-        //     if(!file_brain_->selected_node_) return;
-        //     auto selected_node = file_brain_->selected_node_;
-        //     if(file_brain_->state_->isCondNode(selected_node)) {
-        //         if(selected_node->FirstChildElement()) {
-        //             elem_text_->setText("");
-        //             elem_text_->disable();
-        //             return;
-        //         }else if(selected_node->FirstChild()->NextSibling() == selected_node->LastChild()) {
-        //             auto new_text_node = selected_node->GetDocument()->NewText(elem_text_->text().toUTF8().c_str());
-        //             selected_node->InsertAfterChild(selected_node->FirstChild(), new_text_node);
-        //         }else {
-        //             auto text_node = selected_node->FirstChild()->NextSibling();
-        //             text_node->SetValue(elem_text_->text().toUTF8().c_str());
-        //         }
-        //     }else {
-
-        //         if(elem_text_->text().empty()) {
-        //             selected_node->SetText("");
-        //         } else {
-        //             selected_node->SetText(elem_text_->text().toUTF8().c_str());
-        //         }
-        //     }
-        //     file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
-        //     file_brain_->file_saved_.emit();
-        // });
 
     }
 

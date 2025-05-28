@@ -110,24 +110,27 @@ namespace Stylus
             // addWidget(std::make_unique<Wt::WText>(text_node->Value()))->setStyleClass("preview-condition-node");
         }else if(text_node->PreviousSiblingElement() || text_node->NextSiblingElement())
         {
-            auto error_text = addWidget(std::make_unique<Wt::WText>(text_node->Value()));
-            error_text->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
-            error_text->mouseWentUp().connect(this, [=](const Wt::WMouseEvent& event)
+            if(file_brain_->state_->isCondNode(text_node->Parent()->ToElement()) && text_node->Parent()->ToElement()->BoolAttribute("true"))
             {
-                if (event.button() == Wt::MouseButton::Right) {
-                    
-                    auto parent_node = text_node->Parent();
-                    auto new_span = file_brain_->doc_->NewElement("span");
-                    if(text_node->PreviousSibling()){
-                        parent_node->InsertAfterChild(text_node->PreviousSibling(), new_span);
-                    }else {
-                        parent_node->InsertFirstChild(new_span);
+                auto error_text = addWidget(std::make_unique<Wt::WText>(text_node->Value()));
+                error_text->setStyleClass("preview-error-text outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
+                error_text->mouseWentUp().connect(this, [=](const Wt::WMouseEvent& event)
+                {
+                    if (event.button() == Wt::MouseButton::Right) {
+                        
+                        auto parent_node = text_node->Parent();
+                        auto new_span = file_brain_->doc_->NewElement("span");
+                        if(text_node->PreviousSibling()){
+                            parent_node->InsertAfterChild(text_node->PreviousSibling(), new_span);
+                        }else {
+                            parent_node->InsertFirstChild(new_span);
+                        }
+                        new_span->InsertFirstChild(text_node);
+                        file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
+                        file_brain_->file_saved_.emit();
                     }
-                    new_span->InsertFirstChild(text_node);
-                    file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
-                    file_brain_->file_saved_.emit();
-                }
-            });
+                });
+            }
         }else {
             addWidget(std::make_unique<Wt::WText>(text_node->Value(), Wt::TextFormat::Plain))->setStyleClass("text-node");
         }
