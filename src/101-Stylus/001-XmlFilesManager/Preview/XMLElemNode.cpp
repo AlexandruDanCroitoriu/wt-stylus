@@ -132,7 +132,14 @@ namespace Stylus
                 });
             }
         }else {
-            addWidget(std::make_unique<Wt::WText>(text_node->Value(), Wt::TextFormat::Plain))->setStyleClass("text-node");
+            if(file_brain_->state_->isCondNode(text_node->Parent()->ToElement()))
+            {
+                if(text_node->Parent()->ToElement()->BoolAttribute("true")){
+                    addWidget(std::make_unique<Wt::WText>(text_node->Value(), Wt::TextFormat::Plain))->setStyleClass("text-node");
+                }
+            }else {
+                    addWidget(std::make_unique<Wt::WText>(text_node->Value(), Wt::TextFormat::Plain))->setStyleClass("text-node");
+            }
         }
     }
 

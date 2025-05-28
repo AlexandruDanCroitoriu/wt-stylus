@@ -1132,6 +1132,11 @@
       background-color: color-mix(in oklab, #EC133B 50%, transparent);
     }
   }
+  .disabled\:bg-gray-200 {
+    &:disabled {
+      background-color: var(--color-gray-200);
+    }
+  }
   .disabled\:text-\[\#9ca3af\] {
     &:disabled {
       color: #9ca3af;
@@ -1425,6 +1430,13 @@
     &:where(.dark, .dark *) {
       &:focus {
         --tw-ring-color: #3b82f6;
+      }
+    }
+  }
+  .disabled\:dark\:bg-gray-700 {
+    &:disabled {
+      &:where(.dark, .dark *) {
+        background-color: var(--color-gray-700);
       }
     }
   }

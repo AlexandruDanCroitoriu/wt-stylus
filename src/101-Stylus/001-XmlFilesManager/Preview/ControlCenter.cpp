@@ -25,13 +25,15 @@ namespace Stylus
         is_condition_->disable();
         is_condition_->setStyleClass("pr-[10px]");
 
+        std::string input_styles = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-500 disabled:bg-gray-200 disabled:dark:bg-gray-700 disabled:cursor-not-allowed";
+
         auto elem_tag_wrapper = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
         elem_tag_wrapper->setStyleClass("relative");
         auto elem_label = elem_tag_wrapper->addWidget(std::make_unique<Wt::WLabel>(""));
         elem_label->setStyleClass("absolute -top-[10px] left-[6px] text-xs font-medium !text-red-500 dark:!text-red-400 stylus-background");
         elem_tag_ = elem_tag_wrapper->addWidget(std::make_unique<Wt::WLineEdit>());
         elem_tag_->setPlaceholderText("Element Name");
-        elem_tag_->setStyleClass("shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-500");
+        elem_tag_->setStyleClass(input_styles);
         elem_label->setBuddy(elem_tag_);
         elem_tag_->disable();
 
@@ -42,7 +44,7 @@ namespace Stylus
         elem_classes_ = elem_classes_wrapper->addWidget(std::make_unique<Wt::WLineEdit>());
         elem_classes_label->setBuddy(elem_classes_);
         elem_classes_->setPlaceholderText("Element Classes");
-        elem_classes_->setStyleClass("shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-500");
+        elem_classes_->setStyleClass(input_styles);
         elem_classes_->disable();
 
         auto elem_text_wrapper = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
@@ -52,7 +54,7 @@ namespace Stylus
         elem_text_ = elem_text_wrapper->addWidget(std::make_unique<Wt::WTextArea>());
         elem_text_label->setBuddy(elem_text_);
         elem_text_->setPlaceholderText("Element Text");
-        elem_text_->setStyleClass("shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-500");
+        elem_text_->setStyleClass(input_styles);
         elem_text_->setRows(5);
         elem_text_->disable();
 

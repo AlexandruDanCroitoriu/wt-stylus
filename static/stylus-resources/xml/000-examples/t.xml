@@ -3,7 +3,7 @@ ${<div true="true">}
 
 ${<div true="true">}<span>asd</span>${</div>}
 
-${<if:cond>}
+${<if:cond>}asdasdas
 
 ${</if:cond>}
 
