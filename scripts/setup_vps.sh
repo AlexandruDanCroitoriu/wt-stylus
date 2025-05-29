@@ -26,8 +26,6 @@ apt-get update
 
 apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
 # Ensure Docker is installed and running before proceeding
 if ! command -v docker >/dev/null 2>&1; then
     echo "Docker installation failed or docker not found in PATH."
