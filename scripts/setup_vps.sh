@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# Wait for apt/dpkg locks to be released
-while fuser /var/lib/dpkg/lock >/dev/null 2>&1 || fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
-    echo "Waiting for other apt/dpkg processes to finish..."
+# Wait for apt/dpkg and apt/lists locks to be released
+while fuser /var/lib/dpkg/lock >/dev/null 2>&1 \
+   || fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1 \
+   || fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
+    echo "Waiting for other apt/dpkg/apt-lists processes to finish..."
     sleep 3
 done
 
@@ -11,14 +13,18 @@ apt-get update
 apt-get install -y ca-certificates curl
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-chmod a+r /etc/apt/keyrings/docker.asc
-
 # Add the repository to Apt sources:
+. /etc/os-release
+if [ -z "$UBUNTU_CODENAME" ] && [ -n "$VERSION_CODENAME" ]; then
+    UBUNTU_CODENAME="$VERSION_CODENAME"
+fi
 echo \
     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-    $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+    $UBUNTU_CODENAME stable" | \
 tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt-get update
+
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 

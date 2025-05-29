@@ -13,7 +13,7 @@ sh ./scripts/wt_code_server.sh
 
 
 
-
+tmux
 mkdir work
 cd work
 git clone https://github.com/AlexandruDanCroitoriu/wt-stylus.git
