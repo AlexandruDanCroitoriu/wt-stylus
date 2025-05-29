@@ -19,3 +19,23 @@ cd work
 git clone https://github.com/AlexandruDanCroitoriu/wt-stylus.git
 cd wt-stylus
 sh ./scripts/setup_vps.sh
+
+
+
+
+alexandru-croitoriu.dev {
+    root * /srv
+    file_server
+}
+jenkins.alexandru-croitoriu.dev {
+    reverse_proxy jenkins:8080
+}
+portainer.alexandru-croitoriu.dev {
+    reverse_proxy portainer:9000
+}
+pgadmin.alexandru-croitoriu.dev {
+    reverse_proxy pgadmin:8081
+}
+app-1.alexandru-croitoriu.dev {
+    reverse_proxy app-1:9020
+}
