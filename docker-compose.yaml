@@ -67,7 +67,7 @@ services:
     volumes:
       - ./containers/pgadmin-data:/var/lib/pgadmin
     ports:
-      - "8081:80"
+      - "9004:8081"
     depends_on:
       - postgres
 
