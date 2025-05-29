@@ -16,7 +16,6 @@ RUN apt-get install -y libpq-dev
 # for compiling tailwind classes
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -    
 RUN apt-get install -y nodejs
-RUN apt-get install -y npm
 
 RUN git clone --branch 4.11-release https://github.com/emweb/wt.git wt 
 RUN cd wt/ && mkdir build
