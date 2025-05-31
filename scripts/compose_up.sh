@@ -13,5 +13,5 @@ export DOCKER_SOCK_GROUP_ID=$(stat -c '%g' /var/run/docker.sock)
 chmod -R 777 ./containers/
 
 docker compose down
-docker compose build --no-cache wt_build wt_cv -d
+docker compose build --no-cache wt_build wt_cv
 docker compose up -d

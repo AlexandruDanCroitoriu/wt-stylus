@@ -21,7 +21,7 @@ services:
     container_name: wt_build
     build:
       context: .
-      dockerfile: ./dockerfiles/wt_build
+      dockerfile: ./dockerfiles/wt_builder
     # No need to expose ports or volumes unless you want to debug
 
   wt_cv:
