@@ -72,8 +72,8 @@ services:
       - postgres
 
   wt-code-server:
-    image: root-app
-    container_name: wt_code_server
+    image: wt_code_server
+    container_name: root-app 
     environment:
       - PUID=1000
       - PGID=1000
