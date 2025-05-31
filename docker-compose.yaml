@@ -42,6 +42,7 @@ services:
     image: portainer/portainer-ce:2.21.1
     container_name: portainer
     restart: unless-stopped
+    # command: -H unix:///var/run/docker.sock
     security_opt:
       - no-new-privileges:true
     volumes:
@@ -49,8 +50,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./containers/portainer/portainer-data:/data
     ports:
-      - 9009:9009
-      - 9443:9011
+      - 9011:9000
 
   jenkins:
     image: jenkins-docker
