@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     container_name: caddy
     ports:
-      - 9000:80
+      - 80:80
       - 443:443
       - 2019:2019
     volumes:
@@ -50,7 +50,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./containers/portainer/portainer-data:/data
     ports:
-      - 9001:9000
+      - 9000:9000
 
   jenkins:
     image: jenkins-docker
