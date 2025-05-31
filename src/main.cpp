@@ -1,8 +1,10 @@
 #include "./001-App/App.h"
 #include <Wt/WServer.h>
 
+
 int main(int argc, char **argv)
 {
+
     try
     {
 
@@ -16,6 +18,7 @@ int main(int argc, char **argv)
                 return std::make_unique<App>(env);
             },
             "/");
+        // Session::configureAuth();
 
         server.run();
     }

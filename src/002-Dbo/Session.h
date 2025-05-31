@@ -1,14 +1,35 @@
 #pragma once
+
+#include <Wt/Auth/Login.h>
+#include <Wt/Auth/Dbo/UserDatabase.h>
+
 #include <Wt/Dbo/Session.h>
-#include <Wt/Dbo/backend/Sqlite3.h>
+#include <Wt/Dbo/ptr.h>
 
-using namespace Wt;
+#include "002-Dbo/User.h"
 
-class Session : public Wt::Dbo::Session
+namespace dbo = Wt::Dbo;
+
+using UserDatabase = Wt::Auth::Dbo::UserDatabase<AuthInfo>;
+
+class Session : public dbo::Session
 {
 public:
-    explicit Session(const std::string &sqliteDb);
+  void configureAuth();
+
+  explicit Session(const std::string& sqliteDb);
+
+  dbo::ptr<User> user() const;
+
+  Wt::Auth::AbstractUserDatabase& users();
+  Wt::Auth::Login& login() { return login_; }
+
+  static const Wt::Auth::AuthService& auth();
+  static const Wt::Auth::PasswordService& passwordAuth();
+  static std::vector<const Wt::Auth::OAuthService *> oAuth();
 
 private:
-    void createInitialData();
+  std::unique_ptr<UserDatabase> users_;
+  Wt::Auth::Login login_;
+  bool created_ = false;
 };

@@ -1,0 +1,40 @@
+<div id="navbar" class="fixed z-50 w-full transform-gpu bg-white/80 shadow-md backdrop-blur-md transition-transform duration-300">
+    <div class="container mx-auto flex items-center justify-between px-6 py-4">
+        <a href="#" class="text-2xl font-bold text-gray-900 transition-colors hover:text-blue-600">BrandName</a>
+        <ul class="hidden space-x-6 font-medium text-gray-700 md:flex">
+            <li>
+                <a href="#" class="transition-colors hover:text-blue-500">Home</a>
+            </li>
+            <li>
+                <a href="#" class="transition-colors hover:text-blue-500">About</a>
+            </li>
+            <li>
+                <a href="#" class="transition-colors hover:text-blue-500">Services</a>
+            </li>
+            <li>
+                <a href="#" class="transition-colors hover:text-blue-500">Contact</a>
+            </li>
+        </ul>
+        <button id="menu-btn" class="flex items-center text-gray-700 md:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"/>
+            </svg>
+        </button>
+    </div>
+    <div id="mobile-menu" class="hidden bg-white shadow-md md:hidden">
+        <ul class="space-y-4 p-4 font-medium text-gray-700">
+            <li>
+                <a href="#" class="block transition-colors hover:text-blue-500">Home</a>
+            </li>
+            <li>
+                <a href="#" class="block transition-colors hover:text-blue-500">About</a>
+            </li>
+            <li>
+                <a href="#" class="block transition-colors hover:text-blue-500">Services</a>
+            </li>
+            <li>
+                <a href="#" class="block transition-colors hover:text-blue-500">Contact</a>
+            </li>
+        </ul>
+    </div>
+</div>

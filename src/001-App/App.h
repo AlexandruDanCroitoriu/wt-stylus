@@ -10,10 +10,10 @@ class App : public Wt::WApplication
 public:
     App(const Wt::WEnvironment &env);
 
-    // Session session_;
     Wt::Signal<bool> dark_mode_changed_;
-    private:
-    // TailwindConfigCenter* tailwind_config_center_;
+private:
+    Session session_;
     Stylus::Stylus* stylus_;
+    void authEvent();
 
 };

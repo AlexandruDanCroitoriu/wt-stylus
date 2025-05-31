@@ -10,10 +10,37 @@
 #include <Wt/WTree.h>
 #include <Wt/WTreeNode.h>
 
+
+// #include <Wt/WBootstrap2Theme.h>
+#include <Wt/WContainerWidget.h>
+#include <Wt/WServer.h>
+
+#include <Wt/Auth/AuthWidget.h>
+#include <Wt/Auth/PasswordService.h>
+
 App::App(const Wt::WEnvironment &env)
-    : WApplication(env)
-//   session_(appRoot() + "../dbo.db"),
+    : WApplication(env),
+    session_(appRoot() + "../dbo.db")
 {
+    session_.configureAuth();
+    session_.login().changed().connect(this, &App::authEvent);
+
+    root()->addStyleClass("container");
+    // setTheme(std::make_shared<Wt::WBootstrap2Theme>());
+
+    useStyleSheet("css/style.css");
+
+    auto authWidget = std::make_unique<Wt::Auth::AuthWidget>(
+            Session::auth(), session_.users(), session_.login());
+
+    authWidget->model()->addPasswordAuth(&Session::passwordAuth());
+    authWidget->model()->addOAuth(Session::oAuth());
+    authWidget->setRegistrationEnabled(true);
+
+    authWidget->processEnvironment();
+
+    root()->addWidget(std::move(authWidget));
+
     stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>());
  
     messageResourceBundle().use("../static/stylus-resources/xml/000-examples/test");
@@ -30,7 +57,19 @@ App::App(const Wt::WEnvironment &env)
 
     
 
+
     auto temp = root()->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("examples:test-1")));
     temp->setCondition("if:cond", true);
 
+}
+
+void App::authEvent() {
+    if (session_.login().loggedIn()) {
+        const Wt::Auth::User& u = session_.login().user();
+        log("notice")
+        << "User " << u.id()
+        << " (" << u.identity(Wt::Auth::Identity::LoginName) << ")"
+        << " logged in.";
+    } else
+        log("notice") << "User logged out.";
 }

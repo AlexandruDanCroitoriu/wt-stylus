@@ -18,11 +18,11 @@ namespace Stylus
         }
         for (auto attr = node->FirstAttribute(); attr != nullptr; attr = attr->Next())
         {
+            std::cout << "\n Attribute Name: " << attr->Name() << ", Value: " << attr->Value() << std::endl;
             if (std::string(attr->Name()).compare("class") == 0)
             {
                 setStyleClass(attr->Value());
-            }
-            else
+            }else if(std::string(attr->Name()).compare("id") != 0)
             {
                 setAttributeValue(attr->Name(), attr->Value());
             }
@@ -45,6 +45,7 @@ namespace Stylus
         mouseWentOut().connect(this, [=]()
                                { toggleStyleClass("selected-xml-node-hover", false, true); });
 
+
         auto child_node = node_->FirstChild();
         while (child_node)
         {
@@ -54,9 +55,10 @@ namespace Stylus
             }else if(child_node->ToText())
             {
                 addTextNode(child_node->ToText());
-            }else {
-                addWidget(std::make_unique<Wt::WText>("This node is not text or element nodes, WHAT DID YOU DO ?"))->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
             }
+            // else {
+            //     addWidget(std::make_unique<Wt::WText>("This node is not text or element nodes, WHAT DID YOU DO ?"))->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
+            // }
             
             child_node = child_node->NextSibling();
         }
