@@ -12,5 +12,5 @@ pgadmin.alexandru-croitoriu.dev {
     reverse_proxy pgadmin:80
 }
 root.alexandru-croitoriu.dev {
-    reverse_proxy root-app:9010
+    reverse_proxy root-app:8443
 }
