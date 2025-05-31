@@ -49,7 +49,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./containers/portainer/portainer-data:/data
     ports:
-      - 9001:9000
+      - 9000:9000
+      - 9443:9001
 
   jenkins:
     image: jenkins-docker

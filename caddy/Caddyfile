@@ -9,7 +9,7 @@ jenkins.alexandru-croitoriu.dev {
     reverse_proxy jenkins:8080
 }
 portainer.alexandru-croitoriu.dev {
-    reverse_proxy portainer:9000
+    reverse_proxy portainer:9001
 }
 pgadmin.alexandru-croitoriu.dev {
     reverse_proxy pgadmin:80
