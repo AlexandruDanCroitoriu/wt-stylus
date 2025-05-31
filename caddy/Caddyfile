@@ -1,7 +1,7 @@
 alexandru-croitoriu.dev {
     reverse_proxy wt_cv:9002
 }
-cv.alexandru-croitoriu.dev {
+shortcuts.alexandru-croitoriu.dev {
     root * /srv
     file_server
 }
@@ -13,7 +13,4 @@ portainer.alexandru-croitoriu.dev {
 }
 pgadmin.alexandru-croitoriu.dev {
     reverse_proxy pgadmin:80
-}
-root.alexandru-croitoriu.dev {
-    reverse_proxy root-app:8443
 }
