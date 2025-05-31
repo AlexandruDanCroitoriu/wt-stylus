@@ -68,7 +68,6 @@ services:
       - ./containers/jenkins/jenkins_home:/var/jenkins_home
     group_add:
       - ${DOCKER_SOCK_GROUP_ID}
-      - ${DOCKER_SOCK_GROUP_ID}
   
   pgadmin:
     container_name: pgadmin
