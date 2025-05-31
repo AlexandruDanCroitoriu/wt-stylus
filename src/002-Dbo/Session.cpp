@@ -129,6 +129,20 @@ dbo::ptr<User> Session::user() const
     return dbo::ptr<User>();
 }
 
+dbo::ptr<User> Session::user(const Wt::Auth::User& authUser)
+{
+  dbo::ptr<AuthInfo> authInfo = users_->find(authUser);
+
+  dbo::ptr<User> user = authInfo->user();
+
+  if (!user) {
+    user = add(std::make_unique<User>());
+    authInfo.modify()->setUser(user);
+  }
+
+  return user;
+}
+
 const Auth::AuthService& Session::auth()
 {
   return myAuthService;

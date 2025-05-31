@@ -61,8 +61,8 @@ namespace Stylus
         is_condition_->changed().connect([=]() {
             std::cout << "\n\n is condition checkbox changed \n\n";
             if(!file_brain_ || !file_brain_->selected_node_ || 
-                file_brain_->selected_node_ == file_brain_->doc_->RootElement()
-            ) 
+                file_brain_->selected_node_ == file_brain_->doc_->RootElement() ||
+                std::string(file_brain_->selected_node_->Name()) == "message") 
             {
                 return;
             }
@@ -263,7 +263,7 @@ namespace Stylus
     }
     void ControlCenter::setCondition()
     {
-        if(!file_brain_ || !file_brain_->selected_node_ || file_brain_->selected_node_ == file_brain_->doc_->RootElement())  
+        if(!file_brain_ || !file_brain_->selected_node_ || file_brain_->selected_node_ == file_brain_->doc_->RootElement() || std::string(file_brain_->selected_node_->Name()).compare("message") == 0)  
         {
             is_condition_->disable();
             is_condition_->setChecked(false);

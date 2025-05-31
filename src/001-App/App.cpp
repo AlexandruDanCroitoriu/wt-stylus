@@ -15,7 +15,8 @@
 #include <Wt/WContainerWidget.h>
 #include <Wt/WServer.h>
 
-#include <Wt/Auth/AuthWidget.h>
+// #include <Wt/Auth/AuthWidget.h>
+#include "003-Auth/AuthWidget.h"
 #include <Wt/Auth/PasswordService.h>
 
 App::App(const Wt::WEnvironment &env)
@@ -28,10 +29,8 @@ App::App(const Wt::WEnvironment &env)
     root()->addStyleClass("container");
     // setTheme(std::make_shared<Wt::WBootstrap2Theme>());
 
-    useStyleSheet("css/style.css");
 
-    auto authWidget = std::make_unique<Wt::Auth::AuthWidget>(
-            Session::auth(), session_.users(), session_.login());
+    auto authWidget = std::make_unique<AuthWidget>(session_);
 
     authWidget->model()->addPasswordAuth(&Session::passwordAuth());
     authWidget->model()->addOAuth(Session::oAuth());
@@ -44,6 +43,8 @@ App::App(const Wt::WEnvironment &env)
     stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>());
  
     messageResourceBundle().use("../static/stylus-resources/xml/000-examples/test");
+    messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/templates");
+    messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/strings");
     // messageResourceBundle().use("../static/stylus-resources/xml/stylus/stylus");
 
     // require("https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4");
