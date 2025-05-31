@@ -69,11 +69,17 @@ namespace Stylus
         tailwind_menu_item->setStyleClass(nav_btns_styles);
         css_menu_item->setStyleClass(nav_btns_styles);
         javascript_menu_item->setStyleClass(nav_btns_styles);
+        std::cout << "\n\nStylus initialized successfully.\n\n";
 
         xml_files_manager_ = content_wrapper->addWidget(std::make_unique<XmlFilesManager>(state_));
+        std::cout << "\n\nStylus initialized successfully.\n\n";
         css_files_manager_ = content_wrapper->addWidget(std::make_unique<CssFilesManager>(state_));
+        std::cout << "\n\nStylus initialized successfully.\n\n";
         js_files_manager_ = content_wrapper->addWidget(std::make_unique<JsFilesManager>(state_));
+        std::cout << "\n\nStylus initialized successfully.\n\n";
         tailwind_config_ = content_wrapper->addWidget(std::make_unique<TailwindConfigManager>(state_));
+        std::cout << "\n\nStylus initialized successfully.\n\n";
+        
 
         templates_menu_item->clicked().connect(this, [=]()
                                                {

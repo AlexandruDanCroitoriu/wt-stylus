@@ -45,7 +45,6 @@ namespace Stylus
         tree_wrapper_->setStyleClass("overflow-y-auto stylus-background h-screen select-none");
         elem_wrapper_->setStyleClass("overflow-y-auto stylus-background h-screen select-none");
         
-
         // Wt::WStringStream contextJS;
         // contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "
         //             << "function() { event.cancelBubble = true; event.returnValue = false; return false; };";
@@ -54,7 +53,6 @@ namespace Stylus
         selected_file_brain_ = xml_file_brains_[state_->xml_node_->Attribute("selected-file-path")];
         if(selected_file_brain_ && selected_file_brain_->selected_node_)
         {
-            std::cout << "\n\nSelected file brain is null\n\n";
             state_->organizeXmlNode(selected_file_brain_->doc_->RootElement(), selected_file_brain_->file_path_);
             selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
         }
@@ -141,10 +139,16 @@ namespace Stylus
     {
         tree_wrapper_->clear();
         elem_wrapper_->clear();
-        
-        if(selected_file_path_ == "" || selected_file_brain_->doc_->Error() != tinyxml2::XML_SUCCESS)
+        if(selected_file_path_.compare("") == 0 || !selected_file_brain_ || !selected_file_brain_->doc_ || selected_file_brain_->doc_->Error() != tinyxml2::XML_SUCCESS)
         {
-            std::string xml_error = selected_file_brain_->doc_->ErrorStr();
+            std::string xml_error;
+            if(selected_file_brain_ && selected_file_brain_->doc_) {
+                xml_error = selected_file_brain_->doc_->ErrorStr();
+                std::cout << "\n\nXML Error: " << xml_error << std::endl;
+            } else {
+                xml_error = "No file selected or file could not be loaded.";
+            }
+            
             // place words split by whitespace in vector
             std::regex re("\\s+");
             std::sregex_token_iterator it(xml_error.begin(), xml_error.end(), re, -1);

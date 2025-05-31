@@ -116,6 +116,7 @@ namespace Stylus {
         {
             std::cerr << "Error saving XML file: " << doc_->ErrorID() << std::endl;
         }
+        std::cout << "\n\nStylusState initialized successfully.\n\n";
     }
 
 
@@ -136,7 +137,7 @@ namespace Stylus {
     
     void StylusState::organizeXmlNode(tinyxml2::XMLElement* node, std::string file_path)
     {
-        std::cout << "\n\nOrganizing XML node: " << node->Name() << "\n\n";
+        // std::cout << "\n\nOrganizing XML node: " << node->Name() << "\n\n";
         if(node != node->GetDocument()->RootElement())
         {
             if(isCondNode(node))
