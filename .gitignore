@@ -4,6 +4,7 @@ node_modules/
 static/stylus/stylus-state.xml
 containers/pgadmin-data/
 containers/portainer/
-containers/postgress_data/
+containers/postgres_data/
 containers/wt_code_server/
+containers/caddy/
 

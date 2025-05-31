@@ -3,7 +3,7 @@ root.alexandru-croitoriu.dev {
     file_server
 }
 alexandru-croitoriu.dev {
-    reverse_proxy wt_cv:9001
+    reverse_proxy wt_cv:9002
 }
 jenkins.alexandru-croitoriu.dev {
     reverse_proxy jenkins:8080

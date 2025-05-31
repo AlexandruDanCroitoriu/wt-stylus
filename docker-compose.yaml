@@ -33,7 +33,7 @@ services:
     depends_on:
       - wt_build
     ports:
-      - "9001:9001"
+      - "9002:9002"
     volumes:
       - ./app/cv:/app/cv
     restart: unless-stopped
