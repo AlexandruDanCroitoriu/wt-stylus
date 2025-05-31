@@ -17,7 +17,7 @@ services:
       - ./containers/caddy/caddy_config:/config
 
   wt_builder:
-    image: wt_builder:latest
+    image: wt_builder
     container_name: wt_builder
     build:
       context: .
@@ -25,7 +25,7 @@ services:
     # No need to expose ports or volumes unless you want to debug
 
   wt_cv:
-    image: wt_cv:latest
+    image: wt_cv
     container_name: wt_cv
     build:
       context: .
@@ -52,7 +52,7 @@ services:
       - 9001:9000
 
   jenkins:
-    image: jenkins-docker:latest
+    image: jenkins-docker
     user: root
     container_name: jenkins
     build:
