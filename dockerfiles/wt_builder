@@ -39,3 +39,10 @@ RUN cd wt/build/ && make install
 RUN rm -rf wt
 
 RUN cp /usr/local/lib/libwt*.so.* /usr/lib/
+
+COPY . /apps/cv
+RUN rm -rf /apps/cv/build/*
+RUN mkdir -p /apps/cv/build
+WORKDIR /apps/cv/build
+RUN cmake ../ 
+RUN make

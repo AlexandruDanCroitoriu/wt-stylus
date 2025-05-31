@@ -16,6 +16,28 @@ services:
       - ./containers/caddy/caddy_data:/data 
       - ./containers/caddy/caddy_config:/config
 
+  wt_build:
+    image: wt_builder:latest
+    container_name: wt_build
+    build:
+      context: .
+      dockerfile: ./dockerfiles/wt_build
+    # No need to expose ports or volumes unless you want to debug
+
+  wt_cv:
+    image: wt_cv:latest
+    container_name: wt_cv
+    build:
+      context: .
+      dockerfile: ./dockerfiles/wt_cv
+    depends_on:
+      - wt_build
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./app/cv:/app/cv
+    restart: unless-stopped
+
   portainer:
     image: portainer/portainer-ce:2.21.1
     container_name: portainer
@@ -29,25 +51,13 @@ services:
     ports:
       - 9001:9000
 
-  # gitea:
-  #   image: docker.io/gitea/gitea:1.23.1
-  #   container_name: gitea
-  #   environment:
-  #     - USER_UID=1000
-  #     - USER_GID=1000
-  #   restart: always
-  #   volumes:
-  #     - ./containers/gitea:/data
-  #     - /etc/timezone:/etc/timezone:ro
-  #     - /etc/localtime:/etc/localtime:ro
-  #   ports:
-  #     - "9002:3000"
-  #     - "222:22"
-
   jenkins:
     image: jenkins-docker:latest
     user: root
     container_name: jenkins
+    build:
+      context: .
+      dockerfile: ./dockerfiles/jenkins
     restart: unless-stopped
     ports:
       - 9003:8080
@@ -71,52 +81,6 @@ services:
     depends_on:
       - postgres
 
-  wt-code-server:
-    image: wt_code_server
-    container_name: root-app 
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-      - PASSWORD=asdfghj1 #optional
-      # - HASHED_PASSWORD= #optional
-      - SUDO_PASSWORD=asdfghj1 #optional
-      # - SUDO_PASSWORD_HASH= #optional
-      # - PROXY_DOMAIN=code-server.my.domain #optional
-      - DEFAULT_WORKSPACE=/config/workspace #optional
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./containers/wt_code_server:/config/
-      - ./:/config/workspace
-    ports:
-      - 9010:8443
-    restart: unless-stopped
-    group_add:
-      - ${DOCKER_SOCK_GROUP_ID}
-    user: root
-
-  # django-code-server:
-  #   image: maxuli/django-code-server:latest
-  #   container_name: django-code-server
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=Etc/UTC
-  #     - PASSWORD=asdfghj1 #optional
-  #     # - HASHED_PASSWORD= #optional
-  #     - SUDO_PASSWORD=asdfghj1 #optional
-  #     # - SUDO_PASSWORD_HASH= #optional
-  #     # - PROXY_DOMAIN=code-server.my.domain #optional
-  #     - DEFAULT_WORKSPACE=/config/workspace #optional
-  #   volumes:
-  #     # - /var/run/docker.sock:/var/run/docker.sock
-  #     - ./containers/django-code-server:/config
-  #     - ./projects/django:/config/workspace
-  #   ports:
-  #     - 9020:8443
-  #   restart: unless-stopped
-  #   user: root
-
   postgres:
     image: postgres:latest
     restart: always
@@ -130,4 +94,46 @@ services:
     ports:
       - "5432:5432"
 
- 
+   # wt-code-server:
+  #   image: wt_code_server
+  #   container_name: wt_code_server
+  #   build:
+  #     context: .
+  #     dockerfile: ./dockerfiles/wt_code_server
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Etc/UTC
+  #     - PASSWORD=asdfghj1 #optional
+  #     # - HASHED_PASSWORD= #optional
+  #     - SUDO_PASSWORD=asdfghj1 #optional
+  #     # - SUDO_PASSWORD_HASH= #optional
+  #     # - PROXY_DOMAIN=code-server.my.domain #optional
+  #     - DEFAULT_WORKSPACE=/config/workspace #optional
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - ./containers/wt_code_server:/config/
+  #     - ./:/config/workspace
+  #   ports:
+  #     - 9010:8443
+  #   restart: unless-stopped
+  #   group_add:
+  #     - ${DOCKER_SOCK_GROUP_ID}
+  #   user: root
+
+
+  
+  # gitea:
+  #   image: docker.io/gitea/gitea:1.23.1
+  #   container_name: gitea
+  #   environment:
+  #     - USER_UID=1000
+  #     - USER_GID=1000
+  #   restart: always
+  #   volumes:
+  #     - ./containers/gitea:/data
+  #     - /etc/timezone:/etc/timezone:ro
+  #     - /etc/localtime:/etc/localtime:ro
+  #   ports:
+  #     - "9002:3000"
+  #     - "222:22"
