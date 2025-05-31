@@ -11,6 +11,7 @@ export DOCKER_SOCK_GROUP_ID=$(stat -c '%g' /var/run/docker.sock)
 # export POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 
 chmod -R 777 ./containers/
+chmod -R 777 ./caddy/
 
 docker compose down
 docker compose build wt_builder wt_cv
