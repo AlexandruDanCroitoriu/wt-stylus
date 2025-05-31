@@ -16,9 +16,9 @@ services:
       - ./containers/caddy/caddy_data:/data 
       - ./containers/caddy/caddy_config:/config
 
-  wt_build:
+  wt_builder:
     image: wt_builder:latest
-    container_name: wt_build
+    container_name: wt_builder
     build:
       context: .
       dockerfile: ./dockerfiles/wt_builder
@@ -31,7 +31,7 @@ services:
       context: .
       dockerfile: ./dockerfiles/wt_cv
     depends_on:
-      - wt_build
+      - wt_builder
     ports:
       - "9002:9002"
     volumes:
