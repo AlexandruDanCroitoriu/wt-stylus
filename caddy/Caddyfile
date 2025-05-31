@@ -1,9 +1,9 @@
 alexandru-croitoriu.dev {
-    root * /srv
-    file_server
+    reverse_proxy wt_cv:9002
 }
 cv.alexandru-croitoriu.dev {
-    reverse_proxy wt_cv:9002
+    root * /srv
+    file_server
 }
 jenkins.alexandru-croitoriu.dev {
     reverse_proxy jenkins:8080
