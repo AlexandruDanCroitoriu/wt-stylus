@@ -11,6 +11,6 @@ portainer.alexandru-croitoriu.dev {
 pgadmin.alexandru-croitoriu.dev {
     reverse_proxy pgadmin:80
 }
-app-1.alexandru-croitoriu.dev {
-    reverse_proxy app-1:9020
+root.alexandru-croitoriu.dev {
+    reverse_proxy root-app:9010
 }

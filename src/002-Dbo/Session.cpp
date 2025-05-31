@@ -8,7 +8,7 @@
 #include <Wt/Auth/GoogleService.h>
 #include <Wt/Auth/FacebookService.h>
 #include <Wt/Auth/Dbo/AuthInfo.h>
-#include <Wt/Auth/Mfa/TotpProcess.h>
+// #include <Wt/Auth/Mfa/TotpProcess.h>
 
 #include <Wt/Dbo/backend/Sqlite3.h>
 
