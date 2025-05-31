@@ -6,7 +6,9 @@
 AuthWidget::AuthWidget(Session& session)
   : Auth::AuthWidget(Session::auth(), session.users(), session.login()),
     session_(session)
-{  }
+{ 
+  	setInternalBasePath("/auth");
+}
 
 std::unique_ptr<WWidget> AuthWidget::createRegistrationView(const Auth::Identity& id)
 {

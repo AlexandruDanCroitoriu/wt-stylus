@@ -68,8 +68,7 @@ void Session::configureAuth()
   }
 
   if (created_) {
-    addUser(*this, *users_.get(), "admin", "admin@example.com", "admin");
-    addUser(*this, *users_.get(), "user", "user@example.com", "user");
+    addUser(*this, *users_.get(), "maxuli", "croitoriu.alexandru.code@gmail.com", "asdfghj1");
   }
 }
 
