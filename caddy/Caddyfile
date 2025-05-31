@@ -5,12 +5,12 @@ shortcuts.alexandru-croitoriu.dev {
     root * /srv
     file_server
 }
-jenkins.alexandru-croitoriu.dev {
-    reverse_proxy jenkins:9012
-}
-portainer.alexandru-croitoriu.dev {
-    reverse_proxy portainer:9000
-}
-pgadmin.alexandru-croitoriu.dev {
-    reverse_proxy pgadmin:9010
-}
+# jenkins.alexandru-croitoriu.dev {
+#     reverse_proxy jenkins:9012
+# }
+# portainer.alexandru-croitoriu.dev {
+#     reverse_proxy portainer:9000
+# }
+# pgadmin.alexandru-croitoriu.dev {
+#     reverse_proxy pgadmin:9010
+# }
