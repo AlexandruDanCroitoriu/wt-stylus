@@ -49,7 +49,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./containers/portainer/portainer-data:/data
     ports:
-      - 9000:9009
+      - 9009:9009
       - 9443:9011
 
   jenkins:
@@ -75,10 +75,11 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: maxuli@gmail.com
       PGADMIN_DEFAULT_PASSWORD: asdfghj1
+      PGADMIN_LISTEN_PORT: 9010
     volumes:
       - ./containers/pgadmin-data:/var/lib/pgadmin
     ports:
-      - "9010:80"
+      - "9010:9010"
     depends_on:
       - postgres
 
