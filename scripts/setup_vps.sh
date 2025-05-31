@@ -43,8 +43,6 @@ fi
 
 systemctl start docker || service docker start
 
-chmod -R 777 ./containers/
-
 sh ./scripts/wt_builder.sh
 sh ./scripts/wt_code_server.sh
 sh ./scripts/jenkins.sh
