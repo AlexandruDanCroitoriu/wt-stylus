@@ -33,7 +33,7 @@ services:
     depends_on:
       - wt_builder
     ports:
-      - "9002:9002"
+      - "9013:9013"
     volumes:
       - ./app/cv:/app/cv
     restart: unless-stopped
@@ -50,7 +50,7 @@ services:
       - ./containers/portainer/portainer-data:/data
     ports:
       - 9000:9000
-      - 9443:9001
+      - 9443:9011
 
   jenkins:
     image: jenkins-docker
@@ -61,12 +61,13 @@ services:
       dockerfile: ./dockerfiles/jenkins
     restart: unless-stopped
     ports:
-      - 9003:8080
+      - 9012:8080
       - 50000:50000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./containers/jenkins/jenkins_home:/var/jenkins_home
     group_add:
+      - ${DOCKER_SOCK_GROUP_ID}
       - ${DOCKER_SOCK_GROUP_ID}
   
   pgadmin:
@@ -78,7 +79,7 @@ services:
     volumes:
       - ./containers/pgadmin-data:/var/lib/pgadmin
     ports:
-      - "8888:80"
+      - "9010:80"
     depends_on:
       - postgres
 
