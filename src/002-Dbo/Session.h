@@ -33,4 +33,6 @@ private:
   std::unique_ptr<UserDatabase> users_;
   Wt::Auth::Login login_;
   bool created_ = false;
+
+  void createInitialData();
 };

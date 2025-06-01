@@ -1,4 +1,5 @@
 #include "002-Dbo/Session.h"
+#include "002-Dbo/Permission.h"
 
 #include <Wt/Auth/AuthService.h>
 #include <Wt/Auth/HashFunction.h>
@@ -21,23 +22,6 @@ namespace {
   std::vector<std::unique_ptr<Auth::OAuthService>> myOAuthServices;
 
 }
-
-
-void addUser(Wt::Dbo::Session& session, UserDatabase& users, const std::string& loginName,
-             const std::string& email, const std::string& password)
-{
-  Wt::Dbo::Transaction t(session);
-  auto user = session.addNew<User>(loginName);
-  auto authUser = users.registerNew();
-  authUser.addIdentity(Wt::Auth::Identity::LoginName, loginName);
-  authUser.setEmail(email);
-  myPasswordService.updatePassword(authUser, password);
-
-  // Link User and auth user
-  Wt::Dbo::ptr<AuthInfo> authInfo = session.find<AuthInfo>("where id = ?").bind(authUser.id());
-  authInfo.modify()->setUser(user);
-}
-
 
 void Session::configureAuth()
 {
@@ -68,7 +52,7 @@ void Session::configureAuth()
   }
 
   if (created_) {
-    addUser(*this, *users_.get(), "maxuli", "croitoriu.alexandru.code@gmail.com", "asdfghj1");
+    createInitialData();
   }
 }
 
@@ -95,11 +79,12 @@ Session::Session(const std::string &sqliteDb)
   setConnection(std::move(connection));
 
   mapClass<User>("user");
+  mapClass<Permission>("permission");
   mapClass<AuthInfo>("auth_info");
   mapClass<AuthInfo::AuthIdentityType>("auth_identity");
   mapClass<AuthInfo::AuthTokenType>("auth_token");
 
- try {
+  try {
     if (!created_) {
       createTables();
       created_ = true;
@@ -163,12 +148,43 @@ std::vector<const Auth::OAuthService *> Session::oAuth()
 }
 
 
-// void Session::createInitialData()
+void Session::createInitialData()
+{
+  std::string username = "maxuli";
+  std::string email = "admin@example.com";
+  std::string password = "asdfghj1";
+
+  Wt::Dbo::Transaction t(*this);
+  
+  Wt::Dbo::ptr<Permission> permission = add(std::make_unique<Permission>("STYLUS_FILES_MANAGER"));
+  
+  Wt::Dbo::ptr<User> user = add(std::make_unique<User>(username));
+  user.modify()->permissions_.insert(permission);
+
+  Wt::Auth::User authUser = users_->registerNew();
+  authUser.addIdentity(Wt::Auth::Identity::LoginName, username);
+  authUser.setEmail(email);
+  myPasswordService.updatePassword(authUser, password);
+  
+  Wt::Dbo::ptr<AuthInfo> authInfo = find<AuthInfo>("where id = ?").bind(authUser.id());
+  authInfo.modify()->setUser(user);
+  
+  t.commit();
+}
+
+
+
+// void addUser(Wt::Dbo::Session& session, UserDatabase& users, const std::string& loginName,
+//              const std::string& email, const std::string& password)
 // {
-//   // dbo::Transaction transaction(*this);
+//   Wt::Dbo::Transaction t(session);
+//   auto user = session.addNew<User>(loginName);
+//   auto authUser = users.registerNew();
+//   authUser.addIdentity(Wt::Auth::Identity::LoginName, loginName);
+//   authUser.setEmail(email);
+//   myPasswordService.updatePassword(authUser, password);
 
-//   // dbo::ptr<THECLASS> class = add(std::make_unique<THECLASS>());
-//   // class.modify()->class_name = "value";
-
-//   // transaction.commit();
+//   // Link User and auth user
+//   Wt::Dbo::ptr<AuthInfo> authInfo = session.find<AuthInfo>("where id = ?").bind(authUser.id());
+//   authInfo.modify()->setUser(user);
 // }

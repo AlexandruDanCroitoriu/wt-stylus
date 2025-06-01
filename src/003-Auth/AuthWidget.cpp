@@ -2,12 +2,20 @@
 #include "RegistrationView.h"
 #include "002-Dbo/Session.h"
 #include "003-Auth/UserDetailsModel.h"
+#include <Wt/Auth/PasswordService.h>
+
 
 AuthWidget::AuthWidget(Session& session)
   : Auth::AuthWidget(Session::auth(), session.users(), session.login()),
     session_(session)
 { 
   	setInternalBasePath("/auth");
+    
+    // model()->addPasswordAuth(&Session::passwordAuth());
+    // model()->addOAuth(Session::oAuth());
+    // setRegistrationEnabled(true);
+
+    // processEnvironment();
 }
 
 std::unique_ptr<WWidget> AuthWidget::createRegistrationView(const Auth::Identity& id)

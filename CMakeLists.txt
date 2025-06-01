@@ -17,6 +17,7 @@ set(SOURCES
     ${SOURCE_DIR}/001-App/App.cpp
     ${SOURCE_DIR}/002-Dbo/Session.cpp
     ${SOURCE_DIR}/002-Dbo/User.cpp
+    ${SOURCE_DIR}/002-Dbo/Permission.cpp
     
     ${SOURCE_DIR}/003-Auth/AuthWidget.cpp
     ${SOURCE_DIR}/003-Auth/RegistrationView.cpp

@@ -81,21 +81,21 @@
 			<plural case="0">one year</plural>
 			<plural case="1">{1} years</plural>
 	</message>
-    <message id="Wt.WDateTime.null"/>
-    <message id="Wt.WDateValidator.DateTooEarly">The date must be after {1}</message>
-    <message id="Wt.WDateValidator.DateTooLate">The date must be before {1}</message>
-    <message id="Wt.WDateValidator.WrongDateRange">The date must be between {1} and {2}</message>
-    <message id="Wt.WDateValidator.WrongFormat">Must be a date in the format '{1}'</message>
-    <message id="Wt.WEmailValidator.Invalid">Must be a valid email address</message>
-    <message id="Wt.WEmailValidator.Invalid.Multiple">Must be a comma-separated list of email addresses</message>
-    <message id="Wt.WEmailValidator.NotMatching">Must be an email address matching the pattern '{1}'</message>
-    <message id="Wt.WEmailValidator.NotMatching.Multiple">Must be a comma-separated list of email addresses matching the pattern '{1}'</message>
-    <message id="Wt.WTimeValidator.TimeTooEarly">The time must be after {1}</message>
-    <message id="Wt.WTimeValidator.TimeTooLate">The time must be before {1}</message>
-    <message id="Wt.WTimeValidator.WrongTimeRange">The time must be between {1} and {2}</message>
-    <message id="Wt.WTimeValidator.WrongFormat">Must be a time in the format '{1}'</message>
-    <message id="Wt.WDefaultLoadingIndicator.Loading">Loading...</message>
-    <message id="Wt.WDialog.template">
+	<message id="Wt.WDateTime.null"/>
+	<message id="Wt.WDateValidator.DateTooEarly">The date must be after {1}</message>
+	<message id="Wt.WDateValidator.DateTooLate">The date must be before {1}</message>
+	<message id="Wt.WDateValidator.WrongDateRange">The date must be between {1} and {2}</message>
+	<message id="Wt.WDateValidator.WrongFormat">Must be a date in the format '{1}'</message>
+	<message id="Wt.WEmailValidator.Invalid">Must be a valid email address</message>
+	<message id="Wt.WEmailValidator.Invalid.Multiple">Must be a comma-separated list of email addresses</message>
+	<message id="Wt.WEmailValidator.NotMatching">Must be an email address matching the pattern '{1}'</message>
+	<message id="Wt.WEmailValidator.NotMatching.Multiple">Must be a comma-separated list of email addresses matching the pattern '{1}'</message>
+	<message id="Wt.WTimeValidator.TimeTooEarly">The time must be after {1}</message>
+	<message id="Wt.WTimeValidator.TimeTooLate">The time must be before {1}</message>
+	<message id="Wt.WTimeValidator.WrongTimeRange">The time must be between {1} and {2}</message>
+	<message id="Wt.WTimeValidator.WrongFormat">Must be a time in the format '{1}'</message>
+	<message id="Wt.WDefaultLoadingIndicator.Loading">Loading...</message>
+	<message id="Wt.WDialog.template">
     <span>${center-script}</span>
     <span>${layout}</span>
   </message>

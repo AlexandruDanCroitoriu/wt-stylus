@@ -1,12 +1,11 @@
-#include "002-Dbo/User.h"
 #include "002-Dbo/Permission.h"
-
+#include "002-Dbo/User.h"
 #include <Wt/Dbo/Impl.h>
 #include <Wt/Auth/Dbo/AuthInfo.h>
 
-DBO_INSTANTIATE_TEMPLATES(User)
+DBO_INSTANTIATE_TEMPLATES(Permission)
 
-User::User(const std::string& name)
+Permission::Permission(const std::string& name)
   : name_(name)
 {
 }
