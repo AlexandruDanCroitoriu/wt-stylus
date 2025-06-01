@@ -4,8 +4,7 @@
 #include <Wt/WLineEdit.h>
 
 
-RegistrationView::RegistrationView(Session& session,
-                                   Wt::Auth::AuthWidget *authWidget)
+RegistrationView::RegistrationView(Session& session, Wt::Auth::AuthWidget *authWidget)
   : Wt::Auth::RegistrationWidget(authWidget),
     session_(session)
 {
@@ -15,7 +14,7 @@ RegistrationView::RegistrationView(Session& session,
   updateView(detailsModel_.get());
 }
 
-std::unique_ptr<WWidget> RegistrationView::createFormWidget(Wt::WFormModel::Field field)
+std::unique_ptr<Wt::WWidget> RegistrationView::createFormWidget(Wt::WFormModel::Field field)
 {
   if (field == UserDetailsModel::FavouritePetField)
     return std::make_unique<Wt::WLineEdit>();

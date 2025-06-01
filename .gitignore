@@ -8,4 +8,4 @@ containers/postgres_data/
 containers/wt_code_server/
 containers/jenkins/
 containers/caddy/
-
+dbo.db

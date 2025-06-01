@@ -1,7 +1,7 @@
 #include "002-Dbo/Permission.h"
-#include "002-Dbo/User.h"
 #include <Wt/Dbo/Impl.h>
 #include <Wt/Auth/Dbo/AuthInfo.h>
+#include "002-Dbo/User.h"
 
 DBO_INSTANTIATE_TEMPLATES(Permission)
 

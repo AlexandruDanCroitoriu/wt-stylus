@@ -12,11 +12,10 @@
 namespace Stylus
 {
 
-    Stylus::Stylus()
-        : state_(std::make_shared<StylusState>())
+    Stylus::Stylus(Session& session)
+        : session_(session)
     {
-
-        setOffsets(0, Wt::Side::Top | Wt::Side::Bottom | Wt::Side::Left | Wt::Side::Right);
+  setOffsets(0, Wt::Side::Top | Wt::Side::Bottom | Wt::Side::Left | Wt::Side::Right);
         titleBar()->children()[0]->removeFromParent();
         setStyleClass("!border-0 overflow-auto stylus-background");
         titleBar()->hide();
@@ -50,6 +49,31 @@ namespace Stylus
 
         Wt::WApplication::instance()->messageResourceBundle().use(Wt::WApplication::instance()->docRoot() + "/static/stylus/templates");
 
+        // if (session_.login().loggedIn() && session_.user()->hasPermission("STYLUS_FILES_MANAGER")) {
+        session_.login().changed().connect(this, [=]()
+        {
+            if (session_.login().loggedIn()) {
+                std::cout << "\n\nStylus logged in successfully.\n\n";
+                Wt::Dbo::Transaction transaction(session_);
+                stylus_permission_ = session_.find<Permission>().where("name = ?").bind("STYLUS_FILES_MANAGER").resultValue();
+                if(!stylus_permission_) {
+                    std::cout << "\n\nStylus permission not found, creating it...\n\n";
+                    stylus_permission_ = session_.add(std::make_unique<Permission>("STYLUS_FILES_MANAGER"));
+                }
+                if(session_.user()->hasPermission(stylus_permission_)) {
+                    setupStylus();
+                }
+                transaction.commit();
+            } else {
+                std::cout << "\n\nStylus logged out successfully.\n\n";
+            }
+        });
+    }
+    
+    void Stylus::setupStylus()
+    {
+        state_ = std::make_shared<StylusState>();
+      
         auto navbar = contents()->addWidget(std::make_unique<Wt::WContainerWidget>());
         auto content_wrapper = contents()->addWidget(std::make_unique<Wt::WStackedWidget>());
         // content_wrapper->setTransitionAnimation(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500)); // this line represents a bug in Wt probably :P

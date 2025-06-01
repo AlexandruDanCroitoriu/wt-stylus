@@ -1,12 +1,13 @@
 #pragma once
 #include <Wt/Dbo/Types.h>
 #include <Wt/WGlobal.h>
+#include "002-Dbo/Permission.h"
 
 class User;
 using AuthInfo = Wt::Auth::Dbo::AuthInfo<User>;
-class Permission;
 
-class User {
+class User : public Wt::Dbo::Dbo<User>
+{
 public:
   User() = default;
   explicit User(const std::string& name);
@@ -15,6 +16,8 @@ public:
   std::string favouritePet_;
   Wt::Dbo::weak_ptr<AuthInfo> authInfo_;
   Wt::Dbo::collection< Wt::Dbo::ptr<Permission> > permissions_;
+
+  bool hasPermission(const Wt::Dbo::ptr<Permission> permission) const;
 
   template<class Action>
   void persist(Action& a)

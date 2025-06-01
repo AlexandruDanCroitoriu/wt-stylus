@@ -3,6 +3,8 @@
 #include <Wt/WDialog.h>
 #include <Wt/WDoubleSpinBox.h>
 
+#include "002-Dbo/Session.h"
+
 #include "101-Stylus/001-XmlFilesManager/XmlFilesManager.h"
 #include "101-Stylus/002-CssFilesManager/CssFilesManager.h"
 #include "101-Stylus/003-JsFilesManager/JsFilesManager.h"
@@ -15,7 +17,7 @@ namespace Stylus {
     class Stylus : public Wt::WDialog
     {
     public:
-        Stylus();
+        Stylus(Session& session);
             
         XmlFilesManager* xml_files_manager_;
         CssFilesManager* css_files_manager_;
@@ -23,10 +25,12 @@ namespace Stylus {
         TailwindConfigManager* tailwind_config_;
 
         
-        private:
+    private:
         std::shared_ptr<StylusState> state_;
         // void generateCssFile();
-
+        Session& session_;
+        void setupStylus();
+        Wt::Dbo::ptr<Permission> stylus_permission_;
 
 };
 }

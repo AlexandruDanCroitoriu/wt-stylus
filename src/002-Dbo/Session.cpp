@@ -160,6 +160,7 @@ void Session::createInitialData()
   
   Wt::Dbo::ptr<User> user = add(std::make_unique<User>(username));
   user.modify()->permissions_.insert(permission);
+  // permission.modify()->users_.insert(user);
 
   Wt::Auth::User authUser = users_->registerNew();
   authUser.addIdentity(Wt::Auth::Identity::LoginName, username);
