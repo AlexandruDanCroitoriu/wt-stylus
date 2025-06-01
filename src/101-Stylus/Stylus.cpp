@@ -60,7 +60,7 @@ namespace Stylus
                     std::cout << "\n\nStylus permission not found, creating it...\n\n";
                     stylus_permission_ = session_.add(std::make_unique<Permission>("STYLUS_FILES_MANAGER"));
                 }
-                if(session_.user()->hasPermission(stylus_permission_)) {
+                if(session_.user()->hasPermission(stylus_permission_) && state_ == nullptr) {
                     setupStylus();
                 }
                 transaction.commit();

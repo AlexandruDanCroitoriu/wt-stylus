@@ -4,6 +4,7 @@ namespace Stylus
 {
     XMLFileBrain::XMLFileBrain(std::shared_ptr<StylusState> state, std::string file_path)
     : state_(state),
+    // doc_(std::make_shared<tinyxml2::XMLDocument>(true, tinyxml2::PEDANTIC_WHITESPACE))
     doc_(std::make_shared<tinyxml2::XMLDocument>())
     {
         setFile(file_path);

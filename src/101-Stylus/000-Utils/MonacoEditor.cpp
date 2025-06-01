@@ -28,7 +28,7 @@ MonacoEditor::MonacoEditor(std::string language)
                 theme: 'vs-light',
                 wordWrap: 'off',
                 lineNumbers: 'on',
-                tabSize: 2,
+                tabSize: 4,
                 insertSpaces: false,
                 detectIndentation: false,
                 trimAutoWhitespace: false,

@@ -46,9 +46,9 @@ App::App(const Wt::WEnvironment &env)
     authWidget->model()->addOAuth(Session::oAuth());
     authWidget->setRegistrationEnabled(true);
 
-    authWidget->processEnvironment();
-
     stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
+    
+    authWidget->processEnvironment();
  
     // messageResourceBundle().use("../static/stylus-resources/xml/stylus/stylus");
 

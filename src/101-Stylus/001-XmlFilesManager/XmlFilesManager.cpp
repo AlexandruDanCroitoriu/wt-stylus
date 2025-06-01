@@ -54,7 +54,7 @@ namespace Stylus
         if(selected_file_brain_ && selected_file_brain_->selected_node_)
         {
             state_->organizeXmlNode(selected_file_brain_->doc_->RootElement(), selected_file_brain_->file_path_);
-            selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
+            selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str(), true);
         }
         setPreviewWidgets();
 
@@ -95,7 +95,7 @@ namespace Stylus
             if(selected_file_brain_->doc_->RootElement())
             {
                 state_->organizeXmlNode(selected_file_brain_->doc_->RootElement(), selected_file_brain_->file_path_);
-                selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str());
+                selected_file_brain_->doc_->SaveFile(std::string("../test.xml").c_str(), true);
             }
             setPreviewWidgets();
         });
