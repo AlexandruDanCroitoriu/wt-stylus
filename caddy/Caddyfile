@@ -6,7 +6,7 @@ shortcuts.alexandru-croitoriu.dev {
     file_server
 }
 jenkins.alexandru-croitoriu.dev {
-    reverse_proxy jenkins:9012
+    reverse_proxy jenkins:8080
 }
 portainer.alexandru-croitoriu.dev {
     reverse_proxy portainer:9000

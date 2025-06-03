@@ -16,6 +16,20 @@ services:
       - ./containers/caddy/caddy_data:/data 
       - ./containers/caddy/caddy_config:/config
 
+  portainer:
+    image: portainer/portainer-ce:2.21.1
+    container_name: portainer
+    restart: unless-stopped
+    # command: -H unix:///var/run/docker.sock
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./containers/portainer/portainer-data:/data
+    ports:
+      - 9000:9000
+
   wt_builder:
     image: wt_builder
     container_name: wt_builder
@@ -37,37 +51,19 @@ services:
       - ./app/cv:/app/cv
     restart: unless-stopped
 
-  portainer:
-    image: portainer/portainer-ce:2.21.1
-    container_name: portainer
-    restart: unless-stopped
-    # command: -H unix:///var/run/docker.sock
-    security_opt:
-      - no-new-privileges:true
+  postgres:
+    image: postgres:latest
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: asdfghj1
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./containers/portainer/portainer-data:/data
+      - ./containers/postgres_data:/var/lib/postgresql/data
     ports:
-      - 9000:9000
+      - "5432:5432"
 
-  jenkins:
-    image: jenkins-docker
-    user: root
-    container_name: jenkins
-    build:
-      context: .
-      dockerfile: ./dockerfiles/jenkins
-    restart: unless-stopped
-    ports:
-      - 9012:8080
-      - 50000:50000
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./containers/jenkins/jenkins_home:/var/jenkins_home
-    group_add:
-      - ${DOCKER_SOCK_GROUP_ID}
-  
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
@@ -82,19 +78,22 @@ services:
     depends_on:
       - postgres
 
-  postgres:
-    image: postgres:latest
-    restart: always
-    container_name: postgres
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: asdfghj1
-    volumes:
-      - ./containers/postgres_data:/var/lib/postgresql/data
+  jenkins:
+    image: jenkins-docker
+    user: root
+    container_name: jenkins
+    build:
+      context: .
+      dockerfile: ./dockerfiles/jenkins
+    restart: unless-stopped
     ports:
-      - "5432:5432"
-
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./containers/jenkins/jenkins_home:/var/jenkins_home
+    group_add:
+      - ${DOCKER_SOCK_GROUP_ID}
    # wt-code-server:
   #   image: wt_code_server
   #   container_name: wt_code_server
