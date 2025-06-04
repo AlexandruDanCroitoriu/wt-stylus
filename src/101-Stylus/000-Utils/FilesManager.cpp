@@ -48,10 +48,11 @@ void FilesManagerSidebar::layoutSizeChanged(int width, int height)
 }
 
 
-TreeNode::TreeNode(std::string name, TreeNodeType type, std::string path)
+TreeNode::TreeNode(std::string name, TreeNodeType type, std::string path, StylusEditorManagementData data)
     : Wt::WTreeNode(name),
     type_(type),
-    path_(path)
+    path_(path),
+    data_(data)
 {
     // setStyleClass("relative");
     label_wrapper_ = labelArea();
@@ -179,6 +180,8 @@ void TreeNode::showPopup(const Wt::WMouseEvent& event)
             {
                 popup_->addItem("Create New Folder")->clicked().connect(this, [=](){ createNewFolderDialog(); });
             }else {
+                popup_->addItem("copy import to clipboard")->clicked().connect(this, [=]() { copyFilePathToClipboard(); });
+                popup_->addSeparator();
                 popup_->addItem("Create New File")->clicked().connect(this, [=](){ createNewFileDialog(); });
                 popup_->addItem("Rename Folder")->clicked().connect(this, [=]() { createRenameFolderDialog(); });
                 popup_->addSeparator();
@@ -524,28 +527,39 @@ void TreeNode::deleteFileMessageBox()
 void TreeNode::copyFilePathToClipboard()
 {
     Wt::WApplication::instance()->doJavaScript(
-        "navigator.clipboard.writeText(" + getNodeImportString() + ");",
+        "navigator.clipboard.writeText('" + getNodeImportString() + "');",
         "copyFilePathToClipboard"
     );
 }
 std::string TreeNode::getNodeImportString()
 {
     std::string path = path_ + label()->text().toUTF8();
-    std::string return_function = "";
+    std::string return_imports = "";
 
     if(type_ == TreeNodeType::Folder) {
+        // get all the child file node imports into return_imports
+        for (auto* child : childNodes()) {
+            TreeNode* child_node = dynamic_cast<TreeNode*>(child);
+            if (child_node && child_node->type_ == TreeNodeType::File) {
+                return_imports += child_node->getNodeImportString();
+            }
+        }
+
     }
     else if(type_ == TreeNodeType::File) {
-        if(path.substr(path.find_last_of(".") + 1).compare("xml") == 0) {
-            path = path.substr(0, path.find_last_of("."));
-            return_function += "'messageResourceBundle().use(\"" + path + "\");'";
-        }else if(path.substr(path.find_last_of(".") + 1).compare("css") == 0) {
-            return_function += "'useStyleSheet(\"" + path + "\");'";
-        }else if(path.substr(path.find_last_of(".") + 1).compare("js") == 0) {
-            return_function += "'require(\"" + path + "\");'";
+        if(data_.extension_.compare("xml") == 0 ){
+            if (path.size() >= 4 && path.compare(path.size() - 4, 4, ".xml") == 0) {
+                path = path.substr(0, path.size() - 4);
+            }
+            return_imports += "messageResourceBundle().use(\"" + path + "\");\\n";
+        }else if(data_.extension_.compare("css") == 0){
+            return_imports += "useStyleSheet(\"" + path + "\");\\n";
+        }else if(data_.extension_.compare("js") == 0){
+            return_imports += "require(\"" + path + "\");\\n";
         }
     }
-    return return_function;
+    std::cout << "\n\n getNodeImportString: \n\n" << return_imports << "\n\n";
+    return return_imports;
 }
 
 
@@ -650,7 +664,7 @@ void FilesManager::reuploadFile()
 
 void FilesManager::setTreeFolderWidgets()
 {
-    auto node = std::make_unique<TreeNode>(data_.root_folder_path_, TreeNodeType::Folder, data_.root_folder_path_);
+    auto node = std::make_unique<TreeNode>(data_.root_folder_path_, TreeNodeType::Folder, data_.root_folder_path_, data_);
     auto root_folder = node.get();
     tree_->setTreeRoot(std::move(node));
     tree_->setSelectionMode(Wt::SelectionMode::Single);
@@ -661,11 +675,11 @@ void FilesManager::setTreeFolderWidgets()
 
     for(auto folder : folders_)
     {
-        TreeNode *folder_tree_node = dynamic_cast<TreeNode*>(tree_->treeRoot()->addChildNode(std::make_unique<TreeNode>(folder.first, TreeNodeType::Folder, data_.root_folder_path_)));
+        TreeNode *folder_tree_node = dynamic_cast<TreeNode*>(tree_->treeRoot()->addChildNode(std::make_unique<TreeNode>(folder.first, TreeNodeType::Folder, data_.root_folder_path_, data_)));
 
         for(const auto &file : folder.second)
         {
-            auto file_tree_node = dynamic_cast<TreeNode*>(folder_tree_node->addChildNode(std::make_unique<TreeNode>(file, TreeNodeType::File, data_.root_folder_path_ + folder.first + "/"))); 
+            auto file_tree_node = dynamic_cast<TreeNode*>(folder_tree_node->addChildNode(std::make_unique<TreeNode>(file, TreeNodeType::File, data_.root_folder_path_ + folder.first + "/", data_))); 
 
             if(selected_file_path_.compare(folder.first + "/" + file) == 0)
             {

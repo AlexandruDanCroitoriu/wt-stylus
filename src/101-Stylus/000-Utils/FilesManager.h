@@ -38,7 +38,7 @@ namespace Stylus
     class TreeNode : public Wt::WTreeNode
     {
     public:
-        TreeNode(std::string name, TreeNodeType type, std::string path);
+        TreeNode(std::string name, TreeNodeType type, std::string path, StylusEditorManagementData data);
 
         Wt::Signal<std::string> folders_changed_; // emits selected file path
 
@@ -47,9 +47,10 @@ namespace Stylus
         std::string path_;
 
         void dropEvent(Wt::WDropEvent event);
-
-    private:
+        
         TreeNodeType type_;
+        StylusEditorManagementData data_;
+    private:
         std::unique_ptr<Wt::WPopupMenu> popup_;
 
         void createNewFolderDialog();
@@ -62,7 +63,7 @@ namespace Stylus
 
         void copyFilePathToClipboard();
         std::string getNodeImportString();
-        
+
     };
 
     class FilesManager : public Wt::WContainerWidget
