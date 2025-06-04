@@ -59,6 +59,10 @@ namespace Stylus
         void createNewFileDialog();
         void createRenameFileDialog();
         void deleteFileMessageBox();
+
+        void copyFilePathToClipboard();
+        std::string getNodeImportString();
+        
     };
 
     class FilesManager : public Wt::WContainerWidget

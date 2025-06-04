@@ -187,6 +187,7 @@ void TreeNode::showPopup(const Wt::WMouseEvent& event)
         }
         else if(type_ == TreeNodeType::File)
         {
+            popup_->addItem("copy import to clipboard")->clicked().connect(this, [=]() { copyFilePathToClipboard(); });
             popup_->addItem("Rename File")->clicked().connect(this, [=]() { createRenameFileDialog(); });
             popup_->addSeparator();
             popup_->addItem("Delete File")->clicked().connect(this, [=]() { deleteFileMessageBox(); });
@@ -518,6 +519,33 @@ void TreeNode::deleteFileMessageBox()
     });
     
     message_box->show(); 
+}
+
+void TreeNode::copyFilePathToClipboard()
+{
+    Wt::WApplication::instance()->doJavaScript(
+        "navigator.clipboard.writeText(" + getNodeImportString() + ");",
+        "copyFilePathToClipboard"
+    );
+}
+std::string TreeNode::getNodeImportString()
+{
+    std::string path = path_ + label()->text().toUTF8();
+    std::string return_function = "";
+
+    if(type_ == TreeNodeType::Folder) {
+    }
+    else if(type_ == TreeNodeType::File) {
+        if(path.substr(path.find_last_of(".") + 1).compare("xml") == 0) {
+            path = path.substr(0, path.find_last_of("."));
+            return_function += "'messageResourceBundle().use(\"" + path + "\");'";
+        }else if(path.substr(path.find_last_of(".") + 1).compare("css") == 0) {
+            return_function += "'useStyleSheet(\"" + path + "\");'";
+        }else if(path.substr(path.find_last_of(".") + 1).compare("js") == 0) {
+            return_function += "'require(\"" + path + "\");'";
+        }
+    }
+    return return_function;
 }
 
 

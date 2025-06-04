@@ -36,7 +36,6 @@ App::App(const Wt::WEnvironment &env)
     messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-strings");
     // override the default Wt templates
     messageResourceBundle().use("../static/stylus-resources/xml/001-App/ovrwt");
-
     messageResourceBundle().use("../static/stylus-resources/xml/000-examples/test");
 
     auto authWidget = root()->addWidget(std::make_unique<AuthWidget>(session_));
@@ -49,9 +48,7 @@ App::App(const Wt::WEnvironment &env)
     stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
     
     authWidget->processEnvironment();
- 
     // messageResourceBundle().use("../static/stylus-resources/xml/stylus/stylus");
-
     // require("https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4");
     // useStyleSheet("static/css/questionmark.css");
     
