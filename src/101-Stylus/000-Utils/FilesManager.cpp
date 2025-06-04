@@ -421,6 +421,17 @@ void TreeNode::createNewFileDialog()
             std::string new_file_name = new_file_name_input->text().toUTF8();
             std::filesystem::path new_path(path_ + this->label()->text().toUTF8() + "/" + new_file_name);
             std::ofstream new_file(new_path);
+            if(data_.extension_.compare("xml") == 0) {
+                new_file << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+                new_file << "<!-- Created with Stylus Editor -->\n";
+                new_file << "<messages>\n";
+                new_file << "\t<message id=\"example\">\n";
+                new_file << "\t\t<div>Example div text</div>\n";
+                new_file << "\t\t<p>Example paragraph text</p>\n";
+                new_file << "\t</message>\n";
+                new_file << "</messages>\n";
+                new_file.close();
+            }
             folders_changed_.emit(this->label()->text().toUTF8() + "/" + new_file_name);
         }
         removeChild(dialog);

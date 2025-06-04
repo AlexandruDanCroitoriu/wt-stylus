@@ -38,9 +38,6 @@ namespace Stylus
         elem_label->setBuddy(elem_tag_);
         elem_tag_->disable();
 
-        auto elem_classes_wrapper = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
-        elem_classes_wrapper->setStyleClass("relative");
-
         auto elem_text_wrapper = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
         elem_text_wrapper->setStyleClass("relative");
         auto elem_text_label = elem_text_wrapper->addWidget(std::make_unique<Wt::WLabel>(""));
@@ -51,7 +48,9 @@ namespace Stylus
         elem_text_->setStyleClass(input_styles);
         elem_text_->setRows(5);
         elem_text_->disable();
-        
+
+        auto elem_classes_wrapper = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
+        elem_classes_wrapper->setStyleClass("relative");
         auto elem_classes_label = elem_classes_wrapper->addWidget(std::make_unique<Wt::WLabel>(""));
         elem_classes_label->setStyleClass("absolute -top-[10px] left-[6px] text-xs font-medium !text-red-500 dark:!text-red-400 stylus-background");
         elem_classes_ = elem_classes_wrapper->addWidget(std::make_unique<Wt::WLineEdit>());
@@ -59,6 +58,11 @@ namespace Stylus
         elem_classes_->setPlaceholderText("Element Classes");
         elem_classes_->setStyleClass(input_styles);
         elem_classes_->disable();
+
+        style_classes_wrapper_ = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
+        style_classes_wrapper_->setStyleClass("flex-1 flex flex-wrap space-x-[3px] space-y-[3px] items-start justify-start content-baseline");
+
+      
 
         is_condition_->changed().connect([=]() {
             std::cout << "\n\n is condition checkbox changed \n\n";
@@ -129,15 +133,13 @@ namespace Stylus
             Wt::WApplication::instance()->globalKeyWentDown().emit(event); 
             if(event.modifiers().test(Wt::KeyboardModifier::Control) && event.key() == Wt::Key::S){
                 std::cout << "\n\nControlCenter::setClasses() - elem_classes_ keyWentDown event triggered\n\n";
-                if(std::regex_search(elem_classes_->valueText().toUTF8(), std::regex("\\s"))) {
-                    // no whitespace allowed in class names
-                    elem_classes_->label()->setText("whitespace not allowed");
-                    return;
-                }else if(!file_brain_ || !file_brain_->selected_node_){
+                if(!file_brain_ || !file_brain_->selected_node_){
                     elem_classes_->label()->setText("no node selected");
                     return;
                 }
+                
                 std::string new_style_classes = elem_classes_->valueText().toUTF8() + " ";
+
                 for(auto style_class : style_classes_){
                     new_style_classes += style_class  + " ";
                 }
@@ -151,7 +153,7 @@ namespace Stylus
       
         elem_text_->keyWentDown().connect([=](Wt::WKeyEvent event) { 
             Wt::WApplication::instance()->globalKeyWentDown().emit(event); 
-            if(event.modifiers().test(Wt::KeyboardModifier::Control) && event.key() == Wt::Key::S){
+            // if(event.modifiers().test(Wt::KeyboardModifier::Control) && event.key() == Wt::Key::S){
                 if(!file_brain_ || !file_brain_->selected_node_) return;
                 auto selected_node = file_brain_->selected_node_;
                 if(file_brain_->state_->isCondNode(selected_node)) {
@@ -176,13 +178,11 @@ namespace Stylus
                 }
                 file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
                 file_brain_->file_saved_.emit();
-            }
+            // }
         });
         is_condition_->keyWentDown().connect([=](Wt::WKeyEvent event) { Wt::WApplication::instance()->globalKeyWentDown().emit(event); });
 
-        style_classes_wrapper_ = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
-        style_classes_wrapper_->setStyleClass("flex-1 flex flex-wrap space-x-[3px] space-y-[3px] items-start justify-start content-baseline");
-
+      
     }
 
     void ControlCenter::disableAll()
@@ -253,7 +253,7 @@ namespace Stylus
                     std::string style_class_str = it->str();
                     style_classes_.push_back(style_class_str);
                     auto style_class = style_classes_wrapper_->addWidget(std::make_unique<Wt::WPushButton>(style_class_str));
-                    style_class->setStyleClass("text-[6px] p-[2px] border border-solid border-[#000] hover:border-[gray] cursor-pointer text-nowrap hover:bg-[red]/20");
+                    style_class->setStyleClass("text-[14px] p-[6px] border border-solid border-[#000] hover:border-[gray] cursor-pointer text-nowrap hover:bg-[red]/20");
                     style_class->clicked().connect([=]() {
                         std::cout << "\n\nControlCenter::setClasses() - style class clicked: " << style_class_str << "\n\n";
                         std::string new_classes;

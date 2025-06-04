@@ -1,6 +1,7 @@
 #pragma once
 #include <Wt/WString.h>
 #include "101-Stylus/000-Utils/tinyxml2/tinyxml2.h"
+#include <Wt/WSignal.h>
 
 namespace Stylus
 {
@@ -38,6 +39,7 @@ namespace Stylus
         bool isCondNode(tinyxml2::XMLElement* node);
         std::string trimWitespace(std::string str);
         std::string trimAllWitespace(std::string str);
+        Wt::Signal<> file_saved_;
     };
 
 }

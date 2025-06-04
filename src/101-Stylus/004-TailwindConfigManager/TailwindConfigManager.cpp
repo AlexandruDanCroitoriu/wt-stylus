@@ -287,6 +287,9 @@ namespace Stylus
         
         prev_css_file_ = Wt::WApplication::instance()->docRoot() + "/../static/tailwind.css?v=" + Wt::WRandom::generateId();
         Wt::WApplication::instance()->useStyleSheet(prev_css_file_.toUTF8());
+
+        state_->file_saved_.connect(this, [=](){ generateCssFile(); });
+        
     }
     
     std::vector<std::string> TailwindConfigManager::getConfigFiles()
@@ -307,6 +310,7 @@ namespace Stylus
     void TailwindConfigManager::generateCssFile()
     {
 
+        std::cout << "\n\nGenerating CSS file...\n\n";
         // std::ofstream file("../static/stylus-resources/tailwind4/input.css");
         std::ofstream file(state_->tailwind_input_file_path_);
         if (!file.is_open())
@@ -371,6 +375,7 @@ namespace Stylus
                 output_editor_->setEditorText("static/tailwind.css", state_->getFileText("../static/tailwind.css"));
             }); 
         });
+        std::cout << "\n\nCSS file generated successfully.\n\n";
     }
 
 

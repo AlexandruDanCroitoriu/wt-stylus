@@ -9,11 +9,14 @@
     --color-red-400: oklch(0.704 0.191 22.216);
     --color-red-500: oklch(0.637 0.237 25.331);
     --color-yellow-300: oklch(0.905 0.182 98.111);
+    --color-yellow-500: oklch(0.795 0.184 86.047);
+    --color-green-200: oklch(0.925 0.084 155.995);
     --color-green-400: oklch(0.792 0.209 151.711);
     --color-green-800: oklch(0.448 0.119 151.328);
     --color-sky-400: oklch(0.746 0.16 232.661);
     --color-sky-500: oklch(0.685 0.169 237.323);
     --color-sky-600: oklch(0.588 0.158 241.966);
+    --color-blue-200: oklch(0.882 0.059 254.128);
     --color-blue-300: oklch(0.809 0.105 251.813);
     --color-blue-500: oklch(0.623 0.214 259.815);
     --color-blue-600: oklch(0.546 0.245 262.881);
@@ -212,6 +215,9 @@
   }
 }
 @layer utilities {
+  .visible {
+    visibility: visible;
+  }
   .sr-only {
     position: absolute;
     width: 1px;
@@ -258,9 +264,6 @@
   }
   .left-\[6px\] {
     left: 6px;
-  }
-  .z-50 {
-    z-index: 50;
   }
   .z-\[2\] {
     z-index: 2;
@@ -679,6 +682,9 @@
   .border-gray-300 {
     border-color: var(--color-gray-300);
   }
+  .border-gray-700 {
+    border-color: var(--color-gray-700);
+  }
   .bg-\[\#FFC0CB\] {
     background-color: #FFC0CB;
   }
@@ -690,6 +696,9 @@
   }
   .bg-\[\#fef2f2\]\/10 {
     background-color: color-mix(in oklab, #fef2f2 10%, transparent);
+  }
+  .bg-blue-200\/30 {
+    background-color: color-mix(in oklab, var(--color-blue-200) 30%, transparent);
   }
   .bg-gray-50 {
     background-color: var(--color-gray-50);
@@ -703,8 +712,14 @@
   .bg-gray-300 {
     background-color: var(--color-gray-300);
   }
+  .bg-green-200\/30 {
+    background-color: color-mix(in oklab, var(--color-green-200) 30%, transparent);
+  }
   .bg-red-200 {
     background-color: var(--color-red-200);
+  }
+  .bg-red-200\/30 {
+    background-color: color-mix(in oklab, var(--color-red-200) 30%, transparent);
   }
   .bg-rose-500 {
     background-color: var(--color-rose-500);
@@ -720,6 +735,9 @@
   }
   .bg-yellow-300 {
     background-color: var(--color-yellow-300);
+  }
+  .bg-yellow-500\/50 {
+    background-color: color-mix(in oklab, var(--color-yellow-500) 50%, transparent);
   }
   .object-cover {
     object-fit: cover;
@@ -836,6 +854,9 @@
   .text-\[12px\] {
     font-size: 12px;
   }
+  .text-\[14px\] {
+    font-size: 14px;
+  }
   .text-\[18px\] {
     font-size: 18px;
   }
@@ -846,6 +867,10 @@
   .leading-tight {
     --tw-leading: var(--leading-tight);
     line-height: var(--leading-tight);
+  }
+  .font-\[6px\] {
+    --tw-font-weight: 6px;
+    font-weight: 6px;
   }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
@@ -1132,6 +1157,13 @@
       }
     }
   }
+  .hover\:bg-\[red\]\/20 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: color-mix(in oklab, red 20%, transparent);
+      }
+    }
+  }
   .hover\:bg-gray-400 {
     &:hover {
       @media (hover: hover) {
@@ -1389,6 +1421,11 @@
       border-color: color-mix(in oklab, #FFF 50%, transparent);
     }
   }
+  .dark\:border-gray-400 {
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-400);
+    }
+  }
   .dark\:border-gray-500 {
     &:where(.dark, .dark *) {
       border-color: var(--color-gray-500);
@@ -1561,156 +1598,8 @@
     }
   }
 }
-@layer theme, base, components, utilities;
-@layer theme;
-@layer base {
-  *, ::after, ::before, ::backdrop, ::file-selector-button {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    border: 0 solid;
-  }
-  html, :host {
-    line-height: 1.5;
-    -webkit-text-size-adjust: 100%;
-    tab-size: 4;
-    font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
-    font-feature-settings: var(--default-font-feature-settings, normal);
-    font-variation-settings: var(--default-font-variation-settings, normal);
-    -webkit-tap-highlight-color: transparent;
-  }
-  hr {
-    height: 0;
-    color: inherit;
-    border-top-width: 1px;
-  }
-  abbr:where([title]) {
-    -webkit-text-decoration: underline dotted;
-    text-decoration: underline dotted;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    font-size: inherit;
-    font-weight: inherit;
-  }
-  a {
-    color: inherit;
-    -webkit-text-decoration: inherit;
-    text-decoration: inherit;
-  }
-  b, strong {
-    font-weight: bolder;
-  }
-  code, kbd, samp, pre {
-    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
-    font-feature-settings: var(--default-mono-font-feature-settings, normal);
-    font-variation-settings: var(--default-mono-font-variation-settings, normal);
-    font-size: 1em;
-  }
-  small {
-    font-size: 80%;
-  }
-  sub, sup {
-    font-size: 75%;
-    line-height: 0;
-    position: relative;
-    vertical-align: baseline;
-  }
-  sub {
-    bottom: -0.25em;
-  }
-  sup {
-    top: -0.5em;
-  }
-  table {
-    text-indent: 0;
-    border-color: inherit;
-    border-collapse: collapse;
-  }
-  :-moz-focusring {
-    outline: auto;
-  }
-  progress {
-    vertical-align: baseline;
-  }
-  summary {
-    display: list-item;
-  }
-  ol, ul, menu {
-    list-style: none;
-  }
-  img, svg, video, canvas, audio, iframe, embed, object {
-    display: block;
-    vertical-align: middle;
-  }
-  img, video {
-    max-width: 100%;
-    height: auto;
-  }
-  button, input, select, optgroup, textarea, ::file-selector-button {
-    font: inherit;
-    font-feature-settings: inherit;
-    font-variation-settings: inherit;
-    letter-spacing: inherit;
-    color: inherit;
-    border-radius: 0;
-    background-color: transparent;
-    opacity: 1;
-  }
-  :where(select:is([multiple], [size])) optgroup {
-    font-weight: bolder;
-  }
-  :where(select:is([multiple], [size])) optgroup option {
-    padding-inline-start: 20px;
-  }
-  ::file-selector-button {
-    margin-inline-end: 4px;
-  }
-  ::placeholder {
-    opacity: 1;
-  }
-  @supports (not (-webkit-appearance: -apple-pay-button))  or (contain-intrinsic-size: 1px) {
-    ::placeholder {
-      color: color-mix(in oklab, currentColor 50%, transparent);
-    }
-  }
-  textarea {
-    resize: vertical;
-  }
-  ::-webkit-search-decoration {
-    -webkit-appearance: none;
-  }
-  ::-webkit-date-and-time-value {
-    min-height: 1lh;
-    text-align: inherit;
-  }
-  ::-webkit-datetime-edit {
-    display: inline-flex;
-  }
-  ::-webkit-datetime-edit-fields-wrapper {
-    padding: 0;
-  }
-  ::-webkit-datetime-edit, ::-webkit-datetime-edit-year-field, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute-field, ::-webkit-datetime-edit-second-field, ::-webkit-datetime-edit-millisecond-field, ::-webkit-datetime-edit-meridiem-field {
-    padding-block: 0;
-  }
-  :-moz-ui-invalid {
-    box-shadow: none;
-  }
-  button, input:where([type="button"], [type="reset"], [type="submit"]), ::file-selector-button {
-    appearance: button;
-  }
-  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
-    height: auto;
-  }
-  [hidden]:where(:not([hidden="until-found"])) {
-    display: none !important;
-  }
-}
-@layer utilities;
-.test-class-1 {
-  background-color: #FFC0CB;
-}
-.test-class-2 {
-  background-color: #FFC0CB;
+body {
+  background-color: red !important;
 }
 @layer theme, base, components, utilities;
 @layer theme;
