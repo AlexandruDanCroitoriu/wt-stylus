@@ -1,5 +1,5 @@
-<div id="navbar" class="ts test test-[2px] fixed transform-gpu bg-white/80 shadow-md transition-transform duration-300 ">
-    <div   class="trei-patru items-center justify-between mx-auto px-6 py-4 test1 container flex tset asa test doi ">
+<div id="navbar" class="test test-[2px] fixed transform-gpu bg-white/80 shadow-md transition-transform duration-300 ">
+    <div class="items-center justify-between mx-auto px-6 py-4 test1 container flex ">
         <a href="#" class="text-2xl font-bold text-gray-900 transition-colors hover:text-blue-600 ">BrandName</a>
         <ul class="hidden space-x-6 font-medium text-gray-700 md:flex">
             <li>
@@ -20,7 +20,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7"/>
             </svg>
         </button>
-    </div  >
+    </div>
     <div id="mobile-menu" class="hidden bg-white shadow-md md:hidden">
         <ul class="space-y-4 p-4 font-medium text-gray-700">
             <li>

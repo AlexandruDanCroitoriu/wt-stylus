@@ -4,7 +4,7 @@
 #include <Wt/WPushButton.h>
 #include <regex>
 #include <Wt/WRegExpValidator.h>
-#
+
 namespace Stylus 
 {
 
@@ -24,7 +24,7 @@ namespace Stylus
         is_condition_ = content_wrapper->addWidget(std::make_unique<Wt::WCheckBox>());
         is_condition_->setText("set as condition");
         is_condition_->disable();
-        is_condition_->setStyleClass("pr-[10px]");
+        is_condition_->setStyleClass("pr-[10px] font-[6px]");
 
         std::string input_styles = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-500 disabled:bg-gray-200 disabled:dark:bg-gray-700 disabled:cursor-not-allowed";
 
@@ -37,8 +37,6 @@ namespace Stylus
         elem_tag_->setStyleClass(input_styles);
         elem_label->setBuddy(elem_tag_);
         elem_tag_->disable();
-        auto whitespace_validator = std::shared_ptr<Wt::WRegExpValidator>("^[^\\s]+$");
-        elem_tag_->setValidator(whitespace_validator);
 
         auto elem_classes_wrapper = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
         elem_classes_wrapper->setStyleClass("relative");
@@ -61,7 +59,6 @@ namespace Stylus
         elem_classes_->setPlaceholderText("Element Classes");
         elem_classes_->setStyleClass(input_styles);
         elem_classes_->disable();
-        elem_classes_->setValidator(whitespace_validator);
 
         is_condition_->changed().connect([=]() {
             std::cout << "\n\n is condition checkbox changed \n\n";
@@ -105,7 +102,12 @@ namespace Stylus
                 ) {
                     elem_tag_->label()->setText("root nodes cannot be renamed");
                     return;
+                }else if (std::regex_search(elem_tag_->text().toUTF8(), std::regex("\\s"))) {
+                    // no whitespace allowed in tag name
+                    elem_tag_->label()->setText("whitespace not allowed");
+                    return;
                 }
+
                 elem_tag_->label()->setText("");
                 auto selected_node = file_brain_->selected_node_;
                 if(elem_tag_->text().empty()) {
@@ -127,18 +129,23 @@ namespace Stylus
             Wt::WApplication::instance()->globalKeyWentDown().emit(event); 
             if(event.modifiers().test(Wt::KeyboardModifier::Control) && event.key() == Wt::Key::S){
                 std::cout << "\n\nControlCenter::setClasses() - elem_classes_ keyWentDown event triggered\n\n";
-                if(file_brain_ || file_brain_->selected_node_ || !elem_classes_->valueText().empty())
-                {
-                    std::string new_style_classes = elem_classes_->valueText().toUTF8() + " ";
-                    for(auto style_class : style_classes_){
-                        new_style_classes += style_class  + " ";
-                    }
-                    file_brain_->selected_node_->SetAttribute("class", new_style_classes.c_str());
-                    file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
-                    elem_classes_->setText("");
-                    file_brain_->file_saved_.emit();
-                    elem_classes_->setFocus();
+                if(std::regex_search(elem_classes_->valueText().toUTF8(), std::regex("\\s"))) {
+                    // no whitespace allowed in class names
+                    elem_classes_->label()->setText("whitespace not allowed");
+                    return;
+                }else if(!file_brain_ || !file_brain_->selected_node_){
+                    elem_classes_->label()->setText("no node selected");
+                    return;
                 }
+                std::string new_style_classes = elem_classes_->valueText().toUTF8() + " ";
+                for(auto style_class : style_classes_){
+                    new_style_classes += style_class  + " ";
+                }
+                file_brain_->selected_node_->SetAttribute("class", new_style_classes.c_str());
+                file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
+                elem_classes_->setText("");
+                file_brain_->file_saved_.emit();
+                elem_classes_->setFocus();
             }
         });
       
@@ -223,6 +230,8 @@ namespace Stylus
     {
         style_classes_wrapper_->clear();
         style_classes_.clear();
+        elem_classes_->label()->setText("");
+        elem_classes_->setText("");
         if(!file_brain_ || !file_brain_->selected_node_) {
             elem_classes_->disable();
             elem_classes_->setText("");
