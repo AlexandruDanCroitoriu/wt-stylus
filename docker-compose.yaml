@@ -47,8 +47,6 @@ services:
       - wt_builder
     ports:
       - "9013:9013"
-    volumes:
-      - ./app/cv:/app/cv
     restart: unless-stopped
 
   postgres:
