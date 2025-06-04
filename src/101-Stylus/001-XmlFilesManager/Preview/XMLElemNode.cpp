@@ -18,7 +18,6 @@ namespace Stylus
         }
         for (auto attr = node->FirstAttribute(); attr != nullptr; attr = attr->Next())
         {
-            std::cout << "\n Attribute Name: " << attr->Name() << ", Value: " << attr->Value() << std::endl;
             if (std::string(attr->Name()).compare("class") == 0)
             {
                 setStyleClass(attr->Value());

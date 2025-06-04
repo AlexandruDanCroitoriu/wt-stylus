@@ -13,7 +13,6 @@ namespace Stylus
         setMaximumSize(Wt::WLength(300, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
         setStyleClass("stylus-background z-[100] overflow-x-visible");
 
-
         auto content_wrapper = addWidget(std::make_unique<Wt::WContainerWidget>());
         content_wrapper->setStyleClass("h-screen border-l border-solid border-[#000] space-y-2 flex flex-col stylus-background");
 
@@ -116,6 +115,17 @@ namespace Stylus
         elem_classes_->keyWentDown().connect([=](Wt::WKeyEvent event) { 
             Wt::WApplication::instance()->globalKeyWentDown().emit(event); 
         });
+        elem_classes_->enterPressed().connect(this, [=](){
+            if(file_brain_ && file_brain_->selected_node_ && !elem_classes_->valueText().empty()){
+                std::string new_style_classes = elem_classes_->valueText().toUTF8() + " ";
+                for(auto style_class : style_classes_){
+                    new_style_classes += style_class.second + " ";
+                }
+                file_brain_->selected_node_->SetAttribute("class", new_style_classes.c_str());
+                file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
+                file_brain_->file_saved_.emit();
+            }
+        });
         elem_text_->keyWentDown().connect([=](Wt::WKeyEvent event) { 
             Wt::WApplication::instance()->globalKeyWentDown().emit(event); 
             if(event.modifiers().test(Wt::KeyboardModifier::Control) && event.key() == Wt::Key::S){
@@ -213,13 +223,11 @@ namespace Stylus
             for (; it != end; ++it)
             {
                 if (!it->str().empty()) {
-                    style_classes_[it->str()] = it->str();
+                    style_classes_.emplace_back(it->str(), it->str()); // <--- This is the line you need to add
                     auto style_class = style_classes_wrapper_->addWidget(std::make_unique<Wt::WText>(it->str()));
                     style_class->setStyleClass("p-[6px] border border-solid border-[#000] hover:border-[gray] cursor-pointer text-nowrap");
-                    
                 }
             }
-            
         }
     }
     void ControlCenter::setText()

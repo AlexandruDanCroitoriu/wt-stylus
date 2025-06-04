@@ -15,7 +15,7 @@ namespace Stylus
     Stylus::Stylus(Session& session)
         : session_(session)
     {
-  setOffsets(0, Wt::Side::Top | Wt::Side::Bottom | Wt::Side::Left | Wt::Side::Right);
+        setOffsets(0, Wt::Side::Top | Wt::Side::Bottom | Wt::Side::Left | Wt::Side::Right);
         titleBar()->children()[0]->removeFromParent();
         setStyleClass("!border-0 overflow-auto stylus-background");
         titleBar()->hide();

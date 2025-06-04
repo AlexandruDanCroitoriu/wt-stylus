@@ -27,7 +27,7 @@ namespace Stylus
             Wt::WLineEdit* elem_tag_;
             Wt::WLineEdit* elem_classes_;
             Wt::WTextArea* elem_text_;
-            std::map<std::string, std::string> style_classes_;
+            std::vector<std::pair<std::string, std::string>> style_classes_;
             Wt::WContainerWidget* style_classes_wrapper_;
 
             void setTagName();

@@ -44,7 +44,6 @@ COPY ./resources /apps/cv/resources
 COPY ./src /apps/cv/src
 COPY ./CMakeLists.txt /apps/cv/CMakeLists.txt
 COPY ./wt_config.xml /apps/cv/wt_config.xml
-COPY ./static /apps/cv/static
 
 RUN mkdir -p /apps/cv/build
 WORKDIR /apps/cv/build

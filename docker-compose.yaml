@@ -48,7 +48,7 @@ services:
     ports:
       - "9013:9013"
     volumes:
-      - ./app/cv:/app/cv
+      - ./static/:/apps/cv/static/
     restart: unless-stopped
 
   postgres:
