@@ -45,11 +45,10 @@ namespace Stylus
         )");
         // Wt::WApplication::instance()->useStyleSheet(Wt::WApplication::instance()->docRoot() + "/static/stylus/stylus.css?v=" + Wt::WRandom::generateId());
         // Wt::WApplication::instance()->require(Wt::WApplication::instance()->docRoot() + "/static/stylus/monaco-edditor.js");
+        
         Wt::WApplication::instance()->require(Wt::WApplication::instance()->docRoot() + "/static/stylus/monaco-edditor.js");
-
         Wt::WApplication::instance()->messageResourceBundle().use(Wt::WApplication::instance()->docRoot() + "/static/stylus/templates");
 
-        // if (session_.login().loggedIn() && session_.user()->hasPermission("STYLUS_FILES_MANAGER")) {
         session_.login().changed().connect(this, [=]()
         {
             if (session_.login().loggedIn()) {
@@ -560,9 +559,9 @@ namespace Stylus
             }else if (e.key() == Wt::Key::Key_4){
                 tailwind_menu_item->clicked().emit(Wt::WMouseEvent());
             }else if(e.key() == Wt::Key::Key_5){
-                settings_menu_item->clicked().emit(Wt::WMouseEvent());
-            }else if (e.key() == Wt::Key::Key_6){
                 images_menu_item->clicked().emit(Wt::WMouseEvent());
+            }else if (e.key() == Wt::Key::Key_6){
+                settings_menu_item->clicked().emit(Wt::WMouseEvent());
             }else if (e.key() == Wt::Key::Key_7){
                 dynamic_cast<App*>(Wt::WApplication::instance())->dark_mode_changed_.emit(!state_->stylus_node_->BoolAttribute("dark-mode"));
             }else if (e.key() == Wt::Key::Up){
@@ -820,11 +819,19 @@ namespace Stylus
         } });
 
         css_files_manager_->file_saved().connect(this, [=]()
-                                                 { tailwind_config_->generateCssFile(); });
+                                                { 
+                                                    if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn"))
+                                                        tailwind_config_->generateCssFile(); 
+                                                });
         xml_files_manager_->file_saved().connect(this, [=]()
-                                                 { tailwind_config_->generateCssFile(); });
+                                                 { 
+                                                    if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn"))
+                                                        tailwind_config_->generateCssFile(); 
+                                                });
 
-        tailwind_config_->generateCssFile();
+        if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn")){
+            tailwind_config_->generateCssFile();
+        }
     }
 
 }

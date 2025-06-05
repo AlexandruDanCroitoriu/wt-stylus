@@ -112,7 +112,8 @@ namespace Stylus
                 file.close();
                 config_editor_->textSaved();
                 config_files_combobox_->setDisabled(false);
-                generateCssFile();
+                if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn"))
+                    generateCssFile();
             }
         });
 
@@ -249,7 +250,8 @@ namespace Stylus
             auto resource_url = state_->tailwind_config_editor_data_.root_resource_url_ + file_name;
             auto file_path = state_->tailwind_config_editor_data_.root_folder_path_ + file_name;
             config_editor_->setEditorText(resource_url, state_->getFileText(file_path));
-            generateCssFile();
+            if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn"))
+                generateCssFile();
 
             if(file_name == default_config_file_name_)
             {
@@ -288,7 +290,10 @@ namespace Stylus
         prev_css_file_ = Wt::WApplication::instance()->docRoot() + "/../static/tailwind.css?v=" + Wt::WRandom::generateId();
         Wt::WApplication::instance()->useStyleSheet(prev_css_file_.toUTF8());
 
-        state_->file_saved_.connect(this, [=](){ generateCssFile(); });
+        state_->file_saved_.connect(this, [=](){ 
+            if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn"))
+                generateCssFile(); 
+            });
         
     }
     

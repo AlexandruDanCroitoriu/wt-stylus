@@ -108,6 +108,7 @@ namespace Stylus {
         {
             std::cerr << "Error finding <settings> node in XML file." << std::endl;
             settings_node_ = doc_->NewElement("settings");
+            settings_node_->SetAttribute("use-tailwind-cdn", "true");
             stylus_node_->InsertEndChild(settings_node_);
         }
         images_manager_node_ = stylus_node_->FirstChildElement("images-manager");

@@ -21,13 +21,14 @@ namespace Stylus
         auto menu_wrapper = addWidget(std::make_unique<Wt::WContainerWidget>());
         menu_wrapper->setStyleClass("w-[20px] h-screen border-l border-solid border-[#000] absolute top-0 right-[-20px] stylus-background");   
         
+        
+        std::string input_styles = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-500 disabled:bg-gray-200 disabled:dark:bg-gray-700 disabled:cursor-not-allowed";
+
         is_condition_ = content_wrapper->addWidget(std::make_unique<Wt::WCheckBox>());
         is_condition_->setText("set as condition");
         is_condition_->disable();
-        is_condition_->setStyleClass("pr-[10px] font-[6px]");
-
-        std::string input_styles = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-500 disabled:bg-gray-200 disabled:dark:bg-gray-700 disabled:cursor-not-allowed";
-
+        is_condition_->setStyleClass("pr-[10px] font-[6px] disabled:cursor-not-allowed disabled:bg-[#EC133B]/50 hover:disabled:!bg-[#EC133B]/50");
+        
         auto elem_tag_wrapper = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
         elem_tag_wrapper->setStyleClass("relative");
         auto elem_label = elem_tag_wrapper->addWidget(std::make_unique<Wt::WLabel>(""));

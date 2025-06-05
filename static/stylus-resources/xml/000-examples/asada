@@ -2,7 +2,7 @@
 <!-- Created with Stylus Editor -->
 <messages>
     <message id="example">
-        <div>Example div text</div>
+        <div class="p-[23px] bg-red-200/40 ">Example div text</div>
         <p>Example paragraph text</p>
     </message>
 </messages>

@@ -313,6 +313,9 @@
   .mt-12 {
     margin-top: calc(var(--spacing) * 12);
   }
+  .mt-\[8px\] {
+    margin-top: 8px;
+  }
   .mr-\[3px\] {
     margin-right: 3px;
   }
@@ -327,6 +330,9 @@
   }
   .mb-6 {
     margin-bottom: calc(var(--spacing) * 6);
+  }
+  .mb-\[16px\] {
+    margin-bottom: 16px;
   }
   .ml-2 {
     margin-left: calc(var(--spacing) * 2);
@@ -789,6 +795,9 @@
   }
   .px-\[3px\] {
     padding-inline: 3px;
+  }
+  .px-\[16px\] {
+    padding-inline: 16px;
   }
   .py-1\.5 {
     padding-block: calc(var(--spacing) * 1.5);

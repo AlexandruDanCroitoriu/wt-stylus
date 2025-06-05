@@ -1,9 +1,9 @@
-<messages class="flex flex-col">
+<messages class="flex flex-col ">
     <message id="examples:tree-node" class="inline-block">
         <ul>
             <li>
-                <div>${label}</div>
-                <div>${content}</div>
+                <div class="">${label}</div>
+                <div class="">${content}</div>
             </li>
         </ul>
     </message>
