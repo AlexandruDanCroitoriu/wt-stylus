@@ -287,8 +287,6 @@ namespace Stylus
         
         setLayout(std::move(grid_layout));
         
-        prev_css_file_ = Wt::WApplication::instance()->docRoot() + "/../static/tailwind.css?v=" + Wt::WRandom::generateId();
-        Wt::WApplication::instance()->useStyleSheet(prev_css_file_.toUTF8());
 
         state_->file_saved_.connect(this, [=](){ 
             if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn"))

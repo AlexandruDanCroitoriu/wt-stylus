@@ -49,6 +49,8 @@ namespace Stylus
         Wt::WApplication::instance()->require(Wt::WApplication::instance()->docRoot() + "/static/stylus/monaco-edditor.js");
         // Wt::WApplication::instance()->messageResourceBundle().use(Wt::WApplication::instance()->docRoot() + "/static/stylus/templates");
         Wt::WApplication::instance()->messageResourceBundle().use("../static/stylus-resources/xml/101-stylus/svg");
+        Wt::WString stylus_css_file_path_ = "../static/tailwind.css?v=" + Wt::WRandom::generateId();
+        Wt::WApplication::instance()->useStyleSheet(stylus_css_file_path_.toUTF8());
 
         session_.login().changed().connect(this, [=]()
         {

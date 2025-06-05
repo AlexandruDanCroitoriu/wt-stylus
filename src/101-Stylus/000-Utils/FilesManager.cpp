@@ -191,6 +191,7 @@ void TreeNode::showPopup(const Wt::WMouseEvent& event)
         else if(type_ == TreeNodeType::File)
         {
             popup_->addItem("copy import to clipboard")->clicked().connect(this, [=]() { copyFilePathToClipboard(); });
+            popup_->addSeparator();
             popup_->addItem("Rename File")->clicked().connect(this, [=]() { createRenameFileDialog(); });
             popup_->addSeparator();
             popup_->addItem("Delete File")->clicked().connect(this, [=]() { deleteFileMessageBox(); });
