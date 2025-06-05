@@ -15,5 +15,5 @@ pgadmin.alexandru-croitoriu.dev {
     reverse_proxy pgadmin:9010
 }
 code-server.alexandru-croitoriu.dev {
-    reverse_proxy code-server:8443
+    reverse_proxy wt_code_server:8443
 }
