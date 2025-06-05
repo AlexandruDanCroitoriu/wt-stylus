@@ -14,3 +14,6 @@ portainer.alexandru-croitoriu.dev {
 pgadmin.alexandru-croitoriu.dev {
     reverse_proxy pgadmin:9010
 }
+code-server.alexandru-croitoriu.dev {
+    reverse_proxy code-server:8443
+}

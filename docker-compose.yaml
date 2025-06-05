@@ -94,32 +94,33 @@ services:
       - ./containers/jenkins/jenkins_home:/var/jenkins_home
     group_add:
       - ${DOCKER_SOCK_GROUP_ID}
-   # wt-code-server:
-  #   image: wt_code_server
-  #   container_name: wt_code_server
-  #   build:
-  #     context: .
-  #     dockerfile: ./dockerfiles/wt_code_server
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=Etc/UTC
-  #     - PASSWORD=asdfghj1 #optional
-  #     # - HASHED_PASSWORD= #optional
-  #     - SUDO_PASSWORD=asdfghj1 #optional
-  #     # - SUDO_PASSWORD_HASH= #optional
-  #     # - PROXY_DOMAIN=code-server.my.domain #optional
-  #     - DEFAULT_WORKSPACE=/config/workspace #optional
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - ./containers/wt_code_server:/config/
-  #     - ./:/config/workspace
-  #   ports:
-  #     - 9010:8443
-  #   restart: unless-stopped
-  #   group_add:
-  #     - ${DOCKER_SOCK_GROUP_ID}
-  #   user: root
+  
+  wt-code-server:
+    image: wt_code_server
+    container_name: wt_code_server
+    build:
+      context: .
+      dockerfile: ./dockerfiles/wt_code_server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PASSWORD=asdfghj1 #optional
+      # - HASHED_PASSWORD= #optional
+      - SUDO_PASSWORD=asdfghj1 #optional
+      # - SUDO_PASSWORD_HASH= #optional
+      # - PROXY_DOMAIN=code-server.my.domain #optional
+      - DEFAULT_WORKSPACE=/config/workspace #optional
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./containers/wt_code_server:/config/
+      - ./:/config/workspace
+    ports:
+      - 8443:8443
+    restart: unless-stopped
+    group_add:
+      - ${DOCKER_SOCK_GROUP_ID}
+    user: root
 
 
   
