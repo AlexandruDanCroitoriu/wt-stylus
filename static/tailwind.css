@@ -1607,9 +1607,6 @@
     }
   }
 }
-body {
-  background-color: red !important;
-}
 @layer theme, base, components, utilities;
 @layer theme;
 @layer base {
@@ -1757,11 +1754,11 @@ body {
 @layer utilities;
 :root {
   --stylus-bg: rgb(248, 248, 248);
-  --stylus-text: rgb(0, 0, 0);
+  --stylus-text: rgb(248, 248, 248);
   --stylus-bg-dark: rgb(30, 30, 30);
   --stylus-text-dark: rgb(232, 232, 232);
-  --selected: rgb(107, 241, 147);
-  --selected-hover: rgb(40, 107, 231);
+  --selected: rgb(40, 107, 231);
+  --selected-hover: rgb(107, 241, 147);
   --error: rgb(255, 140, 140);
   --preview-message: #fff;
   --preview-node: rgb(86, 156, 214);
@@ -1817,7 +1814,7 @@ body {
   }
   &:hover {
     @media (hover: hover) {
-      color: white;
+      color: var(--stylus-bg-dark);
     }
   }
 }
@@ -1826,7 +1823,7 @@ body {
   color: var(--stylus-text);
   &:hover {
     @media (hover: hover) {
-      color: black;
+      color: var(--stylus-text);
     }
   }
 }

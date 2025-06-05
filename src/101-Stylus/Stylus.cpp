@@ -47,7 +47,8 @@ namespace Stylus
         // Wt::WApplication::instance()->require(Wt::WApplication::instance()->docRoot() + "/static/stylus/monaco-edditor.js");
         
         Wt::WApplication::instance()->require(Wt::WApplication::instance()->docRoot() + "/static/stylus/monaco-edditor.js");
-        Wt::WApplication::instance()->messageResourceBundle().use(Wt::WApplication::instance()->docRoot() + "/static/stylus/templates");
+        // Wt::WApplication::instance()->messageResourceBundle().use(Wt::WApplication::instance()->docRoot() + "/static/stylus/templates");
+        Wt::WApplication::instance()->messageResourceBundle().use("../static/stylus-resources/xml/101-stylus/svg");
 
         session_.login().changed().connect(this, [=]()
         {

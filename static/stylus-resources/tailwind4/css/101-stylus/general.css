@@ -1,15 +1,18 @@
 @import "tailwindcss";
 
-:root {
+:root { 
 	/* used by all stylus widgets except text editors*/
 	--stylus-bg: rgb(248, 248, 248);
-	--stylus-text: rgb(0, 0, 0);
+	/* --stylus-text: rgb(0, 0, 0); */
+	--stylus-text: rgb(248, 248, 248);
 	--stylus-bg-dark: rgb(30, 30, 30);
 	--stylus-text-dark: rgb(232, 232, 232);
 	
 	/* used by widgets used to preview elements to indicate the selected or hovered node */
-	--selected: rgb(107, 241, 147);
-	--selected-hover: rgb(40, 107, 231);
+	/* --selected: rgb(107, 241, 147); */
+	/* --selected-hover: rgb(40, 107, 231); */
+	--selected: rgb(40, 107, 231);
+	--selected-hover: rgb(107, 241, 147);
 	
 	--error: rgb(255, 140, 140);
 	--preview-message: #fff;
@@ -51,10 +54,10 @@
     /* zoom: 125%; */
 }
 .Wt-item {
-	@apply hover:bg-[var(--selected-hover)] hover:text-[white];
+	@apply hover:bg-[var(--selected-hover)] hover:text-[var(--stylus-bg-dark)];
 }
 .Wt-selected {
-	@apply !bg-[var(--selected)] text-[var(--stylus-text)] hover:text-[black];
+	@apply !bg-[var(--selected)] text-[var(--stylus-text)] hover:text-[var(--stylus-text)];
 }
 .unsaved-changes > .Wt-selected {
     @apply !bg-[var(--error)];
