@@ -40,6 +40,7 @@ set(SOURCES
     ${SOURCE_DIR}101-Stylus/002-CssFilesManager/CssFilesManager.cpp
     ${SOURCE_DIR}101-Stylus/003-JsFilesManager/JsFilesManager.cpp
     ${SOURCE_DIR}101-Stylus/004-TailwindConfigManager/TailwindConfigManager.cpp
+    ${SOURCE_DIR}101-Stylus/005-Settings/Settings.cpp
 
 )
 

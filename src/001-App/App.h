@@ -2,7 +2,6 @@
 #include <Wt/WApplication.h>
 #include "002-Dbo/Session.h"
 
-// #include "005-TailwindConfigCenter/TailwindConfigCenter.h"
 #include "101-Stylus/Stylus.h"
 
 class App : public Wt::WApplication

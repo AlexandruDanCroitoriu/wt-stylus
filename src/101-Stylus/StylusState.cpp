@@ -103,6 +103,13 @@ namespace Stylus {
             tailwind_config_node_->SetAttribute("selected-file-name", "");
             stylus_node_->InsertEndChild(tailwind_config_node_);
         }
+        settings_node_ = stylus_node_->FirstChildElement("settings");
+        if (settings_node_ == nullptr)
+        {
+            std::cerr << "Error finding <settings> node in XML file." << std::endl;
+            settings_node_ = doc_->NewElement("settings");
+            stylus_node_->InsertEndChild(settings_node_);
+        }
         copy_node_ = doc_->FirstChildElement("copy");
         if (copy_node_ == nullptr)
         {
