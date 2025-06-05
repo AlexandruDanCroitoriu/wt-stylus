@@ -12,7 +12,7 @@
     <message id="Wt.Auth.template.login">
         <div class="Wt-form Wt-auth-login">
             <h2>${tr:Wt.Auth.login-form-title}</h2>
-            <p>${tr:Wt.Auth.login-form-info}</p>
+            <p class="  ">${tr:Wt.Auth.login-form-info}</p>
             <div class="Wt-fields">
         ${<if:passwords>}
           <label for="${id:user-name}"><span>${user-name-label}</span>

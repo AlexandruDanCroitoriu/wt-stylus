@@ -148,7 +148,6 @@ namespace Stylus
                 file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
                 elem_classes_->setText("");
                 file_brain_->file_saved_.emit();
-                elem_classes_->setFocus();
             }
         });
       
@@ -203,7 +202,7 @@ namespace Stylus
 
         file_brain_ = file_brain;
         auto selected_node = file_brain_->selected_node_;
-
+        elem_classes_->setFocus();
         setTagName();
         setClasses();
         setText();
@@ -267,7 +266,6 @@ namespace Stylus
                         file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
                         file_brain_->file_saved_.emit();
                         elem_classes_->setText(style_class_str);
-                        elem_classes_->setFocus();
                     });
                 }
             }
