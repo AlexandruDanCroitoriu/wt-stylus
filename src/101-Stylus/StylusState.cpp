@@ -110,6 +110,12 @@ namespace Stylus {
             settings_node_ = doc_->NewElement("settings");
             stylus_node_->InsertEndChild(settings_node_);
         }
+        images_manager_node_ = stylus_node_->FirstChildElement("images-manager");
+        if (images_manager_node_ == nullptr)
+        {
+            std::cerr << "Error finding <images-manager> node in XML file." << std::endl;
+            images_manager_node_ = doc_->NewElement("images-manager");
+        }
         copy_node_ = doc_->FirstChildElement("copy");
         if (copy_node_ == nullptr)
         {

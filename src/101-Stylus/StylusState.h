@@ -22,6 +22,7 @@ namespace Stylus
         tinyxml2::XMLElement* js_node_ = nullptr;
         tinyxml2::XMLElement* tailwind_config_node_ = nullptr;
         tinyxml2::XMLElement* settings_node_ = nullptr;
+        tinyxml2::XMLElement* images_manager_node_ = nullptr;
         tinyxml2::XMLElement* copy_node_ = nullptr;
 
         std::string tailwind_input_file_path_;

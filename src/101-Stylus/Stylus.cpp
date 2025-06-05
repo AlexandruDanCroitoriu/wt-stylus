@@ -85,6 +85,7 @@ namespace Stylus
         auto css_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-css-logo")));
         auto javascript_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-javascript-logo")));
         auto tailwind_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-tailwind-logo")));
+        auto images_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-images-logo")));
         auto settings_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-settings-logo")));
         auto dark_mode_toggle = navbar->addWidget(std::make_unique<DarkModeToggle>());
         
@@ -94,6 +95,7 @@ namespace Stylus
         tailwind_menu_item->setStyleClass(nav_btns_styles);
         css_menu_item->setStyleClass(nav_btns_styles);
         javascript_menu_item->setStyleClass(nav_btns_styles);
+        images_menu_item->setStyleClass(nav_btns_styles);
         settings_menu_item->setStyleClass(nav_btns_styles);
         std::cout << "\n\nStylus initialized successfully.\n\n";
 
@@ -101,6 +103,7 @@ namespace Stylus
         css_files_manager_ = content_wrapper->addWidget(std::make_unique<CssFilesManager>(state_));
         js_files_manager_ = content_wrapper->addWidget(std::make_unique<JsFilesManager>(state_));
         tailwind_config_ = content_wrapper->addWidget(std::make_unique<TailwindConfigManager>(state_));
+        images_manager_ = content_wrapper->addWidget(std::make_unique<ImagesManager>(state_));
         settings_ = content_wrapper->addWidget(std::make_unique<Settings>(state_));
 
         templates_menu_item->clicked().connect(this, [=]()
@@ -110,6 +113,7 @@ namespace Stylus
             css_menu_item->toggleStyleClass("stylus-menu-selected", false);
             settings_menu_item->toggleStyleClass("stylus-menu-selected", false);
             javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
+            images_menu_item->toggleStyleClass("stylus-menu-selected", false);
             content_wrapper->setCurrentWidget(xml_files_manager_);
             state_->stylus_node_->SetAttribute("selected-menu", "templates");
             state_->doc_->SaveFile(state_->state_file_path_.c_str()); 
@@ -122,6 +126,7 @@ namespace Stylus
             css_menu_item->toggleStyleClass("stylus-menu-selected", false);
             settings_menu_item->toggleStyleClass("stylus-menu-selected", false);
             javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
+            images_menu_item->toggleStyleClass("stylus-menu-selected", false);
             content_wrapper->setCurrentWidget(tailwind_config_);
             state_->stylus_node_->SetAttribute("selected-menu", "tailwind");
             state_->doc_->SaveFile(state_->state_file_path_.c_str()); 
@@ -134,6 +139,7 @@ namespace Stylus
             settings_menu_item->toggleStyleClass("stylus-menu-selected", false);
             css_menu_item->toggleStyleClass("stylus-menu-selected", true);
             javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
+            images_menu_item->toggleStyleClass("stylus-menu-selected", false);
             content_wrapper->setCurrentWidget(css_files_manager_);
             state_->stylus_node_->SetAttribute("selected-menu", "css");
             state_->doc_->SaveFile(state_->state_file_path_.c_str()); 
@@ -146,6 +152,7 @@ namespace Stylus
             css_menu_item->toggleStyleClass("stylus-menu-selected", false);
             javascript_menu_item->toggleStyleClass("stylus-menu-selected", true);
             settings_menu_item->toggleStyleClass("stylus-menu-selected", false);
+            images_menu_item->toggleStyleClass("stylus-menu-selected", false);
             content_wrapper->setCurrentWidget(js_files_manager_);
             state_->stylus_node_->SetAttribute("selected-menu", "javascript");
             state_->doc_->SaveFile(state_->state_file_path_.c_str()); 
@@ -158,8 +165,22 @@ namespace Stylus
             css_menu_item->toggleStyleClass("stylus-menu-selected", false);
             javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
             settings_menu_item->toggleStyleClass("stylus-menu-selected", true);
+            images_menu_item->toggleStyleClass("stylus-menu-selected", false);
             content_wrapper->setCurrentWidget(settings_);
             state_->stylus_node_->SetAttribute("selected-menu", "settings");
+            state_->doc_->SaveFile(state_->state_file_path_.c_str()); 
+        });
+
+        images_menu_item->clicked().connect(this, [=]()
+                                            {
+            templates_menu_item->toggleStyleClass("stylus-menu-selected", false);
+            tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
+            css_menu_item->toggleStyleClass("stylus-menu-selected", false);
+            javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
+            settings_menu_item->toggleStyleClass("stylus-menu-selected", false);
+            images_menu_item->toggleStyleClass("stylus-menu-selected", true);
+            content_wrapper->setCurrentWidget(images_manager_);
+            state_->stylus_node_->SetAttribute("selected-menu", "images");
             state_->doc_->SaveFile(state_->state_file_path_.c_str()); 
         });
 
@@ -541,6 +562,8 @@ namespace Stylus
             }else if(e.key() == Wt::Key::Key_5){
                 settings_menu_item->clicked().emit(Wt::WMouseEvent());
             }else if (e.key() == Wt::Key::Key_6){
+                images_menu_item->clicked().emit(Wt::WMouseEvent());
+            }else if (e.key() == Wt::Key::Key_7){
                 dynamic_cast<App*>(Wt::WApplication::instance())->dark_mode_changed_.emit(!state_->stylus_node_->BoolAttribute("dark-mode"));
             }else if (e.key() == Wt::Key::Up){
                 if(!xml_files_manager_->selected_file_brain_) return;

@@ -9,7 +9,8 @@
 #include "101-Stylus/002-CssFilesManager/CssFilesManager.h"
 #include "101-Stylus/003-JsFilesManager/JsFilesManager.h"
 #include "101-Stylus/004-TailwindConfigManager/TailwindConfigManager.h"
-#include "101-Stylus/005-Settings/Settings.h"
+#include "101-Stylus/005-Images/ImagesManager.h"
+#include "101-Stylus/006-Settings/Settings.h"
 #include "101-Stylus/StylusState.h"
 
 namespace Stylus {
@@ -24,6 +25,7 @@ namespace Stylus {
         CssFilesManager* css_files_manager_;
         JsFilesManager* js_files_manager_;
         TailwindConfigManager* tailwind_config_;
+        ImagesManager* images_manager_;
         Settings* settings_;
         
     private:

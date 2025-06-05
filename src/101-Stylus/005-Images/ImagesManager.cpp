@@ -1,9 +1,9 @@
-#include "101-Stylus/005-Settings/Settings.h"
+#include "101-Stylus/005-Images/ImagesManager.h"
 
 
 namespace Stylus {
 
-Settings::Settings(std::shared_ptr<StylusState> state)
+ImagesManager::ImagesManager(std::shared_ptr<StylusState> state)
     : Wt::WContainerWidget(),
       state_(state)
 {
