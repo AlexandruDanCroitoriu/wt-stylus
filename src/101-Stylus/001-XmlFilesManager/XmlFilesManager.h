@@ -1,6 +1,6 @@
 #pragma once
 #include "101-Stylus/000-Utils/FilesManager.h"
-#include "101-Stylus/StylusState.h"
+#include "101-Stylus/000-Utils/StylusState.h"
 #include <Wt/WSignal.h>
 #include "101-Stylus/001-XmlFilesManager/Preview/XMLFileBrain.h"
 #include "101-Stylus/001-XmlFilesManager/Preview/XMLElemNode.h"

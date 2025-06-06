@@ -1,7 +1,8 @@
 #pragma once
-#include "101-Stylus/StylusState.h"
-#include <Wt/WContainerWidget.h>
+#include "101-Stylus/000-Utils/StylusState.h"
 #include "101-Stylus/000-Utils/MonacoEditor.h"
+
+#include <Wt/WContainerWidget.h>
 #include <Wt/WHBoxLayout.h>
 #include <Wt/WVBoxLayout.h>
 #include <Wt/WComboBox.h>

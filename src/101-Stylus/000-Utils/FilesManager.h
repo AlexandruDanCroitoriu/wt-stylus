@@ -1,6 +1,6 @@
 #pragma once
 #include "101-Stylus/000-Utils/MonacoEditor.h"
-#include "101-Stylus/StylusState.h"
+#include "101-Stylus/000-Utils/StylusState.h"
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WSignal.h>

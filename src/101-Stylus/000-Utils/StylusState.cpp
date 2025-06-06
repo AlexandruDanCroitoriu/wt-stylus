@@ -1,4 +1,4 @@
-#include "101-Stylus/StylusState.h"
+#include "101-Stylus/000-Utils/StylusState.h"
 #include <Wt/WApplication.h>
 #include <Wt/WServer.h>
 #include <Wt/WIOService.h>
