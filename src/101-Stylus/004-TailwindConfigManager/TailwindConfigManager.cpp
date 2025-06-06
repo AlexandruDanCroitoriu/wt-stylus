@@ -22,7 +22,7 @@ namespace Stylus
 {
 
     TailwindConfigManager::TailwindConfigManager(std::shared_ptr<StylusState> state)
-    : state_(state),
+    : StylusPanelWrapper(state),
     default_config_file_name_("0.css")
     {
 
@@ -47,7 +47,7 @@ namespace Stylus
         config_files_ = getConfigFiles();
         
         output_editor_->setEditorReadOnly(true);
-        setStyleClass("flex flex-col h-[100vh] stylus-background");
+        addStyleClass("flex flex-col");
         sidebar->setStyleClass("flex items-center space-x-[10px] stylus-background");
         // config_editor_->addStyleClass("h-full");
         config_files_combobox_ = sidebar->addWidget(std::make_unique<Wt::WComboBox>());

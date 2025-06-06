@@ -576,7 +576,7 @@ std::string TreeNode::getNodeImportString()
 
 
 FilesManager::FilesManager(std::shared_ptr<StylusState> state, StylusEditorManagementData data, int sidebar_width, std::string selected_file_path)
-    : state_(state),
+    : StylusPanelWrapper(state),
     data_(data),
     selected_file_path_(selected_file_path)
 {

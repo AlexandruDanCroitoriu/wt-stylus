@@ -6,10 +6,9 @@
 namespace Stylus {
 
 Settings::Settings(std::shared_ptr<StylusState> state)
-    : Wt::WContainerWidget(),
-      state_(state)
+    : StylusPanelWrapper(state)
 {
-    setStyleClass("h-[100vh] stylus-background container mx-auto px-[16px] border border-solid");
+    addStyleClass("container mx-auto px-[16px] border border-solid");
     
     if(state_->settings_node_->BoolAttribute("use-tailwind-cdn")) {
         Wt::WApplication::instance()->require("https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4");

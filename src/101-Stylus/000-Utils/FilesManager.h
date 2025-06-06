@@ -1,8 +1,8 @@
 #pragma once
+#include "101-Stylus/000-Utils/StylusPanelWrapper.h"
 #include "101-Stylus/000-Utils/MonacoEditor.h"
 #include "101-Stylus/000-Utils/StylusState.h"
 
-#include <Wt/WContainerWidget.h>
 #include <Wt/WSignal.h>
 #include <Wt/WHBoxLayout.h>
 #include <Wt/WTree.h>
@@ -66,7 +66,7 @@ namespace Stylus
 
     };
 
-    class FilesManager : public Wt::WContainerWidget
+    class FilesManager : public StylusPanelWrapper
     {
     public:
         FilesManager(std::shared_ptr<StylusState> steate, StylusEditorManagementData data, int sidebar_width = 240, std::string selected_file_path = "");
@@ -80,7 +80,7 @@ namespace Stylus
         void reuploadFile();
         std::vector<std::pair<std::string, std::vector<std::string>>> getFolders();
 
-        Wt::Signal<Wt::WString>& file_saved() { return file_saved_; }
+        Wt::Signal<Wt::WString>& file_saved() { return   file_saved_; }
         Wt::Signal<>& file_selected() { return file_selected_; }
 
         Wt::Signal<> folders_changed_; // used mostly by xml files manager to recreate xml file brains
@@ -90,7 +90,6 @@ namespace Stylus
         StylusEditorManagementData data_;
 
     private:
-        std::shared_ptr<StylusState> state_;
 
         Wt::WTree* tree_;
 

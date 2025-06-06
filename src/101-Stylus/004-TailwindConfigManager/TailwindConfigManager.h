@@ -1,4 +1,5 @@
 #pragma once
+#include "101-Stylus/000-Utils/StylusPanelWrapper.h"
 #include "101-Stylus/000-Utils/StylusState.h"
 #include "101-Stylus/000-Utils/MonacoEditor.h"
 
@@ -11,7 +12,7 @@
 
 namespace Stylus
 {
-    class TailwindConfigManager : public Wt::WContainerWidget
+    class TailwindConfigManager : public StylusPanelWrapper
     {
     public:
         TailwindConfigManager(std::shared_ptr<StylusState> state);
@@ -26,7 +27,6 @@ namespace Stylus
         Wt::WComboBox* config_files_combobox_;
         Wt::WPushButton* delete_file_btn_;
         
-        std::shared_ptr<StylusState> state_;
         std::string config_folder_path_;
         std::string default_config_file_name_;
         std::vector<std::string> config_files_;

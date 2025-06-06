@@ -1,1 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- Created with Stylus Editor --><messages><message id="example"><div class="p-[23px] bg-red-200/40 ">Example div text</div><p>Example paragraph text</p></message></messages>
+<div class="flex-wrap items-start justify-start h-full flex dark:bg-gray-900 rounded-md bg-gray-100 p-2 ">
+    <div class="flex ">
+        <div class="bg-red-200/30 p-4 rounded-md border-solid dark:border-gray-400 border-gray-700 border ">element 1</div>
+        <div class="bg-yellow-500/50 p-4 rounded-md border-solid dark:border-gray-400 border-gray-700 border ">element 2</div>
+        <div class="bg-blue-200/30 p-4 rounded-md border-solid dark:border-gray-400 border-gray-700 border ">element 3</div>
+        <div class="bg-green-200/30 p-4 rounded-md border-solid dark:border-gray-400 border-gray-700 border ">element 4</div>
+        <div class="bg-green-200/30 p-4 rounded-md border-solid dark:border-gray-400 border-gray-700 border ">element 5</div>
+        <div class="bg-green-200/30 p-4 rounded-md border-solid dark:border-gray-400 border-gray-700 border ">element 6</div>
+        <div class="bg-green-200/30 p-4 rounded-md border-solid dark:border-gray-400 border-gray-700 border ">element 7</div>
+        <div class="bg-green-200/30 p-4 rounded-md border-solid dark:border-gray-400 border-gray-700 border ">element 8</div>
+        <div class="bg-green-200/30 p-4 rounded-md border-solid dark:border-gray-400 border-gray-700 border ">element 9</div>
+        <div class="bg-green-200/30 p-4 rounded-md border-solid dark:border-gray-400 border-gray-700 border ">element 10</div>
+    </div>
+</div>

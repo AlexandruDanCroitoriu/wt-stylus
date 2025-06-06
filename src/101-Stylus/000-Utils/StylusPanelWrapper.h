@@ -4,13 +4,13 @@
 
 namespace Stylus {
 
-    class StylusPanel : public Wt::WContainerWidget
+    class StylusPanelWrapper : public Wt::WContainerWidget
     {
     public:
-        StylusPanel(std::shared_ptr<StylusState> state);
+        StylusPanelWrapper(std::shared_ptr<StylusState> state);
 
-    private:
         std::shared_ptr<StylusState> state_;
+    private:
         
     };
 }
