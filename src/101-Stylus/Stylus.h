@@ -21,7 +21,7 @@ namespace Stylus {
     public:
         Stylus(Session& session);
             
-        XmlFilesManager* xml_files_manager_;
+        XmlFilesManager* xml_files_manager_ ;
         CssFilesManager* css_files_manager_;
         JsFilesManager* js_files_manager_;
         TailwindConfigManager* tailwind_config_;

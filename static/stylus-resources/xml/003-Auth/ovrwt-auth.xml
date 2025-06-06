@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages xmlns:if="Wt.WTemplate.conditions">
-    <message id="Wt.Auth.field"><![CDATA[
-			${<if:{1}>}
-				<label for="${id:{1}}">
-					<span>${tr:Wt.Auth.{1}}</span>
-					<span>${{1}-info class="Wt-info"}</span>
-				</label>
-				${{1}}
-			${</if:{1}>}
-    ]]></message>
     <message id="Wt.Auth.template.login">
         <div class="Wt-form Wt-auth-login">
             <h2>${tr:Wt.Auth.login-form-title}</h2>
@@ -62,9 +53,25 @@
                     </label>
                     <span>${user-name}</span>
         ${</if:user-name>}
-        <span>${block:Wt.Auth.field choose-password}</span>
-                <span>${block:Wt.Auth.field repeat-password}</span>
-                <span>${block:Wt.Auth.field email}</span>
+        		<span><label for="${id:choose-password}"><span>${tr:Wt.Auth.choose-password}</span>
+                        <span>${choose-password-info class="Wt-info"}</span>
+                    </label>
+                    <span>${choose-password}</span>
+                </span>
+                <span>
+                    <label for="${id:repeat-password}">
+                        <span>${tr:Wt.Auth.repeat-password}</span>
+                        <span>${repeat-password-info class="Wt-info"}</span>
+                    </label>
+                    <span>${repeat-password}</span>
+                </span>
+                <span>
+                    <label for="${id:email}">
+                        <span>${tr:Wt.Auth.email}</span>
+                        <span>${email-info class="Wt-info"}</span>
+                    </label>
+                    <span>${email}</span>
+                </span>
             </div>
       ${<if:oauth>}
         <br clear="both"/><span>${oauth-description}</span>
@@ -86,9 +93,27 @@
             <div class="Wt-fields">
                 <label for="${id:user-name}">${tr:Wt.Auth.user-name}</label>
                 <span>${user-name}</span>
-                <span>${block:Wt.Auth.field password}</span>
-                <span>${block:Wt.Auth.field choose-password}</span>
-                <span>${block:Wt.Auth.field repeat-password}</span>
+                <span>
+                    <label for="${id:password}">
+                        <span>${tr:Wt.Auth.password}</span>
+                        <span>${password-info class="Wt-info"}</span>
+                    </label>
+                    <span>${password}</span>
+                </span>
+                <span>
+                    <label for="${id:choose-password}">
+                        <span>${tr:Wt.Auth.choose-password}</span>
+                        <span>${choose-password-info class="Wt-info"}</span>
+                    </label>
+                    <span>${choose-password}</span>
+                </span>
+                <span>
+                    <label for="${id:repeat-password}">
+                        <span>${tr:Wt.Auth.repeat-password}</span>
+                        <span>${repeat-password-info class="Wt-info"}</span>
+                    </label>
+                    <span>${repeat-password}</span>
+                </span>
             </div>
             <div class="Wt-buttons">
                 <span>${ok-button}</span>
@@ -120,7 +145,13 @@
             <div class="Wt-fields">
                 <label for="${id:user-name}">${tr:Wt.Auth.user-name}</label>
                 <span>${user-name}</span>
-                <span>${block:Wt.Auth.field password}</span>
+                <span>
+                    <label for="${id:password}">
+                        <span>${tr:Wt.Auth.password}</span>
+                        <span>${password-info class="Wt-info"}</span>
+                    </label>
+                    <span>${password}</span>
+                </span>
             </div>
             <div class="Wt-buttons">
                 <span>${ok-button} </span>
@@ -151,7 +182,13 @@
                     <span class="Wt-info">${totp-code-info}</span>
                 </label>
                 <span>${totp-code}</span>
-                <span>${block:Wt.Auth.field remember-me}</span>
+                <span>
+                    <label for="${id:remember-me}">
+                        <span>${tr:Wt.Auth.remember-me}</span>
+                        <span>${remember-me-info class="Wt-info"}</span>
+                    </label>
+                    <span>${remember-me}</span>
+                </span>
             </div>
             <div class="Wt-buttons">
                 <span>${login} </span>

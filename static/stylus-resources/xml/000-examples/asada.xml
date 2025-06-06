@@ -2,7 +2,10 @@
 <!-- Created with Stylus Editor -->
 <messages>
     <message id="example">
-        <div class="p-[23px] bg-red-200/40 ">Example div text</div>
-        <p>Example paragraph text</p>
+        <div class="p-[23px] bg-red-200/40 ">${tr:some-text message="000-examples/asada.xml~some-text"}</div>
+        <div>${widget}</div>
+    </message>
+    <message id="some-text">
+        <div>some random text</div>
     </message>
 </messages>

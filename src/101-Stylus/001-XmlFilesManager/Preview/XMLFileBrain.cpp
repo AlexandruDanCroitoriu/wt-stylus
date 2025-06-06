@@ -22,7 +22,42 @@ namespace Stylus
         }else {
             selected_node_ = doc_->RootElement();
             xml_node_selected_.emit(selected_node_, false);
+            if(isValidTemplateFile()) {
+               id_and_message_nodes_ = getIdsAndMessageNodes();
+            } 
         }
     }
+
+    bool XMLFileBrain::isValidTemplateFile()
+    {
+        if(!doc_ || !doc_->RootElement() || std::string(doc_->RootElement()->Name()).compare("messages") == 0) {
+            return false;
+        }
+        auto messages_node = doc_->RootElement();
+        auto message_node = messages_node->FirstChildElement("message");
+        if(!message_node || message_node->Attribute("id") == nullptr) {
+            return false;
+        }
+        return true;
+    }
+
+    std::map<std::string, tinyxml2::XMLElement*> XMLFileBrain::getIdsAndMessageNodes()
+    {
+        std::map<std::string, tinyxml2::XMLElement*> ids_and_message_nodes;
+        if(!isValidTemplateFile()){
+            return ids_and_message_nodes; // return empty map if the file is not valid
+        }
+        auto messages_node = doc_->RootElement();
+        for (auto message_node = messages_node->FirstChildElement("message"); message_node != nullptr; message_node = message_node->NextSiblingElement("message"))
+        {
+            if (message_node->Attribute("id") != nullptr)
+            {
+                std::string id = message_node->Attribute("id");
+                ids_and_message_nodes[id] = message_node;
+            }
+        }
+        return ids_and_message_nodes;
+    }
+
 
 }

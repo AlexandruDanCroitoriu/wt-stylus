@@ -12,6 +12,19 @@ namespace Stylus
         std::string root_resource_url_;
     };
 
+    struct MessageAttributeData {
+        std::string folder_name_ = "";
+        std::string file_name_ = "";
+        std::string message_id_ = "";
+    };
+
+    struct TempNodeVarData {
+        std::string function_ = "";
+        std::string var_name_ = "";
+        std::unordered_map<std::string, std::string> attributes_ = {};
+        static MessageAttributeData getMessageAttributeData(std::string message_attribute_value);
+    };
+
     struct StylusState {
         StylusState();
         std::shared_ptr<tinyxml2::XMLDocument> doc_;
@@ -39,7 +52,9 @@ namespace Stylus
         */
         void organizeXmlNode(tinyxml2::XMLElement* node, std::string file_path); // file path is used to save the file after organizing it.
         bool isCondNode(tinyxml2::XMLElement* node);
-        std::string trimWitespace(std::string str);
+        TempNodeVarData getTempNodeVarData(tinyxml2::XMLElement* node);
+
+        static std::string trimWitespace(std::string str);
         std::string trimAllWitespace(std::string str);
         Wt::Signal<> file_saved_;
     };

@@ -117,6 +117,15 @@ namespace Stylus
                 {
                     // text inside the condition ${ 
                     // content_wrapper_->addWidget(std::make_unique<Wt::WText>(text_value))->setStyleClass("preview-condition-node inline-block hover:bg-gray-400 p-1");
+                }else if (file_brain_->state_->getTempNodeVarData(child_node->Parent()->ToElement()).var_name_.compare("") != 0){
+                    auto temp_var_data = file_brain_->state_->getTempNodeVarData(child_node->Parent()->ToElement());
+                    label_wrapper_->addWidget(std::make_unique<Wt::WText>(temp_var_data.function_ + ":"));
+                    label_wrapper_->addWidget(std::make_unique<Wt::WText>(temp_var_data.var_name_));
+                    if(temp_var_data.attributes_["message"].compare("") != 0)
+                    {
+                        auto message_attr = TempNodeVarData::getMessageAttributeData(temp_var_data.attributes_["message"]);
+                        content_wrapper_->addWidget(std::make_unique<Wt::WText>(message_attr.folder_name_ + "/" +  message_attr.file_name_ + "~" +  message_attr.message_id_));
+                    }
                 }else if(child_node->PreviousSiblingElement() || child_node->NextSiblingElement())
                 {                    
                     // text outside the condition and between elements (Wrongly placed and not sigle paranted)

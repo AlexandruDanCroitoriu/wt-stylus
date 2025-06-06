@@ -8,7 +8,7 @@ namespace Stylus {
 Settings::Settings(std::shared_ptr<StylusState> state)
     : StylusPanelWrapper(state)
 {
-    addStyleClass("container mx-auto px-[16px] border border-solid");
+    addStyleClass("container mx-auto p-[16px]");
     
     if(state_->settings_node_->BoolAttribute("use-tailwind-cdn")) {
         Wt::WApplication::instance()->require("https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4");

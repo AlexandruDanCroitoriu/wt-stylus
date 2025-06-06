@@ -7,10 +7,11 @@
 #include <iostream>
 #include <filesystem>
 
-namespace Stylus {
+namespace Stylus
+{
 
     StylusState::StylusState()
-    : doc_(std::make_shared<tinyxml2::XMLDocument>())
+        : doc_(std::make_shared<tinyxml2::XMLDocument>())
     {
         state_file_path_ = "../static/stylus/stylus-state.xml";
 
@@ -36,7 +37,7 @@ namespace Stylus {
         if (doc_->ErrorID() != tinyxml2::XML_SUCCESS)
         {
             std::cerr << "Error loading stylus state XML file: " << doc_->ErrorID() << std::endl;
-            // crete file 
+            // crete file
             std::ofstream file(state_file_path_);
             if (!file.is_open())
             {
@@ -71,7 +72,7 @@ namespace Stylus {
             xml_node_->SetAttribute("navigation-bar-hidden", "false");
             xml_node_->SetAttribute("preview-widget-sidebar-width", "300");
             xml_node_->SetAttribute("preview-widget-width", "300");
-            
+
             stylus_node_->InsertEndChild(xml_node_);
         }
         css_node_ = stylus_node_->FirstChildElement("css-manager");
@@ -133,7 +134,6 @@ namespace Stylus {
         std::cout << "\n\nStylusState initialized successfully.\n\n";
     }
 
-
     std::string StylusState::getFileText(std::string file_path)
     {
         std::ifstream file(file_path);
@@ -142,60 +142,60 @@ namespace Stylus {
             std::cout << "\n\n Failed to read file: " << file_path << "\n\n";
             return "!Failed to read file!";
         }
-    
+
         std::string file_content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
         file.close();
         Wt::WString file_content_wt = Wt::WString::fromUTF8(file_content);
         return file_content;
     }
-    
-    void StylusState::organizeXmlNode(tinyxml2::XMLElement* node, std::string file_path)
+
+    void StylusState::organizeXmlNode(tinyxml2::XMLElement *node, std::string file_path)
     {
         // std::cout << "\n\nOrganizing XML node: " << node->Name() << "\n\n";
-        if(node != node->GetDocument()->RootElement())
+        if (node != node->GetDocument()->RootElement())
         {
-            if(isCondNode(node))
+            if (isCondNode(node))
             {
                 // std::cout << "\n\nCondition node\n";
-                if(node->PreviousSibling() && node->PreviousSibling()->ToText() && trimAllWitespace(node->PreviousSibling()->ToText()->Value()).compare("${") != 0)
+                if (node->PreviousSibling() && node->PreviousSibling()->ToText() && trimAllWitespace(node->PreviousSibling()->ToText()->Value()).compare("${") != 0)
                 {
                     std::cout << "\n\n selected previous sibling check \n\n";
                     std::string text = node->PreviousSibling()->ToText()->Value();
-                    std::string before_start_cond = text.substr(0, text.length()-2); 
-                    std::string after_start_cond = text.substr(text.length()-2, 2);
+                    std::string before_start_cond = text.substr(0, text.length() - 2);
+                    std::string after_start_cond = text.substr(text.length() - 2, 2);
                     // std::cout << "Splitting previous sibling text: '" << trimAllWitespace(text) << "' before_start_cond '" << trimAllWitespace(before_start_cond) << "' after_start_cond '" << trimAllWitespace(after_start_cond) << "'\n";
                     node->PreviousSibling()->ToText()->SetValue(before_start_cond.c_str());
                     auto parent_node = node->Parent();
-                    parent_node->InsertAfterChild(node->PreviousSibling(), node->GetDocument()->NewText(after_start_cond.c_str()));                   
+                    parent_node->InsertAfterChild(node->PreviousSibling(), node->GetDocument()->NewText(after_start_cond.c_str()));
                 }
-                if(node->NextSibling() && node->NextSibling()->ToText() && trimAllWitespace(node->NextSibling()->ToText()->Value()).compare("}") != 0)
+                if (node->NextSibling() && node->NextSibling()->ToText() && trimAllWitespace(node->NextSibling()->ToText()->Value()).compare("}") != 0)
                 {
                     std::cout << "\n\n selected next sibling check \n\n";
                     std::string text = node->NextSibling()->ToText()->Value();
                     std::string after_cond_text = text.substr(0, 1);
-                    std::string after_after_cont_text = text.substr(1, text.length()-1);
+                    std::string after_after_cont_text = text.substr(1, text.length() - 1);
                     // std::cout << "Splitting next sibling text: '" << trimAllWitespace(text) << "' after_cond_text '" << trimAllWitespace(after_cond_text) << "' after_after_cont_text '" << trimAllWitespace(after_after_cont_text) << "'\n";
                     node->NextSibling()->ToText()->SetValue(after_cond_text.c_str());
                     auto parent_node = node->Parent();
                     parent_node->InsertAfterChild(node->NextSibling(), node->GetDocument()->NewText(after_after_cont_text.c_str()));
                 }
-                if(node->FirstChild() && node->FirstChild()->ToText() && trimAllWitespace(node->FirstChild()->ToText()->Value()).compare("}") != 0)
+                if (node->FirstChild() && node->FirstChild()->ToText() && trimAllWitespace(node->FirstChild()->ToText()->Value()).compare("}") != 0)
                 {
                     std::cout << "\n\n selected first child check \n\n";
                     std::string text = node->FirstChild()->ToText()->Value();
                     std::string first_child_text = text.substr(0, 1);
-                    std::string after_first_child_text = text.substr(1, text.length()-1);
+                    std::string after_first_child_text = text.substr(1, text.length() - 1);
                     // std::cout << "Splitting first child text:'" << trimAllWitespace(text) << "' \nfirst_child_text '" << trimAllWitespace(first_child_text) << "' \nafter_first_child_text '" << trimAllWitespace(after_first_child_text) << "'\n";
                     node->FirstChild()->ToText()->SetValue(first_child_text.c_str());
                     node->InsertAfterChild(node->FirstChild(), node->GetDocument()->NewText(after_first_child_text.c_str()));
                 }
-                if(node->LastChild() && node->LastChild()->ToText() && trimAllWitespace(node->LastChild()->ToText()->Value()).compare("${") != 0)
+                if (node->LastChild() && node->LastChild()->ToText() && trimAllWitespace(node->LastChild()->ToText()->Value()).compare("${") != 0)
                 {
                     std::cout << "\n\n selected last child check \n\n";
                     std::string text = node->LastChild()->ToText()->Value();
                     std::cout << "text: '" << trimAllWitespace(text) << "'\n";
-                    std::string last_child_text = text.substr(text.length()-2, 2);
-                    std::string before_end_cond = text.substr(0, text.length()-2);
+                    std::string last_child_text = text.substr(text.length() - 2, 2);
+                    std::string before_end_cond = text.substr(0, text.length() - 2);
                     // std::cout << "Splitting last child text: '" << trimAllWitespace(text) << "' before_end_cond '" << trimAllWitespace(before_end_cond) << "' last_child_text '" << trimAllWitespace(last_child_text) << "'\n";
                     node->LastChild()->ToText()->SetValue(last_child_text.c_str());
                     node->InsertAfterChild(node->LastChild()->PreviousSibling(), node->GetDocument()->NewText(before_end_cond.c_str()));
@@ -211,56 +211,60 @@ namespace Stylus {
                 //     node->InsertAfterChild(node->LastChild()->PreviousSibling(), doc_->NewText(before_end_cond.c_str()));
                 // }
             }
-        }else {
-            if(std::string(node->Name()).compare("messages") != 0 &&
-                std::string(node->Name()).compare("message") != 0 && 
-                std::string(node->Name()).compare("div") != 0 && 
-                std::string(node->Name()).compare("stylus") !=  0)
+        }
+        else
+        {
+            if (std::string(node->Name()).compare("messages") != 0 &&
+                std::string(node->Name()).compare("message") != 0 &&
+                std::string(node->Name()).compare("div") != 0 &&
+                std::string(node->Name()).compare("stylus") != 0)
             {
                 node->SetName("div");
                 node->GetDocument()->SaveFile(file_path.c_str());
             }
         }
         auto child_node = node->FirstChild();
-        while (child_node) {
-            if (child_node->ToElement()) {
+        while (child_node)
+        {
+            if (child_node->ToElement())
+            {
                 organizeXmlNode(child_node->ToElement(), file_path);
-            } else if (child_node->ToText()) {
+            }
+            else if (child_node->ToText())
+            {
             }
             child_node = child_node->NextSibling();
         }
     }
 
-    
-    bool StylusState::isCondNode(tinyxml2::XMLElement* node)
+    bool StylusState::isCondNode(tinyxml2::XMLElement *node)
     {
         auto prev_node = node->PreviousSibling();
         auto next_node = node->NextSibling();
         auto first_child = node->FirstChild();
         auto last_child = node->LastChild();
-        if(prev_node && prev_node->ToText() &&
+        if (prev_node && prev_node->ToText() &&
             next_node && next_node->ToText() &&
             first_child && first_child->ToText() &&
-            last_child && last_child->ToText()            
-        ){
-            
+            last_child && last_child->ToText())
+        {
+
             std::string prev_node_text = trimAllWitespace(prev_node->ToText()->Value());
             std::string next_node_text = trimAllWitespace(next_node->ToText()->Value());
             std::string first_child_text = trimAllWitespace(first_child->ToText()->Value());
             std::string last_child_text = trimAllWitespace(last_child->ToText()->Value());
-          
 
-            if(prev_node_text.length() < 2 || next_node_text.length() < 1 || 
+            if (prev_node_text.length() < 2 || next_node_text.length() < 1 ||
                 first_child_text.length() < 1 || last_child_text.length() < 2)
             {
                 return false;
             }
-            prev_node_text = prev_node_text.substr(prev_node_text.length()-2, 2);
+            prev_node_text = prev_node_text.substr(prev_node_text.length() - 2, 2);
             next_node_text = next_node_text.substr(0, 1);
             first_child_text = first_child_text.substr(0, 1);
-            last_child_text = last_child_text.substr(last_child_text.length()-2, 2);
-         
-            if(prev_node_text.compare("${") == 0 && next_node_text.compare("}") == 0 &&
+            last_child_text = last_child_text.substr(last_child_text.length() - 2, 2);
+
+            if (prev_node_text.compare("${") == 0 && next_node_text.compare("}") == 0 &&
                 first_child_text.compare("}") == 0 && last_child_text.compare("${") == 0)
             {
                 return true;
@@ -268,6 +272,115 @@ namespace Stylus {
         }
         return false;
     }
+
+    TempNodeVarData StylusState::getTempNodeVarData(tinyxml2::XMLElement *node)
+    {
+        TempNodeVarData data;
+        if (node == nullptr || node->ChildElementCount() > 1 || !node->FirstChild() || !node->FirstChild()->ToText())
+        {
+            return data; // Return empty data if node is null
+        }
+        // ${tr:some-text message="000-examples/asada.xml:some-text"}
+        // ${function_:var_name_ attr1="value1" attr2="value2"}
+        std::string text = node->FirstChild()->ToText()->Value();
+        if (text.empty() || text.length() < 2)
+        {
+            return data; // Return empty data if text is empty or too short
+        }
+        size_t end_pos = 0;
+        if (text[0] == '$' && text[1] == '{')
+        {
+            end_pos = text.find('}');
+            if (end_pos != std::string::npos && end_pos > 2)
+            {
+                text = text.substr(2, end_pos - 2); // Extract content between ${ and }
+            }
+            else
+                return data;
+        }
+        else
+            return data;
+
+        size_t colon_pos = text.find(':');
+        if (colon_pos != std::string::npos)
+        {
+            data.function_ = text.substr(0, colon_pos);
+            if (text.find_first_of(" ") != std::string::npos)
+            {
+                data.var_name_ = text.substr(colon_pos + 1, text.find_first_of(" ") - colon_pos - 1);
+            }
+            else
+            {
+                data.var_name_ = text.substr(colon_pos + 1);
+            }
+            std::cout << "Found colon. function_: '" << data.function_ << "', var_name_: '" << data.var_name_ << "'" << std::endl;
+        }
+        else
+        {
+            if (text.find_first_of(" ") != std::string::npos)
+            {
+                data.var_name_ = text.substr(0, text.find_first_of(" "));
+            }
+            else
+            {
+                data.var_name_ = text; // No function, just variable name
+            }
+        }
+
+        // parse attributes
+        size_t attr_start = text.find_first_of(" ");
+        if (attr_start == std::string::npos)
+        {
+            return data; // No attributes found
+        }
+
+        std::string attributes_str = text.substr(attr_start + 1);
+        std::cout << "Parsing attributes: '" << attributes_str << "'" << std::endl;
+        size_t pos = 0;
+        while ((pos = attributes_str.find('=')) != std::string::npos)
+        {
+            std::string attr_name = attributes_str.substr(0, pos);
+            std::cout << "Found attribute: '" << attr_name << "'" << std::endl;
+            attributes_str.erase(0, pos + 1); // Remove the attribute name and '='
+            size_t end_quote_pos = attributes_str.find_first_of("\"'");
+            if (end_quote_pos == std::string::npos)
+            {
+                std::cerr << "Error: Invalid attribute format in: " << text << std::endl;
+                return data; // Return empty data if format is invalid
+            }
+            data.attributes_[attr_name] = attributes_str;
+            attributes_str.erase(0, end_quote_pos + 1); // Remove the value and the closing quote
+        }
+        std::cout << "\n\n";
+        return data;
+    }
+
+    MessageAttributeData TempNodeVarData::getMessageAttributeData(std::string message_attribute_value)
+    {
+        MessageAttributeData data;
+        std::cout << "Parsing message_attribute_value: '" << message_attribute_value << "'" << std::endl;
+        // 000-examples/asada.xml:some-text
+        // folder_name/file_name:message_id
+        // remove first and last characters becase they are commas
+        if (message_attribute_value.empty() || message_attribute_value.length() < 3)
+        {
+            std::cerr << "Error: Invalid message attribute value: " << message_attribute_value << std::endl;
+            return MessageAttributeData(); // Return empty data if value is invalid
+        }
+        message_attribute_value = message_attribute_value.substr(1, message_attribute_value.length() - 2);
+        size_t slash_pos = message_attribute_value.find('/');
+        size_t tilde_pos = message_attribute_value.find('~');
+        if (slash_pos != std::string::npos && tilde_pos != std::string::npos)
+        {
+            data.folder_name_ = message_attribute_value.substr(0, slash_pos);
+            data.file_name_ = message_attribute_value.substr(slash_pos + 1, tilde_pos - slash_pos - 1);
+            data.message_id_ = message_attribute_value.substr(tilde_pos + 1);
+        }
+        
+        std::cout << "  Trimmed values: folder_name_='" << data.folder_name_ << "', file_name_='" << data.file_name_ << "', message_id_='" << data.message_id_ << "'" << std::endl;
+        return data;
+    }
+
     std::string StylusState::trimWitespace(std::string str)
     {
         str.erase(0, str.find_first_not_of(" \t\n\r\f\v")); // trim from start
@@ -279,5 +392,5 @@ namespace Stylus {
         str.erase(std::remove_if(str.begin(), str.end(), ::isspace), str.end());
         return str;
     }
-        
+
 }

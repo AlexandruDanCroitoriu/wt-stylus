@@ -35,7 +35,7 @@
         </svg>
     </message>
     <message id="stylus-svg-settings-logo" class="w-22 ">
-        <svg fill="#000000" viewBox="0 0 24 24" data-name="Line Color" class="w-full h-full" xmlns="http://www.w3.org/2000/svg" class="">
+        <svg fill="#000000" viewBox="0 0 24 24" data-name="Line Color" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
             <g stroke-width="0"/>
             <g stroke-linecap="round" stroke-linejoin="round"/>
             <g>

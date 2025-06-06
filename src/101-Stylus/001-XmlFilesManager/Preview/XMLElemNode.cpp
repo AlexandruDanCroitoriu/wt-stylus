@@ -67,7 +67,7 @@ namespace Stylus
     {
         if(file_brain_->state_->isCondNode(elem_node))
         {
-            if(elem_node->BoolAttribute("true"))
+            if(!elem_node->BoolAttribute("true"))
             {
                 auto first_child_inside_cond = elem_node->FirstChild();
                 while(first_child_inside_cond)
