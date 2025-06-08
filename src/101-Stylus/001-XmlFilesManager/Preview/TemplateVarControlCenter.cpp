@@ -13,20 +13,20 @@ namespace Stylus
     {
         setMinimumSize(Wt::WLength(300, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
         setMaximumSize(Wt::WLength(300, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
-        setStyleClass("stylus-background z-[100] overflow-x-visible mt-[16px]");
+        setStyleClass("preview-background z-[100] overflow-x-visible mt-[16px]");
 
         auto content_wrapper = addWidget(std::make_unique<Wt::WContainerWidget>());
-        content_wrapper->setStyleClass("h-screen border-l border-solid border-[#000] space-y-2 flex flex-col stylus-background");
+        content_wrapper->setStyleClass("h-screen border-l border-solid border-[#000] space-y-2 flex flex-col");
 
         auto menu_wrapper = addWidget(std::make_unique<Wt::WContainerWidget>());
-        menu_wrapper->setStyleClass("w-[20px] h-screen border-l border-solid border-[#000] absolute top-0 right-[-20px] stylus-background");   
+        menu_wrapper->setStyleClass("w-[20px] h-screen border-l border-solid border-[#000] absolute top-0 right-[-20px]");   
         
         std::string input_styles = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:focus:border-blue-500 disabled:bg-gray-200 disabled:dark:bg-gray-700 disabled:cursor-not-allowed";
 
         auto temp_var_name_wrapper = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
         temp_var_name_wrapper->setStyleClass("relative");
         auto temp_var_name_label = temp_var_name_wrapper->addWidget(std::make_unique<Wt::WLabel>(""));
-        temp_var_name_label->setStyleClass("absolute -top-[10px] left-[6px] text-xs font-medium !text-red-500 dark:!text-red-400 stylus-background");
+        temp_var_name_label->setStyleClass("absolute -top-[10px] left-[6px] text-xs font-medium !text-red-500 dark:!text-red-400");
         temp_var_name_ = temp_var_name_wrapper->addWidget(std::make_unique<Wt::WLineEdit>());
         temp_var_name_label->setBuddy(temp_var_name_);
         temp_var_name_->setPlaceholderText("Template Variable Name");
@@ -36,7 +36,7 @@ namespace Stylus
         auto temp_var_classes_wrapper = content_wrapper->addWidget(std::make_unique<Wt::WContainerWidget>());
         temp_var_classes_wrapper->setStyleClass("relative");
         auto temp_var_classes_label = temp_var_classes_wrapper->addWidget(std::make_unique<Wt::WLabel>(""));
-        temp_var_classes_label->setStyleClass("absolute -top-[10px] left-[6px] text-xs font-medium !text-red-500 dark:!text-red-400 stylus-background");
+        temp_var_classes_label->setStyleClass("absolute -top-[10px] left-[6px] text-xs font-medium !text-red-500 dark:!text-red-400");
         temp_var_classes_ = temp_var_classes_wrapper->addWidget(std::make_unique<Wt::WLineEdit>());
         temp_var_classes_label->setBuddy(temp_var_classes_);
         temp_var_classes_->setPlaceholderText("Template variable Classes");

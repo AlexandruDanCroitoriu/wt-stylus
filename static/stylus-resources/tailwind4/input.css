@@ -11,6 +11,7 @@
 @import "./css/000-examples/tree.css";
 @import "./css/000-examples/use-anything.css";
 @import "./css/101-stylus/general.css";
+@import "./css/101-stylus/test.css";
 /* Define custom theme */
 /* Define custom variants */
 @custom-variant dark (&:where(.dark, .dark *));
