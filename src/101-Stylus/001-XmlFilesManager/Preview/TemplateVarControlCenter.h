@@ -14,25 +14,25 @@ namespace Stylus
 {
 
     
-    class ControlCenter : public Wt::WContainerWidget
+    class TemplateVarControlCenter : public Wt::WContainerWidget
     {
         public:
-            ControlCenter();
+            TemplateVarControlCenter();
 
             void setFileBrain(std::shared_ptr<XMLFileBrain> file_brain);
             void disableAll();
         private:
             std::shared_ptr<XMLFileBrain> file_brain_;
-            Wt::WCheckBox* is_condition_;
-            Wt::WLineEdit* elem_tag_;
-            Wt::WLineEdit* elem_classes_;
-            Wt::WTextArea* elem_text_;
+            TempNodeVarData temp_var_data_;
+            
+            Wt::WLineEdit* temp_var_name_;
+            Wt::WLineEdit* temp_var_classes_;
             std::vector<std::string> style_classes_;
             Wt::WContainerWidget* style_classes_wrapper_;
 
-            void setTagName();
+            std::string getTempVar();
+
+            void setTempVarName();
             void setClasses();
-            void setText();
-            void setCondition();
     };
 }

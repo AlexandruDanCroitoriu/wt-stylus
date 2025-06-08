@@ -75,6 +75,7 @@ namespace Stylus
             xml_node_->SetAttribute("navigation-bar-hidden", "false");
             xml_node_->SetAttribute("preview-widget-sidebar-width", "300");
             xml_node_->SetAttribute("preview-widget-width", "300");
+            xml_node_->SetAttribute("template-var-control-center-hidden", "false");
 
             stylus_node_->InsertEndChild(xml_node_);
         }
@@ -276,6 +277,38 @@ namespace Stylus
         return false;
     }
 
+    tinyxml2::XMLElement* StylusState::getMessageNode(std::string folder_name, std::string file_name, std::string message_id)
+    {
+        if (folder_name.empty() || file_name.empty() || message_id.empty())
+        {
+            std::cerr << "Error: Invalid parameters for getMessageNode." << std::endl;
+            return nullptr; // Return null if parameters are invalid
+        }
+        std::string path = folder_name + "/" + file_name;
+        auto searched_file_brain = xml_file_brains_.find(path);
+        if (searched_file_brain == xml_file_brains_.end())
+        {
+            std::cerr << "Error: File brain not found for path: " << path << std::endl;
+            return nullptr; // Return null if file brain is not found
+        }
+        auto xml_file_brain = searched_file_brain->second;
+        if (xml_file_brain == nullptr)
+        {
+            std::cerr << "Error: XML file brain is null for path: " << path << std::endl;
+            return nullptr; // Return null if file brain is null
+        }
+        auto message_node = xml_file_brain->id_and_message_nodes_[message_id];
+        if (message_node == nullptr)
+        {
+            std::cerr << "Error: Message node is null for message ID: " << message_id << std::endl;
+            return nullptr; // Return null if message node is null
+        }
+        // std::cout << "Found message node for message ID: " << message_id << std::endl;
+        // std::cout << "Message node name: " << message_node->Name() << std::endl;
+        // std::cout << "Message node text: " << (message_node->GetText() ? message_node->GetText() : "null") << std::endl;
+        return message_node; // Return the found message node
+    }
+
     TempNodeVarData StylusState::getTempNodeVarData(tinyxml2::XMLElement *node)
     {
         TempNodeVarData data;
@@ -344,7 +377,8 @@ namespace Stylus
         while ((pos = attributes_str.find('=')) != std::string::npos)
         {
             std::string attr_name = attributes_str.substr(0, pos);
-            // std::cout << "Found attribute: '" << attr_name << "'" << std::endl;
+            attr_name = XMLTreeNode::trimWitespace(attr_name);
+            std::cout << "Found attribute: '" << attr_name << "'" << std::endl;
             attributes_str.erase(0, pos + 1); // Remove the attribute name and '='
             size_t end_quote_pos = attributes_str.find_first_of("\"'");
             if (end_quote_pos == std::string::npos)
@@ -370,26 +404,22 @@ namespace Stylus
         MessageAttributeData data;
         
         // std::cout << "Parsing message_attribute_value: '" << message_attribute_value << "'" << std::endl;
-        // 000-examples/asada.xml:some-text
-        // folder_name/file_name:message_id
-        // remove first and last characters becase they are commas
         if (message_attribute_value.empty() || message_attribute_value.length() < 3)
         {
             std::cerr << "Error: Invalid message attribute value: " << message_attribute_value << std::endl;
             return MessageAttributeData(); // Return empty data if value is invalid
         }
         size_t slash_pos = message_attribute_value.find('/');
-        size_t tilde_pos = message_attribute_value.find('~');
-        if (slash_pos != std::string::npos && tilde_pos != std::string::npos)
+        if (slash_pos != std::string::npos)
         {
             data.folder_name_ = message_attribute_value.substr(0, slash_pos);
-            data.file_name_ = message_attribute_value.substr(slash_pos + 1, tilde_pos - slash_pos - 1);
-            data.message_id_ = message_attribute_value.substr(tilde_pos + 1);
+            data.file_name_ = message_attribute_value.substr(slash_pos + 1);
         }
         
         // std::cout << "  Trimmed values: folder_name_='" << data.folder_name_ << "', file_name_='" << data.file_name_ << "', message_id_='" << data.message_id_ << "'" << std::endl;
         return data;
     }
+
 
 
 

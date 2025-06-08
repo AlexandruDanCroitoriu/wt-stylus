@@ -21,15 +21,15 @@ namespace Stylus
 
             
             bool isValidTemplateFile();
-            std::map<std::string, tinyxml2::XMLElement*> getIdsAndMessageNodes();
             std::map<std::string, tinyxml2::XMLElement*> id_and_message_nodes_;
-        
+            
             Wt::Signal<tinyxml2::XMLElement*, bool> xml_node_selected_;
             Wt::Signal<> file_saved_;
             
             tinyxml2::XMLElement* selected_node_;
             std::shared_ptr<StylusState> state_;
-        private:
+            private:
+            std::map<std::string, tinyxml2::XMLElement*> getIdsAndMessageNodes();
             
             
     };

@@ -539,7 +539,22 @@ namespace Stylus
                         }
                         state_->doc_->SaveFile(state_->state_file_path_.c_str());
                     }
+                }else if(e.key() == Wt::Key::Key_6){
+                    if(content_wrapper->currentWidget() == xml_files_manager_)
+                    {
+                        if(state_->xml_node_->BoolAttribute("template-var-control-center-hidden"))
+                        {
+                            xml_files_manager_->template_var_control_center_->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromRight, Wt::TimingFunction::EaseInOut, 500));
+                            state_->xml_node_->SetAttribute("template-var-control-center-hidden", "false");
+                        }else
+                        {
+                            xml_files_manager_->template_var_control_center_->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromRight, Wt::TimingFunction::EaseInOut, 500));
+                            state_->xml_node_->SetAttribute("template-var-control-center-hidden", "true");
+                        }
+                        state_->doc_->SaveFile(state_->state_file_path_.c_str());
+                    }
                 }
+
             }else if (e.key() == Wt::Key::Q){
                 if(isHidden()){
                     animateShow(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500));

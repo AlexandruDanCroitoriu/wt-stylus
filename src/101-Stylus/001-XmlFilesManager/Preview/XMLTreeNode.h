@@ -1,6 +1,6 @@
 #pragma once
 #include "101-Stylus/000-Utils/tinyxml2/tinyxml2.h"
-#include "101-Stylus/001-XmlFilesManager/Preview/XMLFileBrain.h"
+#include "101-Stylus/000-Utils/XMLFileBrain.h"
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTemplate.h>
@@ -26,6 +26,7 @@ namespace Stylus
         Wt::WContainerWidget* label_wrapper_;
         Wt::WContainerWidget* content_wrapper_;
         std::unique_ptr<Wt::WPopupMenu> popup_;
+        bool is_variable_holder_ = false;
 
 
     };

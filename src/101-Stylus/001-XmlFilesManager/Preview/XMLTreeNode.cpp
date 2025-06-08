@@ -16,7 +16,7 @@ namespace Stylus
         content_wrapper_ = addWidget(std::make_unique<Wt::WContainerWidget>());
 
         label_wrapper_->setStyleClass("flex space-x-2 truncate rounded-md mr-[3px] cursor-pointer overflow-visible");
-        content_wrapper_->setStyleClass("flex flex-col ml-[10px]");
+        content_wrapper_->setStyleClass("flex flex-col ml-[10px] rounded-md");
 
         auto tag_name = label_wrapper_->addWidget(std::make_unique<Wt::WText>(node->Name()));
         tag_name->setStyleClass("font-medium pl-[5px]");
@@ -25,6 +25,7 @@ namespace Stylus
             tag_name->addStyleClass("preview-messages-node");
         }else if(std::string(node->Name()).compare("message") == 0){
             tag_name->addStyleClass("preview-message-node");
+            addStyleClass("mb-[10px]");
             if(node->Attribute("id")){
                 auto id = node->Attribute("id");
                 auto id_text = label_wrapper_->addWidget(std::make_unique<Wt::WText>(id));
@@ -41,10 +42,10 @@ namespace Stylus
                 Wt::WText* condition_switcher; 
                 if(node->BoolAttribute("true")){
                     condition_switcher = label_wrapper_->addWidget(std::make_unique<Wt::WText>("true"));
-                    condition_switcher->setStyleClass("outline-[#4ade80]/70 bg-[#ecfdf5]/10");
+                    condition_switcher->setStyleClass("outline-[#4ade80]/70 bg-[#ecfdf5]/10 min-w-fit");
                 }else {
                     condition_switcher = label_wrapper_->addWidget(std::make_unique<Wt::WText>("false"));
-                    condition_switcher->setStyleClass("outline-[#ef4444]/70 bg-[#fef2f2]/10");
+                    condition_switcher->setStyleClass("outline-[#ef4444]/70 bg-[#fef2f2]/10 min-w-fit");
                 }
                 condition_switcher->addStyleClass("truncate px-[3px] text-[12px] italic font-light rounded-[30%] outline-1 outline-solid");
                 condition_switcher->clicked().preventPropagation();
@@ -63,34 +64,11 @@ namespace Stylus
 
         }
 
-        if(node_ == file_brain_->selected_node_)
-        {
-            label_wrapper_->addStyleClass("selected-xml-tree-node");
-            if(scroll_into_view){
-                label_wrapper_->doJavaScript(label_wrapper_->jsRef() + ".scrollIntoView({ behavior: 'smooth', block: 'center' });");
-            }
-        }
+ 
 
-        label_wrapper_->mouseWentUp().connect(this, [=](const Wt::WMouseEvent& event)
-        {
-            if (event.button() == Wt::MouseButton::Right) {
-                showPopup(event);
-            }
-        });
+     
 
-        label_wrapper_->clicked().connect(this, [=]()
-        {
-            file_brain_->xml_node_selected_.emit(node_, false);
-        });
-        label_wrapper_->mouseWentOver().preventPropagation();
-        label_wrapper_->mouseWentOver().connect(this, [=]()
-        {
-            label_wrapper_->toggleStyleClass("selected-xml-tree-node-hover", true, true);
-        });
-        label_wrapper_->mouseWentOut().connect(this, [=]()
-        {
-            label_wrapper_->toggleStyleClass("selected-xml-tree-node-hover", false, true);
-        });
+     
         auto child_node = node->FirstChild();
         while (child_node) {
             if (child_node->ToElement()) {
@@ -118,6 +96,7 @@ namespace Stylus
                     // text inside the condition ${ 
                     // content_wrapper_->addWidget(std::make_unique<Wt::WText>(text_value))->setStyleClass("preview-condition-node inline-block hover:bg-gray-400 p-1");
                 }else if (file_brain_->state_->getTempNodeVarData(child_node->Parent()->ToElement()).var_name_.compare("") != 0){
+                    is_variable_holder_ = true;
                     auto temp_var_data = file_brain_->state_->getTempNodeVarData(child_node->Parent()->ToElement());
                     if(temp_var_data.function_.compare("") != 0){
                         label_wrapper_->addWidget(std::make_unique<Wt::WText>(temp_var_data.function_))->setStyleClass("template-function");;
@@ -132,9 +111,9 @@ namespace Stylus
                         if(attr.first.compare("message") == 0)
                         {
                             auto message_attr = TempNodeVarData::getMessageAttributeData(temp_var_data.attributes_["message"]);
-                            attr_wrapper->addWidget(std::make_unique<Wt::WText>(message_attr.folder_name_ + "/" +  message_attr.file_name_ + " " +  message_attr.message_id_));
+                            attr_wrapper->addWidget(std::make_unique<Wt::WText>(message_attr.folder_name_ + "/" +  message_attr.file_name_));
                         }else {
-                            auto attr_text = attr_wrapper->addWidget(std::make_unique<Wt::WText>(attr.first + "=\"" + attr.second + "\""));
+                            auto attr_text = attr_wrapper->addWidget(std::make_unique<Wt::WText>(attr.second));
                             // attr_text->setStyleClass("preview-attribute-text");
                         }
                     }
@@ -168,6 +147,63 @@ namespace Stylus
                 }
             }
             child_node = child_node->NextSibling();
+        }
+
+        if(is_variable_holder_){
+            clicked().preventPropagation();
+            clicked().connect(this, [=]()
+            {
+                file_brain_->xml_node_selected_.emit(node_, true);
+            });
+            mouseWentOver().preventPropagation();
+            mouseWentOver().connect(this, [=]()
+            {
+                toggleStyleClass("selected-xml-tree-node-hover", true, true);
+            });
+            mouseWentOut().connect(this, [=]()
+            {
+                toggleStyleClass("selected-xml-tree-node-hover", false, true);
+            });
+            mouseWentUp().connect(this, [=](const Wt::WMouseEvent& event)
+            {
+                if (event.button() == Wt::MouseButton::Right) {
+                    showPopup(event);
+                }
+            });
+            if(node_ == file_brain_->selected_node_)
+            {
+                addStyleClass("selected-xml-tree-node");
+                if(scroll_into_view){
+                    doJavaScript(jsRef() + ".scrollIntoView({ behavior: 'smooth', block: 'center' });");
+                }
+            }
+        }else {
+            label_wrapper_->clicked().connect(this, [=]()
+            {
+                file_brain_->xml_node_selected_.emit(node_, false);
+            });
+            label_wrapper_->mouseWentOver().preventPropagation();
+            label_wrapper_->mouseWentOver().connect(this, [=]()
+            {
+                label_wrapper_->toggleStyleClass("selected-xml-tree-node-hover", true, true);
+            });
+            label_wrapper_->mouseWentOut().connect(this, [=]()
+            {
+                label_wrapper_->toggleStyleClass("selected-xml-tree-node-hover", false, true);
+            });
+            label_wrapper_->mouseWentUp().connect(this, [=](const Wt::WMouseEvent& event)
+            {
+                if (event.button() == Wt::MouseButton::Right) {
+                    showPopup(event);
+                }
+            });
+            if(node_ == file_brain_->selected_node_)
+            {
+                label_wrapper_->addStyleClass("selected-xml-tree-node");
+                if(scroll_into_view){
+                    label_wrapper_->doJavaScript(label_wrapper_->jsRef() + ".scrollIntoView({ behavior: 'smooth', block: 'center' });");
+                }
+            }
         }
     }
 

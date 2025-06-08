@@ -6,6 +6,8 @@
 namespace Stylus
 {
 
+    class XMLFileBrain;
+
     struct StylusEditorManagementData {
         std::string extension_;
         std::string root_folder_path_;
@@ -15,7 +17,6 @@ namespace Stylus
     struct MessageAttributeData {
         std::string folder_name_ = "";
         std::string file_name_ = "";
-        std::string message_id_ = "";
     };
 
     struct TempNodeVarData {
@@ -54,7 +55,15 @@ namespace Stylus
         bool isCondNode(tinyxml2::XMLElement* node);
         TempNodeVarData getTempNodeVarData(tinyxml2::XMLElement* node);
 
+        // all the brains, they are manadged and refreshed by widgets as this object is passed to them
+        std::map<std::string, std::shared_ptr<XMLFileBrain>> xml_file_brains_;
+        tinyxml2::XMLElement* getMessageNode(std::string folder_name, std::string file_name, std::string message_id);
+
+
         Wt::Signal<> file_saved_;
+
+
+
     };
 
 }

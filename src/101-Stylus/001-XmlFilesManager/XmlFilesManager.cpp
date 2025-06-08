@@ -34,6 +34,7 @@ namespace Stylus
         tree_wrapper_ = grid_layout_->addWidget(std::make_unique<GridItemWrapper>(), 0, 2);
         elem_wrapper_ = grid_layout_->addWidget(std::make_unique<GridItemWrapper>(), 0, 3);
         control_center_ = grid_layout_->addWidget(std::make_unique<ControlCenter>(), 0, 4, Wt::AlignmentFlag::Right);
+        template_var_control_center_ = grid_layout_->addWidget(std::make_unique<TemplateVarControlCenter>(), 0, 5, Wt::AlignmentFlag::Right);
         grid_layout_->setColumnStretch(3, 1);
 
         editor_->addStyleClass("w-full min-w-full");
@@ -50,7 +51,7 @@ namespace Stylus
         //             << "function() { event.cancelBubble = true; event.returnValue = false; return false; };";
         // Wt::WApplication::instance()->doJavaScript(contextJS.str());
 
-        selected_file_brain_ = xml_file_brains_[state_->xml_node_->Attribute("selected-file-path")];
+        selected_file_brain_ = state_->xml_file_brains_[state_->xml_node_->Attribute("selected-file-path")];
         if(selected_file_brain_ && selected_file_brain_->selected_node_)
         {
             state_->organizeXmlNode(selected_file_brain_->doc_->RootElement(), selected_file_brain_->file_path_);
@@ -74,13 +75,17 @@ namespace Stylus
         {
             control_center_->hide();
         }
+        if(state_->xml_node_->BoolAttribute("template-var-control-center-hidden"))
+        {
+            template_var_control_center_->hide();
+        }
      
         file_selected().connect(this, [=]()
         {
             std::string file_path = data_.root_folder_path_ + selected_file_path_;
             state_->xml_node_->SetAttribute("selected-file-path", selected_file_path_.c_str());
             state_->doc_->SaveFile(state_->state_file_path_.c_str());
-            selected_file_brain_ = xml_file_brains_[selected_file_path_];
+            selected_file_brain_ = state_->xml_file_brains_[selected_file_path_];
             if(selected_file_brain_->doc_->RootElement())
             {
                 state_->organizeXmlNode(selected_file_brain_->doc_->RootElement(), selected_file_brain_->file_path_);
@@ -88,6 +93,7 @@ namespace Stylus
             }
             setPreviewWidgets();
         });
+        
         file_saved().connect(this, [=](Wt::WString file_path)
         {
             std::cout << "\n\nFile saved:sasdsad " << file_path.toUTF8() << "\n\n";
@@ -166,19 +172,21 @@ namespace Stylus
             tree_wrapper_->addWidget(std::make_unique<Wt::WText>(xml_error));
             elem_wrapper_->addWidget(std::make_unique<Wt::WText>(xml_error));
             control_center_->disableAll();
+            template_var_control_center_->disableAll();
             return;
         }
         auto xml_tree_preview_ = tree_wrapper_->addWidget(std::make_unique<XMLTreeNode>(selected_file_brain_, selected_file_brain_->doc_->RootElement(), scroll_into_view));
         auto xml_elem_preview_ = elem_wrapper_->addWidget(std::make_unique<XMLElemNode>(selected_file_brain_, selected_file_brain_->doc_->RootElement(), scroll_into_view));
         
         control_center_->setFileBrain(selected_file_brain_);
+        template_var_control_center_->setFileBrain(selected_file_brain_);
 
     }
 
 
     void XmlFilesManager::setXmlFileBrains()
     {
-        xml_file_brains_.clear();
+        state_->xml_file_brains_.clear();
         std::string file_path;
         std::shared_ptr<XMLFileBrain> file_brain;
         for(auto folder : folders_)
@@ -189,7 +197,8 @@ namespace Stylus
                 // std::cout << "File: " << file << std::endl;
                 file_path = folder.first + "/" + file;
                 file_brain = std::make_shared<XMLFileBrain>(state_, data_.root_folder_path_ + file_path);
-                xml_file_brains_[folder.first + "/" + file] = file_brain;
+                state_->xml_file_brains_[folder.first + "/" + file] = file_brain;
+                // std::cout << "\n\nFile path: " << folder.first + "/" + file << std::endl;
                 file_brain->file_saved_.connect(this, [=]()
                 {
                     reuploadFile(); // reffers to monaco editor

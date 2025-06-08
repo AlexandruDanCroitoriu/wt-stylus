@@ -1,4 +1,4 @@
-#include "101-Stylus/001-XmlFilesManager/Preview/XMLFileBrain.h"
+#include "101-Stylus/000-Utils/XMLFileBrain.h"
 
 namespace Stylus
 {
@@ -30,12 +30,14 @@ namespace Stylus
 
     bool XMLFileBrain::isValidTemplateFile()
     {
-        if(!doc_ || !doc_->RootElement() || std::string(doc_->RootElement()->Name()).compare("messages") == 0) {
+        if(!doc_ || !doc_->RootElement() || std::string(doc_->RootElement()->Name()).compare("messages") != 0) {
+            std::cout<< "\n\nInvalid XML file: 1" << file_path_ << "\n\n";
             return false;
         }
         auto messages_node = doc_->RootElement();
         auto message_node = messages_node->FirstChildElement("message");
         if(!message_node || message_node->Attribute("id") == nullptr) {
+            std::cout << "\n\nInvalid XML file: 2" << file_path_ << "\n\n";
             return false;
         }
         return true;
@@ -54,6 +56,7 @@ namespace Stylus
             {
                 std::string id = message_node->Attribute("id");
                 ids_and_message_nodes[id] = message_node;
+                // std::cout << "Found message node with id: " << id << std::endl;
             }
         }
         return ids_and_message_nodes;

@@ -331,6 +331,9 @@
   .mb-6 {
     margin-bottom: calc(var(--spacing) * 6);
   }
+  .mb-\[10px\] {
+    margin-bottom: 10px;
+  }
   .mb-\[16px\] {
     margin-bottom: 16px;
   }
@@ -690,6 +693,9 @@
   }
   .border-\[\#d1d5db\] {
     border-color: #d1d5db;
+  }
+  .border-\[\#e5e7eb\] {
+    border-color: #e5e7eb;
   }
   .border-gray-200 {
     border-color: var(--color-gray-200);
@@ -1435,6 +1441,11 @@
   .dark\:border-\[\#4b5563\] {
     &:where(.dark, .dark *) {
       border-color: #4b5563;
+    }
+  }
+  .dark\:border-\[\#85929e\] {
+    &:where(.dark, .dark *) {
+      border-color: #85929e;
     }
   }
   .dark\:border-\[\#FFF\]\/50 {

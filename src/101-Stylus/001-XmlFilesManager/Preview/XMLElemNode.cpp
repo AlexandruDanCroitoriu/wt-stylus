@@ -137,6 +137,49 @@ namespace Stylus
                     }
                 });
             }
+        }else if(file_brain_->state_->getTempNodeVarData(text_node->Parent()->ToElement()).var_name_.compare("") != 0){
+            std::cout << "Adding variable holder for " << text_node->Parent()->ToElement()->Name() << std::endl;
+            auto temp_var_data = file_brain_->state_->getTempNodeVarData(text_node->Parent()->ToElement());
+            auto message_attr = TempNodeVarData::getMessageAttributeData(temp_var_data.attributes_["message_path"]);
+            if(temp_var_data.function_.compare("tr") == 0 ){
+                if(message_attr.folder_name_.compare("") != 0 && message_attr.file_name_.compare("") != 0)
+                {
+                    auto message_file_brain = file_brain_->state_->xml_file_brains_[message_attr.folder_name_ + "/" + message_attr.file_name_];
+                    if(message_file_brain)
+                    {
+                        auto message_node = message_file_brain->id_and_message_nodes_[temp_var_data.var_name_];
+                        if(message_node){
+                            std::cout << "Adding message node for " << message_attr.folder_name_ << "/" << message_attr.file_name_ << "/" << temp_var_data.var_name_ << std::endl;
+                            auto message_child = message_node->FirstChild();
+                            while(message_child)
+                            {
+                                if(message_child->ToText())
+                                {
+                                    addTextNode(message_child->ToText());
+                                }else if(message_child->ToElement())
+                                {
+                                    addElemNode(message_child->ToElement(), false);
+                                }
+                            message_child = message_child->NextSibling();                                   
+                            }
+                        }else 
+                        {
+                            std::cout << "Message node not found for " << message_attr.folder_name_ << "/" << message_attr.file_name_ << "/" << temp_var_data.var_name_ << std::endl;
+                            addWidget(std::make_unique<Wt::WText>(temp_var_data.var_name_ + " " + message_attr.folder_name_ + "/" + message_attr.file_name_))->setStyleClass("preview-error-text outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
+                        }  
+                    }else {
+                        std::cout << "Message file brain not found for " << message_attr.folder_name_ << "/" << message_attr.file_name_ << std::endl;
+                        addWidget(std::make_unique<Wt::WText>(temp_var_data.var_name_ + " " + message_attr.folder_name_ + "/" + message_attr.file_name_))->setStyleClass("preview-error-text outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
+                        
+                    }
+                }else {
+                    std::cout << "Message attribute data is not valid template variable: " << temp_var_data.var_name_ << std::endl;
+                    addWidget(std::make_unique<Wt::WText>(temp_var_data.var_name_ + " | message_path attribute missing or incorect"))->setStyleClass("preview-error-text outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
+                }
+            }else {
+                std::cout << "add variable text as is for " << text_node->Value() << std::endl;
+                auto var_name = addWidget(std::make_unique<Wt::WText>(text_node->Value()));                
+            }
         }else {
             if(file_brain_->state_->isCondNode(text_node->Parent()->ToElement()))
             {

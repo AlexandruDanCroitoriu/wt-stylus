@@ -17,6 +17,10 @@ Settings::Settings(std::shared_ptr<StylusState> state)
     auto checkbox = addWidget(std::make_unique<Wt::WCheckBox>("Use Tailwind CDN"));
     checkbox->setChecked(state_->settings_node_->BoolAttribute("use-tailwind-cdn"));
     checkbox->setStyleClass("mb-[16px] mt-[8px] text-[#111827] dark:text-[#FFF] text-sm");
+    checkbox->keyWentDown().connect([=](Wt::WKeyEvent event)
+    {
+        Wt::WApplication::instance()->globalKeyWentDown().emit(event);
+    });
     checkbox->changed().connect([=]()
     {
         state_->settings_node_->SetAttribute("use-tailwind-cdn", checkbox->isChecked() ? "true" : "false");

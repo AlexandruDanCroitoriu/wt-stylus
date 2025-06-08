@@ -10,7 +10,6 @@ namespace Stylus
 
     ControlCenter::ControlCenter()
     {
-        setStyleClass("flex flex-col text-sm");
         setMinimumSize(Wt::WLength(300, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
         setMaximumSize(Wt::WLength(300, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
         setStyleClass("stylus-background z-[100] overflow-x-visible");
@@ -76,7 +75,13 @@ namespace Stylus
             auto selected_node = file_brain_->selected_node_;
             if(is_condition_->isChecked()) {
                 std::cout << "\n\n is condition checkbox checked \n\n";
-                selected_node->SetAttribute("true", true);
+                selected_node->SetAttribute("true", false);
+                auto first_child = selected_node->FirstChild();
+                // if(first_child && first_child->ToText()) {
+                //     auto new_span = file_brain_->doc_->NewElement("span");
+                //     selected_node->InsertFirstChild(new_span);
+                //     new_span->InsertFirstChild(first_child);
+                // }
                 selected_node->InsertFirstChild(file_brain_->doc_->NewText("}"));
                 selected_node->InsertEndChild(file_brain_->doc_->NewText("${"));
                 if(selected_node->PreviousSibling()){
@@ -93,6 +98,14 @@ namespace Stylus
                 selected_node->DeleteChild(selected_node->LastChild());
                 selected_node->Parent()->DeleteChild(selected_node->PreviousSibling());
                 selected_node->Parent()->DeleteChild(selected_node->NextSibling());
+                auto first_child = selected_node->FirstChildElement();
+                // if(first_child && first_child->FirstChild() && first_child->FirstChild()->ToText() &&
+                //     selected_node->ChildElementCount() == 1)
+                //     {
+                //         auto temp_var_node = first_child->FirstChild();
+                //         selected_node->InsertFirstChild(temp_var_node);
+                //         selected_node->DeleteChild(first_child);
+                //     } 
             }
             file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
             file_brain_->file_saved_.emit();
@@ -153,7 +166,7 @@ namespace Stylus
       
         elem_text_->keyWentDown().connect([=](Wt::WKeyEvent event) { 
             Wt::WApplication::instance()->globalKeyWentDown().emit(event); 
-            // if(event.modifiers().test(Wt::KeyboardModifier::Control) && event.key() == Wt::Key::S){
+            if(event.modifiers().test(Wt::KeyboardModifier::Control) && event.key() == Wt::Key::S){
                 if(!file_brain_ || !file_brain_->selected_node_) return;
                 auto selected_node = file_brain_->selected_node_;
                 if(file_brain_->state_->isCondNode(selected_node)) {
@@ -178,7 +191,7 @@ namespace Stylus
                 }
                 file_brain_->doc_->SaveFile(file_brain_->file_path_.c_str());
                 file_brain_->file_saved_.emit();
-            // }
+            }
         });
         is_condition_->keyWentDown().connect([=](Wt::WKeyEvent event) { Wt::WApplication::instance()->globalKeyWentDown().emit(event); });
 
@@ -202,8 +215,15 @@ namespace Stylus
         std::cout << "\n\nControlCenter::setFileBrain() - setting file brain\n\n";
         file_brain_ = file_brain;
         auto selected_node = file_brain_->selected_node_;
-        if(!elem_tag_->hasFocus() && !elem_text_->hasFocus() && !is_condition_->hasFocus())
-            elem_classes_->setFocus();
+        // if(!elem_tag_->hasFocus() && !elem_text_->hasFocus() && !is_condition_->hasFocus())
+            // elem_classes_->setFocus();
+
+        if(!file_brain_ || !file_brain_->selected_node_) {
+            std::cout << "\n\nControlCenter::setFileBrain() - no file brain or selected node, disabling all controls\n\n";
+            disableAll();
+            return;
+        }
+
         setTagName();
         setClasses();
         setText();
@@ -213,8 +233,6 @@ namespace Stylus
     void ControlCenter::setTagName()
     {
         elem_tag_->label()->setText("");
-        if(!file_brain_) return;
-        if(!file_brain_->selected_node_) return;
         auto selected_node = file_brain_->selected_node_;
         std::string tag_name = selected_node->Name();
         elem_tag_->setText(tag_name);
@@ -233,11 +251,6 @@ namespace Stylus
         style_classes_.clear();
         elem_classes_->label()->setText("");
         elem_classes_->setText("");
-        if(!file_brain_ || !file_brain_->selected_node_) {
-            elem_classes_->disable();
-            elem_classes_->setText("");
-            return;
-        }
         auto selected_node = file_brain_->selected_node_;
 
         elem_classes_->enable();
@@ -274,15 +287,13 @@ namespace Stylus
     }
     void ControlCenter::setText()
     {
-        if(!file_brain_ || !file_brain_->selected_node_ || file_brain_->selected_node_->FirstChildElement()) 
+        if(file_brain_->selected_node_->FirstChildElement()) 
         {
             elem_text_->disable();
             elem_text_->setText("");
             return;
-        }else if (file_brain_->selected_node_->GetText() && elem_text_->text().toUTF8().compare(file_brain_->selected_node_->GetText()) == 0) {
-            elem_text_->enable();
-            return; // no need to update if the text is the same
         }
+
         auto selected_node = file_brain_->selected_node_;
         if(file_brain_->state_->isCondNode(selected_node)) {
             std::cout << "\n\nControlCenter::setText() - selected node is a condition node, disabling text input" << std::endl;
@@ -313,7 +324,7 @@ namespace Stylus
     }
     void ControlCenter::setCondition()
     {
-        if(!file_brain_ || !file_brain_->selected_node_ || file_brain_->selected_node_ == file_brain_->doc_->RootElement() || std::string(file_brain_->selected_node_->Name()).compare("message") == 0)  
+        if(file_brain_->selected_node_ == file_brain_->doc_->RootElement() || std::string(file_brain_->selected_node_->Name()).compare("message") == 0)  
         {
             is_condition_->disable();
             is_condition_->setChecked(false);
