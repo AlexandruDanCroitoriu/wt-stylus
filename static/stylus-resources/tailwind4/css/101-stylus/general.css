@@ -22,6 +22,9 @@
 	--tree-message: #9333ea;
 	--tree-message-id: #0891b2;
 	--tree-condition: #84cc16;
+	--template-var-attribute: #06b6d4;
+	--template-var-name: #d946ef;
+	--template-function: #c026d3;
 }
  
 /* Scrollbar */
@@ -108,4 +111,14 @@
 }
 .preview-error-text {
 	@apply text-[var(--error)]
+}
+
+.template-var-attribute {
+	@apply text-[var(--template-var-attribute)];
+}
+.template-var-name {
+	@apply text-[var(--template-var-name)]
+}
+.template-function {
+	@apply text-[var(--template-function)]
 }

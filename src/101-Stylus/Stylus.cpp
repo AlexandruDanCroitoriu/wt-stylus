@@ -292,7 +292,7 @@ namespace Stylus
                             auto prev_node = selected_node->PreviousSibling();
                             auto next_node = selected_node->NextSibling();
                             if(state_->isCondNode(selected_node->PreviousSiblingElement()) && 
-                                state_->trimAllWitespace(selected_node->PreviousSiblingElement()->NextSibling()->ToText()->Value()).compare("}${") == 0    
+                                XMLTreeNode::trimAllWitespace(selected_node->PreviousSiblingElement()->NextSibling()->ToText()->Value()).compare("}${") == 0    
                             ){
                                 selected_node->PreviousSiblingElement()->NextSibling()->ToText()->SetValue("}");
                                 prev_node = xml_files_manager_->selected_file_brain_->doc_->NewText("${");

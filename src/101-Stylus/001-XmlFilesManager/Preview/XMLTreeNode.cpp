@@ -96,35 +96,47 @@ namespace Stylus
             if (child_node->ToElement()) {
                 content_wrapper_->addWidget(std::make_unique<XMLTreeNode>(file_brain, child_node->ToElement(), scroll_into_view));
             } else if (child_node->ToText()) {
-                std::string text_value = file_brain_->state_->trimWitespace(child_node->ToText()->Value());
-                if(file_brain_->state_->trimAllWitespace(text_value).compare("${") == 0 && child_node->NextSiblingElement() &&
+                std::string text_value = trimWitespace(child_node->ToText()->Value());
+                if(XMLTreeNode::trimAllWitespace(text_value).compare("${") == 0 && child_node->NextSiblingElement() &&
                     file_brain_->state_->isCondNode(child_node->NextSiblingElement()))
                 {
                     // text outside the condition ${ 
                     // content_wrapper_->addWidget(std::make_unique<Wt::WText>(text_value))->setStyleClass("preview-condition-node inline-block hover:bg-gray-400 p-1");
-                }else if(file_brain_->state_->trimAllWitespace(text_value).compare("}") == 0 && child_node->PreviousSiblingElement() &&
+                }else if(XMLTreeNode::trimAllWitespace(text_value).compare("}") == 0 && child_node->PreviousSiblingElement() &&
                     file_brain_->state_->isCondNode(child_node->PreviousSiblingElement()))
                 {
                     // text outside the condition }
                     // content_wrapper_->addWidget(std::make_unique<Wt::WText>(text_value))->setStyleClass("preview-condition-node inline-block hover:bg-gray-400 p-1");
-                }else if(file_brain_->state_->trimAllWitespace(text_value).compare("}") == 0 && 
+                }else if(XMLTreeNode::trimAllWitespace(text_value).compare("}") == 0 && 
                     file_brain_->state_->isCondNode(child_node->Parent()->ToElement()))
                 {
                     // text inside the condition }
                     // content_wrapper_->addWidget(std::make_unique<Wt::WText>(text_value))->setStyleClass("preview-condition-node inline-block hover:bg-gray-400 p-1");
-                }else if(file_brain_->state_->trimAllWitespace(text_value).compare("${") == 0 &&
+                }else if(XMLTreeNode::trimAllWitespace(text_value).compare("${") == 0 &&
                     file_brain_->state_->isCondNode(child_node->Parent()->ToElement()))
                 {
                     // text inside the condition ${ 
                     // content_wrapper_->addWidget(std::make_unique<Wt::WText>(text_value))->setStyleClass("preview-condition-node inline-block hover:bg-gray-400 p-1");
                 }else if (file_brain_->state_->getTempNodeVarData(child_node->Parent()->ToElement()).var_name_.compare("") != 0){
                     auto temp_var_data = file_brain_->state_->getTempNodeVarData(child_node->Parent()->ToElement());
-                    label_wrapper_->addWidget(std::make_unique<Wt::WText>(temp_var_data.function_ + ":"));
-                    label_wrapper_->addWidget(std::make_unique<Wt::WText>(temp_var_data.var_name_));
-                    if(temp_var_data.attributes_["message"].compare("") != 0)
+                    if(temp_var_data.function_.compare("") != 0){
+                        label_wrapper_->addWidget(std::make_unique<Wt::WText>(temp_var_data.function_))->setStyleClass("template-function");;
+                    }
+                    auto var_name = label_wrapper_->addWidget(std::make_unique<Wt::WText>(temp_var_data.var_name_));
+                    var_name->setStyleClass("template-var-name");
+                    for(auto& attr : temp_var_data.attributes_)
                     {
-                        auto message_attr = TempNodeVarData::getMessageAttributeData(temp_var_data.attributes_["message"]);
-                        content_wrapper_->addWidget(std::make_unique<Wt::WText>(message_attr.folder_name_ + "/" +  message_attr.file_name_ + "~" +  message_attr.message_id_));
+                        auto attr_wrapper = content_wrapper_->addWidget(std::make_unique<Wt::WContainerWidget>());
+                        attr_wrapper->setStyleClass("flex items-center flex-nowrap text-nowrap template-var-attribute");
+                        auto attr_name = attr_wrapper->addWidget(std::make_unique<Wt::WText>(attr.first + "="));
+                        if(attr.first.compare("message") == 0)
+                        {
+                            auto message_attr = TempNodeVarData::getMessageAttributeData(temp_var_data.attributes_["message"]);
+                            attr_wrapper->addWidget(std::make_unique<Wt::WText>(message_attr.folder_name_ + "/" +  message_attr.file_name_ + " " +  message_attr.message_id_));
+                        }else {
+                            auto attr_text = attr_wrapper->addWidget(std::make_unique<Wt::WText>(attr.first + "=\"" + attr.second + "\""));
+                            // attr_text->setStyleClass("preview-attribute-text");
+                        }
                     }
                 }else if(child_node->PreviousSiblingElement() || child_node->NextSiblingElement())
                 {                    
@@ -137,7 +149,7 @@ namespace Stylus
                             
                             auto parent_node = child_node->Parent();
                             auto new_span = file_brain_->doc_->NewElement("span");
-                            child_node->SetValue(file_brain_->state_->trimWitespace(child_node->ToText()->Value()).c_str());
+                            child_node->SetValue(trimWitespace(child_node->ToText()->Value()).c_str());
                             if(child_node->PreviousSibling()){
                                 parent_node->InsertAfterChild(child_node->PreviousSibling(), new_span);
                             }else {
@@ -190,5 +202,16 @@ namespace Stylus
             popup_->hide();
     }
 
+    std::string XMLTreeNode::trimWitespace(std::string str)
+    {
+        str.erase(0, str.find_first_not_of(" \t\n\r\f\v")); // trim from start
+        str.erase(str.find_last_not_of(" \t\n\r\f\v") + 1); // trim from end
+        return str;
+    }
+    std::string XMLTreeNode::trimAllWitespace(std::string str)
+    {
+        str.erase(std::remove_if(str.begin(), str.end(), ::isspace), str.end());
+        return str;
+    }
 
 }

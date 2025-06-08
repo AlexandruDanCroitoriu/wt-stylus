@@ -6,6 +6,9 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+#include <regex>
+#include <boost/regex.hpp>
+#include "101-Stylus/001-XmlFilesManager/Preview/XMLTreeNode.h"
 
 namespace Stylus
 {
@@ -157,56 +160,56 @@ namespace Stylus
             if (isCondNode(node))
             {
                 // std::cout << "\n\nCondition node\n";
-                if (node->PreviousSibling() && node->PreviousSibling()->ToText() && trimAllWitespace(node->PreviousSibling()->ToText()->Value()).compare("${") != 0)
+                if (node->PreviousSibling() && node->PreviousSibling()->ToText() && XMLTreeNode::trimAllWitespace(node->PreviousSibling()->ToText()->Value()).compare("${") != 0)
                 {
                     std::cout << "\n\n selected previous sibling check \n\n";
                     std::string text = node->PreviousSibling()->ToText()->Value();
                     std::string before_start_cond = text.substr(0, text.length() - 2);
                     std::string after_start_cond = text.substr(text.length() - 2, 2);
-                    // std::cout << "Splitting previous sibling text: '" << trimAllWitespace(text) << "' before_start_cond '" << trimAllWitespace(before_start_cond) << "' after_start_cond '" << trimAllWitespace(after_start_cond) << "'\n";
+                    // std::cout << "Splitting previous sibling text: '" << XMLTreeNode::trimAllWitespace(text) << "' before_start_cond '" << XMLTreeNode::trimAllWitespace(before_start_cond) << "' after_start_cond '" << XMLTreeNode::trimAllWitespace(after_start_cond) << "'\n";
                     node->PreviousSibling()->ToText()->SetValue(before_start_cond.c_str());
                     auto parent_node = node->Parent();
                     parent_node->InsertAfterChild(node->PreviousSibling(), node->GetDocument()->NewText(after_start_cond.c_str()));
                 }
-                if (node->NextSibling() && node->NextSibling()->ToText() && trimAllWitespace(node->NextSibling()->ToText()->Value()).compare("}") != 0)
+                if (node->NextSibling() && node->NextSibling()->ToText() && XMLTreeNode::trimAllWitespace(node->NextSibling()->ToText()->Value()).compare("}") != 0)
                 {
                     std::cout << "\n\n selected next sibling check \n\n";
                     std::string text = node->NextSibling()->ToText()->Value();
                     std::string after_cond_text = text.substr(0, 1);
                     std::string after_after_cont_text = text.substr(1, text.length() - 1);
-                    // std::cout << "Splitting next sibling text: '" << trimAllWitespace(text) << "' after_cond_text '" << trimAllWitespace(after_cond_text) << "' after_after_cont_text '" << trimAllWitespace(after_after_cont_text) << "'\n";
+                    // std::cout << "Splitting next sibling text: '" << XMLTreeNode::trimAllWitespace(text) << "' after_cond_text '" << XMLTreeNode::trimAllWitespace(after_cond_text) << "' after_after_cont_text '" << XMLTreeNode::trimAllWitespace(after_after_cont_text) << "'\n";
                     node->NextSibling()->ToText()->SetValue(after_cond_text.c_str());
                     auto parent_node = node->Parent();
                     parent_node->InsertAfterChild(node->NextSibling(), node->GetDocument()->NewText(after_after_cont_text.c_str()));
                 }
-                if (node->FirstChild() && node->FirstChild()->ToText() && trimAllWitespace(node->FirstChild()->ToText()->Value()).compare("}") != 0)
+                if (node->FirstChild() && node->FirstChild()->ToText() && XMLTreeNode::trimAllWitespace(node->FirstChild()->ToText()->Value()).compare("}") != 0)
                 {
                     std::cout << "\n\n selected first child check \n\n";
                     std::string text = node->FirstChild()->ToText()->Value();
                     std::string first_child_text = text.substr(0, 1);
                     std::string after_first_child_text = text.substr(1, text.length() - 1);
-                    // std::cout << "Splitting first child text:'" << trimAllWitespace(text) << "' \nfirst_child_text '" << trimAllWitespace(first_child_text) << "' \nafter_first_child_text '" << trimAllWitespace(after_first_child_text) << "'\n";
+                    // std::cout << "Splitting first child text:'" << XMLTreeNode::trimAllWitespace(text) << "' \nfirst_child_text '" << XMLTreeNode::trimAllWitespace(first_child_text) << "' \nafter_first_child_text '" << XMLTreeNode::trimAllWitespace(after_first_child_text) << "'\n";
                     node->FirstChild()->ToText()->SetValue(first_child_text.c_str());
                     node->InsertAfterChild(node->FirstChild(), node->GetDocument()->NewText(after_first_child_text.c_str()));
                 }
-                if (node->LastChild() && node->LastChild()->ToText() && trimAllWitespace(node->LastChild()->ToText()->Value()).compare("${") != 0)
+                if (node->LastChild() && node->LastChild()->ToText() && XMLTreeNode::trimAllWitespace(node->LastChild()->ToText()->Value()).compare("${") != 0)
                 {
                     std::cout << "\n\n selected last child check \n\n";
                     std::string text = node->LastChild()->ToText()->Value();
-                    std::cout << "text: '" << trimAllWitespace(text) << "'\n";
+                    std::cout << "text: '" << XMLTreeNode::trimAllWitespace(text) << "'\n";
                     std::string last_child_text = text.substr(text.length() - 2, 2);
                     std::string before_end_cond = text.substr(0, text.length() - 2);
-                    // std::cout << "Splitting last child text: '" << trimAllWitespace(text) << "' before_end_cond '" << trimAllWitespace(before_end_cond) << "' last_child_text '" << trimAllWitespace(last_child_text) << "'\n";
+                    // std::cout << "Splitting last child text: '" << XMLTreeNode::trimAllWitespace(text) << "' before_end_cond '" << XMLTreeNode::trimAllWitespace(before_end_cond) << "' last_child_text '" << XMLTreeNode::trimAllWitespace(last_child_text) << "'\n";
                     node->LastChild()->ToText()->SetValue(last_child_text.c_str());
                     node->InsertAfterChild(node->LastChild()->PreviousSibling(), node->GetDocument()->NewText(before_end_cond.c_str()));
                 }
-                // if(node->LastChild() && node->LastChild()->ToText() && trimAllWitespace(node->LastChild()->ToText()->Value()).compare("${") != 0)
+                // if(node->LastChild() && node->LastChild()->ToText() && XMLTreeNode::trimAllWitespace(node->LastChild()->ToText()->Value()).compare("${") != 0)
                 // {
                 //     std::cout << "\n\n selected last child check \n\n";
                 //     std::string text = node->LastChild()->ToText()->Value();
                 //     std::string last_child_text = text.substr(text.length()-2, 2);
                 //     std::string before_end_cond = text.substr(0, text.length()-2);
-                //     std::cout << "Splitting last child text: '" << trimAllWitespace(text) << "' before_end_cond '" << trimAllWitespace(before_end_cond) << "' last_child_text '" << trimAllWitespace(last_child_text) << "'\n";
+                //     std::cout << "Splitting last child text: '" << XMLTreeNode::trimAllWitespace(text) << "' before_end_cond '" << XMLTreeNode::trimAllWitespace(before_end_cond) << "' last_child_text '" << XMLTreeNode::trimAllWitespace(last_child_text) << "'\n";
                 //     node->LastChild()->ToText()->SetValue(last_child_text.c_str());
                 //     node->InsertAfterChild(node->LastChild()->PreviousSibling(), doc_->NewText(before_end_cond.c_str()));
                 // }
@@ -249,10 +252,10 @@ namespace Stylus
             last_child && last_child->ToText())
         {
 
-            std::string prev_node_text = trimAllWitespace(prev_node->ToText()->Value());
-            std::string next_node_text = trimAllWitespace(next_node->ToText()->Value());
-            std::string first_child_text = trimAllWitespace(first_child->ToText()->Value());
-            std::string last_child_text = trimAllWitespace(last_child->ToText()->Value());
+            std::string prev_node_text = XMLTreeNode::trimAllWitespace(prev_node->ToText()->Value());
+            std::string next_node_text = XMLTreeNode::trimAllWitespace(next_node->ToText()->Value());
+            std::string first_child_text = XMLTreeNode::trimAllWitespace(first_child->ToText()->Value());
+            std::string last_child_text = XMLTreeNode::trimAllWitespace(last_child->ToText()->Value());
 
             if (prev_node_text.length() < 2 || next_node_text.length() < 1 ||
                 first_child_text.length() < 1 || last_child_text.length() < 2)
@@ -276,17 +279,17 @@ namespace Stylus
     TempNodeVarData StylusState::getTempNodeVarData(tinyxml2::XMLElement *node)
     {
         TempNodeVarData data;
-        if (node == nullptr || node->ChildElementCount() > 1 || !node->FirstChild() || !node->FirstChild()->ToText())
+        // ^\$\{[ ]?[a-z:]*[ ]?\}
+        // ^\$\{[ ]?[a-z:]*[a-zA-Z0-9\(\)\:\-\_\[\]=\"\'\/\.\~ ]*?\}
+        if (node == nullptr || node->ChildElementCount() > 1 || !node->FirstChild() || !node->FirstChild()->ToText() ||
+            !boost::regex_match(node->FirstChild()->ToText()->Value(), boost::regex(R"(^\$\{[ ]?[a-z:]*[a-zA-Z0-9\(\)\:\-\_\[\]=\"\'\/\.\~ ]*?\})")))
         {
             return data; // Return empty data if node is null
         }
+        // std::cout << "\n\nParsing node: " << node->FirstChild()->ToText()->Value() << "\n\n";
         // ${tr:some-text message="000-examples/asada.xml:some-text"}
         // ${function_:var_name_ attr1="value1" attr2="value2"}
         std::string text = node->FirstChild()->ToText()->Value();
-        if (text.empty() || text.length() < 2)
-        {
-            return data; // Return empty data if text is empty or too short
-        }
         size_t end_pos = 0;
         if (text[0] == '$' && text[1] == '{')
         {
@@ -301,6 +304,7 @@ namespace Stylus
         else
             return data;
 
+        text = XMLTreeNode::trimWitespace(text);
         size_t colon_pos = text.find(':');
         if (colon_pos != std::string::npos)
         {
@@ -313,7 +317,7 @@ namespace Stylus
             {
                 data.var_name_ = text.substr(colon_pos + 1);
             }
-            std::cout << "Found colon. function_: '" << data.function_ << "', var_name_: '" << data.var_name_ << "'" << std::endl;
+            // std::cout << "Found colon. function_: '" << data.function_ << "', var_name_: '" << data.var_name_ << "'" << std::endl;
         }
         else
         {
@@ -335,30 +339,37 @@ namespace Stylus
         }
 
         std::string attributes_str = text.substr(attr_start + 1);
-        std::cout << "Parsing attributes: '" << attributes_str << "'" << std::endl;
+        // std::cout << "Parsing attributes: '" << attributes_str << "'" << std::endl;
         size_t pos = 0;
         while ((pos = attributes_str.find('=')) != std::string::npos)
         {
             std::string attr_name = attributes_str.substr(0, pos);
-            std::cout << "Found attribute: '" << attr_name << "'" << std::endl;
+            // std::cout << "Found attribute: '" << attr_name << "'" << std::endl;
             attributes_str.erase(0, pos + 1); // Remove the attribute name and '='
             size_t end_quote_pos = attributes_str.find_first_of("\"'");
             if (end_quote_pos == std::string::npos)
             {
                 std::cerr << "Error: Invalid attribute format in: " << text << std::endl;
-                return data; // Return empty data if format is invalid
+                return data; // Return data as is if atribute format is invalid
             }
-            data.attributes_[attr_name] = attributes_str;
+            // Remove starting and ending quotes from attribute value
+            if (!attributes_str.empty() && (attributes_str[0] == '"' || attributes_str[0] == '\'')) {
+                attributes_str.erase(0, 1);
+            }
+            end_quote_pos = attributes_str.find_first_of("\"'");
+            std::string attr_value = attributes_str.substr(0, end_quote_pos);
+            data.attributes_[attr_name] = attr_value;
             attributes_str.erase(0, end_quote_pos + 1); // Remove the value and the closing quote
         }
-        std::cout << "\n\n";
+        // std::cout << "\n\n";
         return data;
     }
 
     MessageAttributeData TempNodeVarData::getMessageAttributeData(std::string message_attribute_value)
     {
         MessageAttributeData data;
-        std::cout << "Parsing message_attribute_value: '" << message_attribute_value << "'" << std::endl;
+        
+        // std::cout << "Parsing message_attribute_value: '" << message_attribute_value << "'" << std::endl;
         // 000-examples/asada.xml:some-text
         // folder_name/file_name:message_id
         // remove first and last characters becase they are commas
@@ -367,7 +378,6 @@ namespace Stylus
             std::cerr << "Error: Invalid message attribute value: " << message_attribute_value << std::endl;
             return MessageAttributeData(); // Return empty data if value is invalid
         }
-        message_attribute_value = message_attribute_value.substr(1, message_attribute_value.length() - 2);
         size_t slash_pos = message_attribute_value.find('/');
         size_t tilde_pos = message_attribute_value.find('~');
         if (slash_pos != std::string::npos && tilde_pos != std::string::npos)
@@ -377,20 +387,10 @@ namespace Stylus
             data.message_id_ = message_attribute_value.substr(tilde_pos + 1);
         }
         
-        std::cout << "  Trimmed values: folder_name_='" << data.folder_name_ << "', file_name_='" << data.file_name_ << "', message_id_='" << data.message_id_ << "'" << std::endl;
+        // std::cout << "  Trimmed values: folder_name_='" << data.folder_name_ << "', file_name_='" << data.file_name_ << "', message_id_='" << data.message_id_ << "'" << std::endl;
         return data;
     }
 
-    std::string StylusState::trimWitespace(std::string str)
-    {
-        str.erase(0, str.find_first_not_of(" \t\n\r\f\v")); // trim from start
-        str.erase(str.find_last_not_of(" \t\n\r\f\v") + 1); // trim from end
-        return str;
-    }
-    std::string StylusState::trimAllWitespace(std::string str)
-    {
-        str.erase(std::remove_if(str.begin(), str.end(), ::isspace), str.end());
-        return str;
-    }
+
 
 }

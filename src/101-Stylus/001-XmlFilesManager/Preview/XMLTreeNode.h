@@ -17,12 +17,16 @@ namespace Stylus
         tinyxml2::XMLElement* node_;
         void showPopup(const Wt::WMouseEvent& event);
         
+        static std::string trimWitespace(std::string str);
+        static std::string trimAllWitespace(std::string str);
+
         private:
         std::shared_ptr<XMLFileBrain> file_brain_;
 
         Wt::WContainerWidget* label_wrapper_;
         Wt::WContainerWidget* content_wrapper_;
         std::unique_ptr<Wt::WPopupMenu> popup_;
+
 
     };
 

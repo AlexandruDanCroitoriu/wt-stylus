@@ -1,4 +1,5 @@
 #include "101-Stylus/001-XmlFilesManager/Preview/XMLElemNode.h"
+#include "101-Stylus/001-XmlFilesManager/Preview/XMLTreeNode.h"
 #include <Wt/WText.h>
 #include <Wt/WApplication.h>
 #include <Wt/WTemplate.h>
@@ -93,22 +94,22 @@ namespace Stylus
 
     void XMLElemNode::addTextNode(tinyxml2::XMLText* text_node)
     {
-        if(file_brain_->state_->trimAllWitespace(text_node->ToText()->Value()).compare("${") == 0 && text_node->NextSiblingElement() &&
+        if(XMLTreeNode::trimAllWitespace(text_node->ToText()->Value()).compare("${") == 0 && text_node->NextSiblingElement() &&
             file_brain_->state_->isCondNode(text_node->NextSiblingElement()))
         {
             // text outside the condition ${ 
             // addWidget(std::make_unique<Wt::WText>(text_node->Value()))->setStyleClass("preview-condition-node");
-        }else if(file_brain_->state_->trimAllWitespace(text_node->ToText()->Value()).compare("}") == 0 && text_node->PreviousSiblingElement() &&
+        }else if(XMLTreeNode::trimAllWitespace(text_node->ToText()->Value()).compare("}") == 0 && text_node->PreviousSiblingElement() &&
             file_brain_->state_->isCondNode(text_node->PreviousSiblingElement()))
         {
             // text outside the condition }
             // addWidget(std::make_unique<Wt::WText>(text_node->Value()))->setStyleClass("preview-condition-node");
-        }else if(file_brain_->state_->trimAllWitespace(text_node->ToText()->Value()).compare("}") == 0 && 
+        }else if(XMLTreeNode::trimAllWitespace(text_node->ToText()->Value()).compare("}") == 0 && 
             file_brain_->state_->isCondNode(text_node->Parent()->ToElement()))
         {
             // text inside the condition }
             // addWidget(std::make_unique<Wt::WText>(text_node->Value()))->setStyleClass("preview-condition-node");
-        }else if(file_brain_->state_->trimAllWitespace(text_node->ToText()->Value()).compare("${") == 0 &&
+        }else if(XMLTreeNode::trimAllWitespace(text_node->ToText()->Value()).compare("${") == 0 &&
             file_brain_->state_->isCondNode(text_node->Parent()->ToElement()))
         {
             // text inside the condition ${ 

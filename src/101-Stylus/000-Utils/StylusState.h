@@ -54,8 +54,6 @@ namespace Stylus
         bool isCondNode(tinyxml2::XMLElement* node);
         TempNodeVarData getTempNodeVarData(tinyxml2::XMLElement* node);
 
-        static std::string trimWitespace(std::string str);
-        std::string trimAllWitespace(std::string str);
         Wt::Signal<> file_saved_;
     };
 

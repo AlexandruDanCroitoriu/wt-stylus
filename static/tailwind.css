@@ -424,6 +424,9 @@
   .w-16 {
     width: calc(var(--spacing) * 16);
   }
+  .w-22 {
+    width: calc(var(--spacing) * 22);
+  }
   .w-\[20px\] {
     width: 20px;
   }
@@ -493,6 +496,9 @@
     --tw-translate-x: calc(calc(1/2 * 100%) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
+  .transform {
+    transform: var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);
+  }
   .transform-gpu {
     transform: translateZ(0) var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);
   }
@@ -507,6 +513,9 @@
   }
   .flex-col {
     flex-direction: column;
+  }
+  .flex-nowrap {
+    flex-wrap: nowrap;
   }
   .flex-wrap {
     flex-wrap: wrap;
@@ -745,6 +754,9 @@
   .bg-yellow-500\/50 {
     background-color: color-mix(in oklab, var(--color-yellow-500) 50%, transparent);
   }
+  .fill-green-400 {
+    fill: var(--color-green-400);
+  }
   .object-cover {
     object-fit: cover;
   }
@@ -781,6 +793,9 @@
   .p-\[8px\] {
     padding: 8px;
   }
+  .p-\[16px\] {
+    padding: 16px;
+  }
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
   }
@@ -795,9 +810,6 @@
   }
   .px-\[3px\] {
     padding-inline: 3px;
-  }
-  .px-\[16px\] {
-    padding-inline: 16px;
   }
   .py-1\.5 {
     padding-block: calc(var(--spacing) * 1.5);
@@ -1767,6 +1779,9 @@
   --tree-message: #9333ea;
   --tree-message-id: #0891b2;
   --tree-condition: #84cc16;
+  --template-var-attribute: #06b6d4;
+  --template-var-name: #d946ef;
+  --template-function: #c026d3;
 }
 .stylus-background::-webkit-scrollbar-track {
   border-radius: 10px;
@@ -1903,6 +1918,15 @@
 .preview-error-text {
   color: var(--error);
 }
+.template-var-attribute {
+  color: var(--template-var-attribute);
+}
+.template-var-name {
+  color: var(--template-var-name);
+}
+.template-function {
+  color: var(--template-function);
+}
 @property --tw-border-spacing-x {
   syntax: "<length>";
   inherits: false;
@@ -1927,6 +1951,31 @@
   syntax: "*";
   inherits: false;
   initial-value: 0;
+}
+@property --tw-rotate-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: rotateX(0);
+}
+@property --tw-rotate-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: rotateY(0);
+}
+@property --tw-rotate-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: rotateZ(0);
+}
+@property --tw-skew-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: skewX(0);
+}
+@property --tw-skew-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: skewY(0);
 }
 @property --tw-space-y-reverse {
   syntax: "*";

@@ -2,8 +2,11 @@
 <!-- Created with Stylus Editor -->
 <messages>
     <message id="example">
-        <div class="p-[23px] bg-red-200/40 ">${tr:some-text message="000-examples/asada.xml~some-text"}</div>
         <div>${widget}</div>
+        <div>${ widget }</div>
+        <div>${tr:some-text message="000-examples/asada.xml~some-text"}</div>
+        <div>${some-text message="000-examples/asada.xml~some-text"}</div>
+        <div>${some-text test="soome random text"}</div>
     </message>
     <message id="some-text">
         <div>some random text</div>
