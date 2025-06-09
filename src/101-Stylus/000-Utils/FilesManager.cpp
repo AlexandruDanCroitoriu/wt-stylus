@@ -25,7 +25,7 @@ namespace Stylus
 
 FilesManagerSidebar::FilesManagerSidebar()
 {
-    setStyleClass("flex flex-col max-h-screen stylus-background select-none");
+    setStyleClass("flex flex-col max-h-screen select-none");
     setLayoutSizeAware(true);
     // tree header
     // setMinimumSize(Wt::WLength(240, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
@@ -33,11 +33,11 @@ FilesManagerSidebar::FilesManagerSidebar()
     setMaximumSize(Wt::WLength(1000, Wt::LengthUnit::Pixel), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
 
     contents_ = addWidget(std::make_unique<Wt::WContainerWidget>());
-    contents_->setStyleClass("w-full flex-[1] overflow-y-auto overflow-x-hidden flex flex-col stylus-background");
+    contents_->setStyleClass("w-full flex-[1] overflow-y-auto overflow-x-hidden flex flex-col stylus-scrollbar");
 
-    footer_ = addWidget(std::make_unique<Wt::WContainerWidget>());
-    footer_->setStyleClass("flex items-center justify-between p-[3px] border-t border-solid");
-    footer_->hide();
+    // footer_ = addWidget(std::make_unique<Wt::WContainerWidget>());
+    // footer_->setStyleClass("flex items-center justify-between p-[3px] border-t border-solid");
+    // footer_->hide();
 }
 
 void FilesManagerSidebar::layoutSizeChanged(int width, int height)
@@ -124,7 +124,7 @@ void TreeNode::dropEvent(Wt::WDropEvent event)
             message_box->setOffsets(100, Wt::Side::Top);
             message_box->setModal(true);
 
-            message_box->setStyleClass("stylus-background");
+            message_box->setStyleClass("");
             message_box->titleBar()->setStyleClass("flex items-center justify-center p-[8px] cursor-pointer border-b border-solid text-xl font-bold");
             message_box->contents()->setStyleClass("flex flex-col");
             auto content = message_box->contents()->addWidget(std::make_unique<Wt::WContainerWidget>());
@@ -214,7 +214,7 @@ void TreeNode::createNewFolderDialog()
     dialog->rejectWhenEscapePressed();
     dialog->setOffsets(100, Wt::Side::Top);
 
-    dialog->setStyleClass("stylus-background");
+    dialog->setStyleClass("");
     dialog->titleBar()->setStyleClass("flex items-center justify-center p-[8px] cursor-pointer border-b border-solid text-xl font-bold");
     dialog->contents()->setStyleClass("flex flex-col");
 
@@ -275,7 +275,7 @@ void TreeNode::createRenameFolderDialog()
     dialog->rejectWhenEscapePressed();
     dialog->setOffsets(100, Wt::Side::Top);
 
-    dialog->setStyleClass("stylus-background");
+    dialog->setStyleClass("");
     dialog->titleBar()->setStyleClass("flex items-center justify-center p-[8px] cursor-pointer border-b border-solid text-xl font-bold");
     dialog->contents()->setStyleClass("flex flex-col");
 
@@ -342,7 +342,7 @@ void TreeNode::createRemoveFolderMessageBox()
     message_box->setOffsets(100, Wt::Side::Top);
     message_box->setModal(true);
 
-    message_box->setStyleClass("stylus-background");
+    message_box->setStyleClass("");
     message_box->titleBar()->setStyleClass("flex items-center justify-center p-[8px] cursor-pointer border-b border-solid text-xl font-bold");
     message_box->contents()->addStyleClass("flex items-center");
     message_box->footer()->setStyleClass("flex items-center justify-between p-[8px]");
@@ -374,7 +374,7 @@ void TreeNode::createNewFileDialog()
     dialog->setOffsets(100, Wt::Side::Top);
     dialog->setModal(true);
     dialog->rejectWhenEscapePressed();
-    dialog->setStyleClass("stylus-background");
+    dialog->setStyleClass("");
     dialog->titleBar()->setStyleClass("flex items-center justify-center p-[8px] cursor-pointer border-b border-solid text-xl font-bold");
     dialog->contents()->setStyleClass("flex flex-col");
 
@@ -448,7 +448,7 @@ void TreeNode::createRenameFileDialog()
     dialog->rejectWhenEscapePressed();
     dialog->setOffsets(100, Wt::Side::Top);
 
-    dialog->setStyleClass("stylus-background");
+    dialog->setStyleClass("");
     dialog->titleBar()->setStyleClass("flex items-center justify-center p-[8px] cursor-pointer border-b border-solid text-xl font-bold");
     dialog->contents()->setStyleClass("flex flex-col");
 
@@ -509,7 +509,7 @@ void TreeNode::deleteFileMessageBox()
     message_box->setOffsets(100, Wt::Side::Top);
     message_box->setModal(true);
 
-    message_box->setStyleClass("stylus-background");
+    message_box->setStyleClass("");
     message_box->titleBar()->setStyleClass("flex items-center justify-center p-[8px] cursor-pointer border-b border-solid text-xl font-bold");
     message_box->contents()->addStyleClass("flex items-center");
     message_box->footer()->setStyleClass("flex items-center justify-between p-[8px]");

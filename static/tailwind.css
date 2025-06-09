@@ -34,6 +34,7 @@
     --color-gray-700: oklch(0.373 0.034 259.733);
     --color-gray-800: oklch(0.278 0.033 256.848);
     --color-gray-900: oklch(0.21 0.034 264.665);
+    --color-gray-950: oklch(0.13 0.028 261.692);
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
@@ -1421,9 +1422,9 @@
       border-color: #4b5563;
     }
   }
-  .dark\:border-\[\#FFF\]\/50 {
+  .dark\:border-\[\#FFF\]\/20 {
     &:where(.dark, .dark *) {
-      border-color: color-mix(in oklab, #FFF 50%, transparent);
+      border-color: color-mix(in oklab, #FFF 20%, transparent);
     }
   }
   .dark\:border-gray-400 {
@@ -1767,47 +1768,31 @@
   --template-var-name: #d946ef;
   --template-function: #c026d3;
 }
-.stylus-background::-webkit-scrollbar-track {
+.stylus-scrollbar::-webkit-scrollbar-track {
   border-radius: 10px;
   &:where(.dark, .dark *) {
-    background-color: var(--stylus-bg-dark);
+    background-color: var(--color-gray-950);
   }
 }
-.stylus-background::-webkit-scrollbar {
+.stylus-scrollbar::-webkit-scrollbar {
   width: 3px;
   &:where(.dark, .dark *) {
-    background-color: var(--stylus-bg-dark);
+    background-color: var(--color-gray-950);
   }
 }
-.stylus-background::-webkit-scrollbar-thumb {
+.stylus-scrollbar::-webkit-scrollbar-thumb {
   border-radius: 10px;
   &:where(.dark, .dark *) {
-    background-color: color-mix(in oklab, var(--stylus-text-dark) 20%, transparent);
+    background-color: color-mix(in oklab, var(--color-gray-950) 20%, transparent);
   }
-}
-.preview-background {
-  position: relative;
-  color: var(--color-black);
-  --dot-color: rgb(200, 200, 200);
-  --dot-size: 1px;
-  --dot-space: 30px;
-  background: linear-gradient(90deg, var(--stylus-bg-ligh) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), linear-gradient(var(--stylus-bg-ligh) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), var(--dot-color);
-}
-html.dark .preview-background {
-  position: relative;
-  color: var(--color-white);
-  --dot-bg: var(--stylus-bg-dark);
-  --dot-color: rgb(116, 115, 115);
 }
 .stylus-background {
-  background-color: var(--stylus-bg);
-  color: var(--stylus-text);
+  background-color: var(--color-gray-100);
   &:where(.dark, .dark *) {
-    background-color: var(--stylus-bg-dark);
+    background-color: var(--color-gray-950);
   }
-  &:where(.dark, .dark *) {
-    color: var(--stylus-text-dark);
-  }
+  background-image: radial-gradient(var(--color-gray-800) 5%, transparent 0);
+  background-size: 35px 35px;
 }
 .stylus-menu {
   &:hover {

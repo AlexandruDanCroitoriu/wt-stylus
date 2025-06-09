@@ -106,15 +106,17 @@ namespace Stylus
                     var_name->setStyleClass("template-var-name");
                     for(auto& attr : temp_var_data.attributes_)
                     {
-                        auto attr_wrapper = label_wrapper_->addWidget(std::make_unique<Wt::WContainerWidget>());
                         // auto attr_wrapper = content_wrapper_->addWidget(std::make_unique<Wt::WContainerWidget>());
-                        attr_wrapper->setStyleClass("flex items-center flex-nowrap text-nowrap template-var-attribute");
-                        auto attr_name = attr_wrapper->addWidget(std::make_unique<Wt::WText>(attr.first + "="));
-                        if(attr.first.compare("message") == 0)
+                        if(attr.first.compare("message_path") == 0)
                         {
-                            auto message_attr = TempNodeVarData::getMessageAttributeData(temp_var_data.attributes_["message"]);
+                            auto attr_wrapper = label_wrapper_->addWidget(std::make_unique<Wt::WContainerWidget>());
+                            attr_wrapper->setStyleClass("flex items-center flex-nowrap text-nowrap template-var-attribute");
+                            auto message_attr = TempNodeVarData::getMessageAttributeData(temp_var_data.attributes_["message_path"]);
                             attr_wrapper->addWidget(std::make_unique<Wt::WText>(message_attr.folder_name_ + "/" +  message_attr.file_name_));
                         }else {
+                            auto attr_wrapper = content_wrapper_->addWidget(std::make_unique<Wt::WContainerWidget>());
+                            auto attr_name = attr_wrapper->addWidget(std::make_unique<Wt::WText>(attr.first + "="));
+                            attr_wrapper->setStyleClass("flex items-center flex-nowrap text-nowrap template-var-attribute");
                             auto attr_text = attr_wrapper->addWidget(std::make_unique<Wt::WText>(attr.second));
                             // attr_text->setStyleClass("preview-attribute-text");
                         }

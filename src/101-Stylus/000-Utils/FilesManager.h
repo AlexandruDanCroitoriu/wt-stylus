@@ -18,7 +18,7 @@ namespace Stylus
     public:
         FilesManagerSidebar();
         Wt::WContainerWidget* contents_;
-        Wt::WContainerWidget* footer_;
+        // Wt::WContainerWidget* footer_;
         Wt::Signal<Wt::WString>& width_changed() { return width_changed_; }
 
     protected:

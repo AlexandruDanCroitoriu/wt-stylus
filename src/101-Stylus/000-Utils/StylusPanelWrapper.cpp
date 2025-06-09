@@ -6,6 +6,6 @@ namespace Stylus {
     StylusPanelWrapper::StylusPanelWrapper(std::shared_ptr<StylusState> state)
         : state_(state)
     {
-        setStyleClass("h-[100vh] stylus-background");
+        setStyleClass("h-[100vh]");
     }
 }

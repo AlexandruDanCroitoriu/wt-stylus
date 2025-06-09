@@ -3,15 +3,8 @@
 <messages>
     <message id="example">
         <div>------------------------</div>
-        <div true="false">${tr:some-text message_path="000-examples/asada.xml" }</div>
-        <div>------------------------</div>
-        <div>${tr:some-text class="asd " message_path="000-examples/asada.xml" }</div>
-        <div>------------------------</div>
-    </message>
+        <span>${tr:some-text message_path="000-examples/asada.xml" }</span>${<div true="false">}${tr:some-text message_path="000-examples/asada.xml" }${</div>}<div>------------------------</div>${<div true="false">}------------------------${</div>}</message>
     <message id="some-text">
-        <div>
-            <span/>
-            <span>asd</span>
-        </div>
+        <span>asd</span>
     </message>
 </messages>

@@ -48,7 +48,7 @@ namespace Stylus
         
         output_editor_->setEditorReadOnly(true);
         addStyleClass("flex flex-col");
-        sidebar->setStyleClass("flex items-center space-x-[10px] stylus-background");
+        sidebar->setStyleClass("flex items-center space-x-[10px]");
         // config_editor_->addStyleClass("h-full");
         config_files_combobox_ = sidebar->addWidget(std::make_unique<Wt::WComboBox>());
         config_files_combobox_->setStyleClass("max-w-[240px] m-[4px] bg-[#f9fafb] border border-[#d1d5db] text-[#111827] text-sm rounded-lg focus:ring-[#3b82f6] focus:border-[#3b82f6] block w-full p-[6px] dark:bg-[#374151] dark:border-[#4b5563] dark:placeholder-[#9ca3af] dark:text-[#FFF] dark:focus:ring-[#3b82f6] dark:focus:border-[#3b82f6] disabled:bg-[#374151] disabled:text-[#9ca3af] disabled:border-[#4b5563] disabled:cursor-not-allowed");

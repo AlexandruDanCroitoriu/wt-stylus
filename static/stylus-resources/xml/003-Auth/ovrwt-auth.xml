@@ -2,8 +2,8 @@
 <messages xmlns:if="Wt.WTemplate.conditions">
     <message id="Wt.Auth.template.login">
         <div class="Wt-form Wt-auth-login">
-            <h2>${tr:Wt.Auth.login-form-title}</h2>
-            <p class="  ">${tr:Wt.Auth.login-form-info}</p>
+            <h2>${tr:Wt.Auth.login-form-title message_path="003-Auth/ovrwt-auth-strings.xml"}</h2>
+            <p class="  ">${tr:Wt.Auth.login-form-info message_path="003-Auth/ovrwt-auth-strings.xml"}</p>
             <div class="Wt-fields">
         ${<if:passwords>}
           <label for="${id:user-name}"><span>${user-name-label}</span>
@@ -13,14 +13,14 @@
                     <span>${user-name}</span>
                     <span>
                         <label for="${id:password}">
-                            <span>${tr:Wt.Auth.password}</span>
+                            <span>${tr:Wt.Auth.password message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                             <span>${password-info class="Wt-info"}</span>
                         </label>
                         <span>${password}</span>
                     </span>
                     <span>
                         <label for="${id:remember-me}">
-                            <span>${tr:Wt.Auth.remember-me}</span>
+                            <span>${tr:Wt.Auth.remember-me message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                             <span>${remember-me-info class="Wt-info"}</span>
                         </label>
                         <span>${remember-me}</span>
@@ -42,8 +42,8 @@
     </message>
     <message id="Wt.Auth.template.registration">
         <div class="Wt-form Wt-auth-registration">
-            <h2>${tr:Wt.Auth.registration-form-title}</h2>
-            <p>${tr:Wt.Auth.registration-form-info}</p>
+            <h2>${tr:Wt.Auth.registration-form-title message_path="003-Auth/ovrwt-auth-strings.xml"}</h2>
+            <p>${tr:Wt.Auth.registration-form-info message_path="003-Auth/ovrwt-auth-strings.xml"}</p>
             <span>${password-description}</span>
             <div class="Wt-fields">
         ${<if:user-name>}
@@ -53,21 +53,21 @@
                     </label>
                     <span>${user-name}</span>
         ${</if:user-name>}
-        		<span><label for="${id:choose-password}"><span>${tr:Wt.Auth.choose-password}</span>
+        		<span><label for="${id:choose-password}"><span>${tr:Wt.Auth.choose-password message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                         <span>${choose-password-info class="Wt-info"}</span>
                     </label>
                     <span>${choose-password}</span>
                 </span>
                 <span>
                     <label for="${id:repeat-password}">
-                        <span>${tr:Wt.Auth.repeat-password}</span>
+                        <span>${tr:Wt.Auth.repeat-password message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                         <span>${repeat-password-info class="Wt-info"}</span>
                     </label>
                     <span>${repeat-password}</span>
                 </span>
                 <span>
                     <label for="${id:email}">
-                        <span>${tr:Wt.Auth.email}</span>
+                        <span>${tr:Wt.Auth.email message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                         <span>${email-info class="Wt-info"}</span>
                     </label>
                     <span>${email}</span>
@@ -76,8 +76,8 @@
       ${<if:oauth>}
         <br clear="both"/><span>${oauth-description}</span>
                 <label>
-                    <span>${tr:Wt.Auth.oauth}</span>
-                    <span class="Wt-info">${tr:Wt.Auth.oauth-info}</span>
+                    <span>${tr:Wt.Auth.oauth message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
+                    <span class="Wt-info">${tr:Wt.Auth.oauth-info message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                 </label>
                 <span>${icons}</span>
       ${</if:oauth>}
@@ -88,28 +88,28 @@
     </message>
     <message id="Wt.Auth.template.update-password">
         <div class="Wt-form Wt-auth-update-password">
-            <h2>${tr:Wt.Auth.update-password-form-title}</h2>
-            <p>${tr:Wt.Auth.update-password-form-info}</p>
+            <h2>${tr:Wt.Auth.update-password-form-title message_path="003-Auth/ovrwt-auth-strings.xml"}</h2>
+            <p>${tr:Wt.Auth.update-password-form-info message_path="003-Auth/ovrwt-auth-strings.xml"}</p>
             <div class="Wt-fields">
-                <label for="${id:user-name}">${tr:Wt.Auth.user-name}</label>
+                <label for="${id:user-name}">${tr:Wt.Auth.user-name message_path="003-Auth/ovrwt-auth-strings.xml"}</label>
                 <span>${user-name}</span>
                 <span>
                     <label for="${id:password}">
-                        <span>${tr:Wt.Auth.password}</span>
+                        <span>${tr:Wt.Auth.password message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                         <span>${password-info class="Wt-info"}</span>
                     </label>
                     <span>${password}</span>
                 </span>
                 <span>
                     <label for="${id:choose-password}">
-                        <span>${tr:Wt.Auth.choose-password}</span>
+                        <span>${tr:Wt.Auth.choose-password message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                         <span>${choose-password-info class="Wt-info"}</span>
                     </label>
                     <span>${choose-password}</span>
                 </span>
                 <span>
                     <label for="${id:repeat-password}">
-                        <span>${tr:Wt.Auth.repeat-password}</span>
+                        <span>${tr:Wt.Auth.repeat-password message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                         <span>${repeat-password-info class="Wt-info"}</span>
                     </label>
                     <span>${repeat-password}</span>
@@ -123,12 +123,12 @@
     </message>
     <message id="Wt.Auth.template.lost-password">
         <div class="Wt-form Wt-auth-lost-password">
-            <h2>${tr:Wt.Auth.lost-password-form-title}</h2>
-            <p>${tr:Wt.Auth.lost-password-form-info}</p>
+            <h2>${tr:Wt.Auth.lost-password-form-title message_path="003-Auth/ovrwt-auth-strings.xml"}</h2>
+            <p>${tr:Wt.Auth.lost-password-form-info message_path="003-Auth/ovrwt-auth-strings.xml"}</p>
             <div class="Wt-fields">
                 <label for="${id:email}">
-                    <span>${tr:Wt.Auth.email}</span>
-                    <span class="Wt-info">${tr:Wt.Auth.email-info}</span>
+                    <span>${tr:Wt.Auth.email message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
+                    <span class="Wt-info">${tr:Wt.Auth.email-info message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                 </label>
                 <span>${email}</span>
             </div>
@@ -140,14 +140,14 @@
     </message>
     <message id="Wt.Auth.template.password-prompt">
         <div class="Wt-form Wt-auth-password-prompt">
-            <h2>${tr:Wt.Auth.password-prompt-form-title}</h2>
-            <p>${tr:Wt.Auth.password-prompt-form-info}</p>
+            <h2>${tr:Wt.Auth.password-prompt-form-title message_path="003-Auth/ovrwt-auth-strings.xml"}</h2>
+            <p>${tr:Wt.Auth.password-prompt-form-info message_path="003-Auth/ovrwt-auth-strings.xml"}</p>
             <div class="Wt-fields">
-                <label for="${id:user-name}">${tr:Wt.Auth.user-name}</label>
+                <label for="${id:user-name}">${tr:Wt.Auth.user-name message_path="003-Auth/ovrwt-auth-strings.xml"}</label>
                 <span>${user-name}</span>
                 <span>
                     <label for="${id:password}">
-                        <span>${tr:Wt.Auth.password}</span>
+                        <span>${tr:Wt.Auth.password message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                         <span>${password-info class="Wt-info"}</span>
                     </label>
                     <span>${password}</span>
@@ -167,24 +167,24 @@
     </message>
     <message id="Wt.Auth.template.totp">
         <div class="Wt-form Wt-auth-login">
-            <h2>${tr:Wt.Auth.totp-title}</h2>
-            <p>${tr:Wt.Auth.totp-info}</p>
+            <h2>${tr:Wt.Auth.totp-title message_path="003-Auth/ovrwt-auth-strings.xml"}</h2>
+            <p>${tr:Wt.Auth.totp-info message_path="003-Auth/ovrwt-auth-strings.xml"}</p>
             <div class="Wt-fields">
         ${<if:no-secret-key>}
           <span>${qr-code}</span>
-                    <span>${tr:Wt.Auth.totp-qr-code-explanation}</span>
+                    <span>${tr:Wt.Auth.totp-qr-code-explanation message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                     <p>
                         <span>Secret key: </span>
                         <span>${secret-key}</span>
                     </p>
         ${</if:no-secret-key>}
-        <label for="${id:totp-code}"><span>${tr:Wt.Auth.totp-code}</span>
+        <label for="${id:totp-code}"><span>${tr:Wt.Auth.totp-code message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                     <span class="Wt-info">${totp-code-info}</span>
                 </label>
                 <span>${totp-code}</span>
                 <span>
                     <label for="${id:remember-me}">
-                        <span>${tr:Wt.Auth.remember-me}</span>
+                        <span>${tr:Wt.Auth.remember-me message_path="003-Auth/ovrwt-auth-strings.xml"}</span>
                         <span>${remember-me-info class="Wt-info"}</span>
                     </label>
                     <span>${remember-me}</span>

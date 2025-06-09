@@ -177,14 +177,16 @@ namespace Stylus
                     }else if(selected_node->FirstChild()->NextSibling() == selected_node->LastChild()) {
                         auto new_text_node = selected_node->GetDocument()->NewText(elem_text_->text().toUTF8().c_str());
                         selected_node->InsertAfterChild(selected_node->FirstChild(), new_text_node);
+                    }else if(elem_text_->text().toUTF8().compare("") == 0){
+                        selected_node->DeleteChild(selected_node->FirstChild()->NextSibling());
                     }else {
                         auto text_node = selected_node->FirstChild()->NextSibling();
                         text_node->SetValue(elem_text_->text().toUTF8().c_str());
                     }
                 }else {
 
-                    if(elem_text_->text().empty()) {
-                        selected_node->SetText("");
+                    if(elem_text_->text().toUTF8().compare("") == 0) {
+                        selected_node->DeleteChild(selected_node->FirstChild());
                     } else {
                         selected_node->SetText(elem_text_->text().toUTF8().c_str());
                     }

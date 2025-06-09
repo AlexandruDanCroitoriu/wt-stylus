@@ -28,44 +28,24 @@
 }
  
 /* Scrollbar */
-.stylus-background::-webkit-scrollbar-track
+.stylus-scrollbar::-webkit-scrollbar-track
 {
-	@apply dark:bg-[var(--stylus-bg-dark)] rounded-[10px];
+	@apply dark:bg-gray-950 rounded-[10px];
 }
-.stylus-background::-webkit-scrollbar
+.stylus-scrollbar::-webkit-scrollbar
 {
-	@apply dark:bg-[var(--stylus-bg-dark)] w-[3px];
+	@apply dark:bg-gray-950 w-[3px];
 }
-.stylus-background::-webkit-scrollbar-thumb
+.stylus-scrollbar::-webkit-scrollbar-thumb
 {
-	@apply dark:bg-[var(--stylus-text-dark)]/20 rounded-[10px];
-}
-
-/* Light mode (no .dark on html) */
-.preview-background {
-  @apply relative text-black;
-  --dot-color: rgb(200, 200, 200);  /* Example lighter dot color */
-  --dot-size: 1px;
-  --dot-space: 30px;
- 	background:
-    linear-gradient(90deg, var(--stylus-bg-ligh) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
-    linear-gradient(var(--stylus-bg-ligh) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
-    var(--dot-color);
-}
-
-/* Dark mode */
-html.dark .preview-background {
-  @apply relative text-white;
-  --dot-bg: var(--stylus-bg-dark);
-  --dot-color: rgb(116, 115, 115);
-
+	@apply dark:bg-gray-950/20 rounded-[10px];
 }
 
 
-
-/* background for all the stylus panes */
 .stylus-background {
-	@apply bg-[var(--stylus-bg)] text-[var(--stylus-text)] dark:bg-[var(--stylus-bg-dark)] dark:text-[var(--stylus-text-dark)];
+	@apply bg-gray-100 dark:bg-gray-950 text-black dark:text-white;
+	background-image: radial-gradient(var(--color-gray-800) 5%, transparent 0);
+	background-size: 35px 35px;
 }
 .stylus-menu {
 	@apply hover:bg-[var(--selected-hover)];
@@ -74,7 +54,7 @@ html.dark .preview-background {
 	@apply bg-[var(--selected-hover)];
 }
 
-/* Wt-item used by the folders/files tree and also by Wt::WTreeNode widget */
+/* Wt-item used by the folders/files tree items */
 .Wt-item {
     /* zoom: 125%; */
 }

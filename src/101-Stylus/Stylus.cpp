@@ -80,8 +80,8 @@ namespace Stylus
         auto content_wrapper = contents()->addWidget(std::make_unique<Wt::WStackedWidget>());
         // content_wrapper->setTransitionAnimation(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500)); // this line represents a bug in Wt probably :P
 
-        navbar->setStyleClass("flex flex-col h-full border-r border-solid dark:border-[#FFF]/50 stylus-background");
-        content_wrapper->setStyleClass("w-screen h-screen stylus-background");
+        navbar->setStyleClass("flex flex-col h-full border-r border-solid dark:border-[#FFF]/20 stylus-scrollbar");
+        content_wrapper->setStyleClass("w-screen h-screen");
 
         auto templates_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-xml-logo")));
         auto css_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-css-logo")));
