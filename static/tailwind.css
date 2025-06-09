@@ -1753,8 +1753,8 @@
   --stylus-text: rgb(248, 248, 248);
   --stylus-bg-dark: rgb(30, 30, 30);
   --stylus-text-dark: rgb(232, 232, 232);
-  --selected: rgb(40, 107, 231);
-  --selected-hover: rgb(107, 241, 147);
+  --selected: rgb(107, 241, 147);
+  --selected-hover: rgb(40, 107, 231);
   --error: rgb(255, 140, 140);
   --preview-message: #fff;
   --preview-node: rgb(86, 156, 214);

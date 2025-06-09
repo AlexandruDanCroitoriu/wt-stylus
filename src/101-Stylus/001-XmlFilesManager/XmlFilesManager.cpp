@@ -202,7 +202,7 @@ namespace Stylus
                 file_brain->file_saved_.connect(this, [=]()
                 {
                     reuploadFile(); // reffers to monaco editor
-                    state_->file_saved_.emit();
+                    // state_->file_saved_.emit();
                     selected_file_brain_->xml_node_selected_.emit(selected_file_brain_->selected_node_, true);
                 });
 

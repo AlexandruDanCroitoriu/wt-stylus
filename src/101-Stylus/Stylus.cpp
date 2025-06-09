@@ -291,17 +291,37 @@ namespace Stylus
                             // selected node is condition node
                             auto prev_node = selected_node->PreviousSibling();
                             auto next_node = selected_node->NextSibling();
-                            if(state_->isCondNode(selected_node->PreviousSiblingElement()) && 
-                                XMLTreeNode::trimAllWitespace(selected_node->PreviousSiblingElement()->NextSibling()->ToText()->Value()).compare("}${") == 0    
-                            ){
-                                selected_node->PreviousSiblingElement()->NextSibling()->ToText()->SetValue("}");
-                                prev_node = xml_files_manager_->selected_file_brain_->doc_->NewText("${");
+                            // if(state_->isCondNode(selected_node->PreviousSiblingElement()) && 
+                            //     XMLTreeNode::trimAllWitespace(selected_node->PreviousSiblingElement()->NextSibling()->ToText()->Value()).compare("}${") == 0    
+                            // ){
+                            //     selected_node->PreviousSiblingElement()->NextSibling()->ToText()->SetValue("}");
+                            //     prev_node = xml_files_manager_->selected_file_brain_->doc_->NewText("${");
+                            // }
+                            if(state_->isCondNode(parent_node->ToElement())){
+                                // selected node and parent node are condition nodes
+                                std::cout << "\n\nselected node and parent node are condition nodes\n";
+                                auto end_condition_node = parent_node->FirstChild();
+                                parent_node->InsertAfterChild(end_condition_node, prev_node);
+                                parent_node->InsertAfterChild(prev_node, selected_node);
+                                parent_node->InsertAfterChild(selected_node, next_node);
+                            }else {
+                                parent_node->InsertFirstChild(prev_node);
+                                parent_node->InsertAfterChild(prev_node, selected_node);
+                                parent_node->InsertAfterChild(selected_node, next_node);
                             }
-                            parent_node->InsertFirstChild(prev_node);
-                            parent_node->InsertAfterChild(prev_node, selected_node);
-                            parent_node->InsertAfterChild(selected_node, next_node);
                         }else {
-                            parent_node->InsertFirstChild(selected_node);
+                            std::cout << "\n\nselected node is not condition node\n";
+                            std::cout << "selected node: " << selected_node->ToElement()->Name() << "\n";
+                            if(state_->isCondNode(parent_node->ToElement())){
+                                // selected node and parent node are condition nodes
+                                std::cout << "\n\nselected node and parent node are condition nodes\n";
+                                auto end_condition_node = parent_node->FirstChild();
+                                parent_node->InsertAfterChild(end_condition_node, selected_node);
+                            }else {
+                                // selected node and parent node are not condition nodes
+                                std::cout << "\n\nselected node and parent node are not condition nodes\n";
+                                parent_node->InsertFirstChild(selected_node);
+                            }
                         }
                     }
                     xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());

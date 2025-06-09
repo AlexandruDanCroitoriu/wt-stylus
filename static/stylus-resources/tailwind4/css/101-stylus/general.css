@@ -9,10 +9,10 @@
 	--stylus-text-dark: rgb(232, 232, 232);
 	 
 	/* used by widgets used to preview elements to indicate the selected or hovered node */
-	/* --selected: rgb(107, 241, 147); */
-	/* --selected-hover: rgb(40, 107, 231); */
-	--selected: rgb(40, 107, 231);
-	--selected-hover: rgb(107, 241, 147);
+	--selected: rgb(107, 241, 147);
+	--selected-hover: rgb(40, 107, 231);
+	/* --selected: rgb(40, 107, 231); */
+	/* --selected-hover: rgb(107, 241, 147); */
 	
 	--error: rgb(255, 140, 140);
 	--preview-message: #fff;

@@ -96,6 +96,7 @@ namespace Stylus
                     // text inside the condition ${ 
                     // content_wrapper_->addWidget(std::make_unique<Wt::WText>(text_value))->setStyleClass("preview-condition-node inline-block hover:bg-gray-400 p-1");
                 }else if (file_brain_->state_->getTempNodeVarData(child_node->Parent()->ToElement()).var_name_.compare("") != 0){
+                    std::cout << "\n\nXMLTreeNode::XMLTreeNode() - is variable holder\n";
                     is_variable_holder_ = true;
                     auto temp_var_data = file_brain_->state_->getTempNodeVarData(child_node->Parent()->ToElement());
                     if(temp_var_data.function_.compare("") != 0){
