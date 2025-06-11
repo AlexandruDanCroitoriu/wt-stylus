@@ -96,7 +96,7 @@ namespace Stylus
         templates_menu_item->setStyleClass(nav_btns_styles);
         tailwind_menu_item->setStyleClass(nav_btns_styles);
         css_menu_item->setStyleClass(nav_btns_styles);
-        javascript_menu_item->setStyleClass(nav_btns_styles + " !p-[6px]");
+        javascript_menu_item->setStyleClass(nav_btns_styles + " !p-[8px]");
         images_menu_item->setStyleClass(nav_btns_styles);
         settings_menu_item->setStyleClass(nav_btns_styles);
         std::cout << "\n\nStylus initialized successfully.\n\n";

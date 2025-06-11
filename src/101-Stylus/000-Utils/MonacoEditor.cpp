@@ -33,7 +33,7 @@ MonacoEditor::MonacoEditor(std::string language)
                 detectIndentation: false,
                 trimAutoWhitespace: false,
                 lineEnding: '\n',
-                minimap: { enabled: true },
+                minimap: { enabled: false },
             });
 
             window.)" + editor_js_var_name_ + R"(.onDidChangeModelContent(function (event) {

@@ -25,7 +25,6 @@ namespace Stylus
             tag_name->addStyleClass("preview-messages-node");
         }else if(std::string(node->Name()).compare("message") == 0){
             tag_name->addStyleClass("preview-message-node");
-            addStyleClass("mb-[10px]");
             if(node->Attribute("id")){
                 auto id = node->Attribute("id");
                 auto id_text = label_wrapper_->addWidget(std::make_unique<Wt::WText>(id));
