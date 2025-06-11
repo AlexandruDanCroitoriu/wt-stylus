@@ -1,20 +1,20 @@
 @import "tailwindcss";
-
+ 
 :root { 
-	/* used by all stylus widgets except text editors*/
-	--stylus-bg: rgb(248, 248, 248);
+	/* used by all stylus widgets except text editors */
+	/* --stylus-bg: rgb(248, 248, 248); */
 	/* --stylus-text: rgb(0, 0, 0); */
-	--stylus-text: rgb(248, 248, 248);
-	--stylus-bg-dark: rgb(30, 30, 30);
-	--stylus-text-dark: rgb(232, 232, 232);
+	/* --stylus-text: rgb(248, 248, 248); */
+	/* --stylus-bg-dark: rgb(30, 30, 30);  */
+	/* --stylus-text-dark: rgb(232, 232, 232); */
 	 
 	/* used by widgets used to preview elements to indicate the selected or hovered node */
-	--selected: rgb(107, 241, 147);
-	--selected-hover: rgb(40, 107, 231);
+	/* --selected: rgb(107, 241, 147); */
+	/* --selected-hover: rgb(40, 107, 231);  */
 	/* --selected: rgb(40, 107, 231); */
 	/* --selected-hover: rgb(107, 241, 147); */
-	
-	--error: rgb(255, 140, 140);
+	 
+	/* --error: rgb(255, 140, 140);
 	--preview-message: #fff;
 	--preview-node: rgb(86, 156, 214);
 	--preview-node-text: rgb(212, 212, 212);
@@ -24,7 +24,7 @@
 	--tree-condition: #84cc16;
 	--template-var-attribute: #06b6d4;
 	--template-var-name: #d946ef;
-	--template-function: #c026d3;
+	--template-function: #c026d3; */
 }
  
 /* Scrollbar */
@@ -41,86 +41,87 @@
 	@apply dark:bg-gray-950/20 rounded-[10px];
 }
 
-
+ 
 .stylus-background {
 	@apply bg-gray-100 dark:bg-gray-950 text-black dark:text-white;
 	background-image: radial-gradient(var(--color-gray-800) 5%, transparent 0);
-	background-size: 35px 35px;
+	background-size: 35px 35px; 
 }
-.stylus-menu {
-	@apply hover:bg-[var(--selected-hover)];
-}
-.stylus-menu-selected {
-	@apply bg-[var(--selected-hover)];
+.stylus-menu { 
+	@apply hover:bg-blue-400/20 dark:hover:bg-blue-800; 
+} 
+.stylus-menu-selected { 
+	@apply bg-blue-400/30 dark:bg-blue-800  outline outline-solid outline-blue-400/60;
 }
 
-/* Wt-item used by the folders/files tree items */
+/* Wt-item used by the folders/files tree items */ 
 .Wt-item {
     /* zoom: 125%; */
 }
 .Wt-item {
-	@apply hover:bg-[var(--selected-hover)] hover:text-[var(--stylus-bg-dark)] text-black dark:text-white;
+	@apply hover:bg-blue-200 text-black dark:hover:bg-blue-800 dark:text-white;
 }
 .Wt-selected {
-	@apply !bg-[var(--selected)] text-[var(--stylus-text)] hover:text-[var(--stylus-text)];
+	@apply !bg-green-400 dark:!bg-green-800;
 }
 .unsaved-changes > .Wt-selected {
-    @apply !bg-[var(--error)];
+    /* @apply !bg-[var(--error)]; */
+    /* @apply !bg-; */
 }
 
 /* Wt-vrh2 used by draggable bar */
 .Wt-vrh2 {
-	@apply dark:bg-[#000] dark:hover:bg-[#000] dark:active:bg-[#000];
+	@apply dark:bg-gray-950 dark:hover:bg-gray-950 dark:active:bg-gray-950;
 }
 
 /* Preview nodes selection */
 .selected-xml-node-hover {
-	@apply outline-solid outline-[2px] outline-[var(--selected-hover)];
+	@apply outline-solid outline-[2px] outline-blue-600;
 }
 .selected-xml-node {
-	@apply outline-solid outline-[2px] outline-[var(--selected)];
-}
+	@apply outline-solid outline-[2px] outline-blue-700;
+} 
 .selected-xml-tree-node-hover {
-	@apply outline-solid outline-[2px] outline-[var(--selected-hover)] bg-[var(--selected-hover)]/8;
+	@apply outline-solid outline-[2px] outline-blue-600 bg-blue-800/8;
 }
 .selected-xml-tree-node {
-	@apply outline-solid outline-[2px] outline-[var(--selected)] bg-[var(--selected)]/8;
+	@apply outline-solid outline-[2px] outline-blue-700 bg-blue-700/8;
 }
 
 
 /* Preview */
 .preview-tree-node {
-	@apply text-[var(--preview-node)];
+	/* @apply text-[var(--preview-node)]; */
 }
 .preview-tree-node-text {
-	@apply text-[black] dark:text-[var(--preview-node-text)];
+	/* @apply text-[black] dark:text-[var(--preview-node-text)]; */
 }
 
 .preview-messages-node {
-	@apply text-[var(--tree-messages)];
+	/* @apply text-[var(--tree-messages)]; */
 }
 
 .preview-message-node {
-	@apply text-[var(--tree-message)];
+	/* @apply text-[var(--tree-message)]; */
 } 
 
 .preview-message-node-id {
-	@apply text-[var(--tree-message-id)] font-semibold;
+	/* @apply text-[var(--tree-message-id)] font-semibold; */
 }
 
 .preview-condition-node {
-	@apply text-[var(--tree-condition)];
+	/* @apply text-[var(--tree-condition)]; */
 }
 .preview-error-text {
-	@apply text-[var(--error)]
+	/* @apply text-[var(--error)] */
 }
 
 .template-var-attribute {
-	@apply text-[var(--template-var-attribute)];
+	/* @apply text-[var(--template-var-attribute)]; */
 }
 .template-var-name {
-	@apply text-[var(--template-var-name)]
+	/* @apply text-[var(--template-var-name)] */
 }
 .template-function {
-	@apply text-[var(--template-function)]
+	/* @apply text-[var(--template-function)] */
 }
