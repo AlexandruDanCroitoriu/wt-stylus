@@ -15,4 +15,5 @@ public:
 
 private:
   Session& session_;
+  void createInitialData();
 };

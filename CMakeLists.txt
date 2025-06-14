@@ -15,6 +15,7 @@ include_directories(${SOURCE_DIR})
 set(SOURCES
     ${SOURCE_DIR}/main.cpp
     ${SOURCE_DIR}/001-App/App.cpp
+    ${SOURCE_DIR}/001-App/Server.cpp
     ${SOURCE_DIR}/002-Dbo/Session.cpp
     ${SOURCE_DIR}/002-Dbo/User.cpp
     ${SOURCE_DIR}/002-Dbo/Permission.cpp
@@ -62,4 +63,8 @@ add_custom_target(run
     DEPENDS ${PROJECT_NAME}
     WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
 )
-
+# add_custom_target(run
+#     COMMAND ${PROJECT_NAME} ${RLIB} > ./logs.txt 2>&1
+#     DEPENDS ${PROJECT_NAME}
+#     WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
+# )

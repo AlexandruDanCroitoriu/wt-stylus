@@ -2,11 +2,21 @@
 #include <Wt/WString.h>
 #include "101-Stylus/000-Utils/tinyxml2/tinyxml2.h"
 #include <Wt/WSignal.h>
+#include <Wt/WLogger.h>
 
 namespace Stylus
 {
 
     class XMLFileBrain;
+
+    enum class LogMessageType {
+        Debug,
+        Info,
+        Warning,
+        Secure,
+        Error,
+        Fatal
+    };
 
     struct StylusEditorManagementData {
         std::string extension_;
@@ -61,7 +71,7 @@ namespace Stylus
 
 
         Wt::Signal<> file_saved_;
-
+        static void logMessage(const std::string& message, const LogMessageType& type = LogMessageType::Info);
 
 
     };

@@ -277,6 +277,44 @@ namespace Stylus
         return false;
     }
 
+    void StylusState::logMessage(const std::string& message, const LogMessageType& type)
+    {
+        std::string type_str = "Info"; // Default type
+        switch(type)
+        {
+            case LogMessageType::Debug:
+                type_str = "debug";
+                break;
+            case LogMessageType::Info:
+                type_str = "info";
+                break;
+            case LogMessageType::Warning:
+                type_str = "warning";
+                break;
+            case LogMessageType::Secure:
+                type_str = "secure";
+                break;
+            case LogMessageType::Error:
+                type_str = "error";
+                break;
+            case LogMessageType::Fatal:
+                type_str = "fatal";
+                break;
+        }
+        
+        // Setup the logger
+        Wt::WLogger logger;
+        logger.setFile("../stylus_logs.txt");
+        
+        // Add an entry
+        Wt::WLogEntry entry = logger.entry(type_str);
+        entry << Wt::WLogger::timestamp << Wt::WLogger::sep
+            << '[' << wApp->sessionId() << ']' << Wt::WLogger::sep
+            << '[' << type_str << ']' << Wt::WLogger::sep
+            << message;
+    }
+
+
     tinyxml2::XMLElement* StylusState::getMessageNode(std::string folder_name, std::string file_name, std::string message_id)
     {
         if (folder_name.empty() || file_name.empty() || message_id.empty())

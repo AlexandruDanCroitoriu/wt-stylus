@@ -150,31 +150,34 @@ std::vector<const Auth::OAuthService *> Session::oAuth()
 
 void Session::createInitialData()
 {
-  std::string username = "maxuli";
-  std::string email = "admin@example.com";
-  std::string password = "asdfghj1";
+//   std::string username = "maxuli";
+//   std::string email = "admin@example.com";
+//   std::string password = "asdfghj1";
 
   Wt::Dbo::Transaction t(*this);
+//   // STYLUS_FILES_MANAGER permission for admin user maxuli
+//   Wt::Dbo::ptr<Permission> permission = find<Permission>().where("name = ?").bind("STYLUS_FILES_MANAGER").resultValue();
+//   if (!permission) {
+//     permission = add(std::make_unique<Permission>("STYLUS_FILES_MANAGER"));
+//   }
   
-  Wt::Dbo::ptr<Permission> permission = add(std::make_unique<Permission>("STYLUS_FILES_MANAGER"));
-  
-  Wt::Dbo::ptr<User> user = add(std::make_unique<User>(username));
-  user.modify()->permissions_.insert(permission);
-  // permission.modify()->users_.insert(user);
+//   Wt::Dbo::ptr<User> user = add(std::make_unique<User>(username));
+//   user.modify()->permissions_.insert(permission);
+//   // permission.modify()->users_.insert(user);
 
-  Wt::Auth::User authUser = users_->registerNew();
-  authUser.addIdentity(Wt::Auth::Identity::LoginName, username);
-  authUser.setEmail(email);
-  myPasswordService.updatePassword(authUser, password);
+//   Wt::Auth::User authUser = users_->registerNew();
+//   authUser.addIdentity(Wt::Auth::Identity::LoginName, username);
+//   authUser.setEmail(email);
+//   myPasswordService.updatePassword(authUser, password);
   
-  Wt::Dbo::ptr<AuthInfo> authInfo = find<AuthInfo>("where id = ?").bind(authUser.id());
-  authInfo.modify()->setUser(user);
+//   Wt::Dbo::ptr<AuthInfo> authInfo = find<AuthInfo>("where id = ?").bind(authUser.id());
+//   authInfo.modify()->setUser(user);
   
   t.commit();
 }
 
 
-
+// 
 // void addUser(Wt::Dbo::Session& session, UserDatabase& users, const std::string& loginName,
 //              const std::string& email, const std::string& password)
 // {

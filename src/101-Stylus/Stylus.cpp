@@ -8,6 +8,7 @@
 #include <Wt/WRandom.h>
 #include "010-TestWidgets/DarkModeToggle.h"
 #include "001-App/App.h"
+#include <Wt/Auth/Identity.h>
 
 namespace Stylus
 {
@@ -52,22 +53,25 @@ namespace Stylus
         Wt::WString stylus_css_file_path_ = "../static/tailwind.css?v=" + Wt::WRandom::generateId();
         Wt::WApplication::instance()->useStyleSheet(stylus_css_file_path_.toUTF8());
 
+        Wt::Dbo::Transaction transaction(session_);
+        stylus_permission_ = session_.find<Permission>().where("name = ?").bind("STYLUS_FILES_MANAGER").resultValue();
+        if(!stylus_permission_) {
+            StylusState::logMessage("<Stylus> permission not found, creating it...");
+            stylus_permission_ = session_.add(std::make_unique<Permission>("STYLUS_FILES_MANAGER"));
+        }
+        transaction.commit();
+
         session_.login().changed().connect(this, [=]()
         {
             if (session_.login().loggedIn()) {
-                std::cout << "\n\nStylus logged in successfully.\n\n";
+                StylusState::logMessage("<Stylus> Admin - "+session_.login().user().identity(Wt::Auth::Identity::LoginName).toUTF8()+" - logged in successfully.");
                 Wt::Dbo::Transaction transaction(session_);
-                stylus_permission_ = session_.find<Permission>().where("name = ?").bind("STYLUS_FILES_MANAGER").resultValue();
-                if(!stylus_permission_) {
-                    std::cout << "\n\nStylus permission not found, creating it...\n\n";
-                    stylus_permission_ = session_.add(std::make_unique<Permission>("STYLUS_FILES_MANAGER"));
-                }
                 if(session_.user()->hasPermission(stylus_permission_) && state_ == nullptr) {
                     setupStylus();
                 }
                 transaction.commit();
             } else {
-                std::cout << "\n\nStylus logged out successfully.\n\n";
+                StylusState::logMessage("<Stylus> logged out successfully.");
             }
         });
     }
@@ -99,7 +103,7 @@ namespace Stylus
         javascript_menu_item->setStyleClass(nav_btns_styles + " !p-[8px]");
         images_menu_item->setStyleClass(nav_btns_styles);
         settings_menu_item->setStyleClass(nav_btns_styles);
-        std::cout << "\n\nStylus initialized successfully.\n\n";
+        StylusState::logMessage("<Stylus> initialized successfully.");
 
         xml_files_manager_ = content_wrapper->addWidget(std::make_unique<XmlFilesManager>(state_));
         css_files_manager_ = content_wrapper->addWidget(std::make_unique<CssFilesManager>(state_));
@@ -265,25 +269,25 @@ namespace Stylus
                             state_->isCondNode(prev_prev_elem_node)
                         ){
                             // selected node, prev prev sibling elements are condition nodes
-                            std::cout << "\n\nselected node, prev prev sibling elements are condition nodes\n";
+                            StylusState::logMessage("selected node, prev prev sibling elements are condition nodes");
                             auto end_condition_node = prev_prev_elem_node->NextSibling();
                             parent_node->InsertAfterChild(end_condition_node, prev_node);
                             parent_node->InsertAfterChild(prev_node, selected_node);
                             parent_node->InsertAfterChild(selected_node, next_node);
                         }else if(state_->isCondNode(selected_node)){
                             // selected node is condition node
-                            std::cout << "\n\nselected node is condition node\n";
+                            StylusState::logMessage("selected node is condition node");
                             parent_node->InsertAfterChild(prev_prev_elem_node, prev_node);
                             parent_node->InsertAfterChild(prev_node, selected_node);
                             parent_node->InsertAfterChild(selected_node, next_node);
                         }else if(state_->isCondNode(prev_prev_elem_node)){
                             // prev prev sibling element is condition node
-                            std::cout << "\n\nprev prev sibling element is condition node\n";
+                            StylusState::logMessage("prev prev sibling element is condition node");
                             auto end_condition_node = prev_prev_elem_node->NextSibling();
                             parent_node->InsertAfterChild(end_condition_node, selected_node);
                         }else {
                             // selected node and prev prev sibling element are not condition nodes
-                            std::cout << "\n\nselected node and prev prev sibling element are not condition nodes\n";
+                            StylusState::logMessage("selected node and prev prev sibling element are not condition nodes");
                             parent_node->InsertAfterChild(prev_prev_elem_node, selected_node);
                         }
                     }else {
@@ -299,7 +303,7 @@ namespace Stylus
                             // }
                             if(state_->isCondNode(parent_node->ToElement())){
                                 // selected node and parent node are condition nodes
-                                std::cout << "\n\nselected node and parent node are condition nodes\n";
+                                StylusState::logMessage("selected node and parent node are condition nodes");
                                 auto end_condition_node = parent_node->FirstChild();
                                 parent_node->InsertAfterChild(end_condition_node, prev_node);
                                 parent_node->InsertAfterChild(prev_node, selected_node);
@@ -310,16 +314,16 @@ namespace Stylus
                                 parent_node->InsertAfterChild(selected_node, next_node);
                             }
                         }else {
-                            std::cout << "\n\nselected node is not condition node\n";
-                            std::cout << "selected node: " << selected_node->ToElement()->Name() << "\n";
+                            StylusState::logMessage("selected node is not condition node");
+                            StylusState::logMessage("selected node: " + std::string(selected_node->ToElement()->Name()));
                             if(state_->isCondNode(parent_node->ToElement())){
                                 // selected node and parent node are condition nodes
-                                std::cout << "\n\nselected node and parent node are condition nodes\n";
+                                StylusState::logMessage("selected node and parent node are condition nodes");
                                 auto end_condition_node = parent_node->FirstChild();
                                 parent_node->InsertAfterChild(end_condition_node, selected_node);
                             }else {
                                 // selected node and parent node are not condition nodes
-                                std::cout << "\n\nselected node and parent node are not condition nodes\n";
+                                StylusState::logMessage("selected node and parent node are not condition nodes");
                                 parent_node->InsertFirstChild(selected_node);
                             }
                         }
@@ -338,24 +342,24 @@ namespace Stylus
                         state_->isCondNode(selected_node->NextSiblingElement())
                     ){
                         // selected node and next sibling element are condition nodes
-                        std::cout << "\n\nselected node and next sibling element are condition nodes\n";
+                        StylusState::logMessage("selected node and next sibling element are condition nodes");
                         parent_node->InsertAfterChild(selected_node->NextSiblingElement()->NextSibling(), prev_node);
                         parent_node->InsertAfterChild(prev_node, selected_node);
                         parent_node->InsertAfterChild(selected_node, next_node);
                     }else if(state_->isCondNode(selected_node)){
                         // selected node is condition node
-                        std::cout << "\n\nselected node is condition node\n";
+                        StylusState::logMessage("selected node is condition node");
                         parent_node->InsertAfterChild(selected_node->NextSiblingElement(), prev_node);
                         parent_node->InsertAfterChild(prev_node, selected_node);
                         parent_node->InsertAfterChild(selected_node, next_node);
                     }else if(state_->isCondNode(selected_node->NextSiblingElement())){
                         // next sibling element is condition node
-                        std::cout << "\n\nnext sibling element is condition node\n";
+                        StylusState::logMessage("next sibling element is condition node");
                         auto end_condition_node = selected_node->NextSiblingElement()->NextSibling();
                         parent_node->InsertAfterChild(end_condition_node, selected_node);
                     }else {
                         // selected node and next sibling element are not condition nodes
-                        std::cout << "\n\nselected node and next sibling element are not condition nodes\n";
+                        StylusState::logMessage("selected node and next sibling element are not condition nodes");
                         parent_node->InsertAfterChild(selected_node->NextSiblingElement(), selected_node);
                     }
                     xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
@@ -377,23 +381,23 @@ namespace Stylus
                                 state_->isCondNode(selected_node)
                             ){
                                 // parent prev node and selected node are condition nodes
-                                std::cout << "\n\nparent prev node and selected node are condition nodes\n";
+                                StylusState::logMessage("parent prev node and selected node are condition nodes");
                                 auto parent_prev_node = parent_prev_node_elem->NextSibling();
                                 grand_parent_node->InsertAfterChild(parent_prev_node, prev_node);
                                 grand_parent_node->InsertAfterChild(prev_node, selected_node);
                                 grand_parent_node->InsertAfterChild(selected_node, next_node);
                             }else if(state_->isCondNode(parent_prev_node_elem)){
                                 // parent prev node is condition node
-                                std::cout << "\n\nparent prev node is condition node\n";
+                                StylusState::logMessage("parent prev node is condition node");
                                 grand_parent_node->InsertAfterChild(parent_prev_node_elem->NextSibling(), selected_node);
                             }else if(state_->isCondNode(selected_node)){
                                 // selected node is condition node
-                                std::cout << "\n\nselected node is condition node\n";
+                                StylusState::logMessage("selected node is condition node");
                                 grand_parent_node->InsertAfterChild(parent_prev_node_elem, prev_node);
                                 grand_parent_node->InsertAfterChild(prev_node, selected_node); 
                                 grand_parent_node->InsertAfterChild(selected_node, next_node);
                             }else {
-                                std::cout << "\n\nselected node and parent prev node are not condition nodes\n";
+                                StylusState::logMessage("selected node and parent prev node are not condition nodes");
                                 grand_parent_node->InsertAfterChild(parent_prev_node_elem, selected_node);
                             }
                         }else {
@@ -401,8 +405,7 @@ namespace Stylus
                                 state_->isCondNode(grand_parent_node->ToElement())
                             ){
                                 // selected node and grand parent node are condition nodes
-                                std::cout << "\n\nselected node and grand parent node are condition nodes"<<grand_parent_node->FirstChild()->ToText()->Value() << "|" <<
-                                grand_parent_node->LastChild()->ToText()->Value() << "\n";
+                                StylusState::logMessage("selected node and grand parent node are condition nodes"+std::string(grand_parent_node->FirstChild()->ToText()->Value()) + " | " +  grand_parent_node->LastChild()->ToText()->Value());
                                 auto end_condition_node = grand_parent_node->FirstChild();
                                 grand_parent_node->InsertAfterChild(end_condition_node, prev_node);
                                 grand_parent_node->InsertAfterChild(prev_node, selected_node);
@@ -410,18 +413,18 @@ namespace Stylus
 
                             }else if (state_->isCondNode(selected_node)){
                                 // selected node is condition node
-                                std::cout << "\n\nselected node is condition node\n";
+                                StylusState::logMessage("selected node is condition node");
                                 grand_parent_node->InsertFirstChild(prev_node);
                                 grand_parent_node->InsertAfterChild(prev_node, selected_node);
                                 grand_parent_node->InsertAfterChild(selected_node, next_node);
                             }else if(state_->isCondNode(grand_parent_node->ToElement())){
                                 // grand parent node is condition node
-                                std::cout << "\n\ngrand parent node is condition node\n";
+                                StylusState::logMessage("grand parent node is condition node");
                                 auto end_condition_node = grand_parent_node->FirstChild();
                                 grand_parent_node->InsertAfterChild(end_condition_node, selected_node);
                             }else {
                                 // selected node and grand parent node are not condition nodes
-                                std::cout << "\n\nselected node and grand parent node are not condition nodes\n";
+                                StylusState::logMessage("selected node and grand parent node are not condition nodes");
                                 grand_parent_node->InsertFirstChild(selected_node);
                             }
                         }
@@ -441,25 +444,25 @@ namespace Stylus
                         state_->isCondNode(selected_node)
                         ){
                             // selected node and next node are condition nodes
-                            std::cout << "\n\nselected node and next node are condition nodes\n";
+                            StylusState::logMessage("selected node and next node are condition nodes");
                             auto end_condition_node = next_node_elem->FirstChild();
                             next_node_elem->InsertAfterChild(end_condition_node, prev_node);
                             next_node_elem->InsertAfterChild(prev_node, selected_node);
                             next_node_elem->InsertAfterChild(selected_node, next_node);
                         }else if(state_->isCondNode(selected_node) && !(next_node_elem->FirstChild() && next_node_elem->FirstChild()->ToText())){
                             // selected node is condition node
-                            std::cout << "\n\nselected node is condition node\n";
+                            StylusState::logMessage("selected node is condition node");
                             next_node_elem->InsertFirstChild(prev_node);
                             next_node_elem->InsertAfterChild(prev_node, selected_node);
                             next_node_elem->InsertAfterChild(selected_node, next_node);
                         }else if(state_->isCondNode(next_node_elem)){
                             // next node is condition node
-                            std::cout << "\n\nnext node is condition node\n";
+                            StylusState::logMessage("next node is condition node");
                             auto end_condition_node = next_node_elem->FirstChild();
                             next_node_elem->InsertAfterChild(end_condition_node, selected_node);
                         }else if(!(next_node_elem->FirstChild() && next_node_elem->FirstChild()->ToText())){
                             // selected node and next node are not condition nodes
-                            std::cout << "\n\nselected node and next node are not condition nodes\n";
+                            StylusState::logMessage("selected node and next node are not condition nodes");
                             next_node_elem->InsertFirstChild(selected_node);
                         }        
                     }
@@ -669,38 +672,38 @@ namespace Stylus
             }else if (e.key() == Wt::Key::Enter){
                 if(!xml_files_manager_->selected_file_brain_) return;
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
-                std::cout << "\n\n enter key pressed\n";
+                StylusState::logMessage(" enter key pressed");
                 if(!selected_node) return;
-                std::cout << "\n\n enter key pressed\n";
+                StylusState::logMessage(" enter key pressed");
 
                 auto new_node = xml_files_manager_->selected_file_brain_->doc_->NewElement("div");
-                std::cout << "\n\n enter key pressed\n";
+                StylusState::logMessage(" enter key pressed");
 
                 if(xml_files_manager_->selected_file_brain_->selected_node_ == xml_files_manager_->selected_file_brain_->doc_->RootElement()) {
-                    std::cout << "\n\n selected node is root element\n";
+                    StylusState::logMessage(" selected node is root element");
                     if(selected_node->FirstChildElement() && state_->isCondNode(selected_node->FirstChildElement())){
-                        std::cout << "\n\nselected node first child is condition node\n";
+                        StylusState::logMessage("selected node first child is condition node");
                         selected_node->InsertFirstChild(new_node);
                     }else if(selected_node->FirstChild() && selected_node->FirstChild()->ToText()){
-                        std::cout << "\n\nselected node first child is text node\n";
+                        StylusState::logMessage("selected node first child is text node");
                         new_node = xml_files_manager_->selected_file_brain_->selected_node_;
                     }else {
-                        std::cout << "\n\nselected node root and first child are not condition or text nodes\n";
+                        StylusState::logMessage("selected node root and first child are not condition or text nodes");
                         new_node = xml_files_manager_->selected_file_brain_->doc_->NewElement("div");
                         selected_node->InsertFirstChild(new_node);
                     }
                 }else {
                     if(state_->isCondNode(selected_node))
                     {
-                        std::cout << "\n\nselected node is condition node\n";
+                        StylusState::logMessage("selected node is condition node");
                         auto end_condition_node = selected_node->FirstChild();
                         selected_node->InsertAfterChild(end_condition_node, new_node);
                     }else if (selected_node->FirstChildElement() && state_->isCondNode(selected_node->FirstChildElement()))
                     {
-                        std::cout << "\n\nselected node first child is condition node\n";
+                        StylusState::logMessage("selected node first child is condition node");
                         selected_node->InsertFirstChild(new_node);
                     }else {
-                        std::cout << "\n\nselected node and first child are not condition nodes\n";
+                        StylusState::logMessage("selected node and first child are not condition nodes");
                         auto first_child = selected_node->FirstChild();
                         if(first_child && first_child->ToText()){
                             auto parent_node = selected_node->Parent();
@@ -748,14 +751,14 @@ namespace Stylus
                 if(!selected_node) return;
                 if(state_->isCondNode(selected_node))
                 {
-                    std::cout << "\n\nselected node is condition node\n";
+                    StylusState::logMessage("selected node is condition node");
                     auto prev_node = selected_node->PreviousSibling()->DeepClone(state_->doc_.get());
                     auto next_node = selected_node->NextSibling()->DeepClone(state_->doc_.get());
                     state_->copy_node_->InsertFirstChild(prev_node);
                     auto copy_selected_node = state_->copy_node_->InsertAfterChild(prev_node, selected_node->DeepClone(state_->doc_.get()));
                     state_->copy_node_->InsertAfterChild(copy_selected_node, next_node);
                 }else {
-                    std::cout << "\n\nselected node and first child are not condition nodes\n";
+                    StylusState::logMessage("selected node and first child are not condition nodes");
                     state_->copy_node_->InsertFirstChild(selected_node->DeepClone(state_->doc_.get()));
                 }
                 state_->organizeXmlNode(state_->copy_node_->ToElement(), state_->state_file_path_);
@@ -766,13 +769,13 @@ namespace Stylus
                 if(!selected_node) return;
                 auto copy_node = state_->copy_node_;
                 if(!copy_node) return;
-                std::cout << "\n\n Paste node \n";
+                StylusState::logMessage(" Paste node ");
                 bool is_selected_cond = state_->isCondNode(selected_node);
                 bool is_copy_cond = state_->isCondNode(copy_node->FirstChildElement());
                 if(is_selected_cond && is_copy_cond)
                 {
                     // copy and selected are conditions
-                    std::cout << "\n\ncopy and selected are conditions\n";
+                    StylusState::logMessage("copy and selected are conditions");
                     auto prev_node = copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
                     auto cond_node = selected_node->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
                     auto next_node = copy_node->LastChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
@@ -784,20 +787,20 @@ namespace Stylus
                 }else if(is_selected_cond && !is_copy_cond)
                 {
                     // copy is not condition
-                    std::cout << "\n\ncopy is not condition\n";
+                    StylusState::logMessage("copy is not condition");
                     auto copy_node_child = copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
                     selected_node->InsertAfterChild(selected_node->FirstChild(), copy_node_child);
                     xml_files_manager_->selected_file_brain_->selected_node_ = copy_node_child->ToElement();
                 }else if(!is_selected_cond && is_copy_cond)
                 {
                     // selected is not condition
-                    std::cout << "\n\nselected is not condition copy is condition\n";
+                    StylusState::logMessage("selected is not condition copy is condition");
 
                     if(selected_node != xml_files_manager_->selected_file_brain_->doc_->RootElement())
                     {
-                        std::cout << "\n\nselected node is not root element\n";
+                        StylusState::logMessage("selected node is not root element");
                         if(selected_node->FirstChild() && selected_node->FirstChild()->ToText()){
-                            std::cout << "\n\nselected node first child is not text 1\n";
+                            StylusState::logMessage("selected node first child is not text 1");
                             auto parent_node = selected_node->Parent();
                             auto prev = parent_node->InsertAfterChild(selected_node, copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             auto new_selected = parent_node->InsertAfterChild(prev, copy_node->FirstChildElement()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
@@ -805,7 +808,7 @@ namespace Stylus
                             xml_files_manager_->selected_file_brain_->selected_node_ = new_selected->ToElement();
                             state_->organizeXmlNode(new_selected->ToElement(), state_->state_file_path_);
                         }else {
-                            std::cout << "\n\nselected node has child element and first child is not text\n";
+                            StylusState::logMessage("selected node has child element and first child is not text");
                             auto prev = selected_node->InsertFirstChild(copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             auto new_selected = selected_node->InsertAfterChild(prev, copy_node->FirstChildElement()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             selected_node->InsertAfterChild(new_selected, copy_node->LastChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
@@ -813,19 +816,19 @@ namespace Stylus
                             state_->organizeXmlNode(new_selected->ToElement(), state_->state_file_path_);
                         }
                     }else {
-                        std::cout << "\n\nselected node is root element\n";
+                        StylusState::logMessage("selected node is root element");
 
                         if(selected_node->FirstChild() && selected_node->FirstChild()->ToText() && selected_node->FirstChildElement() && 
                         state_->isCondNode(selected_node->FirstChildElement())
                         ){
-                            std::cout << "\n\nselected node first child is not text 2\n";
+                            StylusState::logMessage("selected node first child is not text 2");
                             auto prev = selected_node->InsertFirstChild(copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             auto new_selected = selected_node->InsertAfterChild(prev, copy_node->FirstChildElement()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             selected_node->InsertAfterChild(new_selected, copy_node->LastChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             xml_files_manager_->selected_file_brain_->selected_node_ = new_selected->ToElement();
                             state_->organizeXmlNode(new_selected->ToElement(), state_->state_file_path_);
                         }else if((selected_node->FirstChild() && !selected_node->FirstChild()->ToText() || !selected_node->FirstChild())){
-                            std::cout << "\n\nselected node first child is not text 3\n";
+                            StylusState::logMessage("selected node first child is not text 3");
                             auto prev = selected_node->InsertFirstChild(copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             auto new_selected = selected_node->InsertAfterChild(prev, copy_node->FirstChildElement()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
                             selected_node->InsertAfterChild(new_selected, copy_node->LastChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get()));
@@ -835,12 +838,12 @@ namespace Stylus
                     }
                 }else {
                     // selected and copy are not conditions
-                    std::cout << "\n\nselected and copy are not conditions\n";
+                    StylusState::logMessage("selected and copy are not conditions");
                     auto copy_node_child = copy_node->FirstChild()->DeepClone(xml_files_manager_->selected_file_brain_->doc_.get());
                     if(selected_node->FirstChild() && selected_node->FirstChild()->ToText()){
                         if(selected_node != xml_files_manager_->selected_file_brain_->doc_->RootElement())
                         {
-                            std::cout << "\n\nselected node is not root element\n";
+                            StylusState::logMessage("selected node is not root element");
                             auto parent_node = selected_node->Parent();
                             auto new_selected = parent_node->InsertAfterChild(selected_node, copy_node_child);
                             xml_files_manager_->selected_file_brain_->selected_node_ = new_selected->ToElement();
