@@ -1,60 +1,11 @@
 #include "002-Dbo/Session.h"
 #include "002-Dbo/Permission.h"
-
-#include <Wt/Auth/AuthService.h>
-#include <Wt/Auth/HashFunction.h>
-#include <Wt/Auth/PasswordService.h>
-#include <Wt/Auth/PasswordStrengthValidator.h>
-#include <Wt/Auth/PasswordVerifier.h>
-#include <Wt/Auth/GoogleService.h>
-#include <Wt/Auth/FacebookService.h>
-#include <Wt/Auth/Dbo/AuthInfo.h>
-// #include <Wt/Auth/Mfa/TotpProcess.h>
+#include "001-App/Server.h"
 
 #include <Wt/Dbo/backend/Sqlite3.h>
 
 using namespace Wt;
 
-namespace {
-
-  Auth::AuthService myAuthService;
-  Auth::PasswordService myPasswordService(myAuthService);
-  std::vector<std::unique_ptr<Auth::OAuthService>> myOAuthServices;
-
-}
-
-void Session::configureAuth()
-{
-  myAuthService.setAuthTokensEnabled(true, "logincookie");
-  myAuthService.setEmailVerificationEnabled(false);
-  myAuthService.setEmailVerificationRequired(false);
-
-  // myAuthService.setMfaProvider(Wt::Auth::Identity::MultiFactor);
-  // myAuthService.setMfaRequired(true);
-  // myAuthService.setMfaThrottleEnabled(true);
-
-  auto verifier = std::make_unique<Auth::PasswordVerifier>();
-  verifier->addHashFunction(std::make_unique<Auth::BCryptHashFunction>(12));
-  myPasswordService.setVerifier(std::move(verifier));
-  myPasswordService.setPasswordThrottle(std::make_unique<Wt::Auth::AuthThrottle>());
-  myPasswordService.setStrengthValidator(std::make_unique<Auth::PasswordStrengthValidator>());
-
-  if (Auth::GoogleService::configured()) {
-    myOAuthServices.push_back(std::make_unique<Auth::GoogleService>(myAuthService));
-  }
-
-  if (Auth::FacebookService::configured()) {
-    myOAuthServices.push_back(std::make_unique<Auth::FacebookService>(myAuthService));
-  }
-
-  for (const auto& oAuthService : myOAuthServices) {
-    oAuthService->generateRedirectEndpoint();
-  }
-
-  if (created_) {
-    createInitialData();
-  }
-}
 
 Session::Session(const std::string &sqliteDb)
 {
@@ -129,19 +80,19 @@ dbo::ptr<User> Session::user(const Wt::Auth::User& authUser)
 
 const Auth::AuthService& Session::auth()
 {
-  return myAuthService;
+  return Server::authService;
 }
 
 const Auth::PasswordService& Session::passwordAuth()
 {
-  return myPasswordService;
+  return Server::passwordService;
 }
 
 std::vector<const Auth::OAuthService *> Session::oAuth()
 {
-  std::vector<const Auth::OAuthService *> result;
-  result.reserve(myOAuthServices.size());
-  for (const auto& auth : myOAuthServices) {
+  std::vector<const Wt::Auth::OAuthService *> result;
+  result.reserve(Server::oAuthServices.size());
+  for (const auto& auth : Server::oAuthServices) {
     result.push_back(auth.get());
   }
   return result;
@@ -150,45 +101,7 @@ std::vector<const Auth::OAuthService *> Session::oAuth()
 
 void Session::createInitialData()
 {
-//   std::string username = "maxuli";
-//   std::string email = "admin@example.com";
-//   std::string password = "asdfghj1";
-
   Wt::Dbo::Transaction t(*this);
-//   // STYLUS_FILES_MANAGER permission for admin user maxuli
-//   Wt::Dbo::ptr<Permission> permission = find<Permission>().where("name = ?").bind("STYLUS_FILES_MANAGER").resultValue();
-//   if (!permission) {
-//     permission = add(std::make_unique<Permission>("STYLUS_FILES_MANAGER"));
-//   }
-  
-//   Wt::Dbo::ptr<User> user = add(std::make_unique<User>(username));
-//   user.modify()->permissions_.insert(permission);
-//   // permission.modify()->users_.insert(user);
 
-//   Wt::Auth::User authUser = users_->registerNew();
-//   authUser.addIdentity(Wt::Auth::Identity::LoginName, username);
-//   authUser.setEmail(email);
-//   myPasswordService.updatePassword(authUser, password);
-  
-//   Wt::Dbo::ptr<AuthInfo> authInfo = find<AuthInfo>("where id = ?").bind(authUser.id());
-//   authInfo.modify()->setUser(user);
-  
   t.commit();
 }
-
-
-// 
-// void addUser(Wt::Dbo::Session& session, UserDatabase& users, const std::string& loginName,
-//              const std::string& email, const std::string& password)
-// {
-//   Wt::Dbo::Transaction t(session);
-//   auto user = session.addNew<User>(loginName);
-//   auto authUser = users.registerNew();
-//   authUser.addIdentity(Wt::Auth::Identity::LoginName, loginName);
-//   authUser.setEmail(email);
-//   myPasswordService.updatePassword(authUser, password);
-
-//   // Link User and auth user
-//   Wt::Dbo::ptr<AuthInfo> authInfo = session.find<AuthInfo>("where id = ?").bind(authUser.id());
-//   authInfo.modify()->setUser(user);
-// }

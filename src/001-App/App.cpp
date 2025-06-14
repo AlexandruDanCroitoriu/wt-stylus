@@ -21,7 +21,7 @@ App::App(const Wt::WEnvironment &env)
     : WApplication(env),
     session_(appRoot() + "../dbo.db")
 {
-    session_.configureAuth();
+    // session_.configureAuth();
     session_.login().changed().connect(this, &App::authEvent);
 
     // Title
@@ -40,10 +40,7 @@ App::App(const Wt::WEnvironment &env)
 
     auto authWidget = root()->addWidget(std::make_unique<AuthWidget>(session_));
 
-    
-    authWidget->model()->addPasswordAuth(&Session::passwordAuth());
-    authWidget->model()->addOAuth(Session::oAuth());
-    authWidget->setRegistrationEnabled(true);
+
 
     stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
     

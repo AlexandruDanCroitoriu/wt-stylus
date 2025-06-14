@@ -15,7 +15,7 @@ using UserDatabase = Wt::Auth::Dbo::UserDatabase<AuthInfo>;
 class Session : public dbo::Session
 {
 public:
-  void configureAuth();
+  // void configureAuth();
 
   explicit Session(const std::string& sqliteDb);
 
@@ -28,7 +28,6 @@ public:
   static const Wt::Auth::AuthService& auth();
   static const Wt::Auth::PasswordService& passwordAuth();
   static std::vector<const Wt::Auth::OAuthService *> oAuth();
-
 private:
   std::unique_ptr<UserDatabase> users_;
   Wt::Auth::Login login_;

@@ -11,12 +11,12 @@ AuthWidget::AuthWidget(Session& session)
   : Auth::AuthWidget(Session::auth(), session.users(), session.login()),
     session_(session)
 { 
-  	setInternalBasePath("/auth");
+  	setInternalBasePath("/user");
     
     createInitialData();
-    // model()->addPasswordAuth(&Session::passwordAuth());
-    // model()->addOAuth(Session::oAuth());
-    // setRegistrationEnabled(true);
+    model()->addPasswordAuth(&Session::passwordAuth());
+    model()->addOAuth(Session::oAuth());
+    setRegistrationEnabled(true);
 
     // processEnvironment();
 }
@@ -70,3 +70,19 @@ void AuthWidget::createInitialData()
   
   t.commit();
 }
+
+// function to add a user with a specific login name, email, and password
+// void addUser(Wt::Dbo::Session& session, UserDatabase& users, const std::string& loginName,
+//              const std::string& email, const std::string& password)
+// {
+//   Wt::Dbo::Transaction t(session);
+//   auto user = session.addNew<User>(loginName);
+//   auto authUser = users.registerNew();
+//   authUser.addIdentity(Wt::Auth::Identity::LoginName, loginName);
+//   authUser.setEmail(email);
+//   myPasswordService.updatePassword(authUser, password);
+
+//   // Link User and auth user
+//   Wt::Dbo::ptr<AuthInfo> authInfo = session.find<AuthInfo>("where id = ?").bind(authUser.id());
+//   authInfo.modify()->setUser(user);
+// }
