@@ -1,21 +1,12 @@
 #include "App.h"
 #include "010-TestWidgets/DarkModeToggle.h"
 #include "010-TestWidgets/Test.h"
-
-
-#include <Wt/WContainerWidget.h>
-#include <Wt/WIconPair.h>
-#include <Wt/WPushButton.h>
-#include <Wt/WText.h>
-#include <Wt/WTree.h>
-#include <Wt/WTreeNode.h>
+#include <Wt/WStackedWidget.h>
 
 // #include <Wt/WBootstrap2Theme.h>
 #include <Wt/WContainerWidget.h>
-#include <Wt/WServer.h>
 
 #include "003-Auth/AuthWidget.h"
-#include <Wt/Auth/PasswordService.h>
 
 App::App(const Wt::WEnvironment &env)
     : WApplication(env),
@@ -37,6 +28,8 @@ App::App(const Wt::WEnvironment &env)
     // override the default Wt templates
     messageResourceBundle().use("../static/stylus-resources/xml/001-App/ovrwt");
     messageResourceBundle().use("../static/stylus-resources/xml/000-examples/test");
+    
+    root()->addWidget(std::make_unique<Test>());
 
     auto authWidget = root()->addWidget(std::make_unique<AuthWidget>(session_));
 
@@ -46,7 +39,11 @@ App::App(const Wt::WEnvironment &env)
     
     authWidget->processEnvironment();
     // require("https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4");
+    // require("https://unpkg.com/vue@3/dist/vue.global.prod.js");
+    require("https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js");
     
+
+
     // root()->setStyleClass("block min-h-[1000vh] bg-red-200");
     
     // auto dark_mode_toggle = root()->addWidget(std::make_unique<DarkModeToggle>());
