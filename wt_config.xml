@@ -61,9 +61,6 @@
       <delay-load-at-boot>true</delay-load-at-boot>
       <session-id-cookie>false</session-id-cookie>
       <cookie-checks>true</cookie-checks>
-      <meta-headers user-agent=".*MSIE.*">
-        <meta name="robots" content="noindex" />
-      </meta-headers>
       <head-matter>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head-matter>

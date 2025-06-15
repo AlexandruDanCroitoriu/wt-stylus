@@ -14,7 +14,8 @@ App::App(const Wt::WEnvironment &env)
 {
     // session_.configureAuth();
     session_.login().changed().connect(this, &App::authEvent);
-
+    // addMetaHeader("viewport", "width=device-width, initial-scale=1");
+    
     // Title
     setTitle("Alexandru Dan CV");
     

@@ -6,11 +6,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(XMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread")
 set(RLIB --docroot ../ -c ../wt_config.xml --http-address 0.0.0.0 --http-port 9020)
-# set(RLIB --docroot ../ --http-address 0.0.0.0 --http-port 9020)
 set(SOURCE_DIR ${PROJECT_SOURCE_DIR}/src/)
 
 include_directories(${SOURCE_DIR})
 
+# ./app --docroot ../ –config ./wt_config.xml --http-address 0.0.0.0 --http-port 9020
 
 set(SOURCES
     ${SOURCE_DIR}/main.cpp

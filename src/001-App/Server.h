@@ -15,4 +15,6 @@ class Server : public Wt::WServer
     private:
         int argc_;
         char **argv_;
+
+        void configureAuth();
 };
