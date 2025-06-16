@@ -7,6 +7,22 @@
 Test::Test()
 { 
 
+// arctic
+// minimal
+// modern
+// high-contrast
+// neo-brutalism
+// halloween
+// zombie
+// pastel
+// 90s
+// christmas
+// prototype
+// news
+// industrial
+
+
+
     auto test_nav = addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("test-alpine-nav")));
     
     // auto test_alpine_carouserl = addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("test-alpine-carousel")));

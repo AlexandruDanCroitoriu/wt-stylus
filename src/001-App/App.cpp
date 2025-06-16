@@ -1,6 +1,7 @@
 #include "App.h"
 #include "010-TestWidgets/DarkModeToggle.h"
 #include "010-TestWidgets/Test.h"
+#include "010-TestWidgets/ThemeSwitcher.h"
 #include "010-TestWidgets/Navigation.h"
 #include <Wt/WStackedWidget.h>
 
@@ -39,10 +40,14 @@ App::App(const Wt::WEnvironment &env)
     // root()->addWidget(std::make_unique<Test>());
     auto navbar = root()->addWidget(std::make_unique<Navigation>());
     auto stack = navbar->bindWidget("content", std::make_unique<Wt::WStackedWidget>());
-    auto authWidget = stack->addWidget(std::make_unique<AuthWidget>(session_));
-
-    stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
     
+    
+    auto content = stack->addWidget(std::make_unique<Wt::WContainerWidget>());
+    
+    
+    
+    stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
+    auto authWidget = content->addWidget(std::make_unique<AuthWidget>(session_));
     authWidget->processEnvironment();
     
 

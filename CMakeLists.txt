@@ -26,6 +26,7 @@ set(SOURCES
     
     ${SOURCE_DIR}/010-TestWidgets/Test.cpp
     ${SOURCE_DIR}/010-TestWidgets/Navigation.cpp
+    ${SOURCE_DIR}/010-TestWidgets/ThemeSwitcher.cpp
     ${SOURCE_DIR}/010-TestWidgets/DarkModeToggle.cpp
     
     ${SOURCE_DIR}101-Stylus/Stylus.cpp
