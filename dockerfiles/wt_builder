@@ -47,6 +47,6 @@ COPY ./wt_config.xml /apps/cv/wt_config.xml
 
 RUN mkdir -p /apps/cv/build
 WORKDIR /apps/cv/build
+RUN cd ../static/stylus-resources/tailwind4 && npm install
 RUN cmake ../ 
 RUN make
-RUN cd ../static/stylus-resources/tailwind4 && npm install
