@@ -12,7 +12,6 @@ public:
     Wt::Signal<bool> dark_mode_changed_;
     Wt::Signal<> theme_changed_;
 private:
-    std::shared_ptr<Theme> theme_;
     Session session_;
     Stylus::Stylus* stylus_;
     void authEvent();
