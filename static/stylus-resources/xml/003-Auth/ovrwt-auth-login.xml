@@ -46,14 +46,14 @@
                             <span class="text-xs ">${user-name-info class=""}</span>
                         </div>
                         <span>${user-confirm-email class=""}</span>
-                        <span class="[&amp;&gt;input]:border [&amp;&gt;input]:w-full   [&amp;&gt;input]:border-solid [&amp;&gt;input]:rounded-md [&amp;&gt;input]:px-2 [&amp;&gt;input]:py-1">${user-name}</span>
+                        <span class="">${user-name}</span>
                     </div>
                     <div class="">
                         <div class="flex flex-col">
                             <label for="${id:password}" class="font-semibold">${tr:Wt.Auth.password message_path="003-Auth/ovrwt-auth-strings.xml"}</label>
                             <span class="text-xs ">${password-info class=""}</span>
                         </div>
-                        <span class="[&amp;&gt;input]:border [&amp;&gt;input]:w-full   [&amp;&gt;input]:border-solid [&amp;&gt;input]:rounded-md [&amp;&gt;input]:px-2 [&amp;&gt;input]:py-1">${password}</span>
+                        <span class="">${password}</span>
                     </div>
                     <div class="">
                         <div class="flex items-center space-x-2">
