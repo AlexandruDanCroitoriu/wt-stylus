@@ -25,7 +25,7 @@ App::App(const Wt::WEnvironment &env)
     // require("https://unpkg.com/vue@3/dist/vue.global.prod.js");
     require("https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js");
     
-    root()->addStyleClass("max-w-screen max-h-screen overflow-scroll");
+    root()->addStyleClass("max-w-screen max-h-screen overflow-none");
 
     // setTheme(std::make_shared<Wt::WBootstrap2Theme>());
 
@@ -43,7 +43,7 @@ App::App(const Wt::WEnvironment &env)
     
     
     auto content = stack->addWidget(std::make_unique<Wt::WContainerWidget>());
-    
+    auto themeSwitcher = content->addWidget(std::make_unique<ThemeSwitcher>());
     
     
     stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));

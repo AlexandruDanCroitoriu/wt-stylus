@@ -6,7 +6,7 @@
 
 ThemeSwitcher::ThemeSwitcher()
 { 
-
+    addStyleClass("flex items-center justify-start flex-wrap space-x-2 border");
 // arctic
 // minimal
 // modern

@@ -49,4 +49,4 @@ RUN mkdir -p /apps/cv/build
 WORKDIR /apps/cv/build
 RUN cmake ../ 
 RUN make
-RUN cd ../static/stylus_resources/tailwind4 && npm install
+RUN cd ../static/stylus-resources/tailwind4 && npm install
