@@ -109,7 +109,7 @@ namespace Stylus
 
     void TemplateVarControlCenter::setFileBrain(std::shared_ptr<XMLFileBrain> file_brain)
     {
-        // std::cout << "\n\nTemplateVarControlCenter::setFileBrain() - setting file brain\n\n";
+        std::cout << "\n\nTemplateVarControlCenter::setFileBrain() - setting file brain\n\n";
         if(!file_brain || !file_brain->selected_node_) {
             std::cout << "\n\nTemplateVarControlCenter::setFileBrain() - no file brain or selected node\n\n";
             disableAll();
@@ -117,9 +117,13 @@ namespace Stylus
             temp_var_name_->label()->setText("no node selected");
             return;
         }
+        std::cout << "\n 1 \n";
         file_brain_ = file_brain;
+        std::cout << "\n 2 \n";
         auto selected_node = file_brain_->selected_node_;
+        std::cout << "\n 3 \n";
         temp_var_data_ = file_brain_->state_->getTempNodeVarData(selected_node);
+        std::cout << "\n 4 \n";
         if(temp_var_data_.var_name_.compare("") == 0) {
             std::cout << "\n\nTemplateVarControlCenter::setFileBrain() - no temp var data found\n\n";
             disableAll();

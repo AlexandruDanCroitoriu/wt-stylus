@@ -353,24 +353,25 @@ namespace Stylus
         // ^\$\{[ ]?[a-z:]*[ ]?\}
         // ^\$\{[ ]?[a-z:]*[a-zA-Z0-9\(\)\:\-\_\[\]=\"\'\/\.\~ ]*?\}
         std::string text = "";
-        if (node == nullptr || node->ChildElementCount() != 1 || !node->FirstChild() || !node->FirstChild()->ToText())
+        if (node == nullptr || isCondNode(node) || node->ChildElementCount() != 1 || !node->FirstChild() || !node->FirstChild()->ToText())
         {
             std::cout << "\n   Error: Node is null or does not have the expected structure for TempNodeVarData.\n";
             return data; // Return empty data if node is null
         }
-        if(!isCondNode(node) && node->FirstChild() && boost::regex_match(node->FirstChild()->ToText()->Value(), boost::regex(R"(^\$\{[ ]?[a-z:]*[a-zA-Z0-9\(\)\:\-\_\[\]=\"\'\/\.\~ ]*?\})")))
+        std::cout << "\n   Parsing node: " << node->Name() << "\n";
+        if(node->FirstChild() && boost::regex_match(node->FirstChild()->ToText()->Value(), boost::regex(R"(^\$\{[ ]?[a-z:]*[a-zA-Z0-9\(\)\:\-\_\[\]=\"\'\/\.\~ ]*?\})")))
         {
-            // std::cout << "\n   Parsing text from first child of node: " << node->Name() << "\n";
+            std::cout << "\n   Parsing text from first child of node: " << node->Name() << "\n";
             text = node->FirstChild()->ToText()->Value();
         }else if (isCondNode(node) && node->FirstChild()->NextSibling() && boost::regex_match(node->FirstChild()->NextSibling()->ToText()->Value(), boost::regex(R"(^\$\{[ ]?[a-z:]*[a-zA-Z0-9\(\)\:\-\_\[\]=\"\'\/\.\~ ]*?\})")))
         {
-            // std::cout << "\n   Parsing text from next sibling of first child of node: " << node->Name() << "\n";
+            std::cout << "\n   Parsing text from next sibling of first child of node: " << node->Name() << "\n";
             text = node->FirstChild()->NextSibling()->ToText()->Value();
         }else {
-            // std::cout << "\n   Error: Node does not match expected format for TempNodeVarData.\n";
+            std::cout << "\n   Error: Node does not match expected format for TempNodeVarData.\n";
             return data; // Return empty data if node does not match the expected format
         }
-        // std::cout << "Parsing text: '" << text << "'\n";
+        std::cout << "Parsing text: '" << text << "'\n";
         // std::cout << "\n\nParsing node: " << node->FirstChild()->ToText()->Value() << "\n\n";
         // ${tr:some-text message="000-examples/asada.xml:some-text"}
         // ${function_:var_name_ attr1="value1" attr2="value2"}
