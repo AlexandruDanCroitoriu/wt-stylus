@@ -12,7 +12,7 @@ COPY --from=builder /usr/include/boost/* /usr/include/boost/
 COPY --from=builder /usr/lib/x86_64-linux-gnu/libboost* /usr/lib/x86_64-linux-gnu/
 
 COPY --from=builder ./apps/cv /apps/cv
-RUN ls && cd /apps/cv/static/stylus-resources/tailwind4/ && npm install
+RUN ls && cd ./apps/cv/static/stylus-resources/tailwind4/ && npm install
 
 WORKDIR /apps/cv/build
 
