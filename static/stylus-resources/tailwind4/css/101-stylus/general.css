@@ -41,9 +41,10 @@
 	@apply dark:bg-gray-950/20 rounded-[10px];
 }
 
- 
+ /* border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt */
 .stylus-background {
-	@apply bg-gray-100 text-black bg-[length:35px_35px] bg-[radial-gradient(var(--color-gray-300)_5%,_transparent_0)] dark:bg-gray-950 dark:text-white dark:bg-[radial-gradient(var(--color-gray-900)_5%,_transparent_0)];
+	/* @apply bg-gray-100 text-black bg-[length:35px_35px] bg-[radial-gradient(var(--color-gray-300)_5%,_transparent_0)] dark:bg-gray-950 dark:text-white dark:bg-[radial-gradient(var(--color-gray-900)_5%,_transparent_0)]; */
+	@apply border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt;
 }
 .stylus-menu { 
 	@apply hover:bg-blue-400/20 dark:hover:bg-blue-700/30;

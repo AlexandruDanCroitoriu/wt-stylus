@@ -24,28 +24,30 @@ set(SOURCES
     ${SOURCE_DIR}/003-Auth/RegistrationView.cpp
     ${SOURCE_DIR}/003-Auth/UserDetailsModel.cpp
     
+    ${SOURCE_DIR}/004-Theme/Theme.cpp
+    ${SOURCE_DIR}/004-Theme/ThemeSwitcher.cpp
+    ${SOURCE_DIR}/004-Theme/DarkModeToggle.cpp
+
     ${SOURCE_DIR}/010-TestWidgets/Test.cpp
     ${SOURCE_DIR}/010-TestWidgets/Navigation.cpp
-    ${SOURCE_DIR}/010-TestWidgets/ThemeSwitcher.cpp
-    ${SOURCE_DIR}/010-TestWidgets/DarkModeToggle.cpp
     
-    ${SOURCE_DIR}101-Stylus/Stylus.cpp
-    ${SOURCE_DIR}101-Stylus/000-Utils/StylusState.cpp
-    ${SOURCE_DIR}101-Stylus/000-Utils/XMLFileBrain.cpp
-    ${SOURCE_DIR}101-Stylus/000-Utils/MonacoEditor.cpp
-    ${SOURCE_DIR}101-Stylus/000-Utils/FilesManager.cpp
-    ${SOURCE_DIR}101-Stylus/000-Utils/StylusPanelWrapper.cpp
-    ${SOURCE_DIR}101-Stylus/000-Utils/tinyxml2/tinyxml2.cpp
-    ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/XmlFilesManager.cpp
-    ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/Preview/XMLElemNode.cpp
-    ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/Preview/XMLTreeNode.cpp
-    ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/Preview/ControlCenter.cpp
-    ${SOURCE_DIR}101-Stylus/001-XmlFilesManager/Preview/TemplateVarControlCenter.cpp
-    ${SOURCE_DIR}101-Stylus/002-CssFilesManager/CssFilesManager.cpp
-    ${SOURCE_DIR}101-Stylus/003-JsFilesManager/JsFilesManager.cpp
-    ${SOURCE_DIR}101-Stylus/004-TailwindConfigManager/TailwindConfigManager.cpp
-    ${SOURCE_DIR}101-Stylus/005-Images/ImagesManager.cpp
-    ${SOURCE_DIR}101-Stylus/006-Settings/Settings.cpp
+    ${SOURCE_DIR}/101-Stylus/Stylus.cpp
+    ${SOURCE_DIR}/101-Stylus/000-Utils/StylusState.cpp
+    ${SOURCE_DIR}/101-Stylus/000-Utils/XMLFileBrain.cpp
+    ${SOURCE_DIR}/101-Stylus/000-Utils/MonacoEditor.cpp
+    ${SOURCE_DIR}/101-Stylus/000-Utils/FilesManager.cpp
+    ${SOURCE_DIR}/101-Stylus/000-Utils/StylusPanelWrapper.cpp
+    ${SOURCE_DIR}/101-Stylus/000-Utils/tinyxml2/tinyxml2.cpp
+    ${SOURCE_DIR}/101-Stylus/001-XmlFilesManager/XmlFilesManager.cpp
+    ${SOURCE_DIR}/101-Stylus/001-XmlFilesManager/Preview/XMLElemNode.cpp
+    ${SOURCE_DIR}/101-Stylus/001-XmlFilesManager/Preview/XMLTreeNode.cpp
+    ${SOURCE_DIR}/101-Stylus/001-XmlFilesManager/Preview/ControlCenter.cpp
+    ${SOURCE_DIR}/101-Stylus/001-XmlFilesManager/Preview/TemplateVarControlCenter.cpp
+    ${SOURCE_DIR}/101-Stylus/002-CssFilesManager/CssFilesManager.cpp
+    ${SOURCE_DIR}/101-Stylus/003-JsFilesManager/JsFilesManager.cpp
+    ${SOURCE_DIR}/101-Stylus/004-TailwindConfigManager/TailwindConfigManager.cpp
+    ${SOURCE_DIR}/101-Stylus/005-Images/ImagesManager.cpp
+    ${SOURCE_DIR}/101-Stylus/006-Settings/Settings.cpp
 
 )
 

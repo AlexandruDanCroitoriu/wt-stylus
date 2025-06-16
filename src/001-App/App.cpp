@@ -1,11 +1,12 @@
 #include "App.h"
-#include "010-TestWidgets/DarkModeToggle.h"
 #include "010-TestWidgets/Test.h"
-#include "010-TestWidgets/ThemeSwitcher.h"
+#include "004-Theme/DarkModeToggle.h"
+#include "004-Theme/ThemeSwitcher.h"
 #include "010-TestWidgets/Navigation.h"
 #include <Wt/WStackedWidget.h>
 
 // #include <Wt/WBootstrap2Theme.h>
+#include <Wt/WCssTheme.h>
 #include <Wt/WContainerWidget.h>
 
 #include "003-Auth/AuthWidget.h"
@@ -16,7 +17,6 @@ App::App(const Wt::WEnvironment &env)
 {
     // session_.configureAuth();
     session_.login().changed().connect(this, &App::authEvent);
-    // addMetaHeader("viewport", "width=device-width, initial-scale=1");
     
     // Title
     setTitle("Alexandru Dan CV");
@@ -27,7 +27,10 @@ App::App(const Wt::WEnvironment &env)
     
     root()->addStyleClass("max-w-screen max-h-screen overflow-none");
 
-    // setTheme(std::make_shared<Wt::WBootstrap2Theme>());
+    // setTheme(std::make_shared<Wt::WCssTheme>("default"));
+
+    theme_ = std::make_shared<Theme>();
+    setTheme(theme_);
 
     // override the default Wt auth templates
     messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-registration-view");
@@ -40,11 +43,11 @@ App::App(const Wt::WEnvironment &env)
     // root()->addWidget(std::make_unique<Test>());
     auto navbar = root()->addWidget(std::make_unique<Navigation>());
     auto stack = navbar->bindWidget("content", std::make_unique<Wt::WStackedWidget>());
-    
+    stack->setStyleClass("p-1");
     
     auto content = stack->addWidget(std::make_unique<Wt::WContainerWidget>());
     auto themeSwitcher = content->addWidget(std::make_unique<ThemeSwitcher>());
-    
+    auto darkModeToggle = content->addWidget(std::make_unique<DarkModeToggle>());
     
     stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
     auto authWidget = content->addWidget(std::make_unique<AuthWidget>(session_));

@@ -6,7 +6,7 @@
 #include <Wt/WStackedWidget.h>
 #include <fstream>
 #include <Wt/WRandom.h>
-#include "010-TestWidgets/DarkModeToggle.h"
+#include "004-Theme/DarkModeToggle.h"
 #include "001-App/App.h"
 #include <Wt/Auth/Identity.h>
 
@@ -51,7 +51,7 @@ namespace Stylus
         // Wt::WApplication::instance()->messageResourceBundle().use(Wt::WApplication::instance()->docRoot() + "/static/stylus/templates");
         Wt::WApplication::instance()->messageResourceBundle().use("../static/stylus-resources/xml/101-stylus/svg");
         Wt::WString stylus_css_file_path_ = "../static/tailwind.css?v=" + Wt::WRandom::generateId();
-        Wt::WApplication::instance()->useStyleSheet(stylus_css_file_path_.toUTF8());
+        // Wt::WApplication::instance()->useStyleSheet(stylus_css_file_path_.toUTF8());
 
         Wt::Dbo::Transaction transaction(session_);
         stylus_permission_ = session_.find<Permission>().where("name = ?").bind("STYLUS_FILES_MANAGER").resultValue();

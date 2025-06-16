@@ -1,4 +1,4 @@
-#include "010-TestWidgets/DarkModeToggle.h"
+#include "004-Theme/DarkModeToggle.h"
 #include <Wt/WApplication.h>
 #include <Wt/WLabel.h>
 #include "001-App/App.h"
