@@ -6,7 +6,6 @@
 
 Test::Test()
 { 
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/override-wt");
 
     auto test_nav = addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("test-alpine-nav")));
     

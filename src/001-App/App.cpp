@@ -1,6 +1,7 @@
 #include "App.h"
 #include "010-TestWidgets/DarkModeToggle.h"
 #include "010-TestWidgets/Test.h"
+#include "010-TestWidgets/Navigation.h"
 #include <Wt/WStackedWidget.h>
 
 // #include <Wt/WBootstrap2Theme.h>
@@ -19,25 +20,26 @@ App::App(const Wt::WEnvironment &env)
     // Title
     setTitle("Alexandru Dan CV");
     
-    // require("https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4");
+    require("https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4");
     // require("https://unpkg.com/vue@3/dist/vue.global.prod.js");
     require("https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js");
     
-    root()->addStyleClass("container mx-auto max-w-screen overflow-none");
+    root()->addStyleClass("max-w-screen max-h-screen overflow-scroll");
 
     // setTheme(std::make_shared<Wt::WBootstrap2Theme>());
 
     // override the default Wt auth templates
     messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-registration-view");
-    messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth");
-    messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-strings");
+
     // override the default Wt templates
     messageResourceBundle().use("../static/stylus-resources/xml/001-App/ovrwt");
     messageResourceBundle().use("../static/stylus-resources/xml/000-examples/test");
+    wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/override-wt");
     
-    root()->addWidget(std::make_unique<Test>());
-
-    auto authWidget = root()->addWidget(std::make_unique<AuthWidget>(session_));
+    // root()->addWidget(std::make_unique<Test>());
+    auto navbar = root()->addWidget(std::make_unique<Navigation>());
+    auto stack = navbar->bindWidget("content", std::make_unique<Wt::WStackedWidget>());
+    auto authWidget = stack->addWidget(std::make_unique<AuthWidget>(session_));
 
     stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
     

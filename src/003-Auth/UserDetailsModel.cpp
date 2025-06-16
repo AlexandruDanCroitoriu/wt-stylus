@@ -12,7 +12,7 @@ UserDetailsModel::UserDetailsModel(Session& session)
   : WFormModel(),
     session_(session)
 {
-  addField(FavouritePetField, Wt::WString::tr("Auth:str-favourite-pet-info"));
+  addField(FavouritePetField, Wt::WString::tr("Auth:favourite-pet-info"));
 }
 
 void UserDetailsModel::save(const Wt::Auth::User& authUser)

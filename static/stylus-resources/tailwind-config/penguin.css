@@ -1,18 +1,3 @@
-/* Import TailwindCSS base styles */
-@import "tailwindcss";
-
-/* Import custom CSS files for additional styles */
-
-/* Source additional templates and styles */
-@source "../xml/";
-@source "../../../src/";
-
-/* Import custom CSS files */
-@import "./css/000-examples/tree.css";
-@import "./css/000-examples/use-anything.css";
-@import "./css/101-stylus/general.css";
-@import "./css/101-stylus/test.css";
-/* Define custom theme */
 /* Define custom variants */
 @custom-variant dark (&:where(.dark, .dark *));
 @theme {
@@ -620,4 +605,3 @@
     }
 
 }
-

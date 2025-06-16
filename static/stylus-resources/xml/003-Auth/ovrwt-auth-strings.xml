@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages xmlns:if="Wt.WTemplate.conditions" nplurals="2" plural="n == 1 ? 0 : 1" class="p-2 ">
-    <message id="Auth:str-favourite-pet-info">Could be a dog, cat ?</message>
+    <message id="Auth:favourite-pet-info">Could be a dog, cat ?</message>
+    <message id="Auth:user-name-label">user name</message>
     <!-- BaseAuth, PasswordAuth and OAuth models -->
     <message id="Wt.Auth.error-invalid-token">The operation could not be completed: invalid token.</message>
     <message id="Wt.Auth.error-token-expired">The operation could not be completed: the token has expired.</message>

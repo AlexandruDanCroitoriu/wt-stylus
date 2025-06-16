@@ -130,7 +130,8 @@ void Server::configureAuth()
     authService.setAuthTokensEnabled(true, "logincookie");
     authService.setEmailVerificationEnabled(false);
     authService.setEmailVerificationRequired(false);
-
+    authService.setIdentityPolicy(Wt::Auth::IdentityPolicy::LoginName);
+    
     // authService.setMfaProvider(Wt::Auth::Identity::MultiFactor);
     // authService.setMfaRequired(true);
     // authService.setMfaThrottleEnabled(true);
