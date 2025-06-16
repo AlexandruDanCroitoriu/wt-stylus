@@ -44,7 +44,7 @@ namespace Stylus
         grid_layout_->setColumnResizable(2, true, Wt::WLength(state_->xml_node_->IntAttribute("preview-widget-sidebar-width"), Wt::LengthUnit::Pixel));
         
         tree_wrapper_->setStyleClass("overflow-y-auto stylus-scrollbar h-screen select-none");
-        elem_wrapper_->setStyleClass("overflow-y-auto stylus-scrollbar h-screen select-none m-1");
+        elem_wrapper_->setStyleClass("overflow-y-auto stylus-scrollbar h-screen select-none m-1 bg-surface dark:bg-surface-dark text-on-surface dark:text-on-surface-dark");
         
         // Wt::WStringStream contextJS;
         // contextJS << WT_CLASS << ".$('" << id() << "').oncontextmenu = "

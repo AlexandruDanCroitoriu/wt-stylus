@@ -3,7 +3,6 @@
 #include "002-Dbo/Session.h"
 
 #include "101-Stylus/Stylus.h"
-#include "004-Theme/Theme.h"
 
 class App : public Wt::WApplication
 {

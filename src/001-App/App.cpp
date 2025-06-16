@@ -1,15 +1,14 @@
 #include "App.h"
 #include "010-TestWidgets/Test.h"
+#include "010-TestWidgets/Navigation.h"
+
 #include "004-Theme/DarkModeToggle.h"
 #include "004-Theme/ThemeSwitcher.h"
-#include "010-TestWidgets/Navigation.h"
-#include <Wt/WStackedWidget.h>
-
-// #include <Wt/WBootstrap2Theme.h>
-#include <Wt/WCssTheme.h>
-#include <Wt/WContainerWidget.h>
 
 #include "003-Auth/AuthWidget.h"
+#include "004-Theme/Theme.h"
+
+#include <Wt/WStackedWidget.h>
 
 App::App(const Wt::WEnvironment &env)
     : WApplication(env),
@@ -28,9 +27,8 @@ App::App(const Wt::WEnvironment &env)
     root()->addStyleClass("max-w-screen max-h-screen overflow-none");
 
     // setTheme(std::make_shared<Wt::WCssTheme>("default"));
+    setTheme(std::make_shared<Theme>());
 
-    theme_ = std::make_shared<Theme>();
-    setTheme(theme_);
 
     // override the default Wt auth templates
     messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-registration-view");
@@ -53,13 +51,6 @@ App::App(const Wt::WEnvironment &env)
     auto authWidget = content->addWidget(std::make_unique<AuthWidget>(session_));
     authWidget->processEnvironment();
     
-
-    // root()->setStyleClass("block min-h-[1000vh] bg-red-200");
-    
-    // auto dark_mode_toggle = root()->addWidget(std::make_unique<DarkModeToggle>());
-    // auto temp = root()->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("examples:test-1")));
-    // temp->setCondition("if:cond", true);
-
 }
 
 void App::authEvent() {

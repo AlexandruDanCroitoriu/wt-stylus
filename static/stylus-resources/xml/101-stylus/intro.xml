@@ -1,6 +1,6 @@
 <messages class="">
     <message id="stylus:intro-script" class="">
-        <div class="text-white space-y-2 ">
+        <div class="space-y-2 ">
             <div>Hello Emweb,</div>
             <div>My name is Alex.</div>
             <div>

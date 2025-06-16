@@ -1,15 +1,41 @@
 <div class="flex-wrap items-start justify-start h-full flex dark:bg-gray-900 rounded-md bg-gray-100 p-2 ">
     <div class="grid grid-row-auto grid-cols-2">
-        <div class="bg-surface-dark p-4 rounded-md border text-on-surface-dark-strong ">surface-dark</div>
-        <div class="bg-surface-dark-alt p-4 rounded-md border text-on-surface-dark-strong ">surface-dark-alt</div>
-        <div class="bg-on-surface-dark p-4 rounded-md border text-on-primary-dark">on-surface-dark</div>
-        <div class="bg-on-surface-dark-strong p-4 rounded-md border text-on-primary-dark">on-surface-dark</div>
-        <div class="bg-primary-dark p-4 rounded-md border text-on-surface-dark-strong">primary-dark</div>
-        <div class="bg-on-primary-dark p-4 rounded-md border text-on-surface-dark-strong ">on-primary-dark</div>
-        <div class="bg-secondary-dark p-4 rounded-md border text-on-surface-dark-strong">secondary-dark</div>
-        <div class="bg-on-secondary-dark p-4 rounded-md border text-on-primary-dark">on-secondary-dark</div>
-        <div class="bg-outline-dark p-4 rounded-md border text-on-surface-dark-strong">outline-dark</div>
-        <div class="bg-outline-dark-strong p-4 rounded-md border text-on-surface-dark-strong">outline-dark-strong</div>
+		<div class="bg-outline-strong text-outline p-4 m-1">outline-strong</div>
+		<div class="bg-outline text-outline-strong p-4 m-1">outline</div>
+		<hr />
+		<hr />
+		<div class="bg-outline-dark text-outline-dark-strong p-4 m-1">outline-dark</div>
+		<div class="bg-outline-dark-strong text-outline-dark p-4 m-1">outline-dark-strong</div>
+			<hr />
+		<hr />
+		<div class="bg-info text-on-info p-4 m-1">info</div>
+		<div class="bg-on-info text-info p-4 m-1">on-info</div>
+		<div class="bg-success text-on-success p-4 m-1">success</div>
+		<div class="bg-on-success text-success p-4 m-1">on-success</div>
+		<div class="bg-warning text-on-warning p-4 m-1">warning</div>
+		<div class="bg-on-warning text-warning p-4 m-1">on-warning</div>
+		<div class="bg-danger text-on-danger p-4 m-1">danger</div>
+		<div class="bg-on-danger text-danger p-4 m-1">on-danger</div>
+		<hr />
+		<hr />
+		<div class="bg-primary text-on-primary p-4 m-1">primary</div>
+		<div class="bg-on-primary text-primary p-4 m-1">on-primary</div>
+		<div class="bg-primary-dark text-on-primary-dark p-4 m-1">primary-dark</div>
+		<div class="bg-on-primary-dark text-primary-dark p-4 m-1">on-primary-dark</div>
+		<div class="bg-secondary text-on-secondary p-4 m-1">secondary</div>
+		<div class="bg-on-secondary text-secondary p-4 m-1">on-secondary</div>
+		<div class="bg-secondary-dark text-on-secondary-dark p-4 m-1">secondary-dark</div>
+		<div class="bg-on-secondary-dark p-4 m-1">on-secondary-dark</div>
+		<hr />
+		<hr />
+		<div class="bg-surface text-on-surface p-4 m-1">surface</div>
+		<div class="bg-on-surface text-surface p-4 m-1">on-surface</div>
+		<div class="bg-surface-dark text-on-surface-dark p-4 m-1">surface-dark</div>
+		<div class="bg-on-surface-dark text-surface-dark p-4 m-1">on-surface-dark</div>
+		<div class="bg-surface-alt text-surface-strong p-4 m-1">surface-alt</div>
+		<div class="bg-on-surface-dark-strong text-surface-dark-strong p-4 m-1">on-surface-dark-strong</div>
+		<div class="bg-on-surface-strong text-surface-alt p-4 m-1">on-surface-strong</div>
+		<div class="bg-surface-dark-alt text-on-surface-dark-strong p-4 m-1">surface-dark-alt</div>
     </div>
 </div>
 

@@ -28,7 +28,7 @@ enum WidgetThemeRoleRest {
 class Theme : public Wt::WTheme
 {
 public:
-    Theme(std::string name = "arctic");
+    Theme(std::string name = "default");
 
     virtual std::string name() const override;
 

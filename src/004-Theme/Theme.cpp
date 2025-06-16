@@ -25,12 +25,12 @@ namespace skeletons
     const char *AuthCssTheme_xml = "default";
 }
 
-namespace {
-  using namespace Wt;
-  WJavaScriptPreamble wtjs1() {
-    return WJavaScriptPreamble(WtClassScope, JavaScriptConstructor, "WCartesianChart", skeletons::AuthCssTheme_xml);
-  }
-}
+// namespace {
+//   using namespace Wt;
+//   WJavaScriptPreamble wtjs1() {
+//     return WJavaScriptPreamble(WtClassScope, JavaScriptConstructor, "WCartesianChart", skeletons::AuthCssTheme_xml);
+//   }
+// }
 
 Theme::Theme(std::string name)
     : Wt::WTheme(),
@@ -45,14 +45,15 @@ std::vector<Wt::WLinkedCssStyleSheet> Theme::styleSheets() const
     if (!name_.empty())
     {
         std::string themeDir = resourcesUrl();
-
+        std::cout << "Theme directory: " << themeDir << std::endl;
         result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink("static/tailwind.css")));
+        result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink(themeDir + "wt.css")));
 
-        // if (app->environment().agentIsIElt(9))
-        //   result.push_back(WLinkedCssStyleSheet(WLink(themeDir + "wt_ie.css")));
+        if (wApp->environment().agentIsIElt(9))
+          result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink(themeDir + "wt_ie.css")));
 
-        // if (app->environment().agent() == UserAgent::IE6)
-        //   result.push_back(WLinkedCssStyleSheet(WLink(themeDir + "wt_ie6.css")));
+        if (wApp->environment().agent() == Wt::UserAgent::IE6)
+          result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink(themeDir + "wt_ie6.css")));
     }
 
     return result;
