@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages xmlns:if="Wt.WTemplate.conditions">
     <message id="template.registration">
-      <div class="Wt-form Wt-auth-registration">
-        <h2>${tr:Wt.Auth.registration-form-title message_path="003-Auth/ovrwt-auth-strings.xml"}</h2>
+        <div class="Wt-form Wt-auth-registration">
+            <h2>${tr:Wt.Auth.registration-form-title message_path="003-Auth/ovrwt-auth-strings.xml"}</h2>
             <p>${tr:Wt.Auth.registration-form-info message_path="003-Auth/ovrwt-auth-strings.xml"}</p>
             <span>${password-description}</span>
             <div class="Wt-fields">
@@ -51,6 +51,6 @@
       <div class="Wt-buttons"><span>${ok-button}</span>
                 <span>${cancel-button}</span>
             </div>
-          </div>
-  </message>
+        </div>
+    </message>
 </messages>

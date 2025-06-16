@@ -38,7 +38,7 @@ namespace Stylus
         }
 
         clicked().connect(this, [=]()
-                          { file_brain_->xml_node_selected_.emit(node_, false); });
+                          { if(file_brain_->selected_node_ != node_) file_brain_->xml_node_selected_.emit(node_, false); });
         mouseWentOver().preventPropagation();
         mouseWentOver().connect(this, [=]()
                                 { toggleStyleClass("selected-xml-node-hover", true, true); });
@@ -85,7 +85,22 @@ namespace Stylus
                     first_child_inside_cond = first_child_inside_cond->NextSibling();
                 }
             }
-        }else {
+        }else if(std::string(elem_node->Name()).compare("template") == 0){
+            auto first_child_inside_temp = elem_node->FirstChild();
+            while(first_child_inside_temp)
+            {
+                if(first_child_inside_temp->ToText())
+                {
+                    addTextNode(first_child_inside_temp->ToText());
+                }else if(first_child_inside_temp->ToElement())
+                {
+                    addElemNode(first_child_inside_temp->ToElement(), scroll_into_view);
+                }else {
+                    addWidget(std::make_unique<Wt::WText>("This node is not text or element nodes, WHAT DID YOU DO ?"))->setStyleClass("font-bold text-[#ff0000] outline-2 outline-[#ff0000] rounded-md p-[2px] hover:bg-[#ff0000]/30 cursor-pointer");
+                }
+                first_child_inside_temp = first_child_inside_temp->NextSibling();
+            }
+        }else{
             addWidget(std::make_unique<XMLElemNode>(file_brain_, elem_node, scroll_into_view));
         }
     }

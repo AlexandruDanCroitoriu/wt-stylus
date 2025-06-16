@@ -19,7 +19,11 @@ App::App(const Wt::WEnvironment &env)
     // Title
     setTitle("Alexandru Dan CV");
     
-    root()->addStyleClass("container");
+    // require("https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4");
+    // require("https://unpkg.com/vue@3/dist/vue.global.prod.js");
+    require("https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js");
+    
+    root()->addStyleClass("container mx-auto");
     // setTheme(std::make_shared<Wt::WBootstrap2Theme>());
 
     // override the default Wt auth templates
@@ -34,15 +38,15 @@ App::App(const Wt::WEnvironment &env)
 
     auto authWidget = root()->addWidget(std::make_unique<AuthWidget>(session_));
 
-
-
+    
+    
     stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
     
     authWidget->processEnvironment();
-    // require("https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4");
-    // require("https://unpkg.com/vue@3/dist/vue.global.prod.js");
-    require("https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js");
     
+
+
+
 
 
     // root()->setStyleClass("block min-h-[1000vh] bg-red-200");
