@@ -8,7 +8,10 @@
 #include "003-Auth/AuthWidget.h"
 #include "004-Theme/Theme.h"
 
+#include "005-WidgetsDisplay/WidgetsDisplay.h"
+
 #include <Wt/WStackedWidget.h>
+#include <Wt/WPushButton.h>
 
 App::App(const Wt::WEnvironment &env)
     : WApplication(env),
@@ -27,7 +30,9 @@ App::App(const Wt::WEnvironment &env)
     root()->addStyleClass("max-w-screen max-h-screen overflow-none");
 
     // setTheme(std::make_shared<Wt::WCssTheme>("default"));
-    setTheme(std::make_shared<Theme>());
+    auto theme = std::make_shared<Theme>();
+    theme->setPenguinUiConfig();
+    setTheme(theme);
 
 
     // override the default Wt auth templates
@@ -46,7 +51,11 @@ App::App(const Wt::WEnvironment &env)
     auto content = stack->addWidget(std::make_unique<Wt::WContainerWidget>());
     auto themeSwitcher = content->addWidget(std::make_unique<ThemeSwitcher>());
     auto darkModeToggle = content->addWidget(std::make_unique<DarkModeToggle>());
-    
+    auto widgetsDisplay = content->addNew<WidgetsDisplay>();
+    widgetsDisplay->createButtons();
+
+    // wApp->theme()->apply(btn, WidgetTheme::ButtonPrimary);
+
     stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
     auto authWidget = content->addWidget(std::make_unique<AuthWidget>(session_));
     authWidget->processEnvironment();

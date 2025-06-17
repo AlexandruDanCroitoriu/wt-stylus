@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Stylus Editor -->
+<messages>
+    <message id="penguin-ui-buttons">
+        <!-- primary Button -->
+        <div class="flex items-center text-center">
+            <h1>primary</h1>
+            <div class="">
+                <h2>sm</h2>
+                <div class="flex flex-col">
+                    <button type="button" class="whitespace-nowrap rounded-radius bg-primary border border-primary px-4 py-2 text-xs font-medium tracking-wide text-on-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark">Primary</button>
+                    <button type="button" class="whitespace-nowrap bg-transparent rounded-radius border border-primary px-4 py-2 text-xs font-medium tracking-wide text-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-primary-dark dark:text-primary-dark dark:focus-visible:outline-primary-dark">Outline</button>
+                    <button type="button" class="bg-transparent rounded-radius px-4 py-2 text-xs font-medium tracking-wide text-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:text-primary-dark dark:focus-visible:outline-primary-dark">Ghost</button>
+                    <button type="button" class="inline-flex justify-center items-center gap-2 whitespace-nowrap rounded-radius bg-primary border border-primary dark:border-primary-dark px-4 py-2 text-xs font-medium tracking-wide text-on-primary transition hover:opacity-75 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-4 fill-on-primary dark:fill-on-primary-dark" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd"/>
+                        </svg>
+                        <span>left icon</span>
+                    </button>
+                    <button type="button" class="inline-flex justify-center items-center gap-2 whitespace-nowrap rounded-radius bg-primary border border-primary dark:border-primary-dark px-4 py-2 text-xs font-medium tracking-wide text-on-primary transition hover:opacity-75 text-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark">
+                        <span>right icon</span>
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-4 fill-on-primary dark:fill-on-primary-dark" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="inline-flex items-center gap-2 whitespace-nowrap rounded-radius bg-primary border border-primary px-4 py-2 text-xs font-medium tracking-wide text-on-primary transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-4 animate-spin motion-reduce:animate-none fill-on-primary dark:fill-on-primary-dark">
+                            <path opacity="0.25" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"/>
+                            <path d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z"/>
+                        </svg>
+                        <span>Loading</span>
+                    </button>
+                    <button type="button" class="inline-flex items-center gap-2 whitespace-nowrap rounded-radius bg-primary border border-primary px-4 py-2 text-xs font-medium tracking-wide text-on-primary transition hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark ">
+                        <span>Loading</span>
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-4 animate-spin motion-reduce:animate-none fill-on-primary dark:fill-on-primary-dark">
+                            <path opacity="0.25" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"/>
+                            <path d="M10.14,1.16a11,11,0,0,0-9,8.92A1.59,1.59,0,0,0,2.46,12,1.52,1.52,0,0,0,4.11,10.7a8,8,0,0,1,6.66-6.61A1.42,1.42,0,0,0,12,2.69h0A1.57,1.57,0,0,0,10.14,1.16Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="">
+                <h2>md</h2>
+                <div class="flex">
+                    <button type="button" class="whitespace-nowrap rounded-radius bg-primary border border-primary px-4 py-2 text-sm font-medium tracking-wide text-on-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark">Primary</button>
+                </div>
+            </div>
+            <div class="">
+                <h2>lg</h2>
+                <div class="flex">
+                    <button type="button" class="whitespace-nowrap rounded-radius bg-primary border border-primary px-4 py-2 text-base font-medium tracking-wide text-on-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark">Primary</button>
+                </div>
+            </div>
+            <div class="">
+                <h2>xl</h2>
+                <div class="flex">
+                    <button type="button" class="whitespace-nowrap rounded-radius bg-primary border border-primary px-4 py-2 text-lg font-medium tracking-wide text-on-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark">Primary</button>
+                </div>
+            </div>
+        </div>
+        <!-- secondary Button -->
+        <div>
+            <h1>secondary</h1>
+            <div class="flex items-center "/>
+        </div>
+        <!-- alternate Button -->
+        <div>
+            <h1>alternate</h1>
+            <div class="flex items-center "/>
+        </div>
+        <!-- inverse Button -->
+        <div>
+            <h1>inverse</h1>
+            <div class="flex items-center "/>
+        </div>
+        <!-- info Button -->
+        <div>
+            <h1>info</h1>
+            <div class="flex items-center "/>
+        </div>
+        <!-- danger Button -->
+        <div>
+            <h1>danger</h1>
+            <div class="flex items-center "/>
+        </div>
+        <!-- warning Button -->
+        <div>
+            <h1>warning</h1>
+            <div class="flex items-center "/>
+        </div>
+        <!-- success Button -->
+        <div>
+            <h1>success</h1>
+            <div class="flex items-center "/>
+        </div>
+    </message>
+</messages>

@@ -18,6 +18,7 @@
 #include <Wt/WTimeEdit.h>
 #include <Wt/DomElement.h>
 #include <Wt/WJavaScriptPreamble.h>
+#include <Wt/WRandom.h>
 // /usr/local/include/Wt/WJavaScriptPreamble.h
 // /home/alex/libs/wt-11-release/src/Wt/Chart/WCartesianChart.C
 namespace skeletons
@@ -36,6 +37,30 @@ Theme::Theme(std::string name)
     : Wt::WTheme(),
       name_(name)
 {
+    widgetThemeClasses_ = {
+        {PenguinUiWidgetTheme::WComboBox, ""},
+        {PenguinUiWidgetTheme::WLineEdit, ""},
+        {PenguinUiWidgetTheme::ButtonPrimary, ""},
+        {PenguinUiWidgetTheme::ButtonSecondary, ""},
+        {PenguinUiWidgetTheme::ButtonSuccess, ""},
+        {PenguinUiWidgetTheme::ButtonDanger, ""},
+        {PenguinUiWidgetTheme::ButtonWarning, ""},
+        {PenguinUiWidgetTheme::ButtonInfo, ""},
+        {PenguinUiWidgetTheme::ButtonAlternate, ""},
+        {PenguinUiWidgetTheme::ButtonInverse, ""}
+    };
+}
+
+void Theme::setWidgetThemeClasses(PenguinUiWidgetTheme widgetTheme, const std::string &styleClasses)
+{
+    widgetThemeClasses_[widgetTheme] = styleClasses;
+}
+void Theme::addWidgetThemeClasses(PenguinUiWidgetTheme widgetTheme, const std::string &styleClasses)
+{
+    auto &currentClasses = widgetThemeClasses_[widgetTheme];
+    if (!currentClasses.empty())
+        currentClasses += " ";
+    currentClasses += styleClasses;
 }
 
 std::vector<Wt::WLinkedCssStyleSheet> Theme::styleSheets() const
@@ -46,7 +71,7 @@ std::vector<Wt::WLinkedCssStyleSheet> Theme::styleSheets() const
     {
         std::string themeDir = resourcesUrl();
         std::cout << "Theme directory: " << themeDir << std::endl;
-        result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink("static/tailwind.css")));
+        result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink("static/tailwind.css?" + Wt::WRandom::generateId())));
         result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink(themeDir + "wt.css")));
 
         if (wApp->environment().agentIsIElt(9))
@@ -143,151 +168,132 @@ void Theme::apply(Wt::WWidget *widget, Wt::WWidget *child, int widgetRole) const
     }
 }
 
-void Theme::apply(Wt::WWidget *widget, Wt::DomElement &element, int elementRole)
-    const
+
+void Theme::apply(Wt::WWidget *widget, Wt::DomElement& element, int elementRole)
+  const
 {
-    bool creating = element.mode() == Wt::DomElement::Mode::Create;
+  bool creating = element.mode() == Wt::DomElement::Mode::Create;
 
-    if (!widget->isThemeStyleEnabled())
+  if (!widget->isThemeStyleEnabled())
+    return;
+
+  {
+    Wt::WPopupWidget *popup = dynamic_cast<Wt::WPopupWidget *>(widget);
+    if (popup)
+      element.addPropertyWord(Wt::Property::Class, "Wt-outset");
+  }
+
+  switch (element.type()) {
+  case Wt::DomElementType::BUTTON:
+    if (creating) {
+      element.addPropertyWord(Wt::Property::Class, "Wt-btn");
+      Wt::WPushButton *b = dynamic_cast<Wt::WPushButton *>(widget);
+      if (b) {
+        if (b->isDefault())
+          element.addPropertyWord(Wt::Property::Class, "Wt-btn-default");
+
+        if (!b->text().empty())
+          element.addPropertyWord(Wt::Property::Class, "with-label");
+      }
+    }
+    break;
+
+  case Wt::DomElementType::UL:
+    if (dynamic_cast<Wt::WPopupMenu *>(widget))
+      element.addPropertyWord(Wt::Property::Class, "Wt-popupmenu Wt-outset");
+    else {
+      Wt::WTabWidget *tabs
+        = dynamic_cast<Wt::WTabWidget *>(widget->parent()->parent());
+
+      if (tabs)
+        element.addPropertyWord(Wt::Property::Class, "Wt-tabs");
+      else {
+        Wt::WSuggestionPopup *suggestions
+          = dynamic_cast<Wt::WSuggestionPopup *>(widget);
+
+        if (suggestions)
+          element.addPropertyWord(Wt::Property::Class, "Wt-suggest");
+      }
+    }
+    break;
+
+  case Wt::DomElementType::LI:
+    {
+      Wt::WMenuItem *item = dynamic_cast<Wt::WMenuItem *>(widget);
+      if (item) {
+        if (item->isSeparator())
+          element.addPropertyWord(Wt::Property::Class, "Wt-separator");
+           if (item->isSectionHeader())
+          element.addPropertyWord(Wt::Property::Class, "Wt-sectheader");
+        if (item->menu())
+          element.addPropertyWord(Wt::Property::Class, "submenu");
+      }
+    }
+    break;
+
+  case Wt::DomElementType::DIV:
+    {
+      Wt::WDialog *dialog = dynamic_cast<Wt::WDialog *>(widget);
+      if (dialog) {
+        element.addPropertyWord(Wt::Property::Class, "Wt-dialog");
         return;
+      }
 
-    {
-        Wt::WPopupWidget *popup = dynamic_cast<Wt::WPopupWidget *>(widget);
-        if (popup)
-            element.addPropertyWord(Wt::Property::Class, "Wt-outset");
-    }
+      Wt::WPanel *panel = dynamic_cast<Wt::WPanel *>(widget);
+      if (panel) {
+        element.addPropertyWord(Wt::Property::Class, "Wt-panel Wt-outset");
+        return;
+      }
 
-    switch (element.type())
-    {
-    case Wt::DomElementType::BUTTON:
-        if (creating)
-        {
-            element.addPropertyWord(Wt::Property::Class, "Wt-btn");
-            Wt::WPushButton *b = dynamic_cast<Wt::WPushButton *>(widget);
-            if (b)
-            {
-                if (b->isDefault())
-                    element.addPropertyWord(Wt::Property::Class, "Wt-btn-default");
-
-                if (!b->text().empty())
-                    element.addPropertyWord(Wt::Property::Class, "with-label");
-            }
+      Wt::WProgressBar *bar = dynamic_cast<Wt::WProgressBar *>(widget);
+      if (bar) {
+        switch (elementRole) {
+        case Wt::MainElement:
+          element.addPropertyWord(Wt::Property::Class, "Wt-progressbar");
+          break;
+        case Wt::ProgressBarBar:
+          element.addPropertyWord(Wt::Property::Class, "Wt-pgb-bar");
+          break;
+        case Wt::ProgressBarLabel:
+          element.addPropertyWord(Wt::Property::Class, "Wt-pgb-label");
         }
-        break;
-
-    case Wt::DomElementType::UL:
-        if (dynamic_cast<Wt::WPopupMenu *>(widget))
-            element.addPropertyWord(Wt::Property::Class, "Wt-popupmenu Wt-outset");
-        else
-        {
-            Wt::WTabWidget *tabs = dynamic_cast<Wt::WTabWidget *>(widget->parent()->parent());
-
-            if (tabs)
-                element.addPropertyWord(Wt::Property::Class, "Wt-tabs");
-            else
-            {
-                Wt::WSuggestionPopup *suggestions = dynamic_cast<Wt::WSuggestionPopup *>(widget);
-
-                if (suggestions)
-                    element.addPropertyWord(Wt::Property::Class, "Wt-suggest");
-            }
-        }
-        break;
-
-    case Wt::DomElementType::LI:
-    {
-        Wt::WMenuItem *item = dynamic_cast<Wt::WMenuItem *>(widget);
-        if (item)
-        {
-            if (item->isSeparator())
-                element.addPropertyWord(Wt::Property::Class, "Wt-separator");
-            if (item->isSectionHeader())
-                element.addPropertyWord(Wt::Property::Class, "Wt-sectheader");
-            if (item->menu())
-                element.addPropertyWord(Wt::Property::Class, "submenu");
-        }
-    }
-    case Wt::DomElementType::SELECT:
-    {
-        Wt::WComboBox *comboBox = dynamic_cast<Wt::WComboBox *>(widget);
-        if (comboBox)
-        {
-            element.addPropertyWord(Wt::Property::Class, "w-full appearance-none rounded-radius border border-outline bg-surface-alt px-4 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-75 dark:border-outline-dark dark:bg-surface-dark-alt/50 dark:focus-visible:outline-primary-dark");
-        }
-    }
-    break;
-
-    case Wt::DomElementType::DIV:
-    {
-        Wt::WDialog *dialog = dynamic_cast<Wt::WDialog *>(widget);
-        if (dialog)
-        {
-            element.addPropertyWord(Wt::Property::Class, "Wt-dialog");
-            return;
-        }
-
-        Wt::WPanel *panel = dynamic_cast<Wt::WPanel *>(widget);
-        if (panel)
-        {
-            element.addPropertyWord(Wt::Property::Class, "Wt-panel Wt-outset");
-            return;
-        }
-
-        Wt::WProgressBar *bar = dynamic_cast<Wt::WProgressBar *>(widget);
-        if (bar)
-        {
-            switch (elementRole)
-            {
-            case Wt::MainElement:
-                element.addPropertyWord(Wt::Property::Class, "Wt-progressbar");
-                break;
-            case Wt::ProgressBarBar:
-                element.addPropertyWord(Wt::Property::Class, "Wt-pgb-bar");
-                break;
-            case Wt::ProgressBarLabel:
-                element.addPropertyWord(Wt::Property::Class, "Wt-pgb-label");
-            }
-            return;
-        }
+        return;
+      }
     }
 
     break;
 
-    case Wt::DomElementType::INPUT:
+  case Wt::DomElementType::INPUT:
     {
-        Wt::WAbstractSpinBox *spinBox = dynamic_cast<Wt::WAbstractSpinBox *>(widget);
-        if (spinBox)
-        {
-            element.addPropertyWord(Wt::Property::Class, "Wt-spinbox");
-            return;
-        }
+      Wt::WAbstractSpinBox *spinBox = dynamic_cast<Wt::WAbstractSpinBox *>(widget);
+      if (spinBox) {
+        element.addPropertyWord(Wt::Property::Class, "Wt-spinbox");
+        return;
+      }
 
-        Wt::WDateEdit *dateEdit = dynamic_cast<Wt::WDateEdit *>(widget);
-        if (dateEdit)
-        {
-            element.addPropertyWord(Wt::Property::Class, "Wt-dateedit");
-            return;
-        }
+      Wt::WDateEdit *dateEdit = dynamic_cast<Wt::WDateEdit *>(widget);
+      if (dateEdit) {
+        element.addPropertyWord(Wt::Property::Class, "Wt-dateedit");
+        return;
+      }
 
-        Wt::WTimeEdit *timeEdit = dynamic_cast<Wt::WTimeEdit *>(widget);
-        if (timeEdit)
-        {
-            element.addPropertyWord(Wt::Property::Class, "Wt-timeedit");
-            return;
-        }
-
-        Wt::WLineEdit *lineEdit = dynamic_cast<Wt::WLineEdit *>(widget);
-        if (lineEdit)
-        {
-            element.addPropertyWord(Wt::Property::Class, "w-full rounded-radius border border-outline bg-surface-alt px-2 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-75 dark:border-outline-dark dark:bg-surface-dark-alt/50 dark:focus-visible:outline-primary-dark");
-        }
+      Wt::WTimeEdit *timeEdit = dynamic_cast<Wt::WTimeEdit *>(widget);
+      if (timeEdit) {
+        element.addPropertyWord(Wt::Property::Class, "Wt-timeedit");
+        return;
+      }
     }
     break;
 
-    default:
-        break;
-    }
+  default:
+    break;
+  }
 }
+void Theme::apply(Wt::WWidget *widget, PenguinUiWidgetTheme widgetTheme)
+{
+   widget->addStyleClass(widgetThemeClasses_[widgetTheme]);
+}
+
 
 std::string Theme::disabledClass() const
 {
@@ -352,4 +358,28 @@ void Theme::applyValidationStyle(Wt::WWidget *widget,
 bool Theme::canBorderBoxElement(WT_MAYBE_UNUSED const Wt::DomElement& element) const
 {
   return true;
+}
+
+void Theme::setPenguinUiConfig()
+{
+    setWidgetThemeClasses(PenguinUiWidgetTheme::WComboBox, "form-select");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::WLineEdit, "form-input");
+    
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonPrimary, "whitespace-nowrap rounded-radius bg-primary border border-primary px-4 py-2 font-medium tracking-wide text-on-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonSecondary, "whitespace-nowrap rounded-radius bg-secondary border border-secondary px-4 py-2 font-medium tracking-wide text-on-secondary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-secondary-dark dark:border-secondary-dark dark:text-on-secondary-dark dark:focus-visible:outline-secondary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonAlternate, "whitespace-nowrap rounded-radius bg-surface-alt border border-surface-alt px-4 py-2 font-medium tracking-wide text-on-surface-strong transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surface-alt active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-surface-dark-alt dark:border-surface-dark-alt dark:text-on-surface-dark-strong dark:focus-visible:outline-surface-dark-alt");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonInverse, "whitespace-nowrap rounded-radius bg-surface-dark border border-surface-dark px-4 py-2 font-medium tracking-wide text-on-surface-dark transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surface-dark active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-surface dark:border-surface dark:text-on-surface dark:focus-visible:outline-surface");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonInfo, "whitespace-nowrap rounded-radius bg-info border border-info px-4 py-2 font-medium tracking-wide text-onInfo transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-info active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-info dark:border-info dark:text-onInfo dark:focus-visible:outline-info");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonDanger, "whitespace-nowrap rounded-radius bg-danger border border-danger px-4 py-2 font-medium tracking-wide text-onDanger transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-danger dark:border-danger dark:text-onDanger dark:focus-visible:outline-danger");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonWarning, "whitespace-nowrap rounded-radius bg-warning border border-warning px-4 py-2 font-medium tracking-wide text-onWarning transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-warning active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-warning dark:border-warning dark:text-onWarning dark:focus-visible:outline-warning");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonSuccess, "whitespace-nowrap rounded-radius bg-success border border-success px-4 py-2 font-medium tracking-wide text-onSuccess transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-success dark:border-success dark:text-onSuccess dark:focus-visible:outline-success");
+
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonPrimaryOutline, "whitespace-nowrap bg-transparent rounded-radius border border-primary px-4 py-2 font-medium tracking-wide text-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-primary-dark dark:text-primary-dark dark:focus-visible:outline-primary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonSecondaryOutline, "whitespace-nowrap bg-transparent rounded-radius border border-secondary px-4 py-2 font-medium tracking-wide text-secondary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-secondary-dark dark:text-secondary-dark dark:focus-visible:outline-secondary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonAlternateOutline, "whitespace-nowrap bg-transparent rounded-radius border border-outline px-4 py-2 font-medium tracking-wide text-outline transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-outline active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-outline-dark dark:text-outline-dark dark:focus-visible:outline-outline-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonInfoOutline, "whitespace-nowrap bg-transparent rounded-radius border border-info px-4 py-2 font-medium tracking-wide text-info transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-info active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-info dark:text-info dark:focus-visible:outline-info");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonDangerOutline, "whitespace-nowrap bg-transparent rounded-radius border border-danger px-4 py-2 font-medium tracking-wide text-danger transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-danger dark:text-danger dark:focus-visible:outline-danger");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonWarningOutline, "whitespace-nowrap bg-transparent rounded-radius border border-warning px-4 py-2 font-medium tracking-wide text-warning transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-warning active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-warning dark:text-warning dark:focus-visible:outline-warning");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonSuccessOutline, "whitespace-nowrap bg-transparent rounded-radius border border-success px-4 py-2 font-medium tracking-wide text-success transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-success dark:text-success dark:focus-visible:outline-success");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonInverseOutline, "whitespace-nowrap bg-transparent rounded-radius border border-surface-dark px-4 py-2 font-medium tracking-wide text-surface-dark transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surface-dark active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-surface dark:text-surface dark:focus-visible:outline-surface");
 }

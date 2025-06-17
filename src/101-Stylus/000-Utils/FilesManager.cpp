@@ -244,7 +244,7 @@ void TreeNode::createNewFolderDialog()
     confirm_btn->clicked().connect(this, [=](){ 
         // check if the folder already exists
         std::string new_folder_name = new_folder_name_input->text().toUTF8();
-        std::string pattern = R"(^[a-z0-9-_]+$)";
+        std::string pattern = R"(^[a-zA-Z0-9-_]+$)";
         if(std::regex_match(new_folder_name, std::regex(pattern)) == false) {
             error_label->setText("Match reges:" + pattern);
             return;

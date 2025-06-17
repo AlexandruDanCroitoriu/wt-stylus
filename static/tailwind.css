@@ -134,6 +134,8 @@
     --text-xs--line-height: calc(1 / 0.75);
     --text-sm: 0.875rem;
     --text-sm--line-height: calc(1.25 / 0.875);
+    --text-base: 1rem;
+    --text-base--line-height: calc(1.5 / 1);
     --text-lg: 1.125rem;
     --text-lg--line-height: calc(1.75 / 1.125);
     --text-xl: 1.25rem;
@@ -159,6 +161,7 @@
     --radius-lg: 0.5rem;
     --radius-xl: 0.75rem;
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --animate-spin: spin 1s linear infinite;
     --blur-xs: 4px;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -752,6 +755,9 @@
   .transform-gpu {
     transform: translateZ(0) var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);
   }
+  .animate-spin {
+    animation: var(--animate-spin);
+  }
   .cursor-pointer {
     cursor: pointer;
   }
@@ -968,14 +974,38 @@
   .border-\[\#d1d5db\] {
     border-color: #d1d5db;
   }
+  .border-danger {
+    border-color: var(--color-danger);
+  }
   .border-gray-200 {
     border-color: var(--color-gray-200);
   }
   .border-gray-300 {
     border-color: var(--color-gray-300);
   }
+  .border-info {
+    border-color: var(--color-info);
+  }
   .border-outline {
     border-color: var(--color-outline);
+  }
+  .border-primary {
+    border-color: var(--color-primary);
+  }
+  .border-secondary {
+    border-color: var(--color-secondary);
+  }
+  .border-success {
+    border-color: var(--color-success);
+  }
+  .border-surface-alt {
+    border-color: var(--color-surface-alt);
+  }
+  .border-surface-dark {
+    border-color: var(--color-surface-dark);
+  }
+  .border-warning {
+    border-color: var(--color-warning);
   }
   .bg-\[\#FFC0CB\] {
     background-color: #FFC0CB;
@@ -1100,6 +1130,9 @@
   .bg-surface\/75 {
     background-color: color-mix(in oklab, var(--color-surface) 75%, transparent);
   }
+  .bg-transparent {
+    background-color: transparent;
+  }
   .bg-warning {
     background-color: var(--color-warning);
   }
@@ -1114,6 +1147,9 @@
   }
   .fill-green-400 {
     fill: var(--color-green-400);
+  }
+  .fill-on-primary {
+    fill: var(--color-on-primary);
   }
   .fill-on-surface-strong {
     fill: var(--color-on-surface-strong);
@@ -1240,6 +1276,10 @@
   .text-4xl {
     font-size: var(--text-4xl);
     line-height: var(--tw-leading, var(--text-4xl--line-height));
+  }
+  .text-base {
+    font-size: var(--text-base);
+    line-height: var(--tw-leading, var(--text-base--line-height));
   }
   .text-lg {
     font-size: var(--text-lg);
@@ -1789,6 +1829,12 @@
       text-decoration-line: underline;
     }
   }
+  .focus-visible\:outline {
+    &:focus-visible {
+      outline-style: var(--tw-outline-style);
+      outline-width: 1px;
+    }
+  }
   .focus-visible\:outline-2 {
     &:focus-visible {
       outline-style: var(--tw-outline-style);
@@ -1805,9 +1851,54 @@
       outline-offset: 2px;
     }
   }
+  .focus-visible\:outline-danger {
+    &:focus-visible {
+      outline-color: var(--color-danger);
+    }
+  }
+  .focus-visible\:outline-info {
+    &:focus-visible {
+      outline-color: var(--color-info);
+    }
+  }
+  .focus-visible\:outline-outline {
+    &:focus-visible {
+      outline-color: var(--color-outline);
+    }
+  }
   .focus-visible\:outline-primary {
     &:focus-visible {
       outline-color: var(--color-primary);
+    }
+  }
+  .focus-visible\:outline-secondary {
+    &:focus-visible {
+      outline-color: var(--color-secondary);
+    }
+  }
+  .focus-visible\:outline-success {
+    &:focus-visible {
+      outline-color: var(--color-success);
+    }
+  }
+  .focus-visible\:outline-surface-alt {
+    &:focus-visible {
+      outline-color: var(--color-surface-alt);
+    }
+  }
+  .focus-visible\:outline-surface-dark {
+    &:focus-visible {
+      outline-color: var(--color-surface-dark);
+    }
+  }
+  .focus-visible\:outline-warning {
+    &:focus-visible {
+      outline-color: var(--color-warning);
+    }
+  }
+  .active\:opacity-100 {
+    &:active {
+      opacity: 100%;
     }
   }
   .active\:outline-offset-0 {
@@ -1857,6 +1948,11 @@
           background-color: color-mix(in oklab, #EC133B 50%, transparent) !important;
         }
       }
+    }
+  }
+  .motion-reduce\:animate-none {
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
     }
   }
   .motion-reduce\:transition-none {
@@ -2094,6 +2190,11 @@
       border-color: color-mix(in oklab, #FFF 20%, transparent);
     }
   }
+  .dark\:border-danger {
+    &:where(.dark, .dark *) {
+      border-color: var(--color-danger);
+    }
+  }
   .dark\:border-gray-500 {
     &:where(.dark, .dark *) {
       border-color: var(--color-gray-500);
@@ -2104,9 +2205,44 @@
       border-color: var(--color-gray-600);
     }
   }
+  .dark\:border-info {
+    &:where(.dark, .dark *) {
+      border-color: var(--color-info);
+    }
+  }
   .dark\:border-outline-dark {
     &:where(.dark, .dark *) {
       border-color: var(--color-outline-dark);
+    }
+  }
+  .dark\:border-primary-dark {
+    &:where(.dark, .dark *) {
+      border-color: var(--color-primary-dark);
+    }
+  }
+  .dark\:border-secondary-dark {
+    &:where(.dark, .dark *) {
+      border-color: var(--color-secondary-dark);
+    }
+  }
+  .dark\:border-success {
+    &:where(.dark, .dark *) {
+      border-color: var(--color-success);
+    }
+  }
+  .dark\:border-surface {
+    &:where(.dark, .dark *) {
+      border-color: var(--color-surface);
+    }
+  }
+  .dark\:border-surface-dark-alt {
+    &:where(.dark, .dark *) {
+      border-color: var(--color-surface-dark-alt);
+    }
+  }
+  .dark\:border-warning {
+    &:where(.dark, .dark *) {
+      border-color: var(--color-warning);
     }
   }
   .dark\:bg-\[\#374151\] {
@@ -2117,6 +2253,11 @@
   .dark\:bg-black {
     &:where(.dark, .dark *) {
       background-color: var(--color-black);
+    }
+  }
+  .dark\:bg-danger {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-danger);
     }
   }
   .dark\:bg-gray-600 {
@@ -2139,6 +2280,11 @@
       background-color: var(--color-gray-900);
     }
   }
+  .dark\:bg-info {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-info);
+    }
+  }
   .dark\:bg-on-surface-dark {
     &:where(.dark, .dark *) {
       background-color: var(--color-on-surface-dark);
@@ -2152,6 +2298,21 @@
   .dark\:bg-primary-dark\/10 {
     &:where(.dark, .dark *) {
       background-color: color-mix(in oklab, var(--color-primary-dark) 10%, transparent);
+    }
+  }
+  .dark\:bg-secondary-dark {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-secondary-dark);
+    }
+  }
+  .dark\:bg-success {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-success);
+    }
+  }
+  .dark\:bg-surface {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-surface);
     }
   }
   .dark\:bg-surface-dark {
@@ -2184,6 +2345,16 @@
       background-color: color-mix(in oklab, var(--color-surface-dark) 75%, transparent);
     }
   }
+  .dark\:bg-warning {
+    &:where(.dark, .dark *) {
+      background-color: var(--color-warning);
+    }
+  }
+  .dark\:fill-on-primary-dark {
+    &:where(.dark, .dark *) {
+      fill: var(--color-on-primary-dark);
+    }
+  }
   .dark\:fill-on-surface-dark-strong {
     &:where(.dark, .dark *) {
       fill: var(--color-on-surface-dark-strong);
@@ -2202,6 +2373,11 @@
   .dark\:text-\[\#FFF\] {
     &:where(.dark, .dark *) {
       color: #FFF;
+    }
+  }
+  .dark\:text-danger {
+    &:where(.dark, .dark *) {
+      color: var(--color-danger);
     }
   }
   .dark\:text-gray-100 {
@@ -2224,9 +2400,24 @@
       color: var(--color-green-400);
     }
   }
+  .dark\:text-info {
+    &:where(.dark, .dark *) {
+      color: var(--color-info);
+    }
+  }
   .dark\:text-on-primary-dark {
     &:where(.dark, .dark *) {
       color: var(--color-on-primary-dark);
+    }
+  }
+  .dark\:text-on-secondary-dark {
+    &:where(.dark, .dark *) {
+      color: var(--color-on-secondary-dark);
+    }
+  }
+  .dark\:text-on-surface {
+    &:where(.dark, .dark *) {
+      color: var(--color-on-surface);
     }
   }
   .dark\:text-on-surface-dark {
@@ -2244,14 +2435,39 @@
       color: color-mix(in oklab, var(--color-on-surface-dark) 50%, transparent);
     }
   }
+  .dark\:text-outline-dark {
+    &:where(.dark, .dark *) {
+      color: var(--color-outline-dark);
+    }
+  }
   .dark\:text-primary-dark {
     &:where(.dark, .dark *) {
       color: var(--color-primary-dark);
     }
   }
+  .dark\:text-secondary-dark {
+    &:where(.dark, .dark *) {
+      color: var(--color-secondary-dark);
+    }
+  }
   .dark\:text-sky-400 {
     &:where(.dark, .dark *) {
       color: var(--color-sky-400);
+    }
+  }
+  .dark\:text-success {
+    &:where(.dark, .dark *) {
+      color: var(--color-success);
+    }
+  }
+  .dark\:text-surface {
+    &:where(.dark, .dark *) {
+      color: var(--color-surface);
+    }
+  }
+  .dark\:text-warning {
+    &:where(.dark, .dark *) {
+      color: var(--color-warning);
     }
   }
   .dark\:text-white {
@@ -2346,10 +2562,66 @@
       }
     }
   }
+  .dark\:focus-visible\:outline-danger {
+    &:where(.dark, .dark *) {
+      &:focus-visible {
+        outline-color: var(--color-danger);
+      }
+    }
+  }
+  .dark\:focus-visible\:outline-info {
+    &:where(.dark, .dark *) {
+      &:focus-visible {
+        outline-color: var(--color-info);
+      }
+    }
+  }
+  .dark\:focus-visible\:outline-outline-dark {
+    &:where(.dark, .dark *) {
+      &:focus-visible {
+        outline-color: var(--color-outline-dark);
+      }
+    }
+  }
   .dark\:focus-visible\:outline-primary-dark {
     &:where(.dark, .dark *) {
       &:focus-visible {
         outline-color: var(--color-primary-dark);
+      }
+    }
+  }
+  .dark\:focus-visible\:outline-secondary-dark {
+    &:where(.dark, .dark *) {
+      &:focus-visible {
+        outline-color: var(--color-secondary-dark);
+      }
+    }
+  }
+  .dark\:focus-visible\:outline-success {
+    &:where(.dark, .dark *) {
+      &:focus-visible {
+        outline-color: var(--color-success);
+      }
+    }
+  }
+  .dark\:focus-visible\:outline-surface {
+    &:where(.dark, .dark *) {
+      &:focus-visible {
+        outline-color: var(--color-surface);
+      }
+    }
+  }
+  .dark\:focus-visible\:outline-surface-dark-alt {
+    &:where(.dark, .dark *) {
+      &:focus-visible {
+        outline-color: var(--color-surface-dark-alt);
+      }
+    }
+  }
+  .dark\:focus-visible\:outline-warning {
+    &:where(.dark, .dark *) {
+      &:focus-visible {
+        outline-color: var(--color-warning);
       }
     }
   }
@@ -2358,38 +2630,6 @@
       &:where(.dark, .dark *) {
         background-color: var(--color-gray-700);
       }
-    }
-  }
-  .\[\&amp\;\&gt\;input\]\:w-full {
-    &amp;&gt;input {
-      width: 100%;
-    }
-  }
-  .\[\&amp\;\&gt\;input\]\:rounded-md {
-    &amp;&gt;input {
-      border-radius: var(--radius-md);
-    }
-  }
-  .\[\&amp\;\&gt\;input\]\:border {
-    &amp;&gt;input {
-      border-style: var(--tw-border-style);
-      border-width: 1px;
-    }
-  }
-  .\[\&amp\;\&gt\;input\]\:border-solid {
-    &amp;&gt;input {
-      --tw-border-style: solid;
-      border-style: solid;
-    }
-  }
-  .\[\&amp\;\&gt\;input\]\:px-2 {
-    &amp;&gt;input {
-      padding-inline: calc(var(--spacing) * 2);
-    }
-  }
-  .\[\&amp\;\&gt\;input\]\:py-1 {
-    &amp;&gt;input {
-      padding-block: calc(var(--spacing) * 1);
     }
   }
 }
@@ -3332,4 +3572,14 @@
   syntax: "*";
   inherits: false;
   initial-value: 1;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

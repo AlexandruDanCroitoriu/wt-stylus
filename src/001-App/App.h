@@ -15,5 +15,4 @@ private:
     Session session_;
     Stylus::Stylus* stylus_;
     void authEvent();
-
 };
