@@ -466,6 +466,9 @@
   .m-1 {
     margin: calc(var(--spacing) * 1);
   }
+  .m-1\.5 {
+    margin: calc(var(--spacing) * 1.5);
+  }
   .m-\[4px\] {
     margin: 4px;
   }

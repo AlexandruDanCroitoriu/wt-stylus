@@ -35,27 +35,29 @@ void WidgetsDisplay::createButtons()
 
     auto table = table_wrapper->addNew<Wt::WTable>();
     
-    table->setStyleClass("text-center text-on-surface dark:text-on-surface-dark ");
-    table->rowAt(0)->setStyleClass("border-t border-outline dark:border-outline-dark bg-surface-alt text-on-surface-strong dark:bg-surface-dark-alt dark:text-on-surface-dark-strong");
-    table->columnAt(0)->setStyleClass(" bg-surface-alt text-on-surface-strong dark:bg-surface-dark-alt dark:text-on-surface-dark-strong");
+    table->setStyleClass("text-center text-on-surface dark:text-on-surface-dark border-outline dark:border-outline-dark ");
+    table->rowAt(0)->setStyleClass("border-t border-outline dark:border-outline-dark bg-surface-alt text-on-surface-strong dark:bg-surface-dark-alt dark:text-on-surface-dark-strong font-semibold");
+    table->columnAt(0)->setStyleClass(" bg-surface-alt dark:bg-surface-dark-alt");
 
-    table->elementAt(0, 0)->addNew<Wt::WText>("buttons")->setStyleClass("text-sm font-semibold p-1 capitalize");
+    
+    // set the header border and text styles
+    table->elementAt(0, 0)->addNew<Wt::WText>("buttons")->setStyleClass("text-sm p-1 capitalize");
 
-    table->elementAt(1, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
-    table->elementAt(2, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
-    table->elementAt(3, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
-    table->elementAt(4, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
-    table->elementAt(5, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
-    table->elementAt(6, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
-    table->elementAt(7, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
-    table->elementAt(8, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
+    table->elementAt(1, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm p-1 capitalize text-on-surface-strong dark:text-on-surface-dark-strong font-semibold");
+    table->elementAt(2, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm p-1 capitalize text-on-surface-strong dark:text-on-surface-dark-strong font-semibold");
+    table->elementAt(3, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm p-1 capitalize text-on-surface-strong dark:text-on-surface-dark-strong font-semibold");
+    table->elementAt(4, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm p-1 capitalize text-on-surface-strong dark:text-on-surface-dark-strong font-semibold");
+    table->elementAt(5, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm p-1 capitalize text-on-surface-strong dark:text-on-surface-dark-strong font-semibold");
+    table->elementAt(6, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm p-1 capitalize text-on-surface-strong dark:text-on-surface-dark-strong font-semibold");
+    table->elementAt(7, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm p-1 capitalize text-on-surface-strong dark:text-on-surface-dark-strong font-semibold");
+    table->elementAt(8, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm p-1 capitalize text-on-surface-strong dark:text-on-surface-dark-strong font-semibold");
 
-    table->elementAt(0, 1)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
-    table->elementAt(0, 2)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
-    table->elementAt(0, 3)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
-    table->elementAt(0, 4)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
-    table->elementAt(0, 5)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
-    table->elementAt(0, 6)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
+    table->elementAt(0, 1)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm p-1 capitalize");
+    table->elementAt(0, 2)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm p-1 capitalize");
+    table->elementAt(0, 3)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm p-1 capitalize");
+    table->elementAt(0, 4)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm p-1 capitalize");
+    table->elementAt(0, 5)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm p-1 capitalize");
+    table->elementAt(0, 6)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm p-1 capitalize");
 
     table->elementAt(1, 0)->addNew<Wt::WText>("primary");
     table->elementAt(2, 0)->addNew<Wt::WText>("seccondary");
@@ -75,59 +77,59 @@ void WidgetsDisplay::createButtons()
 
 
 
-    table->elementAt(1, 1)->addNew<Button>("primary", "mx-auto my-1", PenguinUiWidgetTheme::BtnPrimary);
-    table->elementAt(2, 1)->addNew<Button>("seccondary", "mx-auto my-1", PenguinUiWidgetTheme::BtnSecondary);
-    table->elementAt(3, 1)->addNew<Button>("success", "mx-auto my-1", PenguinUiWidgetTheme::BtnSuccess);
-    table->elementAt(4, 1)->addNew<Button>("danger", "mx-auto my-1", PenguinUiWidgetTheme::BtnDanger);
-    table->elementAt(5, 1)->addNew<Button>("warning", "mx-auto my-1", PenguinUiWidgetTheme::BtnWarning);
-    table->elementAt(6, 1)->addNew<Button>("info", "mx-auto my-1", PenguinUiWidgetTheme::BtnInfo);
-    table->elementAt(7, 1)->addNew<Button>("alternate", "mx-auto my-1", PenguinUiWidgetTheme::BtnAlternate);
-    table->elementAt(8, 1)->addNew<Button>("inverse", "mx-auto my-1", PenguinUiWidgetTheme::BtnInverse);
+    table->elementAt(1, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnPrimary);
+    table->elementAt(2, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnSecondary);
+    table->elementAt(3, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnSuccess);
+    table->elementAt(4, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnDanger);
+    table->elementAt(5, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnWarning);
+    table->elementAt(6, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnInfo);
+    table->elementAt(7, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnAlternate);
+    table->elementAt(8, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnInverse);
 
-    table->elementAt(1, 2)->addNew<Button>("primary", "mx-auto my-1", PenguinUiWidgetTheme::BtnPrimaryOutline);
-    table->elementAt(2, 2)->addNew<Button>("seccondary", "mx-auto my-1", PenguinUiWidgetTheme::BtnSecondaryOutline);
-    table->elementAt(3, 2)->addNew<Button>("success", "mx-auto my-1", PenguinUiWidgetTheme::BtnSuccessOutline);
-    table->elementAt(4, 2)->addNew<Button>("danger", "mx-auto my-1", PenguinUiWidgetTheme::BtnDangerOutline);
-    table->elementAt(5, 2)->addNew<Button>("warning", "mx-auto my-1", PenguinUiWidgetTheme::BtnWarningOutline);
-    table->elementAt(6, 2)->addNew<Button>("info", "mx-auto my-1", PenguinUiWidgetTheme::BtnInfoOutline);
-    table->elementAt(7, 2)->addNew<Button>("alternate", "mx-auto my-1", PenguinUiWidgetTheme::BtnAlternateOutline);
-    table->elementAt(8, 2)->addNew<Button>("inverse", "mx-auto my-1", PenguinUiWidgetTheme::BtnInverseOutline);
+    table->elementAt(1, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnPrimaryOutline);
+    table->elementAt(2, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnSecondaryOutline);
+    table->elementAt(3, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnSuccessOutline);
+    table->elementAt(4, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnDangerOutline);
+    table->elementAt(5, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnWarningOutline);
+    table->elementAt(6, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnInfoOutline);
+    table->elementAt(7, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnAlternateOutline);
+    table->elementAt(8, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnInverseOutline);
 
-    table->elementAt(1, 3)->addNew<Button>("primary", "mx-auto my-1", PenguinUiWidgetTheme::BtnPrimaryGhost);
-    table->elementAt(2, 3)->addNew<Button>("seccondary", "mx-auto my-1", PenguinUiWidgetTheme::BtnSecondaryGhost);
-    table->elementAt(3, 3)->addNew<Button>("success", "mx-auto my-1", PenguinUiWidgetTheme::BtnSuccessGhost);
-    table->elementAt(4, 3)->addNew<Button>("danger", "mx-auto my-1", PenguinUiWidgetTheme::BtnDangerGhost);
-    table->elementAt(5, 3)->addNew<Button>("warning", "mx-auto my-1", PenguinUiWidgetTheme::BtnWarningGhost);
-    table->elementAt(6, 3)->addNew<Button>("info", "mx-auto my-1", PenguinUiWidgetTheme::BtnInfoGhost);
-    table->elementAt(7, 3)->addNew<Button>("alternate", "mx-auto my-1", PenguinUiWidgetTheme::BtnAlternateGhost);
-    table->elementAt(8, 3)->addNew<Button>("inverse", "mx-auto my-1", PenguinUiWidgetTheme::BtnInverseGhost);
+    table->elementAt(1, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnPrimaryGhost);
+    table->elementAt(2, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnSecondaryGhost);
+    table->elementAt(3, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnSuccessGhost);
+    table->elementAt(4, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnDangerGhost);
+    table->elementAt(5, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnWarningGhost);
+    table->elementAt(6, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnInfoGhost);
+    table->elementAt(7, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnAlternateGhost);
+    table->elementAt(8, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnInverseGhost);
 
-    table->elementAt(1, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-primary").toUTF8() + "with icon"), "mx-auto my-1", PenguinUiWidgetTheme::BtnPrimaryWithIcon);
-    table->elementAt(2, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-seccondary").toUTF8() + "with icon"), "mx-auto my-1", PenguinUiWidgetTheme::BtnSecondaryWithIcon);
-    table->elementAt(3, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-success").toUTF8() + "with icon"), "mx-auto my-1", PenguinUiWidgetTheme::BtnSuccessWithIcon);
-    table->elementAt(4, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-danger").toUTF8() + "with icon"), "mx-auto my-1", PenguinUiWidgetTheme::BtnDangerWithIcon);
-    table->elementAt(5, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-warning").toUTF8() + "with icon"), "mx-auto my-1", PenguinUiWidgetTheme::BtnWarningWithIcon);
-    table->elementAt(6, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-info").toUTF8() + "with icon"), "mx-auto my-1", PenguinUiWidgetTheme::BtnInfoWithIcon);
-    table->elementAt(7, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-alternate").toUTF8() + "with icon"), "mx-auto my-1", PenguinUiWidgetTheme::BtnAlternateWithIcon);
-    table->elementAt(8, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-inverse").toUTF8() + "with icon"), "mx-auto my-1", PenguinUiWidgetTheme::BtnInverseWithIcon);
+    table->elementAt(1, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-primary").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnPrimaryWithIcon);
+    table->elementAt(2, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-seccondary").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnSecondaryWithIcon);
+    table->elementAt(3, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-success").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnSuccessWithIcon);
+    table->elementAt(4, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-danger").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnDangerWithIcon);
+    table->elementAt(5, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-warning").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnWarningWithIcon);
+    table->elementAt(6, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-info").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnInfoWithIcon);
+    table->elementAt(7, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-alternate").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnAlternateWithIcon);
+    table->elementAt(8, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-inverse").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnInverseWithIcon);
 
-    table->elementAt(1, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-primary").toUTF8()), "mx-auto my-1", PenguinUiWidgetTheme::BtnPrimaryAction);
-    table->elementAt(2, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-seccondary").toUTF8()), "mx-auto my-1", PenguinUiWidgetTheme::BtnSecondaryAction);
-    table->elementAt(3, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-success").toUTF8()), "mx-auto my-1", PenguinUiWidgetTheme::BtnSuccessAction);
-    table->elementAt(4, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-danger").toUTF8()), "mx-auto my-1", PenguinUiWidgetTheme::BtnDangerAction);
-    table->elementAt(5, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-warning").toUTF8()), "mx-auto my-1", PenguinUiWidgetTheme::BtnWarningAction);
-    table->elementAt(6, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-info").toUTF8()), "mx-auto my-1", PenguinUiWidgetTheme::BtnInfoAction);
-    table->elementAt(7, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-alternate").toUTF8()), "mx-auto my-1", PenguinUiWidgetTheme::BtnAlternateAction);
-    table->elementAt(8, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-inverse").toUTF8()), "mx-auto my-1", PenguinUiWidgetTheme::BtnInverseAction);
+    table->elementAt(1, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-primary").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnPrimaryAction);
+    table->elementAt(2, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-seccondary").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnSecondaryAction);
+    table->elementAt(3, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-success").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnSuccessAction);
+    table->elementAt(4, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-danger").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnDangerAction);
+    table->elementAt(5, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-warning").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnWarningAction);
+    table->elementAt(6, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-info").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnInfoAction);
+    table->elementAt(7, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-alternate").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnAlternateAction);
+    table->elementAt(8, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-inverse").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnInverseAction);
 
-    table->elementAt(1, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-primary").toUTF8() + "loader"), "mx-auto my-1", PenguinUiWidgetTheme::BtnPrimaryLoader);
-    table->elementAt(2, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-seccondary").toUTF8() + "loader"), "mx-auto my-1", PenguinUiWidgetTheme::BtnSecondaryLoader);
-    table->elementAt(3, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-success").toUTF8() + "loader"), "mx-auto my-1", PenguinUiWidgetTheme::BtnSuccessLoader);
-    table->elementAt(4, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-danger").toUTF8() + "loader"), "mx-auto my-1", PenguinUiWidgetTheme::BtnDangerLoader);
-    table->elementAt(5, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-warning").toUTF8() + "loader"), "mx-auto my-1", PenguinUiWidgetTheme::BtnWarningLoader);
-    table->elementAt(6, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-info").toUTF8() + "loader"), "mx-auto my-1", PenguinUiWidgetTheme::BtnInfoLoader);
-    table->elementAt(7, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-alternate").toUTF8() + "loader"), "mx-auto my-1", PenguinUiWidgetTheme::BtnAlternateLoader);
-    table->elementAt(8, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-inverse").toUTF8() + "loader"), "mx-auto my-1", PenguinUiWidgetTheme::BtnInverseLoader);
+    table->elementAt(1, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-primary").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnPrimaryLoader);
+    table->elementAt(2, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-seccondary").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnSecondaryLoader);
+    table->elementAt(3, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-success").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnSuccessLoader);
+    table->elementAt(4, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-danger").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnDangerLoader);
+    table->elementAt(5, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-warning").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnWarningLoader);
+    table->elementAt(6, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-info").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnInfoLoader);
+    table->elementAt(7, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-alternate").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnAlternateLoader);
+    table->elementAt(8, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-inverse").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnInverseLoader);
 
     size_combobox->activated().connect([=](int index) {
         if(index == selected_size_ && table->hasStyleClass("text-" + size_combobox->itemText(index).toUTF8())) {
