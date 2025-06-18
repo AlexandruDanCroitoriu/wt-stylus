@@ -14,6 +14,9 @@ include_directories(${SOURCE_DIR})
 
 set(SOURCES
     ${SOURCE_DIR}/main.cpp
+    
+    ${SOURCE_DIR}/000-Components/Button.cpp
+
     ${SOURCE_DIR}/001-App/App.cpp
     ${SOURCE_DIR}/001-App/Server.cpp
     ${SOURCE_DIR}/002-Dbo/Session.cpp

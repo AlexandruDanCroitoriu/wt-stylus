@@ -1,9 +1,10 @@
 #include "000-Components/Button.h"
 #include <Wt/WApplication.h>
 
-
-Button::Button(int WidgetElementRole)
-    : Wt::WPushButton()
+Button::Button(const std::string& text, const std::string &style_classes, PenguinUiWidgetTheme widget_theme)
+    : Wt::WPushButton(text, Wt::TextFormat::UnsafeXHTML)
 {
-    wApp->theme()->apply(this, , WidgetElementRole);
+    dynamic_cast<Theme *>(wApp->theme().get())->applyTheme(this, widget_theme);
+    addStyleClass(style_classes);
+        
 }

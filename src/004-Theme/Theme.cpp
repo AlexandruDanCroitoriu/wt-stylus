@@ -19,6 +19,10 @@
 #include <Wt/DomElement.h>
 #include <Wt/WJavaScriptPreamble.h>
 #include <Wt/WRandom.h>
+#include <Wt/WTableCell.h>
+#include <Wt/WTableColumn.h>
+#include <Wt/WTableRow.h>
+
 // /usr/local/include/Wt/WJavaScriptPreamble.h
 // /home/alex/libs/wt-11-release/src/Wt/Chart/WCartesianChart.C
 namespace skeletons
@@ -40,14 +44,14 @@ Theme::Theme(std::string name)
     widgetThemeClasses_ = {
         {PenguinUiWidgetTheme::WComboBox, ""},
         {PenguinUiWidgetTheme::WLineEdit, ""},
-        {PenguinUiWidgetTheme::ButtonPrimary, ""},
-        {PenguinUiWidgetTheme::ButtonSecondary, ""},
-        {PenguinUiWidgetTheme::ButtonSuccess, ""},
-        {PenguinUiWidgetTheme::ButtonDanger, ""},
-        {PenguinUiWidgetTheme::ButtonWarning, ""},
-        {PenguinUiWidgetTheme::ButtonInfo, ""},
-        {PenguinUiWidgetTheme::ButtonAlternate, ""},
-        {PenguinUiWidgetTheme::ButtonInverse, ""}
+        {PenguinUiWidgetTheme::BtnPrimary, ""},
+        {PenguinUiWidgetTheme::BtnSecondary, ""},
+        {PenguinUiWidgetTheme::BtnSuccess, ""},
+        {PenguinUiWidgetTheme::BtnDanger, ""},
+        {PenguinUiWidgetTheme::BtnWarning, ""},
+        {PenguinUiWidgetTheme::BtnInfo, ""},
+        {PenguinUiWidgetTheme::BtnAlternate, ""},
+        {PenguinUiWidgetTheme::BtnInverse, ""}
     };
 }
 
@@ -188,7 +192,8 @@ void Theme::apply(Wt::WWidget *widget, Wt::DomElement& element, int elementRole)
     if (creating) {
       element.addPropertyWord(Wt::Property::Class, "Wt-btn");
       Wt::WPushButton *b = dynamic_cast<Wt::WPushButton *>(widget);
-      if (b) {
+      if (b) {  
+        element.addPropertyWord(Wt::Property::Class, widgetThemeClasses_.at(PenguinUiWidgetTheme::BtnDefault));
         if (b->isDefault())
           element.addPropertyWord(Wt::Property::Class, "Wt-btn-default");
 
@@ -288,10 +293,38 @@ void Theme::apply(Wt::WWidget *widget, Wt::DomElement& element, int elementRole)
   default:
     break;
   }
+  // Added extra from default configuration
+  Wt::WLineEdit *lineEdit = dynamic_cast<Wt::WLineEdit *>(widget);
+  if (lineEdit) {
+    element.addPropertyWord(Wt::Property::Class, widgetThemeClasses_.at(PenguinUiWidgetTheme::WLineEdit));
+  }
+  Wt::WComboBox *comboBox = dynamic_cast<Wt::WComboBox *>(widget);
+  if (comboBox) {
+    element.addPropertyWord(Wt::Property::Class, widgetThemeClasses_.at(PenguinUiWidgetTheme::WComboBox));
+  }
+
+  // if(dynamic_cast<Wt::WTableColumn *>(widget)) {
+  //   element.addPropertyWord(Wt::Property::Class, "Wt-table-column");
+  // }else if(dynamic_cast<Wt::WTableRow *>(widget)) {
+  //   element.addPropertyWord(Wt::Property::Class, "Wt-table-row");
+  // }else if(dynamic_cast<Wt::WTableCell *>(widget)) {
+  //   element.addPropertyWord(Wt::Property::Class, widgetThemeClasses_.at(PenguinUiWidgetTheme::TableCell));
+  // }
+  // if(element.type() == Wt::DomElementType::TD){
+  //   if (dynamic_cast<Wt::WTableColumn *>(widget)) {
+  //     element.addPropertyWord(Wt::Property::Class, widgetThemeClasses_.at(PenguinUiWidgetTheme::TableColumn));
+  //   }else if(dynamic_cast<Wt::WTableRow *>(widget)) {
+  //     element.addPropertyWord(Wt::Property::Class, widgetThemeClasses_.at(PenguinUiWidgetTheme::TableRow));
+  //   }else if(dynamic_cast<Wt::WTableCell *>(widget)) {
+  //     element.addPropertyWord(Wt::Property::Class, widgetThemeClasses_.at(PenguinUiWidgetTheme::TableCell));
+  //   }
+  // }
+  // end of custom added code
+
 }
-void Theme::apply(Wt::WWidget *widget, PenguinUiWidgetTheme widgetTheme)
+void Theme::applyTheme(Wt::WWidget *widget, PenguinUiWidgetTheme widgetTheme) const
 {
-   widget->addStyleClass(widgetThemeClasses_[widgetTheme]);
+   widget->addStyleClass(widgetThemeClasses_.at(widgetTheme));
 }
 
 
@@ -358,28 +391,97 @@ void Theme::applyValidationStyle(Wt::WWidget *widget,
 bool Theme::canBorderBoxElement(WT_MAYBE_UNUSED const Wt::DomElement& element) const
 {
   return true;
+
 }
 
 void Theme::setPenguinUiConfig()
 {
-    setWidgetThemeClasses(PenguinUiWidgetTheme::WComboBox, "form-select");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::WLineEdit, "form-input");
-    
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonPrimary, "whitespace-nowrap rounded-radius bg-primary border border-primary px-4 py-2 font-medium tracking-wide text-on-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonSecondary, "whitespace-nowrap rounded-radius bg-secondary border border-secondary px-4 py-2 font-medium tracking-wide text-on-secondary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-secondary-dark dark:border-secondary-dark dark:text-on-secondary-dark dark:focus-visible:outline-secondary-dark");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonAlternate, "whitespace-nowrap rounded-radius bg-surface-alt border border-surface-alt px-4 py-2 font-medium tracking-wide text-on-surface-strong transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surface-alt active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-surface-dark-alt dark:border-surface-dark-alt dark:text-on-surface-dark-strong dark:focus-visible:outline-surface-dark-alt");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonInverse, "whitespace-nowrap rounded-radius bg-surface-dark border border-surface-dark px-4 py-2 font-medium tracking-wide text-on-surface-dark transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surface-dark active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-surface dark:border-surface dark:text-on-surface dark:focus-visible:outline-surface");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonInfo, "whitespace-nowrap rounded-radius bg-info border border-info px-4 py-2 font-medium tracking-wide text-onInfo transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-info active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-info dark:border-info dark:text-onInfo dark:focus-visible:outline-info");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonDanger, "whitespace-nowrap rounded-radius bg-danger border border-danger px-4 py-2 font-medium tracking-wide text-onDanger transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-danger dark:border-danger dark:text-onDanger dark:focus-visible:outline-danger");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonWarning, "whitespace-nowrap rounded-radius bg-warning border border-warning px-4 py-2 font-medium tracking-wide text-onWarning transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-warning active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-warning dark:border-warning dark:text-onWarning dark:focus-visible:outline-warning");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonSuccess, "whitespace-nowrap rounded-radius bg-success border border-success px-4 py-2 font-medium tracking-wide text-onSuccess transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-success dark:border-success dark:text-onSuccess dark:focus-visible:outline-success");
 
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonPrimaryOutline, "whitespace-nowrap bg-transparent rounded-radius border border-primary px-4 py-2 font-medium tracking-wide text-primary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-primary-dark dark:text-primary-dark dark:focus-visible:outline-primary-dark");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonSecondaryOutline, "whitespace-nowrap bg-transparent rounded-radius border border-secondary px-4 py-2 font-medium tracking-wide text-secondary transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-secondary-dark dark:text-secondary-dark dark:focus-visible:outline-secondary-dark");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonAlternateOutline, "whitespace-nowrap bg-transparent rounded-radius border border-outline px-4 py-2 font-medium tracking-wide text-outline transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-outline active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-outline-dark dark:text-outline-dark dark:focus-visible:outline-outline-dark");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonInfoOutline, "whitespace-nowrap bg-transparent rounded-radius border border-info px-4 py-2 font-medium tracking-wide text-info transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-info active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-info dark:text-info dark:focus-visible:outline-info");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonDangerOutline, "whitespace-nowrap bg-transparent rounded-radius border border-danger px-4 py-2 font-medium tracking-wide text-danger transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-danger dark:text-danger dark:focus-visible:outline-danger");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonWarningOutline, "whitespace-nowrap bg-transparent rounded-radius border border-warning px-4 py-2 font-medium tracking-wide text-warning transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-warning active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-warning dark:text-warning dark:focus-visible:outline-warning");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonSuccessOutline, "whitespace-nowrap bg-transparent rounded-radius border border-success px-4 py-2 font-medium tracking-wide text-success transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-success dark:text-success dark:focus-visible:outline-success");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::ButtonInverseOutline, "whitespace-nowrap bg-transparent rounded-radius border border-surface-dark px-4 py-2 font-medium tracking-wide text-surface-dark transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surface-dark active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:border-surface dark:text-surface dark:focus-visible:outline-surface");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::WComboBox, "appearance-none rounded-radius border border-outline bg-surface-alt px-4 py-2 text-sm focus-visible:outline-2 text-on-surface dark:text-on-surface-dark focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-75 dark:border-outline-dark dark:bg-surface-dark-alt/50 dark:focus-visible:outline-primary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::WLineEdit, "form-input");
+
+    // setWidgetThemeClasses(PenguinUiWidgetTheme::TableCell, "");
+    // setWidgetThemeClasses(PenguinUiWidgetTheme::TableRow, "");
+    // setWidgetThemeClasses(PenguinUiWidgetTheme::TableColumn, "");
+
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnDefault, "inline-flex items-center justify-center border whitespace-nowrap px-4 py-2 font-medium text-center transition tracking-whide disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 active:opacity-100 disabled:opacity-75");
+
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnPrimary, "rounded-radius bg-primary border-primary text-on-primary hover:opacity-75 focus-visible:outline-primary active:outline-offset-0 dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnSecondary, "rounded-radius bg-secondary border-secondary text-on-secondary hover:opacity-75 focus-visible:outline-secondary active:outline-offset-0 dark:bg-secondary-dark dark:border-secondary-dark dark:text-on-secondary-dark dark:focus-visible:outline-secondary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnAlternate, "rounded-radius bg-surface-alt border-surface-alt text-on-surface-strong hover:opacity-75 focus-visible:outline-surface-alt active:outline-offset-0 dark:bg-surface-dark-alt dark:border-surface-dark-alt dark:text-on-surface-dark-strong dark:focus-visible:outline-surface-dark-alt");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnInverse, "rounded-radius bg-surface-dark border-surface-dark text-on-surface-dark hover:opacity-75 focus-visible:outline-surface-dark active:outline-offset-0 dark:bg-surface dark:border-surface dark:text-on-surface dark:focus-visible:outline-surface");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnInfo, "rounded-radius bg-info border-info text-on-info hover:opacity-75 focus-visible:outline-info active:outline-offset-0 dark:bg-info dark:border-info dark:text-on-info dark:focus-visible:outline-info");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnDanger, "rounded-radius bg-danger border-danger text-on-danger hover:opacity-75 focus-visible:outline-danger active:outline-offset-0 dark:bg-danger dark:border-danger dark:text-on-danger dark:focus-visible:outline-danger");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnWarning, "rounded-radius bg-warning border-warning text-on-warning hover:opacity-75 focus-visible:outline-warning active:outline-offset-0 dark:bg-warning dark:border-warning dark:text-on-warning dark:focus-visible:outline-warning");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnSuccess, "rounded-radius bg-success border-success text-on-success hover:opacity-75 focus-visible:outline-success active:outline-offset-0 dark:bg-success dark:border-success dark:text-on-success dark:focus-visible:outline-success");
+
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnPrimaryOutline, "bg-transparent rounded-radius border-primary text-primary hover:opacity-75 focus-visible:outline-primary active:outline-offset-0 dark:border-primary-dark dark:text-primary-dark dark:focus-visible:outline-primary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnSecondaryOutline, "bg-transparent rounded-radius border-secondary text-secondary hover:opacity-75 focus-visible:outline-secondary active:outline-offset-0 dark:border-secondary-dark dark:text-secondary-dark dark:focus-visible:outline-secondary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnAlternateOutline, "bg-transparent rounded-radius border-outline text-outline hover:opacity-75 focus-visible:outline-outline active:outline-offset-0 dark:border-outline-dark dark:text-outline-dark dark:focus-visible:outline-outline-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnInfoOutline, "bg-transparent rounded-radius border-info text-info hover:opacity-75 focus-visible:outline-info active:outline-offset-0 dark:border-info dark:text-info dark:focus-visible:outline-info");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnDangerOutline, "bg-transparent rounded-radius border-danger text-danger hover:opacity-75 focus-visible:outline-danger active:outline-offset-0 dark:border-danger dark:text-danger dark:focus-visible:outline-danger");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnWarningOutline, "bg-transparent rounded-radius border-warning text-warning hover:opacity-75 focus-visible:outline-warning active:outline-offset-0 dark:border-warning dark:text-warning dark:focus-visible:outline-warning");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnSuccessOutline, "bg-transparent rounded-radius border-success text-success hover:opacity-75 focus-visible:outline-success active:outline-offset-0 dark:border-success dark:text-success dark:focus-visible:outline-success");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnInverseOutline, "bg-transparent rounded-radius border-surface-dark text-surface-dark hover:opacity-75 focus-visible:outline-surface-dark active:outline-offset-0 dark:border-surface dark:text-surface dark:focus-visible:outline-surface");
+
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnPrimaryGhost, "border-none bg-transparent rounded-radius text-primary hover:opacity-75 focus-visible:outline-primary active:outline-offset-0 dark:text-primary-dark dark:focus-visible:outline-primary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnSecondaryGhost, "border-none bg-transparent rounded-radius text-secondary hover:opacity-75 focus-visible:outline-secondary active:outline-offset-0 dark:text-secondary-dark dark:focus-visible:outline-secondary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnAlternateGhost, "border-none bg-transparent rounded-radius text-outline hover:opacity-75 focus-visible:outline-outline active:outline-offset-0 dark:text-outline-dark dark:focus-visible:outline-outline-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnInverseGhost, "border-none bg-transparent rounded-radius text-surface-dark hover:opacity-75 focus-visible:outline-surface-dark active:outline-offset-0 dark:text-surface dark:focus-visible:outline-surface");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnInfoGhost, "border-none bg-transparent rounded-radius text-info hover:opacity-75 focus-visible:outline-info active:outline-offset-0 dark:text-info dark:focus-visible:outline-info");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnDangerGhost, "border-none bg-transparent rounded-radius text-danger hover:opacity-75 focus-visible:outline-danger active:outline-offset-0 dark:text-danger dark:focus-visible:outline-danger");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnWarningGhost, "border-none bg-transparent rounded-radius text-warning hover:opacity-75 focus-visible:outline-warning active:outline-offset-0 dark:text-warning dark:focus-visible:outline-warning");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnSuccessGhost, "border-none bg-transparent rounded-radius text-success hover:opacity-75 focus-visible:outline-success active:outline-offset-0 dark:text-success dark:focus-visible:outline-success");
+
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnPrimaryWithIcon, "gap-2 rounded-radius bg-primary border-primary dark:border-primary-dark text-on-primary hover:opacity-75 focus-visible:outline focus-visible:outline-primary active:outline-offset-0 dark:bg-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnSecondaryWithIcon, "gap-2 rounded-radius bg-secondary border-secondary dark:border-secondary-dark text-on-secondary hover:opacity-75 focus-visible:outline focus-visible:outline-secondary active:outline-offset-0 dark:bg-secondary-dark dark:text-on-secondary-dark dark:focus-visible:outline-secondary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnAlternateWithIcon, "gap-2 rounded-radius bg-surface-alt border-surface-alt dark:border-surface-dark-alt text-on-surface-strong hover:opacity-75 focus-visible:outline focus-visible:outline-surface-alt active:outline-offset-0 dark:bg-surface-dark-alt dark:text-on-surface-dark-strong dark:focus-visible:outline-surface-dark-alt");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnInverseWithIcon, "gap-2 rounded-radius bg-surface-dark border-surface-dark dark:border-surface text-on-surface-dark hover:opacity-75 focus-visible:outline focus-visible:outline-surface-dark active:outline-offset-0 dark:bg-surface dark:text-on-surface dark:focus-visible:outline-surface");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnInfoWithIcon, "gap-2 rounded-radius bg-info border-info dark:border-info text-on-info hover:opacity-75 focus-visible:outline focus-visible:outline-info active:outline-offset-0 dark:bg-info dark:text-on-info dark:focus-visible:outline-info");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnDangerWithIcon, "gap-2 rounded-radius bg-danger border-danger dark:border-danger text-on-danger hover:opacity-75 focus-visible:outline focus-visible:outline-danger active:outline-offset-0 dark:bg-danger dark:text-on-danger dark:focus-visible:outline-danger");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnWarningWithIcon, "gap-2 rounded-radius bg-warning border-warning dark:border-warning text-on-warning hover:opacity-75 focus-visible:outline focus-visible:outline-warning active:outline-offset-0 dark:bg-warning dark:text-on-warning dark:focus-visible:outline-warning");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnSuccessWithIcon, "gap-2 rounded-radius bg-success border-success dark:border-success text-on-success hover:opacity-75 focus-visible:outline focus-visible:outline-success active:outline-offset-0 dark:bg-success dark:text-on-success dark:focus-visible:outline-success");
+
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnPrimaryAction, "aspect-square !p-2 rounded-full border-primary bg-primary p-2 text-on-primary hover:opacity-75 focus-visible:outline-primary active:outline-offset-0 dark:border-primary-dark dark:bg-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnSecondaryAction, "aspect-square !p-2 rounded-full border-secondary bg-secondary p-2 text-on-secondary hover:opacity-75 focus-visible:outline-secondary active:outline-offset-0 dark:border-secondary-dark dark:bg-secondary-dark dark:text-on-secondary-dark dark:focus-visible:outline-secondary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnAlternateAction, "aspect-square !p-2 rounded-full border-surface-alt bg-surface-alt p-2 text-on-surface-strong hover:opacity-75 focus-visible:outline-surface-alt active:outline-offset-0 dark:border-surface-dark-alt dark:bg-surface-dark-alt dark:text-on-surface-dark-strong dark:focus-visible:outline-surface-dark-alt");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnInverseAction, "aspect-square !p-2 rounded-full border-surface-dark bg-surface-dark p-2 text-on-surface-dark hover:opacity-75 focus-visible:outline-surface-dark active:outline-offset-0 dark:border-surface dark:bg-surface dark:text-on-surface dark:focus-visible:outline-surface");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnInfoAction, "aspect-square !p-2 rounded-full border-info bg-info p-2 text-on-info hover:opacity-75 focus-visible:outline-info active:outline-offset-0 dark:border-info dark:bg-info dark:text-on-info dark:focus-visible:outline-info");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnDangerAction, "aspect-square !p-2 rounded-full border-danger bg-danger p-2 text-on-danger hover:opacity-75 focus-visible:outline-danger active:outline-offset-0 dark:border-danger dark:bg-danger dark:text-on-danger dark:focus-visible:outline-danger");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnWarningAction, "aspect-square !p-2 rounded-full border-warning bg-warning p-2 text-on-warning hover:opacity-75 focus-visible:outline-warning active:outline-offset-0 dark:border-warning dark:bg-warning dark:text-on-warning dark:focus-visible:outline-warning");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnSuccessAction, "aspect-square !p-2 rounded-full border-success bg-success p-2 text-on-success hover:opacity-75 focus-visible:outline-success active:outline-offset-0 dark:border-success dark:bg-success dark:text-on-success dark:focus-visible:outline-success");
+
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnPrimaryLoader, "gap-2 rounded-radius bg-primary border-primary text-on-primary hover:opacity-75 focus-visible:outline-primary active:outline-offset-0 dark:bg-primary-dark dark:border-primary-dark dark:text-on-primary-dark dark:focus-visible:outline-primary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnSecondaryLoader, "gap-2 rounded-radius bg-secondary border-secondary text-on-secondary hover:opacity-75 focus-visible:outline-secondary active:outline-offset-0 dark:bg-secondary-dark dark:border-secondary-dark dark:text-on-secondary-dark dark:focus-visible:outline-secondary-dark");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnAlternateLoader, "gap-2 rounded-radius bg-surface-alt border-surface-alt text-on-surface-strong hover:opacity-75 focus-visible:outline-surface-alt active:outline-offset-0 dark:bg-surface-dark-alt dark:border-surface-dark-alt dark:text-on-surface-dark-strong dark:focus-visible:outline-surface-dark-alt");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnInverseLoader, "gap-2 rounded-radius bg-surface-dark border-surface-dark text-on-surface-dark hover:opacity-75 focus-visible:outline-surface-dark active:outline-offset-0 dark:bg-surface dark:border-surface dark:text-on-surface dark:focus-visible:outline-surface");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnInfoLoader, "gap-2 rounded-radius bg-info border-info text-on-info hover:opacity-75 focus-visible:outline-info active:outline-offset-0 dark:bg-info dark:border-info dark:text-on-info dark:focus-visible:outline-info");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnDangerLoader, "gap-2 rounded-radius bg-danger border-danger text-on-danger hover:opacity-75 focus-visible:outline-danger active:outline-offset-0 dark:bg-danger dark:border-danger dark:text-on-danger dark:focus-visible:outline-danger");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnWarningLoader, "gap-2 rounded-radius bg-warning border-warning text-on-warning hover:opacity-75 focus-visible:outline-warning active:outline-offset-0 dark:bg-warning dark:border-warning dark:text-on-warning dark:focus-visible:outline-warning");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::BtnSuccessLoader, "gap-2 rounded-radius bg-success border-success text-on-success hover:opacity-75 focus-visible:outline-success active:outline-offset-0 dark:bg-success dark:border-success dark:text-on-success dark:focus-visible:outline-success");
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

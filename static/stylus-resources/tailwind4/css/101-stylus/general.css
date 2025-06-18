@@ -1,35 +1,8 @@
 @import "tailwindcss";
   
-:root { 
-	/* used by all stylus widgets except text editors */
-	/* --stylus-bg: rgb(248, 248, 248); */
-	/* --stylus-text: rgb(0, 0, 0); */
-	/* --stylus-text: rgb(248, 248, 248); */
-	/* --stylus-bg-dark: rgb(30, 30, 30);  */
-	/* --stylus-text-dark: rgb(232, 232, 232); */
-	  
-	/* used by widgets used to preview elements to indicate the selected or hovered node */
-	/* --selected: rgb(107, 241, 147); */
-	/* --selected-hover: rgb(40, 107, 231);  */
-	/* --selected: rgb(40, 107, 231); */
-	/* --selected-hover: rgb(107, 241, 147); */
-	 
-	/* --error: rgb(255, 140, 140);
-	--preview-message: #fff;
-	--preview-node: rgb(86, 156, 214);
-	--preview-node-text: rgb(212, 212, 212);
-	--tree-messages: #a21caf;
-	--tree-message: #9333ea;
-	--tree-message-id: #0891b2;
-	--tree-condition: #84cc16;
-	--template-var-attribute: #06b6d4;
-	--template-var-name: #d946ef;
-	--template-function: #c026d3; */
-}
- 
 /* Scrollbar */
 .stylus-scrollbar::-webkit-scrollbar-track 
-{
+{ 
 	@apply dark:bg-gray-950 rounded-[10px];
 }
 .stylus-scrollbar::-webkit-scrollbar
@@ -46,6 +19,7 @@
 	/* @apply bg-gray-100 text-black bg-[length:35px_35px] bg-[radial-gradient(var(--color-gray-300)_5%,_transparent_0)] dark:bg-gray-950 dark:text-white dark:bg-[radial-gradient(var(--color-gray-900)_5%,_transparent_0)]; */
 	@apply border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt;
 }
+/* border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt */
 .stylus-menu { 
 	@apply hover:bg-blue-400/20 dark:hover:bg-blue-700/30;
 } 

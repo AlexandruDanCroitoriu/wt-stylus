@@ -67,24 +67,65 @@ enum PenguinUiWidgetTheme {
     WLineEdit = 11,
 
     // Buttons
-    ButtonPrimary = 100,
-    ButtonSecondary = 101,
-    ButtonSuccess = 102,
-    ButtonDanger = 103,
-    ButtonWarning = 104,
-    ButtonInfo = 105,
-    ButtonAlternate = 106,
-    ButtonInverse = 107,
-    ButtonPrimaryOutline = 108,
-    ButtonSecondaryOutline = 109,
-    ButtonSuccessOutline = 110,
-    ButtonDangerOutline = 111,
-    ButtonWarningOutline = 112,
-    ButtonInfoOutline = 113,
-    ButtonAlternateOutline = 114,
-    ButtonInverseOutline = 115,
-    
+    BtnDefault = 99,
 
+    BtnPrimary = 100,
+    BtnSecondary = 101,
+    BtnSuccess = 102,
+    BtnDanger = 103,
+    BtnWarning = 104,
+    BtnInfo = 105,
+    BtnAlternate = 106,
+    BtnInverse = 107,
+    
+    BtnPrimaryOutline = 108,
+    BtnSecondaryOutline = 109,
+    BtnSuccessOutline = 110,
+    BtnDangerOutline = 111,
+    BtnWarningOutline = 112,
+    BtnInfoOutline = 113,
+    BtnAlternateOutline = 114,
+    BtnInverseOutline = 115,
+    
+    BtnPrimaryGhost = 116,
+    BtnSecondaryGhost = 117,
+    BtnSuccessGhost = 118,
+    BtnDangerGhost = 119,
+    BtnWarningGhost = 120,
+    BtnInfoGhost = 121,
+    BtnAlternateGhost = 122,
+    BtnInverseGhost = 123,
+
+    BtnPrimaryWithIcon = 124,
+    BtnSecondaryWithIcon = 125,
+    BtnSuccessWithIcon = 126,
+    BtnDangerWithIcon = 127,
+    BtnWarningWithIcon = 128,
+    BtnInfoWithIcon = 129,
+    BtnAlternateWithIcon = 130,
+    BtnInverseWithIcon = 131,
+    
+    BtnPrimaryAction = 132,
+    BtnSecondaryAction = 133,
+    BtnSuccessAction = 134,
+    BtnDangerAction = 135,
+    BtnWarningAction = 136,
+    BtnInfoAction = 137,
+    BtnAlternateAction = 138,
+    BtnInverseAction = 139,
+
+    BtnPrimaryLoader = 140,
+    BtnSecondaryLoader = 141,
+    BtnSuccessLoader = 142,
+    BtnDangerLoader = 143,
+    BtnWarningLoader = 144,
+    BtnInfoLoader = 145,
+    BtnAlternateLoader = 146,
+    BtnInverseLoader = 147,
+
+    TableCell = 200,
+    TableRow = 201,
+    TableColumn = 202,
 };
 
 class Theme : public Wt::WTheme
@@ -107,7 +148,7 @@ public:
 
     virtual void apply(Wt::WWidget *widget, Wt::WWidget *child, int widgetRole) const override;
     virtual void apply(Wt::WWidget *widget, Wt::DomElement &element, int elementRole) const override;
-    void apply(Wt::WWidget *widget, PenguinUiWidgetTheme widgetTheme);
+    void applyTheme(Wt::WWidget *widget, PenguinUiWidgetTheme widgetTheme) const;
 
     /*! \brief Returns a generic CSS class name for a disabled element.
      *
