@@ -32,31 +32,31 @@ void WidgetsDisplay::createButtons()
     size_combobox->insertItem(ButtonSize::LG, "lg");
     size_combobox->insertItem(ButtonSize::XL, "xl");
 
-    table_header_wrapper->addNew<Wt::WText>("Button examples")->setStyleClass("text-lg font-semibold text-on-surface-strong dark:text-on-surface-dark-strong");
+    table_header_wrapper->addNew<Wt::WText>("Button examples")->setStyleClass("ml-2 text-lg font-semibold text-on-surface-strong dark:text-on-surface-dark-strong");
 
     auto table = table_wrapper->addNew<Wt::WTable>();
     
     table->setStyleClass("text-center text-on-surface dark:text-on-surface-dark ");
-    table->rowAt(0)->setStyleClass("border-t bg-surface-alt text-on-surface-strong dark:bg-surface-dark-alt dark:text-on-surface-dark-strong");
+    table->rowAt(0)->setStyleClass("border-t border-outline dark:border-outline-dark bg-surface-alt text-on-surface-strong dark:bg-surface-dark-alt dark:text-on-surface-dark-strong");
     table->columnAt(0)->setStyleClass(" bg-surface-alt text-on-surface-strong dark:bg-surface-dark-alt dark:text-on-surface-dark-strong");
 
     table->elementAt(0, 0)->addNew<Wt::WText>("buttons")->setStyleClass("text-sm font-semibold p-1 capitalize");
 
-    table->elementAt(0, 1)->addStyleClass("border-b text-sm font-semibold p-1 capitalize");
-    table->elementAt(0, 2)->addStyleClass("border-b text-sm font-semibold p-1 capitalize");
-    table->elementAt(0, 3)->addStyleClass("border-b text-sm font-semibold p-1 capitalize");
-    table->elementAt(0, 4)->addStyleClass("border-b text-sm font-semibold p-1 capitalize");
-    table->elementAt(0, 5)->addStyleClass("border-b text-sm font-semibold p-1 capitalize");
-    table->elementAt(0, 6)->addStyleClass("border-b text-sm font-semibold p-1 capitalize");
-    table->elementAt(0, 7)->addStyleClass("border-b text-sm font-semibold p-1 capitalize");
-    table->elementAt(0, 8)->addStyleClass("border-b text-sm font-semibold p-1 capitalize");
+    table->elementAt(0, 1)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
+    table->elementAt(0, 2)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
+    table->elementAt(0, 3)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
+    table->elementAt(0, 4)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
+    table->elementAt(0, 5)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
+    table->elementAt(0, 6)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
+    table->elementAt(0, 7)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
+    table->elementAt(0, 8)->addStyleClass("border-b border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize");
 
-    table->elementAt(1, 0)->addStyleClass("border-r text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
-    table->elementAt(2, 0)->addStyleClass("border-r text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
-    table->elementAt(3, 0)->addStyleClass("border-r text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
-    table->elementAt(4, 0)->addStyleClass("border-r text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
-    table->elementAt(5, 0)->addStyleClass("border-r text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
-    table->elementAt(6, 0)->addStyleClass("border-r text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
+    table->elementAt(1, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
+    table->elementAt(2, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
+    table->elementAt(3, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
+    table->elementAt(4, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
+    table->elementAt(5, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
+    table->elementAt(6, 0)->addStyleClass("border-r border-outline dark:border-outline-dark text-sm font-semibold p-1 capitalize text-on-surface-strong dark:text-on-surface-dark");
 
     table->elementAt(0, 1)->addNew<Wt::WText>("primary");
     table->elementAt(0, 2)->addNew<Wt::WText>("seccondary");

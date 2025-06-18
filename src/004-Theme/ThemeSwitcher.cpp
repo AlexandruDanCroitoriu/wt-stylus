@@ -35,6 +35,7 @@ ThemeSwitcher::ThemeSwitcher()
         wApp->globalKeyWentDown().emit(event);
     });
 
+    activated().emit(currentIndex()); // Emit the current index to apply the theme immediately
 
 }
 
