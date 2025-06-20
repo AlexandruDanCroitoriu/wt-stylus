@@ -74,7 +74,7 @@ std::vector<Wt::WLinkedCssStyleSheet> Theme::styleSheets() const
     if (!name_.empty())
     {
         std::string themeDir = resourcesUrl();
-        std::cout << "Theme directory: " << themeDir << std::endl;
+        // std::cout << "Theme directory: " << themeDir << std::endl;
         result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink("static/tailwind.css?" + Wt::WRandom::generateId())));
         result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink(themeDir + "wt.css")));
 
@@ -109,10 +109,10 @@ void Theme::apply(Wt::WWidget *widget, Wt::WWidget *child, int widgetRole) const
         break;
 
     case Wt::WidgetThemeRole::DialogCoverWidget:
-        child->setStyleClass("Wt-dialogcover in");
+        child->setStyleClass("bg-surface dark:bg-surface-dark");
         break;
     case Wt::WidgetThemeRole::DialogTitleBar:
-        child->addStyleClass("titlebar");
+        child->addStyleClass("rounded-radius cursor-move text-md font-semibold text-on-surface-strong dark:text-on-surface-dark-strong p-2 border-b border-outline dark:border-outline-dark bg-surface dark:bg-surface-dark text-center");
         break;
     case Wt::WidgetThemeRole::DialogBody:
         child->addStyleClass("body");
@@ -173,8 +173,7 @@ void Theme::apply(Wt::WWidget *widget, Wt::WWidget *child, int widgetRole) const
 }
 
 
-void Theme::apply(Wt::WWidget *widget, Wt::DomElement& element, int elementRole)
-  const
+void Theme::apply(Wt::WWidget *widget, Wt::DomElement& element, int elementRole) const
 {
   bool creating = element.mode() == Wt::DomElement::Mode::Create;
 
@@ -240,7 +239,7 @@ void Theme::apply(Wt::WWidget *widget, Wt::DomElement& element, int elementRole)
     {
       Wt::WDialog *dialog = dynamic_cast<Wt::WDialog *>(widget);
       if (dialog) {
-        element.addPropertyWord(Wt::Property::Class, "Wt-dialog");
+        element.addPropertyWord(Wt::Property::Class, "rounded-radius border-outline bg-surface-alt p-4 dark:border-outline-dark dark:bg-surface-dark-alt");
         return;
       }
 
@@ -289,7 +288,6 @@ void Theme::apply(Wt::WWidget *widget, Wt::DomElement& element, int elementRole)
       }
     }
     break;
-
   default:
     break;
   }
@@ -398,7 +396,8 @@ void Theme::setPenguinUiConfig()
 {
 
     setWidgetThemeClasses(PenguinUiWidgetTheme::WComboBox, "appearance-none rounded-radius border border-outline bg-surface-alt px-4 py-2 text-sm focus-visible:outline-2 text-on-surface dark:text-on-surface-dark focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-75 dark:border-outline-dark dark:bg-surface-dark-alt/50 dark:focus-visible:outline-primary-dark");
-    setWidgetThemeClasses(PenguinUiWidgetTheme::WLineEdit, "form-input");
+    setWidgetThemeClasses(PenguinUiWidgetTheme::WLineEdit, "w-full rounded-radius border border-outline bg-surface-alt px-2 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-75 dark:border-outline-dark dark:bg-surface-dark-alt/50 dark:focus-visible:outline-primary-dark");
+
 
     // setWidgetThemeClasses(PenguinUiWidgetTheme::TableCell, "");
     // setWidgetThemeClasses(PenguinUiWidgetTheme::TableRow, "");

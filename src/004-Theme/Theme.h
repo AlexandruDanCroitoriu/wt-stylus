@@ -126,6 +126,7 @@ enum PenguinUiWidgetTheme {
     TableCell = 200,
     TableRow = 201,
     TableColumn = 202,
+
 };
 
 class Theme : public Wt::WTheme

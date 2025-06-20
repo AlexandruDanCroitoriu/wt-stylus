@@ -6,7 +6,7 @@
 #include <Wt/Dbo/Session.h>
 #include <Wt/Dbo/ptr.h>
 
-#include "002-Dbo/User.h"
+#include "002-Dbo/Tables/User.h"
 
 namespace dbo = Wt::Dbo;
 

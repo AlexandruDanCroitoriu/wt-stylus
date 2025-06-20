@@ -4,14 +4,14 @@
 
 #include "004-Theme/DarkModeToggle.h"
 #include "004-Theme/ThemeSwitcher.h"
-
-#include "003-Auth/AuthWidget.h"
 #include "004-Theme/Theme.h"
+
 
 #include "005-WidgetsDisplay/WidgetsDisplay.h"
 
 #include <Wt/WStackedWidget.h>
 #include <Wt/WPushButton.h>
+#include <Wt/WMenu.h>
 
 App::App(const Wt::WEnvironment &env)
     : WApplication(env),
@@ -19,9 +19,10 @@ App::App(const Wt::WEnvironment &env)
 {
     // session_.configureAuth();
     session_.login().changed().connect(this, &App::authEvent);
-    
+
     // Title
     setTitle("Alexandru Dan CV");
+    setHtmlClass("dark");
     
     require("https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4");
     // require("https://unpkg.com/vue@3/dist/vue.global.prod.js");
@@ -46,22 +47,38 @@ App::App(const Wt::WEnvironment &env)
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/override-wt");
     
     // root()->addWidget(std::make_unique<Test>());
-    auto navbar = root()->addWidget(std::make_unique<Navigation>());
-    auto stack = navbar->bindWidget("content", std::make_unique<Wt::WStackedWidget>());
-    stack->setStyleClass("p-1");
+    // auto stack = navbar->bindWidget("content", std::make_unique<Wt::WStackedWidget>());
     
-    auto content = stack->addWidget(std::make_unique<Wt::WContainerWidget>());
-    auto themeSwitcher = content->addWidget(std::make_unique<ThemeSwitcher>());
-    auto darkModeToggle = content->addWidget(std::make_unique<DarkModeToggle>());
-    auto widgetsDisplay = content->addNew<WidgetsDisplay>();
+    // std::unique_ptr<Wt::WStackedWidget> stack_ptr = std::make_unique<Wt::WStackedWidget>();
+
+    // auto wrapper_menu = root()->addNew<Wt::WContainerWidget>();
+    // auto anchor_1 = wrapper_menu->addNew<Wt::WAnchor>(Wt::WLink(Wt::LinkType::InternalPath, "/auth"), "auth");
+    // auto anchor_2 = wrapper_menu->addNew<Wt::WAnchor>(Wt::WLink(Wt::LinkType::InternalPath, "/penguin-ui"), "penguin-ui");
+    
+    
+    // auto stack = root()->addWidget(std::move(stack_ptr));
+    // stack->setStyleClass("p-1");
+    
+    
+    
+    auto penguin_ui_page = std::make_unique<Wt::WContainerWidget>();
+    auto themeSwitcher = penguin_ui_page->addWidget(std::make_unique<ThemeSwitcher>());
+    auto darkModeToggle = penguin_ui_page->addWidget(std::make_unique<DarkModeToggle>());
+    auto widgetsDisplay = penguin_ui_page->addNew<WidgetsDisplay>();
     widgetsDisplay->createButtons();
-
-    // wApp->theme()->apply(btn, WidgetTheme::ButtonPrimary);
-
-    stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
-    auto authWidget = content->addWidget(std::make_unique<AuthWidget>(session_));
-    authWidget->processEnvironment();
     
+    
+    // auto auth_page = std::make_unique<Wt::WContainerWidget>();
+    // auto authWidget = auth_page->addWidget(std::make_unique<AuthWidget>(session_));
+    // authWidget->processEnvironment();
+    
+    auto navbar = root()->addWidget(std::make_unique<Navigation>(session_));
+
+    // navbar->addPage("auth", std::move(auth_page));
+    navbar->addPage("penguin ui", std::move(penguin_ui_page));
+  
+    
+    stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
 }
 
 void App::authEvent() {

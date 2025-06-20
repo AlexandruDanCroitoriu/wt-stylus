@@ -1,4 +1,4 @@
-#include "002-Dbo/User.h"
+#include "002-Dbo/Tables/User.h"
 
 #include <Wt/Dbo/Impl.h>
 #include <Wt/Auth/Dbo/AuthInfo.h>

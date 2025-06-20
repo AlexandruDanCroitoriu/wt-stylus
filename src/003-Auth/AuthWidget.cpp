@@ -2,8 +2,8 @@
 #include "RegistrationView.h"
 #include "002-Dbo/Session.h"
 #include "003-Auth/UserDetailsModel.h"
-#include "002-Dbo/User.h"
-#include "002-Dbo/Permission.h"
+#include "002-Dbo/Tables/User.h"
+#include "002-Dbo/Tables/Permission.h"
 #include <Wt/Auth/PasswordService.h>
 #include <Wt/WApplication.h>
 #include <Wt/WRadioButton.h>
@@ -13,7 +13,7 @@ AuthWidget::AuthWidget(Session& session)
   : Auth::AuthWidget(Session::auth(), session.users(), session.login()),
     session_(session)
 { 
-  	setInternalBasePath("/user");
+  	// setInternalBasePath("/user");
 
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth");
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-login");

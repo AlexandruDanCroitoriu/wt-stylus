@@ -25,7 +25,7 @@ MonacoEditor::MonacoEditor(std::string language)
             window.)" + editor_js_var_name_ + R"(_current_text = `)" + current_text_ + R"(`;
             window.)" + editor_js_var_name_ + R"( = monaco.editor.create(document.getElementById(')" + id() + R"('), {
                 language: ')" + language + R"(',
-                theme: 'vs-light',
+                theme: )" + (wApp->htmlClass().find("dark") != std::string::npos ? "'vs-dark'" : "'vs-light'") + R"(,
                 wordWrap: 'off',
                 lineNumbers: 'on',
                 tabSize: 4,

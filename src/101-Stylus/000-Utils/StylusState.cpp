@@ -355,7 +355,7 @@ namespace Stylus
         std::string text = "";
         if (node == nullptr || isCondNode(node) || node->ChildElementCount() != 1 || !node->FirstChild() || !node->FirstChild()->ToText())
         {
-            std::cout << "\n   Error: Node is null or does not have the expected structure for TempNodeVarData.\n";
+            // std::cout << "\n   Error: Node is null or does not have the expected structure for TempNodeVarData.\n";
             return data; // Return empty data if node is null
         }
         std::cout << "\n   Parsing node: " << node->Name() << "\n";

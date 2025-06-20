@@ -1,5 +1,5 @@
 #include "002-Dbo/Session.h"
-#include "002-Dbo/Permission.h"
+#include "002-Dbo/Tables/Permission.h"
 #include "001-App/Server.h"
 
 #include <Wt/Dbo/backend/Sqlite3.h>

@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+
+.item, .itemselected {
+	@apply rounded-radius space-x-2 gap-2 px-2 py-1.5 text-sm font-medium text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-on-surface-strong focus-visible:underline focus:outline-hidden dark:text-on-surface-dark dark:hover:bg-primary-dark/5 dark:hover:text-on-surface-dark-strong;
+}
+
+.sidebar-nav-menu {
+	@apply first:mr-2;
+	
+	.item {}
+	.itemselected {
+		@apply bg-primary/10;
+	} 
+}
+
+
+// dialog
+.Wt-popup.Wt-outset.Wt-dialog {
+	@apply !border-outline !bg-surface-alt p-4 dark:!border-outline-dark dark:!bg-surface-dark-alt;
+}
+/* .Wt-popup.Wt-dialogcover.in {
+	@apply bg-surface dark:bg-surface-dark;
+} */
+/* .Wt-popup.auth-dialog.Wt-outset.Wt-dialog {
+	@apply border-outline bg-surface-alt p-4 dark:border-outline-dark dark:bg-surface-dark-alt;
+} */
