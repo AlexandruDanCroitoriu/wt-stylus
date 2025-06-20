@@ -33,9 +33,10 @@ App::App(const Wt::WEnvironment &env)
     // setTheme(std::make_shared<Wt::WCssTheme>("default"));
     auto theme = std::make_shared<Theme>();
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/PenguinUi/svg");
-
+    
     theme->setPenguinUiConfig();
     setTheme(theme);
+
 
     // Auth 
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth");
@@ -63,6 +64,7 @@ App::App(const Wt::WEnvironment &env)
     // auto stack = root()->addWidget(std::move(stack_ptr));
     // stack->setStyleClass("p-1");
     
+    stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
     
     
     auto penguin_ui_page = std::make_unique<Wt::WContainerWidget>();
@@ -82,7 +84,6 @@ App::App(const Wt::WEnvironment &env)
     navbar->addPage("penguin ui", std::move(penguin_ui_page));
   
     
-    stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
 }
 
 void App::authEvent() {

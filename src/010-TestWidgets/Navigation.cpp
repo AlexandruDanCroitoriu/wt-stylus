@@ -54,6 +54,7 @@ Navigation::Navigation(Session& session)
         }
     });
 
+    auth_widget_->processEnvironment();
     wApp->internalPathChanged().connect([=](const std::string &path) {
         std::cout << "\n\nInternal path changed to: " << path << "\n\n";
         // if (path.empty() || path == "/") {
