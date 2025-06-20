@@ -37,6 +37,10 @@ App::App(const Wt::WEnvironment &env)
     theme->setPenguinUiConfig();
     setTheme(theme);
 
+    // Auth 
+    wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth");
+    wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-login");
+    wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-strings");
 
     // override the default Wt auth templates
     messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-registration-view");

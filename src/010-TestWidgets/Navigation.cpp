@@ -22,12 +22,13 @@ Navigation::Navigation(Session& session)
     auto login_btn = bindWidget("login-link", std::make_unique<Button>("Login", "text-sm w-full", PenguinUiWidgetTheme::BtnPrimary));
     bindString("user-name", "user name");
     
-    auth_dialog_ = wApp->root()->addNew<Wt::WDialog>("Login");
+    auth_dialog_ = wApp->root()->addNew<Wt::WDialog>(Wt::WString::tr("Wt.Auth.login-form-title"));
     auth_dialog_->setClosable(false);
     auth_dialog_->setModal(true);
     auth_dialog_->escapePressed().connect([=]() {
         auth_dialog_->hide();
     });
+    // auth_dialog_->titleBar()->removeFromParent();
     login_btn->clicked().connect([=]() {
         auth_dialog_->show();
     });

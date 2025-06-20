@@ -6,6 +6,6 @@
 class Button : public Wt::WPushButton
 {
 public:
-    Button(const std::string& text = "", const std::string &style_classes = "text-xm",  PenguinUiWidgetTheme widget_theme = PenguinUiWidgetTheme::BtnPrimary);
+    Button(const std::string& text = "", std::string style_classes = "text-sm",  PenguinUiWidgetTheme widget_theme = PenguinUiWidgetTheme::BtnPrimary);
 private:
 };

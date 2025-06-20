@@ -15,9 +15,9 @@ AuthWidget::AuthWidget(Session& session)
 { 
   	// setInternalBasePath("/user");
 
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth");
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-login");
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-strings");
+    // wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth");
+    // wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-login");
+    // wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-strings");
 
     createInitialData();
     model()->addPasswordAuth(&Session::passwordAuth());
@@ -46,42 +46,42 @@ void AuthWidget::createLoginView()
   // setTemplateText(tr("Wt.Auth.template.login-v1")); // custom implementation v1
 
 
-  auto container = bindWidget("template-changer-widget", std::make_unique<Wt::WContainerWidget>());
-  container->setStyleClass("flex items-center justify-start space-x-2");
-  auto group = std::make_shared<Wt::WButtonGroup>();
+  // auto container = bindWidget("template-changer-widget", std::make_unique<Wt::WContainerWidget>());
+  // container->setStyleClass("flex items-center justify-start space-x-2");
+  // auto group = std::make_shared<Wt::WButtonGroup>();
 
-  auto default_tmp_btn = container->addNew<Wt::WRadioButton>("default");
-  group->addButton(default_tmp_btn);
+  // auto default_tmp_btn = container->addNew<Wt::WRadioButton>("default");
+  // group->addButton(default_tmp_btn);
 
-  auto v0_tmp_btn = container->addNew<Wt::WRadioButton>("v0");
-  group->addButton(v0_tmp_btn);
+  // auto v0_tmp_btn = container->addNew<Wt::WRadioButton>("v0");
+  // group->addButton(v0_tmp_btn);
 
-  auto v1_tmp_btn = container->addNew<Wt::WRadioButton>("v1");
-  group->addButton(v1_tmp_btn);
+  // auto v1_tmp_btn = container->addNew<Wt::WRadioButton>("v1");
+  // group->addButton(v1_tmp_btn);
 
-  if(login_template_id_.compare("Wt.Auth.template.login") == 0)
-  {
-    group->setSelectedButtonIndex(0); // Select the first button by default.
-  }else if(login_template_id_.compare("Wt.Auth.template.login-v0") == 0)
-  {
-    group->setSelectedButtonIndex(1); // Select the second button by default.
-  }else if(login_template_id_.compare("Wt.Auth.template.login-v1") == 0)
-  {
-    group->setSelectedButtonIndex(2); // Select the third button by default.
-  }
+  // if(login_template_id_.compare("Wt.Auth.template.login") == 0)
+  // {
+  //   group->setSelectedButtonIndex(0); // Select the first button by default.
+  // }else if(login_template_id_.compare("Wt.Auth.template.login-v0") == 0)
+  // {
+  //   group->setSelectedButtonIndex(1); // Select the second button by default.
+  // }else if(login_template_id_.compare("Wt.Auth.template.login-v1") == 0)
+  // {
+  //   group->setSelectedButtonIndex(2); // Select the third button by default.
+  // }
 
-  group->checkedChanged().connect(this, [=](Wt::WRadioButton *button) {
-    if(button == default_tmp_btn) {
-      login_template_id_ = "Wt.Auth.template.login";
-    } else if(button == v0_tmp_btn) {
-      login_template_id_ = "Wt.Auth.template.login-v0";
-    } else if(button == v1_tmp_btn) {
-      login_template_id_ = "Wt.Auth.template.login-v1";
-    }
-    // setTemplateText(tr(login_template_id_));
-    model()->reset();
-    createLoginView(); // Recreate the login view with the new template
-  });
+  // group->checkedChanged().connect(this, [=](Wt::WRadioButton *button) {
+  //   if(button == default_tmp_btn) {
+  //     login_template_id_ = "Wt.Auth.template.login";
+  //   } else if(button == v0_tmp_btn) {
+  //     login_template_id_ = "Wt.Auth.template.login-v0";
+  //   } else if(button == v1_tmp_btn) {
+  //     login_template_id_ = "Wt.Auth.template.login-v1";
+  //   }
+  //   // setTemplateText(tr(login_template_id_));
+  //   model()->reset();
+  //   createLoginView(); // Recreate the login view with the new template
+  // });
 
   createPasswordLoginView();
   createOAuthLoginView();

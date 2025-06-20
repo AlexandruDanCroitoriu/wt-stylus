@@ -109,10 +109,13 @@ void Theme::apply(Wt::WWidget *widget, Wt::WWidget *child, int widgetRole) const
         break;
 
     case Wt::WidgetThemeRole::DialogCoverWidget:
-        child->setStyleClass("bg-surface dark:bg-surface-dark");
+        // child->setStyleClass("bg-surface dark:bg-surface-dark");
+        child->setStyleClass("Wt-dialogcover in");
+        // child->setStyleClass("Wt-dialogcover in");
+        // child->setStyleClass("bg-surface-dark/10 backdrop-blur-xs");
         break;
     case Wt::WidgetThemeRole::DialogTitleBar:
-        child->addStyleClass("rounded-radius cursor-move text-md font-semibold text-on-surface-strong dark:text-on-surface-dark-strong p-2 border-b border-outline dark:border-outline-dark bg-surface dark:bg-surface-dark text-center");
+        child->addStyleClass("rounded-radius cursor-move text-md font-semibold text-on-surface-strong dark:text-on-surface-dark p-2 border-b border-outline dark:border-outline-dark bg-primary/40 dark:bg-primary/40 text-center");
         break;
     case Wt::WidgetThemeRole::DialogBody:
         child->addStyleClass("body");
@@ -239,7 +242,7 @@ void Theme::apply(Wt::WWidget *widget, Wt::DomElement& element, int elementRole)
     {
       Wt::WDialog *dialog = dynamic_cast<Wt::WDialog *>(widget);
       if (dialog) {
-        element.addPropertyWord(Wt::Property::Class, "rounded-radius border-outline bg-surface-alt p-4 dark:border-outline-dark dark:bg-surface-dark-alt");
+        element.addPropertyWord(Wt::Property::Class, "rounded-radius border-outline bg-surface-alt text-surface-alt p-4 dark:border-outline-dark dark:bg-surface-dark-alt dark:text-surface-alt");
         return;
       }
 

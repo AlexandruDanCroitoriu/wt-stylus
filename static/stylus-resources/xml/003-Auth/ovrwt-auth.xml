@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messages xmlns:if="Wt.WTemplate.conditions">
     <message id="Wt.Auth.template.login">
-        <div>${template-changer-widget}</div>
         <div class="Wt-form Wt-auth-login">
             <h2>${tr:Wt.Auth.login-form-title message_path="003-Auth/ovrwt-auth-strings.xml"}</h2>
             <p class="  ">${tr:Wt.Auth.login-form-info message_path="003-Auth/ovrwt-auth-strings.xml"}</p>

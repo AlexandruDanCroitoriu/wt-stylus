@@ -18,6 +18,7 @@ class Navigation : public Wt::WTemplate
         Wt::WWidget* getPageWrapper(std::string name);
         
         private:
+        
         Wt::WStackedWidget *stacked_widget_;
         Wt::WMenu *menu_;
         Session& session_;

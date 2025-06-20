@@ -77,59 +77,204 @@ void WidgetsDisplay::createButtons()
 
 
 
-    table->elementAt(1, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnPrimary);
-    table->elementAt(2, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnSecondary);
-    table->elementAt(3, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnSuccess);
-    table->elementAt(4, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnDanger);
-    table->elementAt(5, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnWarning);
-    table->elementAt(6, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnInfo);
-    table->elementAt(7, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnAlternate);
-    table->elementAt(8, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnInverse);
+    // auto btn = 
+    setCopyToClipboardAction(
+        table->elementAt(1, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnPrimary),
+        "->addNew<Button>(\"default\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnPrimary);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(2, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnSecondary),
+        "->addNew<Button>(\"default\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnSecondary);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(3, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnSuccess),
+        "->addNew<Button>(\"default\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnSuccess);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(4, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnDanger),
+        "->addNew<Button>(\"default\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnDanger);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(5, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnWarning),
+        "->addNew<Button>(\"default\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnWarning);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(6, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnInfo),
+        "->addNew<Button>(\"default\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnInfo);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(7, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnAlternate),
+        "->addNew<Button>(\"default\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnAlternate);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(8, 1)->addNew<Button>("default", "m-1.5", PenguinUiWidgetTheme::BtnInverse),
+        "->addNew<Button>(\"default\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnInverse);"
+    );
 
-    table->elementAt(1, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnPrimaryOutline);
-    table->elementAt(2, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnSecondaryOutline);
-    table->elementAt(3, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnSuccessOutline);
-    table->elementAt(4, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnDangerOutline);
-    table->elementAt(5, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnWarningOutline);
-    table->elementAt(6, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnInfoOutline);
-    table->elementAt(7, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnAlternateOutline);
-    table->elementAt(8, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnInverseOutline);
+    setCopyToClipboardAction(
+        table->elementAt(1, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnPrimaryOutline),
+        "->addNew<Button>(\"outline\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnPrimaryOutline);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(2, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnSecondaryOutline),
+        "->addNew<Button>(\"outline\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnSecondaryOutline);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(3, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnSuccessOutline),
+        "->addNew<Button>(\"outline\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnSuccessOutline);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(4, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnDangerOutline),
+        "->addNew<Button>(\"outline\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnDangerOutline);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(5, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnWarningOutline),
+        "->addNew<Button>(\"outline\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnWarningOutline);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(6, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnInfoOutline),
+        "->addNew<Button>(\"outline\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnInfoOutline);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(7, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnAlternateOutline),
+        "->addNew<Button>(\"outline\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnAlternateOutline);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(8, 2)->addNew<Button>("outline", "m-1.5", PenguinUiWidgetTheme::BtnInverseOutline),
+        "->addNew<Button>(\"outline\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnInverseOutline);"
+    );
 
-    table->elementAt(1, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnPrimaryGhost);
-    table->elementAt(2, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnSecondaryGhost);
-    table->elementAt(3, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnSuccessGhost);
-    table->elementAt(4, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnDangerGhost);
-    table->elementAt(5, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnWarningGhost);
-    table->elementAt(6, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnInfoGhost);
-    table->elementAt(7, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnAlternateGhost);
-    table->elementAt(8, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnInverseGhost);
+    setCopyToClipboardAction(
+        table->elementAt(1, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnPrimaryGhost),
+        "->addNew<Button>(\"ghost\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnPrimaryGhost);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(2, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnSecondaryGhost),
+        "->addNew<Button>(\"ghost\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnSecondaryGhost);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(3, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnSuccessGhost),
+        "->addNew<Button>(\"ghost\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnSuccessGhost);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(4, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnDangerGhost),
+        "->addNew<Button>(\"ghost\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnDangerGhost);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(5, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnWarningGhost),
+        "->addNew<Button>(\"ghost\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnWarningGhost);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(6, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnInfoGhost),
+        "->addNew<Button>(\"ghost\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnInfoGhost);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(7, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnAlternateGhost),
+        "->addNew<Button>(\"ghost\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnAlternateGhost);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(8, 3)->addNew<Button>("ghost", "m-1.5", PenguinUiWidgetTheme::BtnInverseGhost),
+        "->addNew<Button>(\"ghost\", \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnInverseGhost);"
+    );
 
-    table->elementAt(1, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-primary").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnPrimaryWithIcon);
-    table->elementAt(2, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-seccondary").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnSecondaryWithIcon);
-    table->elementAt(3, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-success").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnSuccessWithIcon);
-    table->elementAt(4, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-danger").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnDangerWithIcon);
-    table->elementAt(5, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-warning").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnWarningWithIcon);
-    table->elementAt(6, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-info").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnInfoWithIcon);
-    table->elementAt(7, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-alternate").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnAlternateWithIcon);
-    table->elementAt(8, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-inverse").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnInverseWithIcon);
+    setCopyToClipboardAction(
+        table->elementAt(1, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-primary").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnPrimaryWithIcon),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-primary\").toUTF8() + \"icon\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnPrimaryWithIcon);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(2, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-seccondary").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnSecondaryWithIcon),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-seccondary\").toUTF8() + \"icon\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnSecondaryWithIcon);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(3, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-success").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnSuccessWithIcon),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-success\").toUTF8() + \"icon\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnSuccessWithIcon);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(4, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-danger").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnDangerWithIcon),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-danger\").toUTF8() + \"icon\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnDangerWithIcon);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(5, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-warning").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnWarningWithIcon),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-warning\").toUTF8() + \"icon\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnWarningWithIcon);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(6, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-info").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnInfoWithIcon),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-info\").toUTF8() + \"icon\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnInfoWithIcon);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(7, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-alternate").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnAlternateWithIcon),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-alternate\").toUTF8() + \"icon\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnAlternateWithIcon);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(8, 4)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-inverse").toUTF8() + "icon"), "m-1.5", PenguinUiWidgetTheme::BtnInverseWithIcon),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-inverse\").toUTF8() + \"icon\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnInverseWithIcon);"
+    );
 
-    table->elementAt(1, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-primary").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnPrimaryAction);
-    table->elementAt(2, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-seccondary").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnSecondaryAction);
-    table->elementAt(3, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-success").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnSuccessAction);
-    table->elementAt(4, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-danger").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnDangerAction);
-    table->elementAt(5, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-warning").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnWarningAction);
-    table->elementAt(6, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-info").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnInfoAction);
-    table->elementAt(7, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-alternate").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnAlternateAction);
-    table->elementAt(8, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-inverse").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnInverseAction);
+    setCopyToClipboardAction(
+        table->elementAt(1, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-primary").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnPrimaryAction),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-primary\").toUTF8()), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnPrimaryAction);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(2, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-seccondary").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnSecondaryAction),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-seccondary\").toUTF8()), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnSecondaryAction);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(3, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-success").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnSuccessAction),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-success\").toUTF8()), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnSuccessAction);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(4, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-danger").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnDangerAction),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-danger\").toUTF8()), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnDangerAction);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(5, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-warning").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnWarningAction),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-warning\").toUTF8()), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnWarningAction);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(6, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-info").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnInfoAction),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-info\").toUTF8()), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnInfoAction);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(7, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-alternate").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnAlternateAction),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-alternate\").toUTF8()), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnAlternateAction);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(8, 5)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:plus-inverse").toUTF8()), "m-1.5", PenguinUiWidgetTheme::BtnInverseAction),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:plus-inverse\").toUTF8()), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnInverseAction);"
+    );
 
-    table->elementAt(1, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-primary").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnPrimaryLoader);
-    table->elementAt(2, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-seccondary").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnSecondaryLoader);
-    table->elementAt(3, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-success").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnSuccessLoader);
-    table->elementAt(4, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-danger").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnDangerLoader);
-    table->elementAt(5, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-warning").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnWarningLoader);
-    table->elementAt(6, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-info").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnInfoLoader);
-    table->elementAt(7, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-alternate").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnAlternateLoader);
-    table->elementAt(8, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-inverse").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnInverseLoader);
+    setCopyToClipboardAction(
+        table->elementAt(1, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-primary").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnPrimaryLoader),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:loader-primary\").toUTF8() + \"loader\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnPrimaryLoader);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(2, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-seccondary").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnSecondaryLoader),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:loader-seccondary\").toUTF8() + \"loader\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnSecondaryLoader);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(3, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-success").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnSuccessLoader),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:loader-success\").toUTF8() + \"loader\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnSuccessLoader);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(4, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-danger").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnDangerLoader),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:loader-danger\").toUTF8() + \"loader\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnDangerLoader);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(5, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-warning").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnWarningLoader),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:loader-warning\").toUTF8() + \"loader\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnWarningLoader);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(6, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-info").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnInfoLoader),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:loader-info\").toUTF8() + \"loader\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnInfoLoader);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(7, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-alternate").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnAlternateLoader),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:loader-alternate\").toUTF8() + \"loader\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnAlternateLoader);"
+    );
+    setCopyToClipboardAction(
+        table->elementAt(8, 6)->addNew<Button>(std::string(Wt::WString::tr("penguin-ui-svg:loader-inverse").toUTF8() + "loader"), "m-1.5", PenguinUiWidgetTheme::BtnInverseLoader),
+        "->addNew<Button>(std::string(Wt::WString::tr(\"penguin-ui-svg:loader-inverse\").toUTF8() + \"loader\"), \"m-1.5 text-"+size_combobox->itemText(selected_size_).toUTF8()+" \", PenguinUiWidgetTheme::BtnInverseLoader);"
+    );
 
     size_combobox->activated().connect([=](int index) {
         if(index == selected_size_ && table->hasStyleClass("text-" + size_combobox->itemText(index).toUTF8())) {
@@ -144,3 +289,8 @@ void WidgetsDisplay::createButtons()
     size_combobox->activated().emit(selected_size_);
 
 }
+void WidgetsDisplay::setCopyToClipboardAction(Wt::WInteractWidget  *widget, const std::string &text)
+{
+    widget->clicked().connect([=]() { widget->doJavaScript("navigator.clipboard.writeText('"+text+"');"); });
+}
+

@@ -18,7 +18,7 @@ class WidgetsDisplay : public Wt::WContainerWidget
     void createButtons();
     
     private:
-   
+    void setCopyToClipboardAction(Wt::WInteractWidget *widget, const std::string &text);
     ButtonSize selected_size_ = ButtonSize::XS;
 
 };

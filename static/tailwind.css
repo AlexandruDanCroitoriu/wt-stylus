@@ -1051,6 +1051,9 @@
   .bg-primary\/10 {
     background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
   }
+  .bg-primary\/40 {
+    background-color: color-mix(in oklab, var(--color-primary) 40%, transparent);
+  }
   .bg-rose-500 {
     background-color: var(--color-rose-500);
   }
@@ -2144,6 +2147,11 @@
       background-color: color-mix(in oklab, var(--color-primary-dark) 10%, transparent);
     }
   }
+  .dark\:bg-primary\/40 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in oklab, var(--color-primary) 40%, transparent);
+    }
+  }
   .dark\:bg-secondary-dark {
     &:where(.dark, .dark *) {
       background-color: var(--color-secondary-dark);
@@ -2332,6 +2340,11 @@
   .dark\:text-surface {
     &:where(.dark, .dark *) {
       color: var(--color-surface);
+    }
+  }
+  .dark\:text-surface-alt {
+    &:where(.dark, .dark *) {
+      color: var(--color-surface-alt);
     }
   }
   .dark\:text-warning {
