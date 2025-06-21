@@ -85,7 +85,7 @@ App::App(const Wt::WEnvironment &env)
     navbar->addPage("penguin ui", std::move(penguin_ui_page));
   
     auto dark_mode_toggle_v2 = root()->addNew<DarkModeToggleV2>();
-    dark_mode_toggle_v2->addStyleClass("fixed bottom-3 right-3 z-20 rounded-full bg-primary p-2 text-on-primary dark:bg-primary-dark dark:text-on-primary-dark");
+    dark_mode_toggle_v2->addStyleClass("fixed size-10 bottom-3 right-3 flex items-center justify-center z-20 rounded-full bg-primary p-2 text-on-primary dark:bg-primary-dark dark:text-on-primary-dark");
 }
 
 void App::authEvent() {
