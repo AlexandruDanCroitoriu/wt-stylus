@@ -3,6 +3,7 @@
 #include "010-TestWidgets/Navigation.h"
 
 #include "004-Theme/DarkModeToggle.h"
+#include "004-Theme/DarkModeToggleV2.h"
 #include "004-Theme/ThemeSwitcher.h"
 #include "004-Theme/Theme.h"
 
@@ -12,6 +13,7 @@
 #include <Wt/WStackedWidget.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WMenu.h>
+#include <Wt/WLabel.h>
 
 App::App(const Wt::WEnvironment &env)
     : WApplication(env),
@@ -73,7 +75,6 @@ App::App(const Wt::WEnvironment &env)
     auto widgetsDisplay = penguin_ui_page->addNew<WidgetsDisplay>();
     widgetsDisplay->createButtons();
     
-    
     // auto auth_page = std::make_unique<Wt::WContainerWidget>();
     // auto authWidget = auth_page->addWidget(std::make_unique<AuthWidget>(session_));
     // authWidget->processEnvironment();
@@ -83,7 +84,8 @@ App::App(const Wt::WEnvironment &env)
     // navbar->addPage("auth", std::move(auth_page));
     navbar->addPage("penguin ui", std::move(penguin_ui_page));
   
-    
+    auto dark_mode_toggle_v2 = root()->addNew<DarkModeToggleV2>();
+    dark_mode_toggle_v2->addStyleClass("fixed bottom-3 right-3 z-20 rounded-full bg-primary p-2 text-on-primary dark:bg-primary-dark dark:text-on-primary-dark");
 }
 
 void App::authEvent() {

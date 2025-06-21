@@ -383,6 +383,9 @@
   .top-4 {
     top: calc(var(--spacing) * 4);
   }
+  .right-3 {
+    right: calc(var(--spacing) * 3);
+  }
   .right-4 {
     right: calc(var(--spacing) * 4);
   }
@@ -397,6 +400,9 @@
   }
   .bottom-0\.5 {
     bottom: calc(var(--spacing) * 0.5);
+  }
+  .bottom-3 {
+    bottom: calc(var(--spacing) * 3);
   }
   .bottom-20 {
     bottom: calc(var(--spacing) * 20);
@@ -1567,14 +1573,6 @@
     &::after {
       content: var(--tw-content);
       background-color: var(--color-white);
-    }
-  }
-  .after\:transition-all {
-    &::after {
-      content: var(--tw-content);
-      transition-property: all;
-      transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
-      transition-duration: var(--tw-duration, var(--default-transition-duration));
     }
   }
   .after\:content-\[\'☀\'\] {
@@ -3014,6 +3012,27 @@
   }
   &:where(.dark, .dark *) {
     background-color: var(--color-surface-dark-alt) !important;
+  }
+}
+.dark-mode-checkbox-toggle {
+  input {
+    display: none;
+    &~span {
+      &::before {
+        content: var(--tw-content);
+        --tw-content: "☀";
+        content: var(--tw-content);
+      }
+    }
+    &:checked {
+      &~span {
+        &::before {
+          content: var(--tw-content);
+          --tw-content: '🌙';
+          content: var(--tw-content);
+        }
+      }
+    }
   }
 }
 @layer base {
