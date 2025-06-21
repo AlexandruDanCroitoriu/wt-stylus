@@ -293,8 +293,6 @@ void WidgetsDisplay::setCopyToClipboardAction(Wt::WInteractWidget  *widget, cons
 {
     widget->clicked().connect([=]() { 
         widget->doJavaScript("navigator.clipboard.writeText('"+text+"');"); 
-        widget->setAttributeValue("x-data", "");
-        widget->setAttributeValue("onclick", "$el.classList.add('bg-red-200');setTimeout(() => $el.classList.remove('bg-red-200'), 2000);");
     });
 
 }
