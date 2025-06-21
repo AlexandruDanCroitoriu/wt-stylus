@@ -17,11 +17,11 @@ class Navigation : public Wt::WTemplate
         void addPage(const std::string &name, std::unique_ptr<Wt::WContainerWidget> page_widget, const std::string &icon_xml_id = "");
         Wt::WWidget* getPageWrapper(std::string name);
         
+        AuthWidget* auth_widget_;
         private:
         
         Wt::WStackedWidget *stacked_widget_;
         Wt::WMenu *menu_;
         Session& session_;
-        AuthWidget* auth_widget_;
         Wt::WDialog* auth_dialog_;
 };

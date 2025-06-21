@@ -93,7 +93,7 @@ namespace Stylus
         auto tailwind_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-tailwind-logo")));
         auto images_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-images-logo")));
         auto settings_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-settings-logo")));
-        auto dark_mode_toggle = navbar->addWidget(std::make_unique<DarkModeToggle>());
+        auto dark_mode_toggle = navbar->addWidget(std::make_unique<DarkModeToggle>(session_));
         
         std::string nav_btns_styles = "w-[40px] p-[4px] m-[4px] cursor-pointer rounded-md flex items-center stylus-menu";
 
@@ -225,8 +225,9 @@ namespace Stylus
             js_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
         }
 
-        dark_mode_toggle->dark_mode_changed_.connect(this, [=](bool dark)
+        dark_mode_toggle->changed().connect(this, [=]()
                                                      {
+        bool dark = dark_mode_toggle->isChecked();
         xml_files_manager_->editor_->setDarkTheme(dark);
         state_->stylus_node_->SetAttribute("dark-mode", dark ? "true" : "false");
         state_->doc_->SaveFile(state_->state_file_path_.c_str()); });

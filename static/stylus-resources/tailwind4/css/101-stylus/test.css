@@ -28,7 +28,7 @@
 
  
 .dark-mode-checkbox-toggle {
-	/* @apply ; */
+	@apply size-10 flex items-center justify-center z-20 rounded-full bg-primary p-2 text-on-primary dark:bg-primary-dark dark:text-on-primary-dark;
 	
 	input {
 		@apply hidden [&~span]:before:content-["☀"] checked:[&~span]:before:content-['🌙'];
