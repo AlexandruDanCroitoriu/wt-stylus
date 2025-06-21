@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
 
-.item, .itemselected {
+.item, .itemselected, .Wt-popupmenu .active {
 	@apply rounded-radius space-x-2 gap-2 px-2 py-1.5 text-sm font-medium text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-on-surface-strong focus-visible:underline focus:outline-hidden dark:text-on-surface-dark dark:hover:bg-primary-dark/5 dark:hover:text-on-surface-dark-strong;
 }
 
 .sidebar-nav-menu {
 	@apply first:mr-2;
 	
-	.item {}
-	.itemselected {
-		@apply bg-primary/10; 
+	.item {
+		@apply text-white;
+	}
+	.itemselected { 
+		@apply bg-primary/10;
 	} 
 }
   
@@ -28,7 +30,7 @@
 
  
 .dark-mode-checkbox-toggle {
-	@apply size-10 flex items-center justify-center z-20 rounded-full bg-primary p-2 text-on-primary dark:bg-primary-dark dark:text-on-primary-dark;
+	@apply size-9 flex items-center justify-center z-20 rounded-full bg-primary p-2 text-on-primary dark:bg-primary-dark dark:text-on-primary-dark;
 	
 	input {
 		@apply hidden [&~span]:before:content-["☀"] checked:[&~span]:before:content-['🌙'];

@@ -395,7 +395,7 @@ span.Wt-disabled, fieldset.Wt-disabled legend {
 .Wt-popupmenu {
   position: absolute;
   display: none;
-  background: white;
+  /* background: white; */
   color: black;
   border: 1px solid #666666;
   z-index: 200;
@@ -417,7 +417,7 @@ span.Wt-disabled, fieldset.Wt-disabled legend {
 }
 
 .Wt-popupmenu .active {
-  background: blue;
+  /* background: blue; */
   color: white;
 }
 

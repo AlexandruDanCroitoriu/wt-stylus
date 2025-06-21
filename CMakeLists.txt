@@ -29,7 +29,6 @@ set(SOURCES
     
     ${SOURCE_DIR}/004-Theme/Theme.cpp
     ${SOURCE_DIR}/004-Theme/ThemeSwitcher.cpp
-    ${SOURCE_DIR}/004-Theme/ThemeSwitcherV2.cpp
     ${SOURCE_DIR}/004-Theme/DarkModeToggle.cpp
 
     ${SOURCE_DIR}/005-WidgetsDisplay/WidgetsDisplay.cpp

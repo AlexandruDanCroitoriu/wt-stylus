@@ -7,6 +7,7 @@
 #include <fstream>
 #include <Wt/WRandom.h>
 #include "004-Theme/DarkModeToggle.h"
+#
 #include "001-App/App.h"
 #include <Wt/Auth/Identity.h>
 
@@ -84,7 +85,7 @@ namespace Stylus
         auto content_wrapper = contents()->addWidget(std::make_unique<Wt::WStackedWidget>());
         // content_wrapper->setTransitionAnimation(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500)); // this line represents a bug in Wt probably :P
 
-        navbar->setStyleClass("flex flex-col h-full border-r border-solid dark:border-[#FFF]/20 stylus-scrollbar");
+        navbar->setStyleClass("flex flex-col items-center h-full border-r border-solid dark:border-[#FFF]/20 stylus-scrollbar");
         content_wrapper->setStyleClass("w-screen h-screen");
 
         auto templates_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-xml-logo")));
@@ -95,8 +96,8 @@ namespace Stylus
         auto settings_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-settings-logo")));
         auto dark_mode_toggle = navbar->addWidget(std::make_unique<DarkModeToggle>(session_));
         
+        
         std::string nav_btns_styles = "w-[40px] p-[4px] m-[4px] cursor-pointer rounded-md flex items-center stylus-menu";
-
         templates_menu_item->setStyleClass(nav_btns_styles);
         tailwind_menu_item->setStyleClass(nav_btns_styles);
         css_menu_item->setStyleClass(nav_btns_styles);

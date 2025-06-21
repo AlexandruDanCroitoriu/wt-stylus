@@ -26,6 +26,7 @@ DarkModeToggle::DarkModeToggle(Session& session)
         wApp->globalKeyWentDown().emit(e); // Emit the global key event
     });
     changed().connect(this, [=](){
+        auto app = dynamic_cast<App*>(wApp);    
         dynamic_cast<App*>(wApp)->dark_mode_changed_.emit(isChecked());
     });
     

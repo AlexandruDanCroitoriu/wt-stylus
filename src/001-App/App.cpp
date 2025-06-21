@@ -4,7 +4,6 @@
 
 #include "004-Theme/DarkModeToggle.h"
 #include "004-Theme/ThemeSwitcher.h"
-#include "004-Theme/ThemeSwitcherV2.h"
 #include "004-Theme/Theme.h"
 
 
@@ -53,18 +52,17 @@ App::App(const Wt::WEnvironment &env)
     theme->setPenguinUiConfig();
     setTheme(theme);
     
-    auto theme_switcher = root()->addNew<ThemeSwitcherV2>(session_);
+    auto theme_switcher = root()->addNew<ThemeSwitcher>(session_);
     theme_switcher->addStyleClass("fixed bottom-16 right-3");
     auto dark_mode_toggle = root()->addNew<DarkModeToggle>(session_);
     dark_mode_toggle->addStyleClass("fixed bottom-3 right-3");
     
     auto penguin_ui_page = std::make_unique<Wt::WContainerWidget>();
-    auto themeSwitcher = penguin_ui_page->addWidget(std::make_unique<ThemeSwitcher>());
     auto widgetsDisplay = penguin_ui_page->addNew<WidgetsDisplay>();
     widgetsDisplay->createButtons();
     auto navbar = root()->addWidget(std::make_unique<Navigation>(session_));
     
-    navbar->addPage("penguin ui", std::move(penguin_ui_page));
+    navbar->addPage("UI Penguin", std::move(penguin_ui_page));
     
     navbar->auth_widget_->processEnvironment();
 }

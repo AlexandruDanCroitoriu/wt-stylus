@@ -242,7 +242,7 @@ void Theme::apply(Wt::WWidget *widget, Wt::DomElement& element, int elementRole)
     {
       Wt::WDialog *dialog = dynamic_cast<Wt::WDialog *>(widget);
       if (dialog) {
-        element.addPropertyWord(Wt::Property::Class, "rounded-radius border-outline bg-surface-alt text-surface-alt p-4 dark:border-outline-dark dark:bg-surface-dark-alt dark:text-surface-alt");
+        element.addPropertyWord(Wt::Property::Class, "rounded-radius border-outline bg-surface-alt text-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt dark:text-surface-alt");
         return;
       }
 
