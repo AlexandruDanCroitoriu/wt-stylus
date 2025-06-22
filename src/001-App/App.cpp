@@ -4,8 +4,6 @@
 
 #include "004-Theme/DarkModeToggle.h"
 #include "004-Theme/ThemeSwitcher.h"
-#include "004-Theme/Theme.h"
-
 
 #include "005-WidgetsDisplay/WidgetsDisplay.h"
 
@@ -42,13 +40,16 @@ App::App(const Wt::WEnvironment &env)
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-registration-view");
 
     // override the default Wt templates
+    wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/main");
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/ovrwt");
+
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/test");
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/override-wt");
     
     stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
     
-    auto theme = std::make_shared<Theme>();
+    auto theme = std::make_shared<Theme>(session_, ThemeConfig::Arctic);
+    // auto theme = std::make_shared<Theme>();
     theme->setPenguinUiConfig();
     setTheme(theme);
     
@@ -56,11 +57,12 @@ App::App(const Wt::WEnvironment &env)
     theme_switcher->addStyleClass("fixed bottom-16 right-3");
     auto dark_mode_toggle = root()->addNew<DarkModeToggle>(session_);
     dark_mode_toggle->addStyleClass("fixed bottom-3 right-3");
+
+    auto navbar = root()->addWidget(std::make_unique<Navigation>(session_));
     
     auto penguin_ui_page = std::make_unique<Wt::WContainerWidget>();
     auto widgetsDisplay = penguin_ui_page->addNew<WidgetsDisplay>();
     widgetsDisplay->createButtons();
-    auto navbar = root()->addWidget(std::make_unique<Navigation>(session_));
     
     navbar->addPage("UI Penguin", std::move(penguin_ui_page));
     
@@ -77,3 +79,4 @@ void App::authEvent() {
     } else
         log("notice") << "User logged out.";
 }
+

@@ -14,6 +14,15 @@ DarkModeToggle::DarkModeToggle(Session& session)
     
     changed().connect(this, [=](){
         dynamic_cast<App*>(wApp)->dark_mode_changed_.emit(isChecked());
+        if(session_.login().loggedIn()){
+            Wt::Dbo::Transaction transaction(session_);
+            auto user = session_.user(session_.login().user());
+            if (user) {
+                user.modify()->ui_dark_mode_ = isChecked();
+            }
+            transaction.commit();
+            std::cout << "Transaction committed for dark mode change." << std::endl;
+        }
         if (isChecked()) {
             wApp->setHtmlClass("dark");
         } else {

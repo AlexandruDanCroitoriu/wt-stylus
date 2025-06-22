@@ -40,7 +40,8 @@ namespace skeletons
 
 Theme::Theme(Session& session, ThemeConfig theme_config)
     : Wt::WTheme(),
-      session_(session)
+      session_(session),
+      name_(getThemeName(theme_config))
 {
 
     widgetThemeClasses_ = {
@@ -134,16 +135,19 @@ void Theme::addWidgetThemeClasses(PenguinUiWidgetTheme widgetTheme, const std::s
 std::vector<Wt::WLinkedCssStyleSheet> Theme::styleSheets() const
 {
     std::vector<Wt::WLinkedCssStyleSheet> result;
-    std::string themeDir = resourcesUrl();
-    // std::cout << "Theme directory: " << themeDir << std::endl;
-    result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink("static/tailwind.css?" + Wt::WRandom::generateId())));
-    result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink(themeDir + "wt.css")));
+  if (!name_.empty())
+    {
+      std::string themeDir = resourcesUrl();
+      // std::cout << "Theme directory: " << themeDir << std::endl;
+      result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink("static/tailwind.css?" + Wt::WRandom::generateId())));
+      result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink(themeDir + "wt.css")));
 
-    if (wApp->environment().agentIsIElt(9))
-      result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink(themeDir + "wt_ie.css")));
+      if (wApp->environment().agentIsIElt(9))
+        result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink(themeDir + "wt_ie.css")));
 
-    if (wApp->environment().agent() == Wt::UserAgent::IE6)
-      result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink(themeDir + "wt_ie6.css")));
+      if (wApp->environment().agent() == Wt::UserAgent::IE6)
+        result.push_back(Wt::WLinkedCssStyleSheet(Wt::WLink(themeDir + "wt_ie6.css")));
+    }
 
     return result;
 }
@@ -411,7 +415,7 @@ std::string Theme::utilityCssClass(int utilityCssClassRole) const
 
 std::string Theme::name() const
 {
-  return "default";
+  return getThemeName(current_theme_);
 }
 
 bool Theme::canStyleAnchorAsButton() const

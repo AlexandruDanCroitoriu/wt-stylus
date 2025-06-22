@@ -56,7 +56,7 @@ TreeNode::TreeNode(std::string name, TreeNodeType type, std::string path, Stylus
 {
     // setStyleClass("relative");
     label_wrapper_ = labelArea();
-    label_wrapper_->setStyleClass("flex items-center cursor-pointer mr-[3px] ");
+    label_wrapper_->addStyleClass("flex items-center cursor-pointer mr-[3px]");
 
 
     if(type_ == TreeNodeType::Folder) 

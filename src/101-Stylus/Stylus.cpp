@@ -75,6 +75,7 @@ namespace Stylus
                 StylusState::logMessage("<Stylus> logged out successfully.");
             }
         });
+        setupStylus();
     }
     
     void Stylus::setupStylus()

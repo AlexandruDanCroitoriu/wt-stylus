@@ -57,7 +57,6 @@ namespace Stylus
             stylus_node_->SetAttribute("navigation-bar-hidden", "false");
             stylus_node_->SetAttribute("selected-menu", "templates");
             stylus_node_->SetAttribute("open", "true");
-            stylus_node_->SetAttribute("dark-mode", "true");
             doc_->InsertFirstChild(stylus_node_);
         }
         xml_node_ = stylus_node_->FirstChildElement("xml-manager");

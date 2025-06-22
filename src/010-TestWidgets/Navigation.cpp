@@ -9,7 +9,7 @@
 
 // : Wt::WTemplate(Wt::WString::tr("test-alpine-nav"))
 Navigation::Navigation(Session& session)
-    : Wt::WTemplate(Wt::WString::tr("penguin-ui-application-shell")), 
+    : Wt::WTemplate(Wt::WString::tr("app-shell-v1")), 
     session_(session)
 {   
     stacked_widget_ = bindWidget("content", std::make_unique<Wt::WStackedWidget>());
@@ -17,18 +17,20 @@ Navigation::Navigation(Session& session)
     menu_->setInternalPathEnabled("/");
     menu_->setStyleClass("sidebar-nav-menu");
     
-    setCondition("user-logged-in", false);
-    setCondition("user-logged-out", true);
-    auto login_btn = bindWidget("login-link", std::make_unique<Button>("Login", "text-sm w-full", PenguinUiWidgetTheme::BtnPrimary));
-    bindString("user-name", "user name");
+    auto user_menu_temp = bindWidget("user-menu", std::make_unique<Wt::WTemplate>(Wt::WString::tr("app-shell-sidebar-user-v1")));
+    user_menu_temp->setCondition("user-logged-in", false);
+    user_menu_temp->setCondition("user-logged-out", true);
+    auto login_btn = user_menu_temp->bindWidget("login-link", std::make_unique<Button>("Login", "text-sm w-full", PenguinUiWidgetTheme::BtnPrimary));
+    user_menu_temp->bindString("user-name", "user name");
     
-    auth_dialog_ = wApp->root()->addNew<Wt::WDialog>(Wt::WString::tr("Wt.Auth.login-form-title"));
+    // auth_dialog_ = wApp->root()->addNew<Wt::WDialog>(Wt::WString::tr("Wt.Auth.login-form-title"));
+    auth_dialog_ = wApp->root()->addNew<Wt::WDialog>("");
     auth_dialog_->setClosable(false);
     auth_dialog_->setModal(true);
     auth_dialog_->escapePressed().connect([=]() {
         auth_dialog_->hide();
     });
-    // auth_dialog_->titleBar()->removeFromParent();
+    auth_dialog_->titleBar()->removeFromParent();
     login_btn->clicked().connect([=]() {
         auth_dialog_->show();
     });
@@ -36,21 +38,17 @@ Navigation::Navigation(Session& session)
     auth_widget_ = auth_dialog_->contents()->addWidget(std::make_unique<AuthWidget>(session_));
 
     session_.login().changed().connect([=]() {
-        std::cout << "\n\n\n\n ------------------Login changed: " << session_.login().loggedIn() << "\n\n";
         if (session_.login().loggedIn()) {
-            setCondition("user-logged-in", true);
-            setCondition("user-logged-out", false);
-            bindString("user-name", session_.login().user().identity(Wt::Auth::Identity::LoginName));
-            bindString("user-image-url", "static/stylus/empty-user.svg");
+            user_menu_temp->setCondition("user-logged-in", true);
+            user_menu_temp->setCondition("user-logged-out", false);
+            user_menu_temp->bindString("user-name", session_.login().user().identity(Wt::Auth::Identity::LoginName));
+            user_menu_temp->bindString("user-image-url", "static/stylus/empty-user.svg");
             if(auth_dialog_->isVisible()) {
                 auth_dialog_->hide();
             }
-            std::cout << "\n\n\n\n ------------------User logged in: " << session_.login().user().identity(Wt::Auth::Identity::LoginName) << "\n\n";
         }else {
-            setCondition("user-logged-in", false);
-            setCondition("user-logged-out", true);
-            
-            std::cout << "\n\n\n\n ------------------User logged out\n\n";
+            user_menu_temp->setCondition("user-logged-in", false);
+            user_menu_temp->setCondition("user-logged-out", true);
         }
     });
 

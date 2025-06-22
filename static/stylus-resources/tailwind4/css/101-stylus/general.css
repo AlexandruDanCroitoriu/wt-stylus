@@ -1,6 +1,6 @@
 @import "tailwindcss";
   
-/* Scrollbar */
+/* Scrollbar */ 
 .stylus-scrollbar::-webkit-scrollbar-track 
 { 
 	@apply dark:bg-gray-950 rounded-[10px];
@@ -10,8 +10,8 @@
 	@apply dark:bg-gray-950 w-[3px];
 }
 .stylus-scrollbar::-webkit-scrollbar-thumb
-{
-	@apply dark:bg-gray-950/20 rounded-[10px];
+{ 
+	@apply dark:bg-gray-950/20 rounded-[10px]; 
 }
 
  /* border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt */

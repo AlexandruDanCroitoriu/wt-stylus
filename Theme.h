@@ -183,9 +183,10 @@ public:
     void setPenguinUiConfig();
     static std::string getThemeName(ThemeConfig theme_config);
     static ThemeConfig getThemeConfig(std::string theme_name);
+    private:
     ThemeConfig current_theme_ = ThemeConfig::Arctic; // Default theme
-private:
     std::unordered_map<int, std::string> widgetThemeClasses_;
     Session& session_;
+    std::string name_;
 
 };

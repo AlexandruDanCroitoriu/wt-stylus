@@ -354,3 +354,180 @@
 [2025-Jun-21 20:51:04.231] [W7d2NiGrxfhjiw94] [info] <Stylus> initialized successfully.
 [2025-Jun-21 20:51:16.257] [mYPoMjKcce3yohut] [info] <Stylus> Admin - maxuli - logged in successfully.
 [2025-Jun-21 20:51:16.258] [mYPoMjKcce3yohut] [info] <Stylus> initialized successfully.
+[2025-Jun-21 20:51:41.115] [rtZTiOpiwjXsJuFA] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-21 20:51:41.117] [rtZTiOpiwjXsJuFA] [info] <Stylus> initialized successfully.
+[2025-Jun-22 15:07:54.901] [J5omAnKnnILTX90C] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 15:07:54.903] [J5omAnKnnILTX90C] [info] <Stylus> initialized successfully.
+[2025-Jun-22 15:08:13.812] [8Rzga5lziCK6Pqy2] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 15:08:13.817] [8Rzga5lziCK6Pqy2] [info] <Stylus> initialized successfully.
+[2025-Jun-22 22:56:11.291] [f5TfHb3pYfHA50Oz] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 22:56:11.297] [f5TfHb3pYfHA50Oz] [info] <Stylus> initialized successfully.
+[2025-Jun-22 22:59:23.313] [BflC8xbG9R6tarce] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 22:59:23.314] [BflC8xbG9R6tarce] [info] <Stylus> initialized successfully.
+[2025-Jun-22 22:59:54.524] [toXHzLjW7fA0PAK8] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 22:59:54.534] [toXHzLjW7fA0PAK8] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:02:19.081] [TTE7eUL3JMWYPB5V] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:02:19.082] [TTE7eUL3JMWYPB5V] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:02:24.870] [Hil8UCd3s1pFx3Qg] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:02:24.871] [Hil8UCd3s1pFx3Qg] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:03:24.923] [avBUZsSYOVQqkaWA] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:03:24.924] [avBUZsSYOVQqkaWA] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:12:29.783] [hmVnvJsGcgkAw7i9] [info] <Stylus> permission not found, creating it...
+[2025-Jun-22 23:12:34.856] [hmVnvJsGcgkAw7i9] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:12:34.856] [hmVnvJsGcgkAw7i9] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:12:42.829] [Jds4nA1kwKM4sspk] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:12:42.830] [Jds4nA1kwKM4sspk] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:14:50.664] [onmRh76Uzzy6vmJK] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:14:50.665] [onmRh76Uzzy6vmJK] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:15:31.223] [UQ3UYzLqeTDg2khU] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:15:31.223] [UQ3UYzLqeTDg2khU] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:15:39.533] [oTVlr22yGSCbPmCj] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:15:39.533] [oTVlr22yGSCbPmCj] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:15:42.606] [riWWOsOm6Y7JdmzH] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:15:42.607] [riWWOsOm6Y7JdmzH] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:15:45.705] [72EtdRg3TkvchzCB] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:15:45.706] [72EtdRg3TkvchzCB] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:15:50.369] [Eyib0NpxVpC4M3Om] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:15:50.370] [Eyib0NpxVpC4M3Om] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:15:54.890] [5D0er8ZFtWayfX6j] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:15:54.891] [5D0er8ZFtWayfX6j] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:22:10.293] [b7tT5IZ3MnEJi57a] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:22:10.294] [b7tT5IZ3MnEJi57a] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:23:25.633] [ncBNL36aTFHaRMvJ] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:23:25.634] [ncBNL36aTFHaRMvJ] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:23:28.859] [hWvdff0QmNjf0KmG] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:23:28.861] [hWvdff0QmNjf0KmG] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:23:35.330] [1EQpCkZ0C9g1LMuZ] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:23:35.331] [1EQpCkZ0C9g1LMuZ] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:23:42.359] [23UFy4X57vIxRpQu] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:23:42.360] [23UFy4X57vIxRpQu] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:23:49.867] [07rrcYq3NxP1nbck] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:23:49.868] [07rrcYq3NxP1nbck] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:23:56.332] [FfWqV6IDgRonLs8Y] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:23:56.332] [FfWqV6IDgRonLs8Y] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:23:59.236] [svSp2hEnlJJiy21r] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:23:59.237] [svSp2hEnlJJiy21r] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:24:02.463] [tUnK55n9zBiFPR1D] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:24:02.463] [tUnK55n9zBiFPR1D] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:24:06.412] [Ae4BIegP3jd8bLHA] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:24:06.412] [Ae4BIegP3jd8bLHA] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:28:37.854] [6WXSwu1EIqvpnXBk] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:28:37.855] [6WXSwu1EIqvpnXBk] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:32:12.998] [okeaOSGEIQlyIwhA] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:32:12.999] [okeaOSGEIQlyIwhA] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:32:23.453] [pC9BqcOPaKQXns97] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:32:23.453] [pC9BqcOPaKQXns97] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:32:26.119] [lHX6WJsSGeJfg1Py] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:32:26.120] [lHX6WJsSGeJfg1Py] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:32:26.784] [hyPJI9sHle2N4ewt] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:32:26.785] [hyPJI9sHle2N4ewt] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:33:38.944] [pPsqPnjSzhgl2tjM] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:33:38.944] [pPsqPnjSzhgl2tjM] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:45:39.310] [ygkgvsg8GmXg8UyZ] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:45:39.311] [ygkgvsg8GmXg8UyZ] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:45:40.603] [3s7CLvZzzWgJ0gOI] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:45:40.603] [3s7CLvZzzWgJ0gOI] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:46:10.889] [3AxLHKMvGaO9dnBZ] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:46:10.889] [3AxLHKMvGaO9dnBZ] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:50:21.744] [M0q13yjiZpwgHaRj] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:50:21.745] [M0q13yjiZpwgHaRj] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:53:14.241] [PTRV1XPpAldzxl0D] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:53:14.243] [PTRV1XPpAldzxl0D] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:57:08.428] [fkyO3MuoON9lKrmf] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:57:08.429] [fkyO3MuoON9lKrmf] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:57:39.313] [drQ7eo1Mh7J4zQm4] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:57:39.314] [drQ7eo1Mh7J4zQm4] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:58:03.379] [SWEfalhlavTEAZyW] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:58:03.380] [SWEfalhlavTEAZyW] [info] <Stylus> initialized successfully.
+[2025-Jun-22 23:58:41.363] [rvabuVJn5MNCbPwn] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-22 23:58:41.364] [rvabuVJn5MNCbPwn] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:00:23.117] [AImKBa7M4eaxTXbf] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:00:23.117] [AImKBa7M4eaxTXbf] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:01:13.605] [HmMajVc9ZZhsj9CA] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:01:13.605] [HmMajVc9ZZhsj9CA] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:02:19.331] [NhmtioxgrIw3NT0o] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:02:19.331] [NhmtioxgrIw3NT0o] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:08:15.916] [5azEO6it3RFNALxL] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:08:15.916] [5azEO6it3RFNALxL] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:15:35.010] [BzdqCuD20m5p0Bhy] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:15:35.010] [BzdqCuD20m5p0Bhy] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:16:05.427] [eX3j4tDZLZvTVScU] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:16:05.427] [eX3j4tDZLZvTVScU] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:16:16.361] [MLopkNLT8TLqAFFP] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:16:16.362] [MLopkNLT8TLqAFFP] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:16:21.046] [xIRD8SOsonnSXHBQ] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:16:21.046] [xIRD8SOsonnSXHBQ] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:16:29.610] [zMMxZwsItRv5jv3a] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:16:29.611] [zMMxZwsItRv5jv3a] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:24:41.966] [3x8CJPjtwOgp9Vrs] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:24:41.966] [3x8CJPjtwOgp9Vrs] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:24:44.103] [zOMQtnABwScymIop] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:24:44.103] [zOMQtnABwScymIop] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:25:20.948] [JAULwbhahb5jLXhA] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:25:20.949] [JAULwbhahb5jLXhA] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:25:53.118] [nUt8WkpDKZvWp8kr] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:25:53.118] [nUt8WkpDKZvWp8kr] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:26:11.621] [ygkY9QeBLVyas9H2] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:26:11.628] [ygkY9QeBLVyas9H2] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:26:48.167] [2fEDCOmTzdMsLawH] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:26:48.168] [2fEDCOmTzdMsLawH] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:29:00.121] [d9waj3pSIE9hkcvw] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:29:00.121] [d9waj3pSIE9hkcvw] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:29:40.771] [XJqBiknTpNzVgICh] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:29:40.772] [XJqBiknTpNzVgICh] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:35:19.883] [pKMxB8Hc95Td7pwz] [info] <Stylus> permission not found, creating it...
+[2025-Jun-23 00:49:07.542] [5vgOhL8X5fNOAK05] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:49:07.544] [5vgOhL8X5fNOAK05] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:51:17.069] [dTy6vwVZCAqXzSXu] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:51:17.069] [dTy6vwVZCAqXzSXu] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:55:23.189] [LhEr0N23nhzj6gH3] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:55:23.189] [LhEr0N23nhzj6gH3] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:55:43.610] [uUAlCKevBvMK0hR3] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:55:43.611] [uUAlCKevBvMK0hR3] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:55:57.280] [Bq538FIPSqftdGA8] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 00:55:57.281] [Bq538FIPSqftdGA8] [info] <Stylus> initialized successfully.
+[2025-Jun-23 00:58:37.143] [Uv0zqkWAH3hEexyX] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:00:42.659] [AZAJldQKPaOgXFbE] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:01:43.894] [V7LegBAAWFhJ1prF] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:05:00.107] [7CxKbjOOyxZIUJnk] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:05:00.766] [Zp5uf04EdgCyCVD0] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:05:29.289] [9zTmsHhnwnX0ID9I] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:05:49.652] [dZyBZIYbOW6juF6a] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:08:26.991] [HnEmBf6TtJEW6b7F] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:09:13.996] [J3bsbNJ9dlOkeOHx] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:10:54.650] [EThNSvtWIEeGSPvu] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:13:52.912] [mfV6EihO29M28a24] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:16:00.738] [CWd6x6dRKMjTIE0G] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:18:09.951] [RL60xXs6Tfecpbnv] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:18:10.137] [O9jwl3LyZQvDVpYm] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:21:42.075] [jLNqDa6lcI6wpGxg] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:21:48.771] [PjAO24YS2VWYMyAU] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:24:16.150] [7IZgU3zmiyiZzo8F] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:26:32.135] [vS30XuEQMRwCAXMT] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:26:57.127] [QediQtUK0dPpLKsN] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:27:24.619] [hyClHYNtQ4ziR0VB] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:27:57.781] [0QSv1Pa3lkhIJ7v0] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:28:09.677] [NZXHqdNpZUanWFGy] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:28:12.197] [s9xBWl4S1rICwZec] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:29:42.038] [9h636MP92SkbJAei] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:33:17.328] [GjS9VNqiog4KHhm9] [info] <Stylus> initialized successfully.
+[2025-Jun-23 01:33:49.918] [NrIUDB0ZfoAVPHCs] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:06:32.407] [KDP746BzQvu1sh2x] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:08:32.151] [7LBPzjscC3oxeGUs] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:09:10.665] [A45dqwVgyi9hrGnO] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:10:33.358] [iHzIcci0w1eHwZbi] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:11:10.497] [Ew2CPFdWw0FTn226] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:11:11.196] [kys89XFEWZZb58UN] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:14:51.910] [um6fMvFyzGHyHIAM] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:15:38.040] [Gd8KPQCkggFBZs52] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:16:44.866] [ei3QIYPidlVkqe8z] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:16:51.764] [ei3QIYPidlVkqe8z] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 02:35:09.232] [dvfAJDCX4ocscR3p] [info] <Stylus> permission not found, creating it...
+[2025-Jun-23 02:35:09.250] [dvfAJDCX4ocscR3p] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:35:19.049] [dvfAJDCX4ocscR3p] [info] <Stylus> Admin - maxuli - logged in successfully.
+[2025-Jun-23 02:35:33.600] [KZZc2ZLQkGiqq2V3] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:35:52.028] [KZZc2ZLQkGiqq2V3] [info] <Stylus> Admin - test - logged in successfully.
+[2025-Jun-23 02:35:56.275] [KU26TG1tx05T7aX4] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:36:33.268] [KU26TG1tx05T7aX4] [info] <Stylus> Admin - test1 - logged in successfully.
+[2025-Jun-23 02:36:37.700] [jbjcAPSAtH1yVmZv] [info] <Stylus> initialized successfully.
+[2025-Jun-23 02:36:46.851] [jbjcAPSAtH1yVmZv] [info] <Stylus> Admin - test1 - logged in successfully.
