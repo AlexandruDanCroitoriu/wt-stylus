@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y curl gnupg \
 COPY --from=builder /usr/lib/libwt*.so.* /usr/lib/
 COPY --from=builder /usr/include/boost/* /usr/include/boost/
 COPY --from=builder /usr/lib/x86_64-linux-gnu/libboost* /usr/lib/x86_64-linux-gnu/
+COPY --from=builder /usr/lib/x86_64-linux-gnu/libicu* /usr/lib/x86_64-linux-gnu/
 
 COPY --from=builder ./apps/cv /apps/cv
 
