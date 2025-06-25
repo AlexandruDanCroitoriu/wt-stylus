@@ -1,14 +1,22 @@
 cmake_minimum_required(VERSION 3.13...3.22)
+include(FetchContent)
 
 project(app)
 
 set(CMAKE_CXX_STANDARD 17)
 set(XMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread")
-set(RLIB --docroot ../ -c ../wt_config.xml --http-address 0.0.0.0 --http-port 9020)
+set(RLIB --docroot ../../ -c ../../wt_config.xml --http-address 0.0.0.0 --http-port 9020)
 set(SOURCE_DIR ${PROJECT_SOURCE_DIR}/src/)
 
 include_directories(${SOURCE_DIR})
+
+
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)
+FetchContent_MakeAvailable(json)
+
+FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git GIT_TAG da40186618909b1a7363d4e4495aa899c6e0eb75) 
+FetchContent_MakeAvailable(cpr)
 
 # ./app --docroot ../ –config ./wt_config.xml --http-address 0.0.0.0 --http-port 9020
 
@@ -67,6 +75,8 @@ target_link_libraries(${PROJECT_NAME}
     wtdbosqlite3
     # wtdbopostgres
     boost_regex
+    cpr::cpr
+    nlohmann_json::nlohmann_json
 )
 
 add_custom_target(run

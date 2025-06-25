@@ -13,6 +13,7 @@
 #include <Wt/WMenu.h>
 #include <Wt/WLabel.h>
 #include <Wt/WTheme.h>
+#include "101-Stylus/000-Utils/StylusState.h"
 
 App::App(const Wt::WEnvironment &env)
     : WApplication(env),
@@ -32,33 +33,32 @@ App::App(const Wt::WEnvironment &env)
 
 
     {// message resource bundle
-        wApp->messageResourceBundle().use("../static/stylus-resources/xml/PenguinUi/svg");
+        wApp->messageResourceBundle().use("../../static/stylus-resources/xml/PenguinUi/svg");
         
         // Auth 
-        wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth");
-        wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-login");
-        wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-strings");
+        wApp->messageResourceBundle().use("../../static/stylus-resources/xml/003-Auth/ovrwt-auth");
+        wApp->messageResourceBundle().use("../../static/stylus-resources/xml/003-Auth/ovrwt-auth-login");
+        wApp->messageResourceBundle().use("../../static/stylus-resources/xml/003-Auth/ovrwt-auth-strings");
 
         // override the default Wt auth templates
-        wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-registration-view");
+        wApp->messageResourceBundle().use("../../static/stylus-resources/xml/003-Auth/ovrwt-registration-view");
 
         // override the default Wt templates
-        wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/main");
-        wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/ovrwt");
-        wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/svg");
+        wApp->messageResourceBundle().use("../../static/stylus-resources/xml/001-App/main");
+        wApp->messageResourceBundle().use("../../static/stylus-resources/xml/001-App/ovrwt");
+        wApp->messageResourceBundle().use("../../static/stylus-resources/xml/001-App/svg");
 
-        wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/test");
-        wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/override-wt");
+        wApp->messageResourceBundle().use("../../static/stylus-resources/xml/000-examples/test");
+        wApp->messageResourceBundle().use("../../static/stylus-resources/xml/000-examples/override-wt");
     }
     
-    session_.login().changed().connect(this, &App::authEvent);
 
     auto theme = std::make_shared<Theme>(session_, ThemeConfig::Arctic);
     theme->setPenguinUiConfig();
     setTheme(theme);
 
-    stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
-
+    // stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
+    
     auth_dialog_ = wApp->root()->addNew<Wt::WDialog>("");
     auth_dialog_->titleBar()->removeFromParent();
     auth_dialog_->setClosable(false);
@@ -67,13 +67,16 @@ App::App(const Wt::WEnvironment &env)
     auth_dialog_->setMinimumSize(Wt::WLength(100, Wt::LengthUnit::ViewportWidth), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
     auth_dialog_->contents()->setStyleClass("flex items-center justify-center");
     auth_widget_ = auth_dialog_->contents()->addWidget(std::make_unique<AuthWidget>(session_));
+    
     app_root_ = root()->addNew<Wt::WContainerWidget>();
+    
+    session_.login().changed().connect(this, &App::authEvent);
     auth_widget_->processEnvironment();
-    if(!session_.login().loggedIn()) 
+    if(!session_.login().loggedIn()) {
         session_.login().changed().emit();
+    }
 
     std::cout << "\n\n ------------------------ App::App() - Application instantiated ------------------------ \n\n";
-
 }
 
 void App::authEvent() {
@@ -96,6 +99,19 @@ void App::authEvent() {
 void App::createApp()
 {
     app_root_->clear();
+    if(stylus_) stylus_->removeFromParent();
+
+    if(session_.login().loggedIn()) {
+        Wt::Dbo::Transaction transaction(session_);
+        
+        auto stylus_permission = session_.find<Permission>().where("name = ?").bind("STYLUS").resultValue();
+        if(!stylus_permission){
+            Stylus::StylusState::logMessage("Permission 'STYLUS' not found | in App::createApp()", Stylus::LogMessageType::Error);
+        } else if(session_.user()->hasPermission(stylus_permission)){
+            stylus_ = app_root_->addChild(std::make_unique<Stylus::Stylus>(session_));
+        }
+        transaction.commit();
+    }
 
     auto theme_switcher = app_root_->addNew<ThemeSwitcher>(session_);
     theme_switcher->addStyleClass("fixed bottom-16 right-3");
@@ -110,5 +126,8 @@ void App::createApp()
     
     navbar->addPage("Portofolio", std::make_unique<AboutMe>());
     navbar->addPage("UI Penguin", std::move(penguin_ui_page));
+
+
+
 
 }

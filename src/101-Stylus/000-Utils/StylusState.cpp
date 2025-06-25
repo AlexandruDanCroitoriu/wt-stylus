@@ -16,25 +16,25 @@ namespace Stylus
     StylusState::StylusState()
         : doc_(std::make_shared<tinyxml2::XMLDocument>())
     {
-        state_file_path_ = "../static/stylus/stylus-state.xml";
+        state_file_path_ = "../../static/stylus/stylus-state.xml";
 
         js_editor_data_.extension_ = "js";
-        js_editor_data_.root_folder_path_ = "../static/stylus-resources/js/";
+        js_editor_data_.root_folder_path_ = "../../static/stylus-resources/js/";
         js_editor_data_.root_resource_url_ = "static/stylus-resources/js/";
 
         xml_editor_data_.extension_ = "xml";
-        xml_editor_data_.root_folder_path_ = "../static/stylus-resources/xml/";
+        xml_editor_data_.root_folder_path_ = "../../static/stylus-resources/xml/";
         xml_editor_data_.root_resource_url_ = "static/stylus-resources/xml/";
 
         css_editor_data_.extension_ = "css";
-        css_editor_data_.root_folder_path_ = "../static/stylus-resources/tailwind4/css/";
+        css_editor_data_.root_folder_path_ = "../../static/stylus-resources/tailwind4/css/";
         css_editor_data_.root_resource_url_ = "static/stylus-resources/tailwind4/css/";
 
         tailwind_config_editor_data_.extension_ = "css";
-        tailwind_config_editor_data_.root_folder_path_ = "../static/stylus-resources/tailwind-config/";
+        tailwind_config_editor_data_.root_folder_path_ = "../../static/stylus-resources/tailwind-config/";
         tailwind_config_editor_data_.root_resource_url_ = "static/stylus-resources/tailwind-config/";
 
-        tailwind_input_file_path_ = "../static/stylus-resources/tailwind4/input.css";
+        tailwind_input_file_path_ = "../../static/stylus-resources/tailwind4/input.css";
 
         doc_->LoadFile(state_file_path_.c_str());
         if (doc_->ErrorID() != tinyxml2::XML_SUCCESS)
@@ -303,7 +303,7 @@ namespace Stylus
         
         // Setup the logger
         Wt::WLogger logger;
-        logger.setFile("../stylus_logs.txt");
+        logger.setFile("../../stylus_logs.txt");
         
         // Add an entry
         Wt::WLogEntry entry = logger.entry(type_str);

@@ -98,7 +98,7 @@ void AuthWidget::createInitialData()
   // STYLUS_FILES_MANAGER permission for admin user maxuli
   Wt::Dbo::ptr<Permission> permission = session_.find<Permission>().where("name = ?").bind("STYLUS_FILES_MANAGER").resultValue();
   if (!permission) {
-    permission = session_.add(std::make_unique<Permission>("STYLUS_FILES_MANAGER"));
+    permission = session_.add(std::make_unique<Permission>("STYLUS"));
   }
   
   std::string username = "maxuli";

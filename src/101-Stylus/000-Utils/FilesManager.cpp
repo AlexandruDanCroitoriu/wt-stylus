@@ -662,7 +662,7 @@ void FilesManager::reuploadFile()
 {
       std::string file_path = data_.root_folder_path_ + selected_file_path_;
         if(std::fstream(file_path).good() == false) {
-            editor_->setEditorText("static/stylus-resources/empty-file", state_->getFileText("../static/stylus-resources/empty-file"));
+            editor_->setEditorText("static/stylus-resources/empty-file", state_->getFileText("../../static/stylus-resources/empty-file"));
             editor_->setEditorReadOnly(true);
         }else {
             editor_->setEditorReadOnly(false);

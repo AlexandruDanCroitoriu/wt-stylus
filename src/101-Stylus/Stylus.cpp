@@ -30,7 +30,7 @@ namespace Stylus
         setMinimumSize(Wt::WLength(100, Wt::LengthUnit::ViewportWidth), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
         setLayoutSizeAware(true);
      
-        Wt::WApplication::instance()->doJavaScript(WT_CLASS R"(
+        wApp->doJavaScript(WT_CLASS R"(
             .$(')" + id() + R"(').oncontextmenu = function() {
                 event.cancelBubble = true;
                 event.returnValue = false;
@@ -45,36 +45,15 @@ namespace Stylus
                 }
             });
         )");
-        // Wt::WApplication::instance()->useStyleSheet(Wt::WApplication::instance()->docRoot() + "/static/stylus/stylus.css?v=" + Wt::WRandom::generateId());
-        // Wt::WApplication::instance()->require(Wt::WApplication::instance()->docRoot() + "/static/stylus/monaco-edditor.js");
+        // wApp->useStyleSheet(wApp->docRoot() + "/static/stylus/stylus.css?v=" + Wt::WRandom::generateId());
+        // wApp->require(wApp->docRoot() + "/static/stylus/monaco-edditor.js");
         
-        Wt::WApplication::instance()->require(Wt::WApplication::instance()->docRoot() + "/static/stylus/monaco-edditor.js");
-        // Wt::WApplication::instance()->messageResourceBundle().use(Wt::WApplication::instance()->docRoot() + "/static/stylus/templates");
-        Wt::WApplication::instance()->messageResourceBundle().use("../static/stylus-resources/xml/101-stylus/svg");
-        Wt::WString stylus_css_file_path_ = "../static/tailwind.css?v=" + Wt::WRandom::generateId();
-        // Wt::WApplication::instance()->useStyleSheet(stylus_css_file_path_.toUTF8());
+        wApp->require(wApp->docRoot() + "/static/stylus/monaco-edditor.js");
+        wApp->messageResourceBundle().use("../../static/stylus-resources/xml/101-stylus/svg");
+        // Wt::WString stylus_css_file_path_ = "../../static/tailwind.css?v=" + Wt::WRandom::generateId();
+        // wApp->useStyleSheet(stylus_css_file_path_.toUTF8());
 
-        Wt::Dbo::Transaction transaction(session_);
-        stylus_permission_ = session_.find<Permission>().where("name = ?").bind("STYLUS_FILES_MANAGER").resultValue();
-        if(!stylus_permission_) {
-            StylusState::logMessage("<Stylus> permission not found, creating it...");
-            stylus_permission_ = session_.add(std::make_unique<Permission>("STYLUS_FILES_MANAGER"));
-        }
-        transaction.commit();
 
-        // session_.login().changed().connect(this, [=]()
-        // {
-        //     if (session_.login().loggedIn()) {
-        //         StylusState::logMessage("<Stylus> Admin - "+session_.login().user().identity(Wt::Auth::Identity::LoginName).toUTF8()+" - logged in successfully.");
-        //         Wt::Dbo::Transaction transaction(session_);
-        //         if(session_.user()->hasPermission(stylus_permission_) && state_ == nullptr) {
-        //             setupStylus();
-        //         }
-        //         transaction.commit();
-        //     } else {
-        //         StylusState::logMessage("<Stylus> logged out successfully.");
-        //     }
-        // });
         setupStylus();
     }
     
@@ -236,11 +215,11 @@ namespace Stylus
 
         if (state_->stylus_node_->BoolAttribute("dark-mode"))
         {
-            dynamic_cast<App *>(Wt::WApplication::instance())->dark_mode_changed_.emit(true);
+            dynamic_cast<App *>(wApp)->dark_mode_changed_.emit(true);
             xml_files_manager_->editor_->setDarkTheme(true);
         }
 
-        Wt::WApplication::instance()->globalKeyWentDown().connect([=](Wt::WKeyEvent e)
+        wApp->globalKeyWentDown().connect([=](Wt::WKeyEvent e)
                                                                   { 
         if (e.modifiers().test(Wt::KeyboardModifier::Alt)){
             if(e.modifiers().test(Wt::KeyboardModifier::Shift)){
@@ -589,8 +568,8 @@ namespace Stylus
                 }else{
                     animateHide(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500));
                     state_->stylus_node_->SetAttribute("open", "false");
-                    Wt::WMessageResourceBundle& resource_boundle = Wt::WApplication::instance()->messageResourceBundle();
-                    Wt::WApplication::instance()->refresh();
+                    Wt::WMessageResourceBundle& resource_boundle = wApp->messageResourceBundle();
+                    wApp->refresh();
                     
                 }
                 state_->doc_->SaveFile(state_->state_file_path_.c_str());
@@ -607,7 +586,7 @@ namespace Stylus
             }else if (e.key() == Wt::Key::Key_6){
                 settings_menu_item->clicked().emit(Wt::WMouseEvent());
             }else if (e.key() == Wt::Key::Key_7){
-                dynamic_cast<App*>(Wt::WApplication::instance())->dark_mode_changed_.emit(!state_->stylus_node_->BoolAttribute("dark-mode"));
+                dynamic_cast<App*>(wApp)->dark_mode_changed_.emit(!state_->stylus_node_->BoolAttribute("dark-mode"));
             }else if (e.key() == Wt::Key::Up){
                 if(!xml_files_manager_->selected_file_brain_) return;
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
