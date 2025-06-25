@@ -40,12 +40,16 @@ RUN rm -rf wt
 
 RUN cp /usr/local/lib/libwt*.so.* /usr/lib/
 
+# library'es used in the App
+RUN apt-get install -y python3-pip libpsl-dev
+RUN pip3 install --upgrade meson ninja
+
 COPY ./resources /apps/cv/resources
 COPY ./src /apps/cv/src
 COPY ./CMakeLists.txt /apps/cv/CMakeLists.txt
 COPY ./wt_config.xml /apps/cv/wt_config.xml
 
-RUN mkdir -p /apps/cv/build
-WORKDIR /apps/cv/build
-RUN cmake ../ 
+RUN mkdir -p /apps/cv/build/release
+WORKDIR /apps/cv/build/release
+RUN cmake ../..
 RUN make

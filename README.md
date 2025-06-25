@@ -14,8 +14,7 @@ git config --global user.email "croitoriu.alexandru.code@gmail.com"
 https://redmine.emweb.be/boards/2/topics/14658?r=14737#message-14737
 
 
-
-libpsl-dev
+sudo apt-get install libpsl-dev meson -y
 
 
 https://github.com/libcpr/cpr

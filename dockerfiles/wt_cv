@@ -13,7 +13,7 @@ COPY --from=builder /usr/lib/x86_64-linux-gnu/libboost* /usr/lib/x86_64-linux-gn
 
 COPY --from=builder ./apps/cv /apps/cv
 
-WORKDIR /apps/cv/build
+WORKDIR /apps/cv/build/release
 
 EXPOSE 9013
-CMD ["./app", "--docroot", "../", "-c", "../wt_config.xml", "--http-address", "0.0.0.0", "--http-port", "9013"]
+CMD ["./app", "--docroot", "../../", "-c", "../../wt_config.xml", "--http-address", "0.0.0.0", "--http-port", "9013"]
