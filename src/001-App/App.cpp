@@ -65,7 +65,8 @@ App::App(const Wt::WEnvironment &env)
     auth_dialog_->setModal(true);
     auth_dialog_->escapePressed().connect([=]() { auth_dialog_->hide(); });
     auth_dialog_->setMinimumSize(Wt::WLength(100, Wt::LengthUnit::ViewportWidth), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
-    auth_dialog_->contents()->setStyleClass("flex items-center justify-center");
+    // auth_dialog_->setStyleClass("absolute top-0 left-0 right-0 bottom-0 w-screen h-screen m-1 p-1 ");
+    auth_dialog_->contents()->setStyleClass("min-h-screen min-w-screen m-1 p-1 flex items-center justify-center");
     auth_widget_ = auth_dialog_->contents()->addWidget(std::make_unique<AuthWidget>(session_));
     
     app_root_ = root()->addNew<Wt::WContainerWidget>();
