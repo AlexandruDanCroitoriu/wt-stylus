@@ -53,8 +53,28 @@ namespace Stylus
         // Wt::WString stylus_css_file_path_ = "../../static/tailwind.css?v=" + Wt::WRandom::generateId();
         // wApp->useStyleSheet(stylus_css_file_path_.toUTF8());
 
+        // Wt::Dbo::Transaction transaction(session_);
+        // stylus_permission_ = session_.find<Permission>().where("name = ?").bind("STYLUS").resultValue();
+        // if(!stylus_permission_) {
+        //     StylusState::logMessage("<Stylus> permission not found, creating it...");
+        //     stylus_permission_ = session_.add(std::make_unique<Permission>("STYLUS"));
+        // }
+        // transaction.commit();
 
-        setupStylus();
+        // session_.login().changed().connect(this, [=]()
+        // {
+        //     if (session_.login().loggedIn()) {
+        //         StylusState::logMessage("<Stylus> Admin - "+session_.login().user().identity(Wt::Auth::Identity::LoginName).toUTF8()+" - logged in successfully.");
+        //         Wt::Dbo::Transaction transaction(session_);
+        //         if(session_.user()->hasPermission(stylus_permission_) && state_ == nullptr) {
+        //             setupStylus();
+        //         }
+        //         transaction.commit();
+        //     } else {
+        //         StylusState::logMessage("<Stylus> logged out successfully.");
+        //     }
+        // });
+        // setupStylus();
     }
     
     void Stylus::setupStylus()

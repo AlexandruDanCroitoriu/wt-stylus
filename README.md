@@ -28,12 +28,12 @@ mkdir -p build/debug build/release
 # Build debug version
 cd build/debug
 cmake -DCMAKE_BUILD_TYPE=Debug ../..
-make -j$(nproc)
+make
 
 # Build release version
 cd ../release
 cmake -DCMAKE_BUILD_TYPE=Release ../..
-make -j$(nproc)
+make
 ```
 
 The debug build includes debugging symbols and is not optimized, making it ideal for development and debugging.

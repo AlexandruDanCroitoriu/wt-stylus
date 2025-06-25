@@ -3,6 +3,13 @@ include(FetchContent)
 
 project(app)
 
+# Set number of parallel build jobs to number of available processors
+include(ProcessorCount)
+ProcessorCount(N)
+if(NOT N EQUAL 0)
+  set(CMAKE_BUILD_PARALLEL_LEVEL ${N})
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(XMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread")

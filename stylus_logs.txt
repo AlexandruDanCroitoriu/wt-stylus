@@ -1,3 +1,5 @@
 [2025-Jun-26 00:20:43.817] [VGg53jr1dnt2BDMW] [error] STYLUS permission not found | App::createApp()
 [2025-Jun-26 00:22:39.310] [FxpLN43lCXeFWlgM] [error] STYLUS permission not found | App::createApp()
 [2025-Jun-26 00:25:23.880] [JS0DP5f90iebeH2R] [info] <Stylus> initialized successfully.
+[2025-Jun-26 02:03:36.030] [s9LaUaFbeQK7wHg5] [warning] Multiple 'STYLUS' permissions found, using first one | in App::createApp()
+[2025-Jun-26 02:03:42.856] [P2tnE2xRHVQptlUs] [warning] Multiple 'STYLUS' permissions found, using first one | in App::createApp()

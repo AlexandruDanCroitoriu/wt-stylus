@@ -104,10 +104,22 @@ void App::createApp()
     if(session_.login().loggedIn()) {
         Wt::Dbo::Transaction transaction(session_);
         
-        auto stylus_permission = session_.find<Permission>().where("name = ?").bind("STYLUS").resultValue();
-        if(!stylus_permission){
-            Stylus::StylusState::logMessage("Permission 'STYLUS' not found | in App::createApp()", Stylus::LogMessageType::Error);
-        } else if(session_.user()->hasPermission(stylus_permission)){
+        // Query for STYLUS permission, taking first result if multiple exist
+        Wt::Dbo::ptr<Permission> stylus_permission;
+        auto query = session_.find<Permission>().where("name = ?").bind("STYLUS");
+        auto results = query.resultList();
+        
+        if(results.empty()) {
+            Stylus::StylusState::logMessage("Permission 'STYLUS' not found (creating it now) | in App::createApp()", Stylus::LogMessageType::Error);
+            stylus_permission = session_.add(std::make_unique<Permission>("STYLUS"));
+        } else {
+            stylus_permission = results.front();
+            if(results.size() > 1) {
+                Stylus::StylusState::logMessage("Multiple 'STYLUS' permissions found, using first one | in App::createApp()", Stylus::LogMessageType::Warning);
+            }
+        }
+        
+        if(session_.user()->hasPermission(stylus_permission)){
             stylus_ = app_root_->addChild(std::make_unique<Stylus::Stylus>(session_));
         }
         transaction.commit();
