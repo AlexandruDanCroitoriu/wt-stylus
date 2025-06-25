@@ -1,7 +1,9 @@
 #pragma once
-#include <Wt/WTheme.h>
 #include <unordered_map>
 #include <002-Dbo/Session.h>
+
+#include <Wt/WTheme.h>
+#include <Wt/WCssTheme.h>
 
 enum ThemeConfig
 {
@@ -25,16 +27,16 @@ enum ThemeConfig
 //   MenuItemIcon = 100,
 //   MenuItemCheckBox = 101,
 //   MenuItemClose = 102,
-
+// 
 //   DialogCoverWidget = 200,
 //   DialogTitleBar = 201,
 //   DialogBody = 202,
 //   DialogFooter = 203,
 //   DialogCloseIcon = 204,
 //   DialogContent = 205, // For bootstrap 3 modal-content style
-
+// 
 //   TableViewRowContainer = 300,
-
+// 
 //   DatePickerPopup = 400,
 //   DatePickerIcon = 401,
 //   TimePickerPopup = 410,
@@ -45,13 +47,13 @@ enum ThemeConfig
 //   PanelTitle = 502,
 //   PanelBody = 503,
 //   PanelBodyContent = 504,
-
+// 
 //   AuthWidgets = 600,
-
+// 
 //   InPlaceEditing = 700,
 //   InPlaceEditingButtonsContainer = 701,
 //   InPlaceEditingButton = 702,
-
+// 
 //   Navbar = 800,
 //   NavCollapse = 801,
 //   NavBrand = 802,
@@ -63,6 +65,7 @@ enum ThemeConfig
 //   NavbarAlignLeft = 808,
 //   NavbarAlignRight = 809
 // };
+
 enum PenguinUiWidgetTheme {
     // widgets
     WComboBox = 10,

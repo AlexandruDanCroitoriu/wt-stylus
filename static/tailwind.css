@@ -2782,69 +2782,11 @@
   }
 }
 @layer utilities;
-.item, .itemselected, .Wt-popupmenu .active {
-  gap: calc(var(--spacing) * 2);
-  :where(& > :not(:last-child)) {
-    --tw-space-x-reverse: 0;
-    margin-inline-start: calc(calc(var(--spacing) * 2) * var(--tw-space-x-reverse));
-    margin-inline-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-x-reverse)));
-  }
-  border-radius: var(--radius-radius);
-  padding-inline: calc(var(--spacing) * 2);
-  padding-block: calc(var(--spacing) * 1.5);
-  --tw-font-weight: var(--font-weight-medium);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-on-surface);
-  text-underline-offset: 2px;
-  &:hover {
-    @media (hover: hover) {
-      background-color: color-mix(in oklab, var(--color-primary) 5%, transparent);
-    }
-  }
-  &:hover {
-    @media (hover: hover) {
-      color: var(--color-on-surface-strong);
-    }
-  }
-  &:focus {
-    --tw-outline-style: none;
-    outline-style: none;
-    @media (forced-colors: active) {
-      outline: 2px solid transparent;
-      outline-offset: 2px;
-    }
-  }
-  &:focus-visible {
-    text-decoration-line: underline;
-  }
-  &:where(.dark, .dark *) {
-    color: var(--color-on-surface-dark);
-  }
-  &:where(.dark, .dark *) {
-    &:hover {
-      @media (hover: hover) {
-        background-color: color-mix(in oklab, var(--color-primary-dark) 5%, transparent);
-      }
-    }
-  }
-  &:where(.dark, .dark *) {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-on-surface-dark-strong);
-      }
-    }
-  }
+.Wt-separator .active {
+  padding-block: calc(var(--spacing) * 0) !important;
 }
-.sidebar-nav-menu {
-  &:first-child {
-    margin-right: calc(var(--spacing) * 2);
-  }
-  .item {
-    color: var(--color-white);
-  }
-  .itemselected {
-    background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
-  }
+.itemselected {
+  background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
 }
 // dialog .Wt-popup.Wt-outset.Wt-dialog {
   border-color: var(--color-outline) !important;

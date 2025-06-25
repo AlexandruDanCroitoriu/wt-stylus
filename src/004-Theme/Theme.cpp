@@ -40,6 +40,7 @@ namespace skeletons
 
 Theme::Theme(Session& session, ThemeConfig theme_config)
     : Wt::WTheme(),
+    // : Wt::WCssTheme("default"),
       session_(session)
 {
 
@@ -107,13 +108,15 @@ Theme::Theme(Session& session, ThemeConfig theme_config)
     });
 
     session_.login().changed().connect([=]() {
+      if(!session_.login().loggedIn()) return;
+
         Wt::Dbo::Transaction transaction(session_);
         auto user = session_.user(session_.login().user());
         if (user) {
           wApp->setHtmlClass(user->ui_dark_mode_ ? "dark" : "");
           wApp->setHtmlAttribute("data-theme", user->ui_penguin_theme_name_);
-          dynamic_cast<App*>(wApp)->dark_mode_changed_.emit(user->ui_dark_mode_);
-          dynamic_cast<App*>(wApp)->theme_changed_.emit(getThemeConfig(user->ui_penguin_theme_name_));
+          // dynamic_cast<App*>(wApp)->dark_mode_changed_.emit(user->ui_dark_mode_);
+          // dynamic_cast<App*>(wApp)->theme_changed_.emit(getThemeConfig(user->ui_penguin_theme_name_));
         }
         transaction.commit();
     });
@@ -228,9 +231,9 @@ void Theme::apply(Wt::WWidget *widget, Wt::WWidget *child, int widgetRole) const
         break;
 
     case Wt::WidgetThemeRole::AuthWidgets:
-        Wt::WApplication *app = Wt::WApplication::instance();
-        app->useStyleSheet(Wt::WApplication::relativeResourcesUrl() + "form.css");
-        app->builtinLocalizedStrings().useBuiltin(skeletons::AuthCssTheme_xml);
+        // Wt::WApplication *app = Wt::WApplication::instance();
+        // app->useStyleSheet(Wt::WApplication::relativeResourcesUrl() + "form.css");
+        // app->builtinLocalizedStrings().useBuiltin(skeletons::AuthCssTheme_xml);
         break;
     }
 }

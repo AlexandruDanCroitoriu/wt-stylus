@@ -214,7 +214,7 @@ namespace Stylus
 
     void ControlCenter::setFileBrain(std::shared_ptr<XMLFileBrain> file_brain)
     {
-        std::cout << "\n\nControlCenter::setFileBrain() - setting file brain\n\n";
+        // std::cout << "\n\nControlCenter::setFileBrain() - setting file brain\n\n";
         file_brain_ = file_brain;
         auto selected_node = file_brain_->selected_node_;
         // if(!elem_tag_->hasFocus() && !elem_text_->hasFocus() && !is_condition_->hasFocus())

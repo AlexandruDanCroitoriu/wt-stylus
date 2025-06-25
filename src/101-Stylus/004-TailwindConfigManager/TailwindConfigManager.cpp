@@ -313,7 +313,7 @@ namespace Stylus
     void TailwindConfigManager::generateCssFile()
     {
 
-        std::cout << "\n\nGenerating CSS file...\n\n";
+        // std::cout << "\n\nGenerating CSS file...\n\n";
         // std::ofstream file("../static/stylus-resources/tailwind4/input.css");
         std::ofstream file(state_->tailwind_input_file_path_);
         if (!file.is_open())
@@ -363,12 +363,12 @@ namespace Stylus
                 pclose(pipe);
             }
             // Optionally, log or process 'result'
-            std::cout << "\n\nnpm run build output:\n" << result << "\n\n";
+            // std::cout << "\n\nnpm run build output:\n" << result << "\n\n";
             std::string error_output;
             if (result.find("Error") != std::string::npos) {
                 error_output = result.substr(result.find("Error"));
             }
-            std::cout << "\n\nError output:\n" << error_output << "\n\n";
+            // std::cout << "\n\nError output:\n" << error_output << "\n\n";
 
             Wt::WServer::instance()->post(session_id, [this]() {
                 current_css_file_ = Wt::WApplication::instance()->docRoot() + "/../static/tailwind.css?v=" + Wt::WRandom::generateId();
@@ -378,7 +378,7 @@ namespace Stylus
                 output_editor_->setEditorText("static/tailwind.css", state_->getFileText("../static/tailwind.css"));
             }); 
         });
-        std::cout << "\n\nCSS file generated successfully.\n\n";
+        // std::cout << "\n\nCSS file generated successfully.\n\n";
     }
 
 

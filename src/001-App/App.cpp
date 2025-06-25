@@ -6,19 +6,21 @@
 #include "004-Theme/ThemeSwitcher.h"
 
 #include "005-WidgetsDisplay/WidgetsDisplay.h"
+#include "006-PortofolioPage/PortofolioPage.h"
 
 #include <Wt/WStackedWidget.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WMenu.h>
 #include <Wt/WLabel.h>
+#include <Wt/WTheme.h>
 
 App::App(const Wt::WEnvironment &env)
     : WApplication(env),
     session_(appRoot() + "../dbo.db")
 {
-    // session_.configureAuth();
     session_.login().changed().connect(this, &App::authEvent);
 
+    std::cout << "\n\n ------------------------ App::App() - Application started ------------------------ \n\n";
     // Title
     setTitle("Alexandru Dan CV");
     setHtmlClass("dark");
@@ -42,31 +44,31 @@ App::App(const Wt::WEnvironment &env)
     // override the default Wt templates
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/main");
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/ovrwt");
+    wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/svg");
 
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/test");
     wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/override-wt");
     
-    stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
     
     auto theme = std::make_shared<Theme>(session_, ThemeConfig::Arctic);
-    // auto theme = std::make_shared<Theme>();
     theme->setPenguinUiConfig();
     setTheme(theme);
-    
-    auto theme_switcher = root()->addNew<ThemeSwitcher>(session_);
-    theme_switcher->addStyleClass("fixed bottom-16 right-3");
-    auto dark_mode_toggle = root()->addNew<DarkModeToggle>(session_);
-    dark_mode_toggle->addStyleClass("fixed bottom-3 right-3");
 
-    auto navbar = root()->addWidget(std::make_unique<Navigation>(session_));
+    stylus_ = root()->addChild(std::make_unique<Stylus::Stylus>(session_));
+
+    auth_dialog_ = wApp->root()->addNew<Wt::WDialog>("");
+    auth_dialog_->titleBar()->removeFromParent();
+    auth_dialog_->setClosable(false);
+    auth_dialog_->setModal(true);
+    auth_dialog_->escapePressed().connect([=]() { auth_dialog_->hide(); });
+    auth_widget_ = auth_dialog_->contents()->addWidget(std::make_unique<AuthWidget>(session_));
+
     
-    auto penguin_ui_page = std::make_unique<Wt::WContainerWidget>();
-    auto widgetsDisplay = penguin_ui_page->addNew<WidgetsDisplay>();
-    widgetsDisplay->createButtons();
-    
-    navbar->addPage("UI Penguin", std::move(penguin_ui_page));
-    
-    navbar->auth_widget_->processEnvironment();
+    app_root_ = root()->addNew<Wt::WContainerWidget>();
+    auth_widget_->processEnvironment();
+    if(!session_.login().loggedIn()) 
+        createApp();
+
 }
 
 void App::authEvent() {
@@ -76,7 +78,36 @@ void App::authEvent() {
         << "User " << u.id()
         << " (" << u.identity(Wt::Auth::Identity::LoginName) << ")"
         << " logged in.";
-    } else
+        if(auth_dialog_->isVisible()) {
+            auth_dialog_->hide();
+        }
+        createApp();
+    } else {
         log("notice") << "User logged out.";
+        createApp();
+    }
 }
 
+void App::createApp()
+{
+    app_root_->clear();
+
+    auto theme_switcher = app_root_->addNew<ThemeSwitcher>(session_);
+    theme_switcher->addStyleClass("fixed bottom-16 right-3");
+    auto dark_mode_toggle = app_root_->addNew<DarkModeToggle>(session_);
+    dark_mode_toggle->addStyleClass("fixed bottom-3 right-3");
+
+    auto navbar = app_root_->addNew<Navigation>(session_);
+    
+    auto penguin_ui_page = std::make_unique<Wt::WContainerWidget>();
+    auto widgetsDisplay = penguin_ui_page->addNew<WidgetsDisplay>();
+    widgetsDisplay->createButtons();
+    
+    navbar->addPage("Portofolio", std::make_unique<PortofolioPage>());
+    navbar->addPage("UI Penguin", std::move(penguin_ui_page));
+
+    
+    // internalPathChanged().emit(internalPath());
+    // navbar->auth_widget_->login().changed().emit();
+    std::cout << "\n\n ------------------------ App::App() - Application instantiated ------------------------ \n\n";
+}

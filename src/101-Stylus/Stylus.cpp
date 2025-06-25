@@ -62,19 +62,19 @@ namespace Stylus
         }
         transaction.commit();
 
-        session_.login().changed().connect(this, [=]()
-        {
-            if (session_.login().loggedIn()) {
-                StylusState::logMessage("<Stylus> Admin - "+session_.login().user().identity(Wt::Auth::Identity::LoginName).toUTF8()+" - logged in successfully.");
-                Wt::Dbo::Transaction transaction(session_);
-                if(session_.user()->hasPermission(stylus_permission_) && state_ == nullptr) {
-                    setupStylus();
-                }
-                transaction.commit();
-            } else {
-                StylusState::logMessage("<Stylus> logged out successfully.");
-            }
-        });
+        // session_.login().changed().connect(this, [=]()
+        // {
+        //     if (session_.login().loggedIn()) {
+        //         StylusState::logMessage("<Stylus> Admin - "+session_.login().user().identity(Wt::Auth::Identity::LoginName).toUTF8()+" - logged in successfully.");
+        //         Wt::Dbo::Transaction transaction(session_);
+        //         if(session_.user()->hasPermission(stylus_permission_) && state_ == nullptr) {
+        //             setupStylus();
+        //         }
+        //         transaction.commit();
+        //     } else {
+        //         StylusState::logMessage("<Stylus> logged out successfully.");
+        //     }
+        // });
         setupStylus();
     }
     

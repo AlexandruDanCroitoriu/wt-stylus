@@ -32,6 +32,8 @@ set(SOURCES
     ${SOURCE_DIR}/004-Theme/DarkModeToggle.cpp
 
     ${SOURCE_DIR}/005-WidgetsDisplay/WidgetsDisplay.cpp
+    ${SOURCE_DIR}/006-PortofolioPage/PortofolioPage.cpp
+    ${SOURCE_DIR}/007-UserSettings/UserSettingsPage.cpp
 
     ${SOURCE_DIR}/010-TestWidgets/Test.cpp
     ${SOURCE_DIR}/010-TestWidgets/Navigation.cpp

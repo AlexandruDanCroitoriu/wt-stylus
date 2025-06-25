@@ -6,7 +6,7 @@
 DBO_INSTANTIATE_TEMPLATES(User)
 
 User::User(const std::string& name)
-  : name_(name)
+  : name_(name), ui_dark_mode_(false), ui_penguin_theme_name_("arctic")
 {
 }
 

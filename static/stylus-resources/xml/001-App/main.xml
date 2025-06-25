@@ -52,9 +52,6 @@
 	</message>
 	<message id="app-shell-sidebar-user-v1">
 		<div>
-			${<user-logged-out>}<div>${login-link}</div>${</user-logged-out>}
-			${<user-logged-in>}
-			<!-- Profile Menu  -->
 			<div class="mt-auto">
 				<button type="button" class="flex w-full items-center rounded-radius gap-2 p-2 text-left text-on-surface hover:bg-primary/5 hover:text-on-surface-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:text-on-surface-dark dark:hover:bg-primary-dark/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:outline-primary-dark" x-bind:class="menuIsOpen ? 'bg-primary/10 dark:bg-primary-dark/10' : ''" aria-haspopup="true" x-on:click="menuIsOpen = ! menuIsOpen" x-bind:aria-expanded="menuIsOpen">
 					<img src="${user-image-url}" class="size-8 object-cover rounded-radius" alt="avatar" aria-hidden="true"/>
@@ -67,9 +64,7 @@
 						<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
 					</svg>
 				</button>  
-				
 			</div>
-			${</user-logged-in>}
 		</div>
 	</message>
 </messages>

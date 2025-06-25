@@ -109,7 +109,7 @@ namespace Stylus
 
     void TemplateVarControlCenter::setFileBrain(std::shared_ptr<XMLFileBrain> file_brain)
     {
-        std::cout << "\n\nTemplateVarControlCenter::setFileBrain() - setting file brain\n\n";
+        // std::cout << "\n\nTemplateVarControlCenter::setFileBrain() - setting file brain\n\n";
         if(!file_brain || !file_brain->selected_node_) {
             std::cout << "\n\nTemplateVarControlCenter::setFileBrain() - no file brain or selected node\n\n";
             disableAll();

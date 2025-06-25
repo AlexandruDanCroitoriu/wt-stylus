@@ -4,6 +4,7 @@
 
 #include "101-Stylus/Stylus.h"
 #include "004-Theme/Theme.h"
+#include "003-Auth/AuthWidget.h"
 
 class App : public Wt::WApplication
 {
@@ -12,8 +13,14 @@ public:
 
     Wt::Signal<bool> dark_mode_changed_;
     Wt::Signal<ThemeConfig> theme_changed_;
-private:
+    Wt::WDialog* auth_dialog_;
+    
+    private:
     Session session_;
     Stylus::Stylus* stylus_;
     void authEvent();
+    Wt::WContainerWidget* app_content_;
+    void createApp();
+    AuthWidget* auth_widget_;
+    Wt::WContainerWidget* app_root_;
 };
