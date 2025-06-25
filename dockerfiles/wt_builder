@@ -41,8 +41,10 @@ RUN rm -rf wt
 RUN cp /usr/local/lib/libwt*.so.* /usr/lib/
 
 # library'es used in the App
-RUN apt-get install -y python3-pip libpsl-dev
-RUN pip3 install --upgrade meson ninja
+RUN apt-get install -y python3-pip python3-venv libpsl-dev
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip3 install --upgrade pip && pip3 install --upgrade meson ninja
 
 COPY ./resources /apps/cv/resources
 COPY ./src /apps/cv/src
