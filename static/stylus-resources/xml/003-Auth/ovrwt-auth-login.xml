@@ -36,6 +36,7 @@
         <div class="container mx-auto flex flex-col items-center  my-4">
             <div class="w-sm space-y-2">
                 <div class="">
+					  <h2>${tr:Wt.Auth.login-form-title message_path="003-Auth/ovrwt-auth-strings.xml"}</h2>
                     <p>${tr:Wt.Auth.login-form-info message_path="003-Auth/ovrwt-auth-strings.xml"}</p>
                 </div>
 				${<if:passwords>}

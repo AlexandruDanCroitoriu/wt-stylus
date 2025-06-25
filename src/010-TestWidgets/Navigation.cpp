@@ -11,7 +11,7 @@
 #include "007-UserSettings/UserSettingsPage.h"
 
 #include <regex>
-#include <Wt/Http/Cookie.h>
+// #include <Wt/Http/Cookie.h>
 
 Navigation::Navigation(Session& session)
     : Wt::WTemplate(Wt::WString::tr("app-shell-v1")), 
