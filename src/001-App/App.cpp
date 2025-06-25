@@ -6,7 +6,7 @@
 #include "004-Theme/ThemeSwitcher.h"
 
 #include "005-WidgetsDisplay/WidgetsDisplay.h"
-#include "006-PortofolioPage/PortofolioPage.h"
+#include "006-AboutMe/AboutMe.h"
 
 #include <Wt/WStackedWidget.h>
 #include <Wt/WPushButton.h>
@@ -18,7 +18,6 @@ App::App(const Wt::WEnvironment &env)
     : WApplication(env),
     session_(appRoot() + "../dbo.db")
 {
-    session_.login().changed().connect(this, &App::authEvent);
 
     std::cout << "\n\n ------------------------ App::App() - Application started ------------------------ \n\n";
     // Title
@@ -31,25 +30,29 @@ App::App(const Wt::WEnvironment &env)
     
     root()->addStyleClass("max-w-screen max-h-screen overflow-none");
 
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/PenguinUi/svg");
-    
-    // Auth 
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth");
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-login");
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-strings");
 
-    // override the default Wt auth templates
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-registration-view");
+    {// message resource bundle
+        wApp->messageResourceBundle().use("../static/stylus-resources/xml/PenguinUi/svg");
+        
+        // Auth 
+        wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth");
+        wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-login");
+        wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-auth-strings");
 
-    // override the default Wt templates
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/main");
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/ovrwt");
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/svg");
+        // override the default Wt auth templates
+        wApp->messageResourceBundle().use("../static/stylus-resources/xml/003-Auth/ovrwt-registration-view");
 
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/test");
-    wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/override-wt");
+        // override the default Wt templates
+        wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/main");
+        wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/ovrwt");
+        wApp->messageResourceBundle().use("../static/stylus-resources/xml/001-App/svg");
+
+        wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/test");
+        wApp->messageResourceBundle().use("../static/stylus-resources/xml/000-examples/override-wt");
+    }
     
-    
+    session_.login().changed().connect(this, &App::authEvent);
+
     auto theme = std::make_shared<Theme>(session_, ThemeConfig::Arctic);
     theme->setPenguinUiConfig();
     setTheme(theme);
@@ -62,12 +65,13 @@ App::App(const Wt::WEnvironment &env)
     auth_dialog_->setModal(true);
     auth_dialog_->escapePressed().connect([=]() { auth_dialog_->hide(); });
     auth_widget_ = auth_dialog_->contents()->addWidget(std::make_unique<AuthWidget>(session_));
-
     
     app_root_ = root()->addNew<Wt::WContainerWidget>();
     auth_widget_->processEnvironment();
     if(!session_.login().loggedIn()) 
-        createApp();
+        session_.login().changed().emit();
+
+    std::cout << "\n\n ------------------------ App::App() - Application instantiated ------------------------ \n\n";
 
 }
 
@@ -103,11 +107,7 @@ void App::createApp()
     auto widgetsDisplay = penguin_ui_page->addNew<WidgetsDisplay>();
     widgetsDisplay->createButtons();
     
-    navbar->addPage("Portofolio", std::make_unique<PortofolioPage>());
+    navbar->addPage("Portofolio", std::make_unique<AboutMe>());
     navbar->addPage("UI Penguin", std::move(penguin_ui_page));
 
-    
-    // internalPathChanged().emit(internalPath());
-    // navbar->auth_widget_->login().changed().emit();
-    std::cout << "\n\n ------------------------ App::App() - Application instantiated ------------------------ \n\n";
 }

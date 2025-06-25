@@ -44,14 +44,14 @@ Navigation::Navigation(Session& session)
             auto user_profile_menu_item = popup_menu_->addItem("Settings", std::make_unique<UserSettingsPage>(session_));
             user_profile_menu_item->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("app:settings-svg"));
             user_profile_menu_item->addStyleClass(menu_item_styles_);
-            user_profile_menu_item->anchor()->addStyleClass(menu_item_anchor_styles_);
+            user_profile_menu_item->anchor()->addStyleClass(menu_item_anchor_styles_ + " px-4 py-2");
             
             popup_menu_->addSeparator();
             auto logout_menu_item = popup_menu_->addItem("Logout");
             logout_menu_item->setInternalPathEnabled(false);
             logout_menu_item->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("app:logout-svg"));
             logout_menu_item->addStyleClass(menu_item_styles_);
-            logout_menu_item->anchor()->addStyleClass(menu_item_anchor_styles_);
+            logout_menu_item->anchor()->addStyleClass(menu_item_anchor_styles_ + " px-4 py-2");
 
             logout_menu_item->clicked().connect([=]() {
                 session_.login().logout();
@@ -73,16 +73,6 @@ void Navigation::addPage(const std::string &name, std::unique_ptr<Wt::WContainer
     menu_item->addStyleClass(menu_item_styles_);
     menu_item->anchor()->addStyleClass(menu_item_anchor_styles_);
 }
-
-Wt::WWidget* Navigation::getPageWrapper(std::string name)
-{
-    for (auto item : menu_->items()) {
-        if (item->text() == name) {
-            return item->contents();
-        }
-    }
-    return nullptr;
-};
 
 void Navigation::showUserPopupMenu()
 {

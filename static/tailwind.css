@@ -1517,6 +1517,13 @@
       }
     }
   }
+  .hover\:bg-primary\/10 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
+      }
+    }
+  }
   .hover\:text-blue-600 {
     &:hover {
       @media (hover: hover) {
@@ -2786,7 +2793,7 @@
   padding-block: calc(var(--spacing) * 0) !important;
 }
 .itemselected {
-  background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
+  background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
 }
 // dialog .Wt-popup.Wt-outset.Wt-dialog {
   border-color: var(--color-outline) !important;
