@@ -15,9 +15,9 @@ public:
     Wt::Signal<ThemeConfig> theme_changed_;
     Wt::WDialog* auth_dialog_;
     
-    private:
+private:
     Session session_;
-    Stylus::Stylus* stylus_;
+    Stylus::Stylus* stylus_ = nullptr;
     void authEvent();
     Wt::WContainerWidget* app_content_;
     void createApp();

@@ -3,6 +3,8 @@
 #include "001-App/Server.h"
 
 #include <Wt/Dbo/backend/Sqlite3.h>
+#include <Wt/Auth/Identity.h>
+#include <Wt/Auth/PasswordService.h>
 
 using namespace Wt;
 
@@ -39,6 +41,7 @@ Session::Session(const std::string &sqliteDb)
     if (!created_) {
       createTables();
       created_ = true;
+      createInitialData();
       Wt::log("info") << "Created database.";
     } else {
       Wt::log("info") << "Using existing database";
@@ -98,10 +101,31 @@ std::vector<const Auth::OAuthService *> Session::oAuth()
   return result;
 }
 
+Wt::Dbo::ptr<User> addUser(Wt::Dbo::Session& session, UserDatabase& users, const std::string& loginName,
+             const std::string& email, const std::string& password)
+{
+  Wt::Dbo::Transaction t(session);
+  auto user = session.addNew<User>(loginName);
+  auto authUser = users.registerNew();
+  authUser.addIdentity(Wt::Auth::Identity::LoginName, loginName);
+  authUser.setEmail(email);
+  Server::passwordService.updatePassword(authUser, password);
+
+  // Link User and auth user
+  Wt::Dbo::ptr<AuthInfo> authInfo = session.find<AuthInfo>("where id = ?").bind(authUser.id());
+  authInfo.modify()->setUser(user);
+
+  t.commit();
+  return user;
+}
 
 void Session::createInitialData()
 {
   Wt::Dbo::Transaction t(*this);
-
+  // STYLUS permission for admin user maxuli (created by auth widget if it dose not exist)
+  Wt::Dbo::ptr<Permission> stylus_permission = add(std::make_unique<Permission>("STYLUS"));
   t.commit();
 }
+
+
+

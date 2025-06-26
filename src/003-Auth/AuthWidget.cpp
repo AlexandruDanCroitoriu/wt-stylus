@@ -95,11 +95,7 @@ void AuthWidget::createInitialData()
 {
   Wt::Dbo::Transaction t(session_);
   
-  // STYLUS_FILES_MANAGER permission for admin user maxuli
-  Wt::Dbo::ptr<Permission> permission = session_.find<Permission>().where("name = ?").bind("STYLUS_FILES_MANAGER").resultValue();
-  if (!permission) {
-    permission = session_.add(std::make_unique<Permission>("STYLUS"));
-  }
+
   
   std::string username = "maxuli";
   std::string email = "admin@example.com";
@@ -112,9 +108,17 @@ void AuthWidget::createInitialData()
     return; // User already exists, no need to create again
   }
   
-  
+  // STYLUS_FILES_MANAGER permission for admin user maxuli
+  Wt::Dbo::ptr<Permission> permission = session_.find<Permission>().where("name = ?").bind("STYLUS").resultValue();
+  if (!permission) {
+    wApp->log("Error") << "Permission STYLUS not found, not creating admin user, (AuthWidget)";
+    return;
+  }
+
   Wt::Dbo::ptr<User> user = session_.add(std::make_unique<User>(username));
   user.modify()->permissions_.insert(permission);
+  user.modify()->ui_dark_mode_ = true; // Set dark mode as default for the admin user
+  user.modify()->ui_penguin_theme_name_ = "arctic"; // Set default theme for the admin user
   // permission.modify()->users_.insert(user);
 
   Wt::Auth::User authUser = session_.users().registerNew();
@@ -130,17 +134,3 @@ void AuthWidget::createInitialData()
 
 
 // function to add a user with a specific login name, email, and password
-// void addUser(Wt::Dbo::Session& session, UserDatabase& users, const std::string& loginName,
-//              const std::string& email, const std::string& password)
-// {
-//   Wt::Dbo::Transaction t(session);
-//   auto user = session.addNew<User>(loginName);
-//   auto authUser = users.registerNew();
-//   authUser.addIdentity(Wt::Auth::Identity::LoginName, loginName);
-//   authUser.setEmail(email);
-//   myPasswordService.updatePassword(authUser, password);
-
-//   // Link User and auth user
-//   Wt::Dbo::ptr<AuthInfo> authInfo = session.find<AuthInfo>("where id = ?").bind(authUser.id());
-//   authInfo.modify()->setUser(user);
-// }

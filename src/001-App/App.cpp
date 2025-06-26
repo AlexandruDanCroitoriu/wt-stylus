@@ -68,13 +68,14 @@ App::App(const Wt::WEnvironment &env)
     // auth_dialog_->setStyleClass("absolute top-0 left-0 right-0 bottom-0 w-screen h-screen m-1 p-1 ");
     auth_dialog_->contents()->setStyleClass("min-h-screen min-w-screen m-1 p-1 flex items-center justify-center");
     auth_widget_ = auth_dialog_->contents()->addWidget(std::make_unique<AuthWidget>(session_));
-    
+    // auto auth_widget = auth_dialog_->contents()->addWidget(std::make_unique<Wt::Auth::AuthWidget>(Session::auth(), session_.users(), session_.login()));
     app_root_ = root()->addNew<Wt::WContainerWidget>();
     
     session_.login().changed().connect(this, &App::authEvent);
     auth_widget_->processEnvironment();
     if(!session_.login().loggedIn()) {
         session_.login().changed().emit();
+        // createApp();
     }
 
     std::cout << "\n\n ------------------------ App::App() - Application instantiated ------------------------ \n\n";
@@ -99,29 +100,17 @@ void App::authEvent() {
 
 void App::createApp()
 {
-    app_root_->clear();
-    if(stylus_) stylus_->removeFromParent();
+    if(app_root_ && app_root_->children().size() > 0) app_root_->clear();
 
     if(session_.login().loggedIn()) {
         Wt::Dbo::Transaction transaction(session_);
         
         // Query for STYLUS permission, taking first result if multiple exist
-        Wt::Dbo::ptr<Permission> stylus_permission;
-        auto query = session_.find<Permission>().where("name = ?").bind("STYLUS");
-        auto results = query.resultList();
-        
-        if(results.empty()) {
-            Stylus::StylusState::logMessage("Permission 'STYLUS' not found (creating it now) | in App::createApp()", Stylus::LogMessageType::Error);
-            stylus_permission = session_.add(std::make_unique<Permission>("STYLUS"));
-        } else {
-            stylus_permission = results.front();
-            if(results.size() > 1) {
-                Stylus::StylusState::logMessage("Multiple 'STYLUS' permissions found, using first one | in App::createApp()", Stylus::LogMessageType::Warning);
-            }
-        }
-        
-        if(session_.user()->hasPermission(stylus_permission)){
+        Wt::Dbo::ptr<Permission> stylus_permission = session_.find<Permission>().where("name = ?").bind("STYLUS").resultValue();
+        if(stylus_permission && session_.user()->hasPermission(stylus_permission)){
             stylus_ = app_root_->addChild(std::make_unique<Stylus::Stylus>(session_));
+        }else {
+            wApp->log("stylus permission not found");
         }
         transaction.commit();
     }
@@ -139,8 +128,6 @@ void App::createApp()
     
     navbar->addPage("Portofolio", std::make_unique<AboutMe>());
     navbar->addPage("UI Penguin", std::move(penguin_ui_page));
-
-
 
 
 }
