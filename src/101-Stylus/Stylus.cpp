@@ -7,7 +7,7 @@
 #include <fstream>
 #include <Wt/WRandom.h>
 #include "004-Theme/DarkModeToggle.h"
-#
+#include "004-Theme/ThemeSwitcher.h"
 #include "001-App/App.h"
 #include <Wt/Auth/Identity.h>
 
@@ -74,28 +74,28 @@ namespace Stylus
         //         StylusState::logMessage("<Stylus> logged out successfully.");
         //     }
         // });
-        // setupStylus();
+        setupStylus();
     }
     
     void Stylus::setupStylus()
     {
         state_ = std::make_shared<StylusState>();
       
-        auto navbar = contents()->addWidget(std::make_unique<Wt::WContainerWidget>());
-        auto content_wrapper = contents()->addWidget(std::make_unique<Wt::WStackedWidget>());
+        auto navbar = contents()->addNew<Wt::WContainerWidget>();
+        auto content_wrapper = contents()->addNew<Wt::WStackedWidget>();
         // content_wrapper->setTransitionAnimation(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500)); // this line represents a bug in Wt probably :P
 
         navbar->setStyleClass("flex flex-col items-center h-full border-r border-solid dark:border-[#FFF]/20 stylus-scrollbar");
         content_wrapper->setStyleClass("w-screen h-screen");
 
-        auto templates_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-xml-logo")));
-        auto css_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-css-logo")));
-        auto javascript_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-javascript-logo")));
-        auto tailwind_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-tailwind-logo")));
-        auto images_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-images-logo")));
-        auto settings_menu_item = navbar->addWidget(std::make_unique<Wt::WTemplate>(Wt::WString::tr("stylus-svg-settings-logo")));
-        auto dark_mode_toggle = navbar->addWidget(std::make_unique<DarkModeToggle>(session_));
-        
+        auto templates_menu_item = navbar->addNew<Wt::WTemplate>(Wt::WString::tr("stylus-svg-xml-logo"));
+        auto css_menu_item = navbar->addNew<Wt::WTemplate>(Wt::WString::tr("stylus-svg-css-logo"));
+        auto javascript_menu_item = navbar->addNew<Wt::WTemplate>(Wt::WString::tr("stylus-svg-javascript-logo"));
+        auto tailwind_menu_item = navbar->addNew<Wt::WTemplate>(Wt::WString::tr("stylus-svg-tailwind-logo"));
+        auto images_menu_item = navbar->addNew<Wt::WTemplate>(Wt::WString::tr("stylus-svg-images-logo"));
+        auto settings_menu_item = navbar->addNew<Wt::WTemplate>(Wt::WString::tr("stylus-svg-settings-logo"));
+        auto dark_mode_toggle = navbar->addNew<DarkModeToggle>(session_);
+        auto theme_switcher = navbar->addNew<ThemeSwitcher>(session_);
         
         std::string nav_btns_styles = "w-[40px] p-[4px] m-[4px] cursor-pointer rounded-md flex items-center stylus-menu";
         templates_menu_item->setStyleClass(nav_btns_styles);
@@ -106,12 +106,12 @@ namespace Stylus
         settings_menu_item->setStyleClass(nav_btns_styles);
         StylusState::logMessage("<Stylus> initialized successfully.");
 
-        xml_files_manager_ = content_wrapper->addWidget(std::make_unique<XmlFilesManager>(state_));
-        css_files_manager_ = content_wrapper->addWidget(std::make_unique<CssFilesManager>(state_));
-        js_files_manager_ = content_wrapper->addWidget(std::make_unique<JsFilesManager>(state_));
-        tailwind_config_ = content_wrapper->addWidget(std::make_unique<TailwindConfigManager>(state_));
-        images_manager_ = content_wrapper->addWidget(std::make_unique<ImagesManager>(state_));
-        settings_ = content_wrapper->addWidget(std::make_unique<Settings>(state_));
+        xml_files_manager_ = content_wrapper->addNew<XmlFilesManager>(state_);
+        css_files_manager_ = content_wrapper->addNew<CssFilesManager>(state_);
+        js_files_manager_ = content_wrapper->addNew<JsFilesManager>(state_);
+        tailwind_config_ = content_wrapper->addNew<TailwindConfigManager>(state_);
+        images_manager_ = content_wrapper->addNew<ImagesManager>(state_);
+        settings_ = content_wrapper->addNew<Settings>(state_);
 
         templates_menu_item->clicked().connect(this, [=]()
                                                {

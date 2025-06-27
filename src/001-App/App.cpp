@@ -108,9 +108,10 @@ void App::createApp()
         // Query for STYLUS permission, taking first result if multiple exist
         Wt::Dbo::ptr<Permission> stylus_permission = session_.find<Permission>().where("name = ?").bind("STYLUS").resultValue();
         if(stylus_permission && session_.user()->hasPermission(stylus_permission)){
+            wApp->log("info") << "Permission STYLUS found, Stylus will be available.";
             stylus_ = app_root_->addChild(std::make_unique<Stylus::Stylus>(session_));
         }else {
-            wApp->log("stylus permission not found");
+            wApp->log("error") << "Permission STYLUS not found, Stylus will not be available.";
         }
         transaction.commit();
     }

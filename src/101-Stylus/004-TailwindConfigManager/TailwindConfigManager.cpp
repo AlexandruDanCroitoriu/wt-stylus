@@ -280,7 +280,7 @@ namespace Stylus
             if(selected_file_name.compare(file) == 0){
                 config_files_combobox_->setCurrentIndex(config_files_combobox_->findText(selected_file_name));
                 config_editor_->setEditorText(state_->tailwind_config_editor_data_.root_resource_url_ + selected_file_name, state_->getFileText(state_->tailwind_config_editor_data_.root_folder_path_ + selected_file_name));
-                output_editor_->setEditorText("static/tailwind.css", state_->getFileText("../static/tailwind.css"));
+                output_editor_->setEditorText("static/tailwind.css", state_->getFileText("../../static/tailwind.css"));
             }
         }
         
@@ -363,22 +363,22 @@ namespace Stylus
                 pclose(pipe);
             }
             // Optionally, log or process 'result'
-            // std::cout << "\n\nnpm run build output:\n" << result << "\n\n";
+            std::cout << "npm run build output:\n" << result << "\n\n";
             std::string error_output;
             if (result.find("Error") != std::string::npos) {
                 error_output = result.substr(result.find("Error"));
             }
-            // std::cout << "\n\nError output:\n" << error_output << "\n\n";
+            std::cout << "Error output:\n" << error_output << "\n";
 
             Wt::WServer::instance()->post(session_id, [this]() {
-                current_css_file_ = Wt::WApplication::instance()->docRoot() + "/../static/tailwind.css?v=" + Wt::WRandom::generateId();
+                current_css_file_ = Wt::WApplication::instance()->docRoot() + "../../static/tailwind.css?v=" + Wt::WRandom::generateId();
                 Wt::WApplication::instance()->removeStyleSheet(prev_css_file_.toUTF8());
                 Wt::WApplication::instance()->useStyleSheet(current_css_file_.toUTF8());
                 prev_css_file_ = current_css_file_;
-                output_editor_->setEditorText("static/tailwind.css", state_->getFileText("../static/tailwind.css"));
+                output_editor_->setEditorText("static/tailwind.css", state_->getFileText("../../static/tailwind.css"));
             }); 
         });
-        // std::cout << "\n\nCSS file generated successfully.\n\n";
+        std::cout << "CSS file generated successfully.\n\n";
     }
 
 

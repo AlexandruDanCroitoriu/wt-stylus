@@ -6,13 +6,13 @@
 	@apply dark:bg-gray-950 rounded-[10px];
 }
 .stylus-scrollbar::-webkit-scrollbar
-{
+{ 
 	@apply dark:bg-gray-950 w-[3px];
 }
 .stylus-scrollbar::-webkit-scrollbar-thumb
-{ 
+{  
 	@apply dark:bg-gray-950/20 rounded-[10px]; 
-}
+} 
 
  /* border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt */
 .stylus-background {
@@ -21,19 +21,19 @@
 }
 /* border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt */
 .stylus-menu { 
-	@apply hover:bg-blue-400/20 dark:hover:bg-blue-700/30;
+	@apply hover:bg-primary/20 dark:hover:bg-primary-dark/30;
 } 
 .stylus-menu-selected { 
-	@apply bg-blue-400/20 dark:bg-blue-700/20  outline outline-solid outline-blue-400/50;
+	@apply bg-primary/20 dark:bg-primary-dark/20  outline outline-solid outline-blue-400/50;
 }
 
-/* Wt-item used by the folders/files tree items */ 
+/* Wt-item used by the folders/files tree items  */
 .Wt-item {
-	@apply hover:bg-blue-200/10 text-black dark:hover:bg-blue-500/20 dark:text-white;
+	/* @apply hover:bg-primary-200/10 text-black dark:hover:bg-primary-dark/20 dark:text-white; */
     /* zoom: 125%; */
 }
 .Wt-selected {
-	@apply !bg-blue-200/10 dark:!bg-blue-500/20 outline-[1px] outline-solid outline-blue-500/30 dark:outline-blue-200/30; 
+	/* @apply !bg-primary/10 dark:!bg-primary-dark/20 outline-[1px] outline-solid outline-blue-500/30 dark:outline-blue-200/30;  */
 }
 .unsaved-changes > .Wt-selected {
     /* @apply !bg-[var(--error)]; */
