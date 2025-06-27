@@ -8,20 +8,24 @@
 	/* @apply rounded-radius space-x-2 gap-2 font-medium text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-on-surface-strong focus-visible:underline focus:outline-hidden dark:text-on-surface-dark dark:hover:bg-primary-dark/5 dark:hover:text-on-surface-dark-strong; */
 }
 
-.itemselected { 
-	@apply bg-primary/20;
-} 
-.sidebar-nav-menu {
-	/* @apply first:mr-2; */
-	
-	.item {
-		/* @apply ; */
-	}
-	.itemselected { 
-		/* @apply bg-primary/10; */
-	} 
+.item {
+	@apply hover:bg-primary/20 dark:hover:bg-primary-dark/30;
 }
-  
+
+.itemselected { 
+	@apply bg-primary/20 dark:bg-primary-dark/30;
+} 
+
+/* .stylus-menu { 
+	@apply flex flex-col items-center;
+	
+	a {
+		@apply w-[40px] p-[4px] m-[4px] cursor-pointer rounded-md flex items-center
+		
+	}
+} */
+.stylus-menu-selected { 
+}
 
 // dialog
 .Wt-popup.Wt-outset.Wt-dialog {
@@ -33,16 +37,3 @@
 /* .Wt-popup.auth-dialog.Wt-outset.Wt-dialog {
 	@apply border-outline bg-surface-alt p-4 dark:border-outline-dark dark:bg-surface-dark-alt;
 } */
-
- 
-.dark-mode-checkbox-toggle {
-	@apply size-9 flex items-center justify-center z-20 rounded-full bg-primary p-2 text-on-primary dark:bg-primary-dark dark:text-on-primary-dark;
-	
-	input {
-		@apply hidden [&~span]:before:content-["☀"] checked:[&~span]:before:content-['🌙'];
-	}
-	
-	span {
-		/* @apply ; */
-	}
-}

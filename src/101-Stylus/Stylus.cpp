@@ -6,8 +6,7 @@
 #include <Wt/WStackedWidget.h>
 #include <fstream>
 #include <Wt/WRandom.h>
-#include "004-Theme/DarkModeToggle.h"
-#include "004-Theme/ThemeSwitcher.h"
+
 #include "001-App/App.h"
 #include <Wt/Auth/Identity.h>
 
@@ -53,206 +52,150 @@ namespace Stylus
         // Wt::WString stylus_css_file_path_ = "../../static/tailwind.css?v=" + Wt::WRandom::generateId();
         // wApp->useStyleSheet(stylus_css_file_path_.toUTF8());
 
-        // Wt::Dbo::Transaction transaction(session_);
-        // stylus_permission_ = session_.find<Permission>().where("name = ?").bind("STYLUS").resultValue();
-        // if(!stylus_permission_) {
-        //     StylusState::logMessage("<Stylus> permission not found, creating it...");
-        //     stylus_permission_ = session_.add(std::make_unique<Permission>("STYLUS"));
-        // }
-        // transaction.commit();
-
-        // session_.login().changed().connect(this, [=]()
-        // {
-        //     if (session_.login().loggedIn()) {
-        //         StylusState::logMessage("<Stylus> Admin - "+session_.login().user().identity(Wt::Auth::Identity::LoginName).toUTF8()+" - logged in successfully.");
-        //         Wt::Dbo::Transaction transaction(session_);
-        //         if(session_.user()->hasPermission(stylus_permission_) && state_ == nullptr) {
-        //             setupStylus();
-        //         }
-        //         transaction.commit();
-        //     } else {
-        //         StylusState::logMessage("<Stylus> logged out successfully.");
-        //     }
-        // });
-        setupStylus();
-    }
-    
-    void Stylus::setupStylus()
-    {
         state_ = std::make_shared<StylusState>();
       
-        auto navbar = contents()->addNew<Wt::WContainerWidget>();
-        auto content_wrapper = contents()->addNew<Wt::WStackedWidget>();
-        // content_wrapper->setTransitionAnimation(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500)); // this line represents a bug in Wt probably :P
+        navbar_wrapper_ = contents()->addNew<Wt::WContainerWidget>();
+        content_stack_ = contents()->addNew<Wt::WStackedWidget>();
+        menu_ = navbar_wrapper_->addNew<Wt::WMenu>(content_stack_);
+        menu_->setStyleClass("flex flex-col items-center h-full");
+        navbar_wrapper_->setStyleClass("flex flex-col items-center h-full border-r border-solid stylus-scrollbar");
+        content_stack_->setStyleClass("w-screen h-screen");
 
-        navbar->setStyleClass("flex flex-col items-center h-full border-r border-solid dark:border-[#FFF]/20 stylus-scrollbar");
-        content_wrapper->setStyleClass("w-screen h-screen");
+        std::unique_ptr<XmlFilesManager> files_manager_ptr = std::make_unique<XmlFilesManager>(state_);
+        std::unique_ptr<CssFilesManager> css_files_manager_ptr = std::make_unique<CssFilesManager>(state_);
+        std::unique_ptr<JsFilesManager> js_files_manager_ptr = std::make_unique<JsFilesManager>(state_);
+        std::unique_ptr<TailwindConfigManager> tailwind_config_ptr = std::make_unique<TailwindConfigManager>(state_);
+        std::unique_ptr<ImagesManager> images_manager_ptr = std::make_unique<ImagesManager>(state_);
+        std::unique_ptr<Settings> settings_ptr = std::make_unique<Settings>(state_);
 
-        auto templates_menu_item = navbar->addNew<Wt::WTemplate>(Wt::WString::tr("stylus-svg-xml-logo"));
-        auto css_menu_item = navbar->addNew<Wt::WTemplate>(Wt::WString::tr("stylus-svg-css-logo"));
-        auto javascript_menu_item = navbar->addNew<Wt::WTemplate>(Wt::WString::tr("stylus-svg-javascript-logo"));
-        auto tailwind_menu_item = navbar->addNew<Wt::WTemplate>(Wt::WString::tr("stylus-svg-tailwind-logo"));
-        auto images_menu_item = navbar->addNew<Wt::WTemplate>(Wt::WString::tr("stylus-svg-images-logo"));
-        auto settings_menu_item = navbar->addNew<Wt::WTemplate>(Wt::WString::tr("stylus-svg-settings-logo"));
-        auto dark_mode_toggle = navbar->addNew<DarkModeToggle>(session_);
-        auto theme_switcher = navbar->addNew<ThemeSwitcher>(session_);
+        xml_files_manager_ = files_manager_ptr.get();
+        css_files_manager_ = css_files_manager_ptr.get();
+        js_files_manager_ = js_files_manager_ptr.get();
+        tailwind_config_ = tailwind_config_ptr.get();
+        images_manager_ = images_manager_ptr.get();
+        settings_ = settings_ptr.get();
+
+        // xml_file_manager_menu_item_ = menu_->addItem(std::make_unique<Wt::WMenuItem>("", std::move(files_manager_ptr), Wt::ContentLoading::Lazy));
+        // css_menu_item_ = menu_->addItem(std::make_unique<Wt::WMenuItem>("", std::move(css_files_manager_ptr), Wt::ContentLoading::Lazy));
+        // javascript_menu_item_ = menu_->addItem(std::make_unique<Wt::WMenuItem>("", std::move(js_files_manager_ptr), Wt::ContentLoading::Lazy));
+        // tailwind_menu_item_ = menu_->addItem(std::make_unique<Wt::WMenuItem>("", std::move(tailwind_config_ptr), Wt::ContentLoading::Lazy));
+        // images_menu_item_ = menu_->addItem(std::make_unique<Wt::WMenuItem>("", std::move(images_manager_ptr), Wt::ContentLoading::Lazy));
+        // settings_menu_item_ = menu_->addItem(std::make_unique<Wt::WMenuItem>("", std::move(settings_ptr), Wt::ContentLoading::Lazy));
+
+        xml_file_manager_menu_item_ = menu_->addItem(std::make_unique<Wt::WMenuItem>("", std::move(files_manager_ptr)));
+        css_menu_item_ = menu_->addItem(std::make_unique<Wt::WMenuItem>("", std::move(css_files_manager_ptr)));
+        javascript_menu_item_ = menu_->addItem(std::make_unique<Wt::WMenuItem>("", std::move(js_files_manager_ptr)));
+        tailwind_menu_item_ = menu_->addItem(std::make_unique<Wt::WMenuItem>("", std::move(tailwind_config_ptr)));
+        images_menu_item_ = menu_->addItem(std::make_unique<Wt::WMenuItem>("", std::move(images_manager_ptr)));
+        settings_menu_item_ = menu_->addItem(std::make_unique<Wt::WMenuItem>("", std::move(settings_ptr)));
+
+        auto xml_svg_temp = xml_file_manager_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-xml-logo"));
+        auto css_svg_temp = css_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-css-logo"));
+        auto javascript_svg_temp = javascri pt_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-javascript-logo"));
+        auto tailwind_svg_temp = tailwind_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-tailwind-logo"));
+        auto images_svg_temp = images_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-images-logo"));
+        auto settings_svg_temp = settings_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-settings-logo"));
+
+        dark_mode_toggle_ = navbar_wrapper_->addNew<DarkModeToggle>(session_);
+        theme_switcher_ = navbar_wrapper_->addNew<ThemeSwitcher>(session_);
         
-        std::string nav_btns_styles = "w-[40px] p-[4px] m-[4px] cursor-pointer rounded-md flex items-center stylus-menu";
-        templates_menu_item->setStyleClass(nav_btns_styles);
-        tailwind_menu_item->setStyleClass(nav_btns_styles);
-        css_menu_item->setStyleClass(nav_btns_styles);
-        javascript_menu_item->setStyleClass(nav_btns_styles + " !p-[8px]");
-        images_menu_item->setStyleClass(nav_btns_styles);
-        settings_menu_item->setStyleClass(nav_btns_styles);
-        StylusState::logMessage("<Stylus> initialized successfully.");
+        std::string nav_btns_styles = "w-[35px] m-[3px] p-1 cursor-pointer rounded-md flex items-center justify-center";
+        // xml_file_manager_menu_item_->anchor()->setStyleClass(nav_btns_styles);
+        // css_menu_item_->anchor()->setStyleClass(nav_btns_styles);
+        // javascript_menu_item_->anchor()->setStyleClass(nav_btns_styles);
+        // tailwind_menu_item_->anchor()->setStyleClass(nav_btns_styles);
+        // images_menu_item_->anchor()->setStyleClass(nav_btns_styles);
+        // settings_menu_item_->anchor()->setStyleClass(nav_btns_styles);
+        xml_svg_temp->setStyleClass(nav_btns_styles);
+        css_svg_temp->setStyleClass(nav_btns_styles);
+        javascript_svg_temp->setStyleClass(nav_btns_styles);
+        tailwind_svg_temp->setStyleClass(nav_btns_styles);
+        images_svg_temp->setStyleClass(nav_btns_styles);
+        settings_svg_temp->setStyleClass(nav_btns_styles);
+        
+        xml_file_manager_menu_item_->addStyleClass("m-1");
+        css_menu_item_->addStyleClass("m-1");
+        javascript_menu_item_->addStyleClass("m-1");
+        tailwind_menu_item_->addStyleClass("m-1");
+        images_menu_item_->addStyleClass("m-1");
+        settings_menu_item_->addStyleClass("m-1");
+        dark_mode_toggle_->addStyleClass("m-1 text-xs");
+        theme_switcher_->addStyleClass("m-1 text-xs");
+        
 
-        xml_files_manager_ = content_wrapper->addNew<XmlFilesManager>(state_);
-        css_files_manager_ = content_wrapper->addNew<CssFilesManager>(state_);
-        js_files_manager_ = content_wrapper->addNew<JsFilesManager>(state_);
-        tailwind_config_ = content_wrapper->addNew<TailwindConfigManager>(state_);
-        images_manager_ = content_wrapper->addNew<ImagesManager>(state_);
-        settings_ = content_wrapper->addNew<Settings>(state_);
-
-        templates_menu_item->clicked().connect(this, [=]()
-                                               {
-            templates_menu_item->toggleStyleClass("stylus-menu-selected", true);
-            tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            css_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            settings_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            images_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            content_wrapper->setCurrentWidget(xml_files_manager_);
-            state_->stylus_node_->SetAttribute("selected-menu", "templates");
-            state_->doc_->SaveFile(state_->state_file_path_.c_str()); 
-        });
-
-        tailwind_menu_item->clicked().connect(this, [=]()
-                                              {
-            templates_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            tailwind_menu_item->toggleStyleClass("stylus-menu-selected", true);
-            css_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            settings_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            images_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            content_wrapper->setCurrentWidget(tailwind_config_);
-            state_->stylus_node_->SetAttribute("selected-menu", "tailwind");
-            state_->doc_->SaveFile(state_->state_file_path_.c_str()); 
-        });
-
-        css_menu_item->clicked().connect(this, [=]()
-                                         {
-            templates_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            settings_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            css_menu_item->toggleStyleClass("stylus-menu-selected", true);
-            javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            images_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            content_wrapper->setCurrentWidget(css_files_manager_);
-            state_->stylus_node_->SetAttribute("selected-menu", "css");
-            state_->doc_->SaveFile(state_->state_file_path_.c_str()); 
-        });
-
-        javascript_menu_item->clicked().connect(this, [=]()
-                                                {
-            templates_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            css_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            javascript_menu_item->toggleStyleClass("stylus-menu-selected", true);
-            settings_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            images_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            content_wrapper->setCurrentWidget(js_files_manager_);
-            state_->stylus_node_->SetAttribute("selected-menu", "javascript");
-            state_->doc_->SaveFile(state_->state_file_path_.c_str()); 
-        });
-
-        settings_menu_item->clicked().connect(this, [=]()
-        {
-            templates_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            css_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            settings_menu_item->toggleStyleClass("stylus-menu-selected", true);
-            images_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            content_wrapper->setCurrentWidget(settings_);
-            state_->stylus_node_->SetAttribute("selected-menu", "settings");
-            state_->doc_->SaveFile(state_->state_file_path_.c_str()); 
-        });
-
-        images_menu_item->clicked().connect(this, [=]()
-                                            {
-            templates_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            tailwind_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            css_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            javascript_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            settings_menu_item->toggleStyleClass("stylus-menu-selected", false);
-            images_menu_item->toggleStyleClass("stylus-menu-selected", true);
-            content_wrapper->setCurrentWidget(images_manager_);
-            state_->stylus_node_->SetAttribute("selected-menu", "images");
-            state_->doc_->SaveFile(state_->state_file_path_.c_str()); 
-        });
-
+        xml_files_manager_ = content_stack_->addNew<XmlFilesManager>(state_);
+        css_files_manager_ = content_stack_->addNew<CssFilesManager>(state_);
+        js_files_manager_ = content_stack_->addNew<JsFilesManager>(state_);
+        tailwind_config_ = content_stack_->addNew<TailwindConfigManager>(state_);
+        images_manager_ = content_stack_->addNew<ImagesManager>(state_);
+        settings_ = content_stack_->addNew<Settings>(state_);
 
         auto selected_menu = state_->stylus_node_->Attribute("selected-menu");
         if (std::strcmp(selected_menu, "templates") == 0)
-            templates_menu_item->clicked().emit(Wt::WMouseEvent());
+            menu_->select(xml_file_manager_menu_item_);
         else if (std::strcmp(selected_menu, "tailwind") == 0)
-            tailwind_menu_item->clicked().emit(Wt::WMouseEvent());
+            menu_->select(tailwind_menu_item_);
         else if (std::strcmp(selected_menu, "css") == 0)
-            css_menu_item->clicked().emit(Wt::WMouseEvent());
+            menu_->select(css_menu_item_);
         else if (std::strcmp(selected_menu, "javascript") == 0)
-            javascript_menu_item->clicked().emit(Wt::WMouseEvent());
+            menu_->select(javascript_menu_item_);
         else if (std::strcmp(selected_menu, "settings") == 0)
-            settings_menu_item->clicked().emit(Wt::WMouseEvent());
+            menu_->select(settings_menu_item_);
+        else if (std::strcmp(selected_menu, "images") == 0)
+            menu_->select(images_menu_item_);
+        else
+            menu_->select(xml_file_manager_menu_item_);
         
         if (state_->stylus_node_->BoolAttribute("open"))
             show();
         else
             hide();
 
-        if (state_->stylus_node_->BoolAttribute("navigation-bar-hidden"))
-        {
-            navbar->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-        }
-        if (state_->xml_node_->BoolAttribute("navigation-bar-hidden"))
-        {
-            xml_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-        }
-        if (state_->css_node_->BoolAttribute("navigation-bar-hidden"))
-        {
-            css_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-        }
-        if (state_->js_node_->BoolAttribute("navigation-bar-hidden"))
-        {
-            js_files_manager_->grid_layout_->itemAt(0)->widget()->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
-        }
-
-        dark_mode_toggle->changed().connect(this, [=]()
+        dark_mode_toggle_->changed().connect(this, [=]()
                                                      {
-        bool dark = dark_mode_toggle->isChecked();
-        xml_files_manager_->editor_->setDarkTheme(dark);
-        state_->stylus_node_->SetAttribute("dark-mode", dark ? "true" : "false");
-        state_->doc_->SaveFile(state_->state_file_path_.c_str()); });
+            bool dark = dark_mode_toggle_->isChecked();
+            xml_files_manager_->editor_->setDarkTheme(dark);
+            state_->stylus_node_->SetAttribute("dark-mode", dark ? "true" : "false");
+            state_->doc_->SaveFile(state_->state_file_path_.c_str());
+        });
 
         if (state_->stylus_node_->BoolAttribute("dark-mode"))
         {
-            dynamic_cast<App *>(wApp)->dark_mode_changed_.emit(true);
             xml_files_manager_->editor_->setDarkTheme(true);
         }
 
+        css_files_manager_->file_saved().connect(this, [=](){ 
+            if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn"))
+                tailwind_config_->generateCssFile(); 
+        });
+        xml_files_manager_->file_saved().connect(this, [=](){ 
+            if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn"))
+                tailwind_config_->generateCssFile(); 
+        });
+
+        if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn")){
+            tailwind_config_->generateCssFile();
+        }
+        setupKeyboardShortcuts();
+    }
+    
+    void Stylus::setupKeyboardShortcuts()
+    {
+      
         wApp->globalKeyWentDown().connect([=](Wt::WKeyEvent e)
                                                                   { 
         if (e.modifiers().test(Wt::KeyboardModifier::Alt)){
             if(e.modifiers().test(Wt::KeyboardModifier::Shift)){
                 if(e.key() == Wt::Key::Q){
 
-                    if(navbar->isHidden())
+                    if(navbar_wrapper_->isHidden())
                     {
                         state_->stylus_node_->SetAttribute("navigation-bar-hidden", "false");
-                        navbar->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+                        navbar_wrapper_->animateShow(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
                     }else
                     {
                         state_->stylus_node_->SetAttribute("navigation-bar-hidden", "true");
-                        navbar->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
+                        navbar_wrapper_->animateHide(Wt::WAnimation(Wt::AnimationEffect::SlideInFromLeft, Wt::TimingFunction::EaseInOut, 500));
                     }
                     state_->doc_->SaveFile(state_->state_file_path_.c_str());
                 }else if(e.key() == Wt::Key::Up){
@@ -471,7 +414,7 @@ namespace Stylus
                     xml_files_manager_->selected_file_brain_->doc_->SaveFile(xml_files_manager_->selected_file_brain_->file_path_.c_str());
                     xml_files_manager_->selected_file_brain_->file_saved_.emit();
                 }else if(e.key() == Wt::Key::Key_1){
-                    if(content_wrapper->currentWidget() == xml_files_manager_)
+                    if(content_stack_->currentWidget() == xml_files_manager_)
                     {
                         if(state_->xml_node_->BoolAttribute("navigation-bar-hidden"))
                         {
@@ -483,7 +426,7 @@ namespace Stylus
                             state_->xml_node_->SetAttribute("navigation-bar-hidden", "true");
                         }
                         state_->doc_->SaveFile(state_->state_file_path_.c_str());
-                    }else if(content_wrapper->currentWidget() == css_files_manager_)
+                    }else if(content_stack_->currentWidget() == css_files_manager_)
                     {
                         if(state_->css_node_->BoolAttribute("navigation-bar-hidden"))
                         {
@@ -495,7 +438,7 @@ namespace Stylus
                             state_->css_node_->SetAttribute("navigation-bar-hidden", "true");
                         }
                         state_->doc_->SaveFile(state_->state_file_path_.c_str());
-                    }else if(content_wrapper->currentWidget() == js_files_manager_)
+                    }else if(content_stack_->currentWidget() == js_files_manager_)
                     {
                         if(state_->js_node_->BoolAttribute("navigation-bar-hidden"))
                         {
@@ -509,7 +452,7 @@ namespace Stylus
                         state_->doc_->SaveFile(state_->state_file_path_.c_str());
                     }
                 }else if(e.key() == Wt::Key::Key_2){
-                    if(content_wrapper->currentWidget() == xml_files_manager_)
+                    if(content_stack_->currentWidget() == xml_files_manager_)
                     {
                         if(state_->xml_node_->BoolAttribute("editor-hidden"))
                         {
@@ -523,7 +466,7 @@ namespace Stylus
                         state_->doc_->SaveFile(state_->state_file_path_.c_str());
                     }
                 }else if(e.key() == Wt::Key::Key_3){
-                    if(content_wrapper->currentWidget() == xml_files_manager_)
+                    if(content_stack_->currentWidget() == xml_files_manager_)
                     {
                         if(state_->xml_node_->BoolAttribute("preview-tree-hidden"))
                         {
@@ -537,7 +480,7 @@ namespace Stylus
                         state_->doc_->SaveFile(state_->state_file_path_.c_str());
                     }
                 }else if(e.key() == Wt::Key::Key_4){
-                    if(content_wrapper->currentWidget() == xml_files_manager_)
+                    if(content_stack_->currentWidget() == xml_files_manager_)
                     {
                         if(state_->xml_node_->BoolAttribute("preview-elem-hidden"))
                         {
@@ -551,7 +494,7 @@ namespace Stylus
                         state_->doc_->SaveFile(state_->state_file_path_.c_str());
                     }
                 }else if(e.key() == Wt::Key::Key_5){
-                    if(content_wrapper->currentWidget() == xml_files_manager_)
+                    if(content_stack_->currentWidget() == xml_files_manager_)
                     {
                         if(state_->xml_node_->BoolAttribute("control-center-hidden"))
                         {
@@ -565,7 +508,7 @@ namespace Stylus
                         state_->doc_->SaveFile(state_->state_file_path_.c_str());
                     }
                 }else if(e.key() == Wt::Key::Key_6){
-                    if(content_wrapper->currentWidget() == xml_files_manager_)
+                    if(content_stack_->currentWidget() == xml_files_manager_)
                     {
                         if(state_->xml_node_->BoolAttribute("template-var-control-center-hidden"))
                         {
@@ -583,7 +526,7 @@ namespace Stylus
             }else if (e.key() == Wt::Key::Q){
                 if(isHidden()){
                     animateShow(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500));
-                    content_wrapper->currentWidget()->refresh();
+                    content_stack_->currentWidget()->refresh();
                     state_->stylus_node_->SetAttribute("open", "true");
                 }else{
                     animateHide(Wt::WAnimation(Wt::AnimationEffect::Pop, Wt::TimingFunction::EaseInOut, 500));
@@ -594,19 +537,21 @@ namespace Stylus
                 }
                 state_->doc_->SaveFile(state_->state_file_path_.c_str());
             }else if (e.key() == Wt::Key::Key_1){
-                templates_menu_item->clicked().emit(Wt::WMouseEvent());
+                menu_->select(xml_file_manager_menu_item_);
             }else if (e.key() == Wt::Key::Key_2){
-                css_menu_item->clicked().emit(Wt::WMouseEvent());
+                menu_->select(css_menu_item_);
             }else if (e.key() == Wt::Key::Key_3){
-                javascript_menu_item->clicked().emit(Wt::WMouseEvent());
+                menu_->select(javascript_menu_item_);
             }else if (e.key() == Wt::Key::Key_4){
-                tailwind_menu_item->clicked().emit(Wt::WMouseEvent());
+                menu_->select(tailwind_menu_item_);
             }else if(e.key() == Wt::Key::Key_5){
-                images_menu_item->clicked().emit(Wt::WMouseEvent());
+                menu_->select(images_menu_item_);
             }else if (e.key() == Wt::Key::Key_6){
-                settings_menu_item->clicked().emit(Wt::WMouseEvent());
+                menu_->select(settings_menu_item_);
             }else if (e.key() == Wt::Key::Key_7){
-                dynamic_cast<App*>(wApp)->dark_mode_changed_.emit(!state_->stylus_node_->BoolAttribute("dark-mode"));
+                // dynamic_cast<App*>(wApp)->dark_mode_changed_.emit(!state_->stylus_node_->BoolAttribute("dark-mode"));
+                dark_mode_toggle_->setChecked(!dark_mode_toggle_->isChecked());
+                dark_mode_toggle_->changed().emit();
             }else if (e.key() == Wt::Key::Up){
                 if(!xml_files_manager_->selected_file_brain_) return;
                 auto selected_node = xml_files_manager_->selected_file_brain_->selected_node_;
@@ -861,20 +806,7 @@ namespace Stylus
             }
         } });
 
-        css_files_manager_->file_saved().connect(this, [=]()
-                                                { 
-                                                    if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn"))
-                                                        tailwind_config_->generateCssFile(); 
-                                                });
-        xml_files_manager_->file_saved().connect(this, [=]()
-                                                 { 
-                                                    if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn"))
-                                                        tailwind_config_->generateCssFile(); 
-                                                });
 
-        if(!state_->settings_node_->BoolAttribute("use-tailwind-cdn")){
-            tailwind_config_->generateCssFile();
-        }
     }
 
 }

@@ -54,7 +54,6 @@ namespace Stylus
         {
             std::cerr << "Error finding <stylus> node in XML file." << std::endl;
             stylus_node_ = doc_->NewElement("stylus");
-            stylus_node_->SetAttribute("navigation-bar-hidden", "false");
             stylus_node_->SetAttribute("selected-menu", "templates");
             stylus_node_->SetAttribute("open", "true");
             doc_->InsertFirstChild(stylus_node_);
@@ -71,7 +70,6 @@ namespace Stylus
             xml_node_->SetAttribute("control-center-hidden", false);
             xml_node_->SetAttribute("sidebar-width", 300);
             xml_node_->SetAttribute("selected-file-path", "");
-            xml_node_->SetAttribute("navigation-bar-hidden", "false");
             xml_node_->SetAttribute("preview-widget-sidebar-width", "300");
             xml_node_->SetAttribute("preview-widget-width", "300");
             xml_node_->SetAttribute("template-var-control-center-hidden", "false");
@@ -85,7 +83,6 @@ namespace Stylus
             css_node_ = doc_->NewElement("css-manager");
             css_node_->SetAttribute("sidebar-width", 300);
             css_node_->SetAttribute("selected-file-path", "");
-            css_node_->SetAttribute("navigation-bar-hidden", "false");
             stylus_node_->InsertEndChild(css_node_);
         }
         js_node_ = stylus_node_->FirstChildElement("js-manager");
@@ -95,7 +92,6 @@ namespace Stylus
             js_node_ = doc_->NewElement("js-manager");
             js_node_->SetAttribute("sidebar-width", 300);
             js_node_->SetAttribute("selected-file-path", "");
-            js_node_->SetAttribute("navigation-bar-hidden", "false");
             stylus_node_->InsertEndChild(js_node_);
         }
         tailwind_config_node_ = stylus_node_->FirstChildElement("tailwind-config");

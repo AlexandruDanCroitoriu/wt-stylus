@@ -20,12 +20,12 @@
 	@apply border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt;
 }
 /* border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt */
-.stylus-menu { 
+/* .stylus-menu { 
 	@apply hover:bg-primary/20 dark:hover:bg-primary-dark/30;
-} 
-.stylus-menu-selected { 
+}  */
+/* .stylus-menu-selected { 
 	@apply bg-primary/20 dark:bg-primary-dark/20  outline outline-solid outline-blue-400/50;
-}
+} */
 
 /* Wt-item used by the folders/files tree items  */
 .Wt-item {
@@ -95,4 +95,16 @@
 }
 .template-function {
 	/* @apply text-[var(--template-function)] */
+}
+
+.dark-mode-checkbox-toggle {
+	@apply size-9 flex items-center justify-center z-20 rounded-full bg-primary p-2 text-on-primary dark:bg-primary-dark dark:text-on-primary-dark;
+	
+	input {
+		@apply hidden [&~span]:before:content-["☀"] checked:[&~span]:before:content-['🌙'];
+	}
+	
+	span {
+		/* @apply ; */
+	}
 }

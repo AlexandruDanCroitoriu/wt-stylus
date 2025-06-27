@@ -29,8 +29,8 @@ namespace Stylus
         : state_(state),
         FilesManager(state, state->xml_editor_data_, state->xml_node_->IntAttribute("sidebar-width"), state->xml_node_->Attribute("selected-file-path"))
     {
+        std::cout << "\n\nXmlFilesManager initialized successfully.\n\n";
         setXmlFileBrains();
-    
         tree_wrapper_ = grid_layout_->addWidget(std::make_unique<GridItemWrapper>(), 0, 2);
         elem_wrapper_ = grid_layout_->addWidget(std::make_unique<GridItemWrapper>(), 0, 3);
         control_center_ = grid_layout_->addWidget(std::make_unique<ControlCenter>(), 0, 4, Wt::AlignmentFlag::Right);
