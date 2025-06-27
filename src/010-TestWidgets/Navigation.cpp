@@ -39,8 +39,8 @@ Navigation::Navigation(Session& session)
             popup_menu_->setHideOnSelect(true);
             popup_menu_->setInternalBasePath("/user");
             popup_menu_->setInternalPathEnabled("/user");
-            popup_menu_->setStyleClass("border divide-y divide-outline border-outline bg-surface dark:divide-outline-dark dark:border-outline-dark dark:bg-surface-dark rounded-radius shadow-2xl");
-            
+            // popup_menu_->setStyleClass("border divide-y divide-outline border-outline bg-surface dark:divide-outline-dark dark:border-outline-dark dark:bg-surface-dark rounded-radius shadow-2xl");
+            popup_menu_->setStyleClass("stylus-background border divide-y divide-outline border-outline dark:divide-outline-dark dark:border-outline-dark rounded-radius shadow-2xl");
             auto user_profile_menu_item = popup_menu_->addItem("Settings", std::make_unique<UserSettingsPage>(session_));
             user_profile_menu_item->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("app:settings-svg"));
             user_profile_menu_item->addStyleClass(menu_item_styles_);

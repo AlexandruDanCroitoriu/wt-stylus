@@ -24,7 +24,7 @@
 } 
 
 .item, .itemselected {
-	/* @apply text-on-surface-strong dark:text-on-surface-dark-strong; */
+	@apply text-on-surface dark:text-on-surface-dark;
 }
 /* Wt::WTreeNode uses those css classes to apply styles to a tree item and a to a selected tree item  */
 .Wt-item {

@@ -2001,11 +2001,6 @@
       background-color: color-mix(in oklab, var(--color-primary-dark) 10%, transparent);
     }
   }
-  .dark\:bg-primary-dark\/20 {
-    &:where(.dark, .dark *) {
-      background-color: color-mix(in oklab, var(--color-primary-dark) 20%, transparent);
-    }
-  }
   .dark\:bg-primary\/40 {
     &:where(.dark, .dark *) {
       background-color: color-mix(in oklab, var(--color-primary) 40%, transparent);
@@ -2341,6 +2336,35 @@
       }
     }
   }
+  .\[\&\>input\]\:hidden {
+    &>input {
+      display: none;
+    }
+  }
+  .\[\&\>input\]\:\[\&\~span\]\:before\:content-\[\'☀\'\] {
+    &>input {
+      &~span {
+        &::before {
+          content: var(--tw-content);
+          --tw-content: '☀';
+          content: var(--tw-content);
+        }
+      }
+    }
+  }
+  .\[\&\>input\]\:checked\:\[\&\~span\]\:before\:content-\[\'🌙\'\] {
+    &>input {
+      &:checked {
+        &~span {
+          &::before {
+            content: var(--tw-content);
+            --tw-content: '🌙';
+            content: var(--tw-content);
+          }
+        }
+      }
+    }
+  }
 }
 .stylus-list-tree {
   --tree-clr: #075985;
@@ -2561,43 +2585,6 @@
   --tw-outline-style: solid;
   outline-style: solid;
 }
-.dark-mode-checkbox-toggle {
-  z-index: 20;
-  display: flex;
-  width: calc(var(--spacing) * 9);
-  height: calc(var(--spacing) * 9);
-  align-items: center;
-  justify-content: center;
-  border-radius: calc(infinity * 1px);
-  background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
-  padding: calc(var(--spacing) * 2);
-  color: var(--color-on-primary);
-  &:where(.dark, .dark *) {
-    background-color: color-mix(in oklab, var(--color-primary-dark) 20%, transparent);
-  }
-  &:where(.dark, .dark *) {
-    color: var(--color-on-primary-dark);
-  }
-  input {
-    display: none;
-    &~span {
-      &::before {
-        content: var(--tw-content);
-        --tw-content: "☀";
-        content: var(--tw-content);
-      }
-    }
-    &:checked {
-      &~span {
-        &::before {
-          content: var(--tw-content);
-          --tw-content: '🌙';
-          content: var(--tw-content);
-        }
-      }
-    }
-  }
-}
 @layer theme, base, components, utilities;
 @layer theme;
 @layer base {
@@ -2786,6 +2773,12 @@
   }
   &:where(.dark, .dark *) {
     outline-color: color-mix(in oklab, var(--color-outline-dark-strong) 20%, transparent);
+  }
+}
+.item, .itemselected {
+  color: var(--color-on-surface);
+  &:where(.dark, .dark *) {
+    color: var(--color-on-surface-dark);
   }
 }
 .Wt-tree .Wt-selected {

@@ -97,14 +97,9 @@
 	/* @apply text-[var(--template-function)] */
 }
 
-.dark-mode-checkbox-toggle {
-	@apply size-9 flex items-center justify-center z-20 rounded-full bg-primary/20 p-2 text-on-primary dark:bg-primary-dark/20 dark:text-on-primary-dark;
+/* .dark-mode-checkbox-toggle {
 	
 	input {
 		@apply hidden [&~span]:before:content-["☀"] checked:[&~span]:before:content-['🌙'];
 	}
-	
-	span {
-		/* @apply ; */
-	}
-}
+} */

@@ -3,12 +3,12 @@
 #include "001-App/App.h"
 
 ThemeSwitcher::ThemeSwitcher(Session& session)
-    : Button("UI", "text-md font-bold z-20 !rounded-full w-10", PenguinUiWidgetTheme::BtnDefault),
+    : Button("UI", "text-md font-bold z-20 !rounded-full w-10", PenguinUiWidgetTheme::BtnPrimaryOutline),
     session_(session)
 {
     clicked().connect(this, &ThemeSwitcher::showPopup);
-    addStyleClass("bg-primary/20 text-primary dark:bg-primary-dark/20 dark:text-primary-dark dark:text-on-primary-dark");
-    
+    addStyleClass("bg-primary/20 dark:bg-primary-dark/10");
+
 }
 
 
@@ -53,7 +53,7 @@ void ThemeSwitcher::hidePopup()
 std::unique_ptr<Wt::WMenuItem> ThemeSwitcher::getMenuItem(const std::string& theme_name)
 {
     auto menu_item = std::make_unique<Wt::WMenuItem>(theme_name);
-    menu_item->addStyleClass("flex items-center gap-2 px-2 py-1.5 text-base font-medium text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-on-surface-strong focus-visible:underline focus:outline-hidden dark:text-on-surface-dark dark:hover:bg-primary-dark/5 dark:hover:text-on-surface-dark-strong");
+    menu_item->addStyleClass("flex items-center cursor-pointer gap-2 px-2 py-1.5 text-base font-medium text-on-surface underline-offset-2 hover:bg-primary/5 hover:text-on-surface-strong focus-visible:underline focus:outline-hidden dark:text-on-surface-dark dark:hover:bg-primary-dark/5 dark:hover:text-on-surface-dark-strong");
     menu_item->clicked().connect([=]() {
         wApp->setHtmlAttribute("data-theme", theme_name);
         

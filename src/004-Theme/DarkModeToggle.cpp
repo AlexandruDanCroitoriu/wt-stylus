@@ -1,13 +1,17 @@
 #include "004-Theme/DarkModeToggle.h"
 #include "001-App/App.h"
 #include <Wt/WLabel.h>
-
+#include "004-Theme/Theme.h"
+#include <Wt/WApplication.h>
 
 DarkModeToggle::DarkModeToggle(Session& session)
     : Wt::WCheckBox(""),
     session_(session)
 {
-    setStyleClass("dark-mode-checkbox-toggle");
+    std::string icon_styles = "[&>input]:hidden [&>input]:[&~span]:before:content-['☀'] [&>input]:checked:[&~span]:before:content-['🌙']";  
+    dynamic_cast<Theme*>(wApp->theme().get())->applyTheme(this, PenguinUiWidgetTheme::BtnDefault);
+    dynamic_cast<Theme*>(wApp->theme().get())->applyTheme(this, PenguinUiWidgetTheme::BtnPrimaryOutline);
+    addStyleClass(icon_styles + " flex items-center justify-center z-20 p-2 text-md font-bold z-20 !rounded-full w-10 bg-primary/20 dark:bg-primary-dark/10");
     setChecked(wApp->htmlClass().find("dark") == std::string::npos ? false : true);
     
     // label()->setStyleClass("font-bold");
