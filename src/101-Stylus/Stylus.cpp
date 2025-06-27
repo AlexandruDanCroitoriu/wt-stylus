@@ -91,7 +91,7 @@ namespace Stylus
 
         auto xml_svg_temp = xml_file_manager_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-xml-logo"));
         auto css_svg_temp = css_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-css-logo"));
-        auto javascript_svg_temp = javascri pt_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-javascript-logo"));
+        auto javascript_svg_temp = javascript_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-javascript-logo"));
         auto tailwind_svg_temp = tailwind_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-tailwind-logo"));
         auto images_svg_temp = images_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-images-logo"));
         auto settings_svg_temp = settings_menu_item_->anchor()->insertNew<Wt::WTemplate>(0, Wt::WString::tr("stylus-svg-settings-logo"));
@@ -100,15 +100,10 @@ namespace Stylus
         theme_switcher_ = navbar_wrapper_->addNew<ThemeSwitcher>(session_);
         
         std::string nav_btns_styles = "w-[35px] m-[3px] p-1 cursor-pointer rounded-md flex items-center justify-center";
-        // xml_file_manager_menu_item_->anchor()->setStyleClass(nav_btns_styles);
-        // css_menu_item_->anchor()->setStyleClass(nav_btns_styles);
-        // javascript_menu_item_->anchor()->setStyleClass(nav_btns_styles);
-        // tailwind_menu_item_->anchor()->setStyleClass(nav_btns_styles);
-        // images_menu_item_->anchor()->setStyleClass(nav_btns_styles);
-        // settings_menu_item_->anchor()->setStyleClass(nav_btns_styles);
+
         xml_svg_temp->setStyleClass(nav_btns_styles);
         css_svg_temp->setStyleClass(nav_btns_styles);
-        javascript_svg_temp->setStyleClass(nav_btns_styles);
+        javascript_svg_temp->setStyleClass(nav_btns_styles + " p-1");
         tailwind_svg_temp->setStyleClass(nav_btns_styles);
         images_svg_temp->setStyleClass(nav_btns_styles);
         settings_svg_temp->setStyleClass(nav_btns_styles);
@@ -131,21 +126,45 @@ namespace Stylus
         settings_ = content_stack_->addNew<Settings>(state_);
 
         auto selected_menu = state_->stylus_node_->Attribute("selected-menu");
-        if (std::strcmp(selected_menu, "templates") == 0)
+        std::cout << "Selected menu: " << (selected_menu ? selected_menu : "null") << std::endl;
+        if (std::strcmp(selected_menu, "templates") == 0) {
             menu_->select(xml_file_manager_menu_item_);
-        else if (std::strcmp(selected_menu, "tailwind") == 0)
+        }else if (std::strcmp(selected_menu, "tailwind") == 0) {
             menu_->select(tailwind_menu_item_);
-        else if (std::strcmp(selected_menu, "css") == 0)
+        }else if (std::strcmp(selected_menu, "css") == 0) {
             menu_->select(css_menu_item_);
-        else if (std::strcmp(selected_menu, "javascript") == 0)
+        }else if (std::strcmp(selected_menu, "javascript") == 0) {
             menu_->select(javascript_menu_item_);
-        else if (std::strcmp(selected_menu, "settings") == 0)
+        }else if (std::strcmp(selected_menu, "settings") == 0) {
             menu_->select(settings_menu_item_);
-        else if (std::strcmp(selected_menu, "images") == 0)
+        }else if (std::strcmp(selected_menu, "images") == 0) {
             menu_->select(images_menu_item_);
-        else
+        }else {
             menu_->select(xml_file_manager_menu_item_);
+        }
         
+        menu_->itemSelected().connect(this, [=](Wt::WMenuItem* item){
+            if (item == xml_file_manager_menu_item_) {
+                state_->stylus_node_->SetAttribute("selected-menu", "templates");
+                state_->doc_->SaveFile(state_->state_file_path_.c_str());
+            }else if (item == tailwind_menu_item_) {
+                state_->stylus_node_->SetAttribute("selected-menu", "tailwind");
+                state_->doc_->SaveFile(state_->state_file_path_.c_str());
+            }else if (item == css_menu_item_) {
+                state_->stylus_node_->SetAttribute("selected-menu", "css");
+                state_->doc_->SaveFile(state_->state_file_path_.c_str());
+            }else if (item == javascript_menu_item_) {
+                state_->stylus_node_->SetAttribute("selected-menu", "javascript");
+                state_->doc_->SaveFile(state_->state_file_path_.c_str());
+            }else if (item == settings_menu_item_) {
+                state_->stylus_node_->SetAttribute("selected-menu", "settings");
+                state_->doc_->SaveFile(state_->state_file_path_.c_str());
+            }else if (item == images_menu_item_) {
+                state_->stylus_node_->SetAttribute("selected-menu", "images");
+                state_->doc_->SaveFile(state_->state_file_path_.c_str());
+            }
+        });
+
         if (state_->stylus_node_->BoolAttribute("open"))
             show();
         else

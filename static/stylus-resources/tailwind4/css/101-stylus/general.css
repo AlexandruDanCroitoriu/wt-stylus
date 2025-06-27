@@ -15,10 +15,10 @@
 } 
 
  /* border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt */
-.stylus-background {
+/* .stylus-background { */
 	/* @apply bg-gray-100 text-black bg-[length:35px_35px] bg-[radial-gradient(var(--color-gray-300)_5%,_transparent_0)] dark:bg-gray-950 dark:text-white dark:bg-[radial-gradient(var(--color-gray-900)_5%,_transparent_0)]; */
-	@apply border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt;
-}
+	/* @apply border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt; */
+/* } */
 /* border-outline bg-surface-alt dark:border-outline-dark dark:bg-surface-dark-alt */
 /* .stylus-menu { 
 	@apply hover:bg-primary/20 dark:hover:bg-primary-dark/30;
@@ -41,9 +41,9 @@
 } 
 
 /* Wt-vrh2 used by draggable bar */
-.Wt-vrh2 {
+/* .Wt-vrh2 {
 	@apply dark:bg-gray-800 dark:hover:bg-gray-900 dark:active:bg-gray-950;
-}
+} */
 
 /* Preview nodes selection */
 .selected-xml-node-hover {
@@ -98,7 +98,7 @@
 }
 
 .dark-mode-checkbox-toggle {
-	@apply size-9 flex items-center justify-center z-20 rounded-full bg-primary p-2 text-on-primary dark:bg-primary-dark dark:text-on-primary-dark;
+	@apply size-9 flex items-center justify-center z-20 rounded-full bg-primary/20 p-2 text-on-primary dark:bg-primary-dark/20 dark:text-on-primary-dark;
 	
 	input {
 		@apply hidden [&~span]:before:content-["☀"] checked:[&~span]:before:content-['🌙'];

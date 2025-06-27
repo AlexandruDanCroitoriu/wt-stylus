@@ -3,11 +3,12 @@
 #include "001-App/App.h"
 
 ThemeSwitcher::ThemeSwitcher(Session& session)
-    : Button("UI", "text-md font-bold z-20 !rounded-full w-10", PenguinUiWidgetTheme::BtnPrimary),
+    : Button("UI", "text-md font-bold z-20 !rounded-full w-10", PenguinUiWidgetTheme::BtnDefault),
     session_(session)
 {
     clicked().connect(this, &ThemeSwitcher::showPopup);
-
+    addStyleClass("bg-primary/20 text-primary dark:bg-primary-dark/20 dark:text-primary-dark dark:text-on-primary-dark");
+    
 }
 
 
@@ -17,7 +18,7 @@ void ThemeSwitcher::showPopup(const Wt::WMouseEvent& event)
     if(!popup_menu_) {
         popup_menu_ = std::make_unique<Wt::WPopupMenu>();
         popup_menu_->setHideOnSelect(false);
-        popup_menu_->setStyleClass("border divide-y divide-outline border-outline bg-surface dark:divide-outline-dark dark:border-outline-dark dark:bg-surface-dark rounded-radius shadow-2xl");
+        popup_menu_->setStyleClass("stylus-background border divide-y divide-outline border-outline dark:divide-outline-dark dark:border-outline-dark rounded-radius shadow-2xl");
 
         popup_menu_->addItem(std::move(getMenuItem("arctic")))->addStyleClass("!rounded-t-radius");
         popup_menu_->addItem(std::move(getMenuItem("minimal")));

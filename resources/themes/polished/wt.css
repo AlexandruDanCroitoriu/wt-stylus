@@ -404,7 +404,7 @@ span.Wt-disabled, fieldset.Wt-disabled legend {
 
 .Wt-popupmenu .active {
     background: #6880A0;
-    color: white;
+    /* color: white; */
 }
 
 .Wt-popupmenu .Wt-disabled, .Wt-popupmenu .Wt-disable.active {

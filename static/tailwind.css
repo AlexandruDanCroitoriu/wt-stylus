@@ -1041,6 +1041,9 @@
   .bg-primary\/10 {
     background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
   }
+  .bg-primary\/20 {
+    background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
+  }
   .bg-primary\/40 {
     background-color: color-mix(in oklab, var(--color-primary) 40%, transparent);
   }
@@ -1522,13 +1525,6 @@
       }
     }
   }
-  .hover\:bg-primary\/10 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
-      }
-    }
-  }
   .hover\:text-blue-600 {
     &:hover {
       @media (hover: hover) {
@@ -2003,6 +1999,11 @@
   .dark\:bg-primary-dark\/10 {
     &:where(.dark, .dark *) {
       background-color: color-mix(in oklab, var(--color-primary-dark) 10%, transparent);
+    }
+  }
+  .dark\:bg-primary-dark\/20 {
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in oklab, var(--color-primary-dark) 20%, transparent);
     }
   }
   .dark\:bg-primary\/40 {
@@ -2537,33 +2538,6 @@
     background-color: color-mix(in oklab, var(--color-gray-950) 20%, transparent);
   }
 }
-.stylus-background {
-  border-color: var(--color-outline);
-  background-color: var(--color-surface-alt);
-  &:where(.dark, .dark *) {
-    border-color: var(--color-outline-dark);
-  }
-  &:where(.dark, .dark *) {
-    background-color: var(--color-surface-dark-alt);
-  }
-}
-.Wt-vrh2 {
-  &:where(.dark, .dark *) {
-    background-color: var(--color-gray-800);
-  }
-  &:where(.dark, .dark *) {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-gray-900);
-      }
-    }
-  }
-  &:where(.dark, .dark *) {
-    &:active {
-      background-color: var(--color-gray-950);
-    }
-  }
-}
 .selected-xml-node {
   outline-style: var(--tw-outline-style);
   outline-width: 2px;
@@ -2595,11 +2569,11 @@
   align-items: center;
   justify-content: center;
   border-radius: calc(infinity * 1px);
-  background-color: var(--color-primary);
+  background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
   padding: calc(var(--spacing) * 2);
   color: var(--color-on-primary);
   &:where(.dark, .dark *) {
-    background-color: var(--color-primary-dark);
+    background-color: color-mix(in oklab, var(--color-primary-dark) 20%, transparent);
   }
   &:where(.dark, .dark *) {
     color: var(--color-on-primary-dark);
@@ -2769,27 +2743,80 @@
   }
 }
 @layer utilities;
+.stylus-background {
+  border-color: var(--color-outline);
+  background-color: var(--color-surface-alt);
+  color: var(--color-on-surface);
+  &:where(.dark, .dark *) {
+    border-color: var(--color-outline-dark);
+  }
+  &:where(.dark, .dark *) {
+    background-color: var(--color-surface-dark-alt);
+  }
+  &:where(.dark, .dark *) {
+    color: var(--color-on-surface-dark);
+  }
+}
 .Wt-separator .active {
   padding-block: calc(var(--spacing) * 0) !important;
 }
 .item {
   &:hover {
     @media (hover: hover) {
-      background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
+      background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
     }
   }
   &:where(.dark, .dark *) {
     &:hover {
       @media (hover: hover) {
-        background-color: color-mix(in oklab, var(--color-primary-dark) 30%, transparent);
+        background-color: color-mix(in oklab, var(--color-primary-dark) 20%, transparent);
       }
     }
   }
 }
 .itemselected {
-  background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
+  background-color: color-mix(in oklab, var(--color-primary) 15%, transparent);
+  outline-style: var(--tw-outline-style);
+  outline-width: 1px;
+  outline-color: color-mix(in oklab, var(--color-outline-strong) 15%, transparent);
+  --tw-outline-style: solid;
+  outline-style: solid;
   &:where(.dark, .dark *) {
     background-color: color-mix(in oklab, var(--color-primary-dark) 30%, transparent);
+  }
+  &:where(.dark, .dark *) {
+    outline-color: color-mix(in oklab, var(--color-outline-dark-strong) 20%, transparent);
+  }
+}
+.Wt-tree .Wt-selected {
+  background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
+  outline-style: var(--tw-outline-style);
+  outline-width: 1px;
+  outline-color: color-mix(in oklab, var(--color-outline-strong) 20%, transparent);
+  --tw-outline-style: solid;
+  outline-style: solid;
+  &:where(.dark, .dark *) {
+    background-color: color-mix(in oklab, var(--color-primary-dark) 20%, transparent);
+  }
+  &:where(.dark, .dark *) {
+    outline-color: color-mix(in oklab, var(--color-outline-dark-strong) 20%, transparent);
+  }
+}
+.Wt-vrh2 {
+  &:where(.dark, .dark *) {
+    background-color: var(--color-gray-800);
+  }
+  &:where(.dark, .dark *) {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-900);
+      }
+    }
+  }
+  &:where(.dark, .dark *) {
+    &:active {
+      background-color: var(--color-gray-950);
+    }
   }
 }
 // dialog .Wt-popup.Wt-outset.Wt-dialog {
