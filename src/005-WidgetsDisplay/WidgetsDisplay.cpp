@@ -11,7 +11,7 @@
 
 WidgetsDisplay::WidgetsDisplay()
 {
-
+    setStyleClass("flex items-center justify-center ");
 }
 
 

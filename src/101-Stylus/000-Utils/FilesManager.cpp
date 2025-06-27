@@ -655,24 +655,33 @@ FilesManager::FilesManager(std::shared_ptr<StylusState> state, StylusEditorManag
         reuploadFile();
     });
     
-    file_selected_.emit();
+    folders_changed_.connect(this, [=](std::string selected_file_path)
+    {
+        if(selected_file_path.compare("") != 0) {
+            selected_file_path_ = selected_file_path;
+        }
+        getFolders();
+        reuploadFile();
+    });
+
+    setTreeFolderWidgets();
+    reuploadFile(); 
+
 }
 
 void FilesManager::reuploadFile() 
 {
-      std::string file_path = data_.root_folder_path_ + selected_file_path_;
-        if(std::fstream(file_path).good() == false) {
-            editor_->setEditorText("static/stylus-resources/empty-file", state_->getFileText("../../static/stylus-resources/empty-file"));
-            editor_->setEditorReadOnly(true);
-        }else {
-            editor_->setEditorReadOnly(false);
-            editor_->setEditorText(data_.root_resource_url_ + selected_file_path_, state_->getFileText(file_path));
-        }
-        setTreeFolderWidgets();
+    std::string file_path = data_.root_folder_path_ + selected_file_path_;
+    if(std::fstream(file_path).good() == false) {
+        editor_->setEditorText("static/stylus-resources/empty-file", state_->getFileText("../../static/stylus-resources/empty-file"));
+        editor_->setEditorReadOnly(true);
+    }else {
+        editor_->setEditorReadOnly(false);
+        editor_->setEditorText(data_.root_resource_url_ + selected_file_path_, state_->getFileText(file_path));
+    }
+    // setTreeFolderWidgets();
 
 }
-
-
 
 void FilesManager::setTreeFolderWidgets()
 {
@@ -683,7 +692,6 @@ void FilesManager::setTreeFolderWidgets()
     tree_->treeRoot()->label()->setTextFormat(Wt::TextFormat::Plain);
     tree_->treeRoot()->expand();
     // tree_->treeRoot()->setLoadPolicy(Wt::ContentLoading::NextLevel);
-
 
     for(auto folder : folders_)
     {
@@ -711,11 +719,12 @@ void FilesManager::setTreeFolderWidgets()
 
             file_tree_node->folders_changed_.connect(this, [=](std::string selected_file_path)
             {
-                if(selected_file_path.compare("") != 0) {
-                    selected_file_path_ = selected_file_path;
-                }
-                getFolders();
-                file_selected_.emit();
+                // if(selected_file_path.compare("") != 0) {
+                //     selected_file_path_ = selected_file_path;
+                // }
+                // getFolders();
+                // file_selected_.emit();
+                folders_changed_.emit(selected_file_path);
             });
 
         }
@@ -727,21 +736,24 @@ void FilesManager::setTreeFolderWidgets()
 
         folder_tree_node->folders_changed_.connect(this, [=](std::string selected_file_path)
         {
-            if(selected_file_path.compare("") != 0) {
-                selected_file_path_ = selected_file_path;
-            }
-            getFolders();
-            file_selected_.emit();
+            // if(selected_file_path.compare("") != 0) {
+            //     selected_file_path_ = selected_file_path;
+            // }
+            // getFolders();
+            // file_selected_.emit();
+            folders_changed_.emit(selected_file_path);
         });
     }
 
     root_folder->folders_changed_.connect(this, [=](std::string selected_file_path)
     {
-        if(selected_file_path.compare("") != 0) {
-            selected_file_path_ = selected_file_path;
-        }
-        getFolders();
-        file_selected_.emit();
+        folders_changed_.emit(selected_file_path);
+        // if(selected_file_path.compare("") != 0) {
+        //     selected_file_path_ = selected_file_path;
+        // }
+        // getFolders();
+        // file_selected_.emit();
+        // setTreeFolderWidgets();
     });
 }
 
@@ -777,7 +789,7 @@ std::vector<std::pair<std::string, std::vector<std::string>>> FilesManager::getF
         std::sort(folder.second.begin(), folder.second.end());
     }
     folders_ = return_folders;
-    folders_changed_.emit();
+    // folders_changed_.emit("");
     return return_folders;
 }
 

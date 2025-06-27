@@ -18,6 +18,7 @@ Navigation::Navigation(Session& session)
     session_(session)
 {   
     stacked_widget_ = bindWidget("content", std::make_unique<Wt::WStackedWidget>());
+    stacked_widget_->setStyleClass("container mx-auto");
     menu_ = bindWidget("menu", std::make_unique<Wt::WMenu>(stacked_widget_));
     menu_->setInternalPathEnabled("/");
     menu_->setInternalBasePath("/");

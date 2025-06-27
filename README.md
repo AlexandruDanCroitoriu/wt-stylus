@@ -27,7 +27,7 @@ mkdir -p build/debug build/release
 
 # Build debug version
 cd build/debug
-cmake -DCMAKE_BUILD_TYPE=Debug ../..
+cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ../..
 make
 
 # Build release version

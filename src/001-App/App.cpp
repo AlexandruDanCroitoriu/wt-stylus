@@ -65,7 +65,9 @@ App::App(const Wt::WEnvironment &env)
     auth_dialog_->setModal(true);
     auth_dialog_->escapePressed().connect([=]() { auth_dialog_->hide(); });
     auth_dialog_->setMinimumSize(Wt::WLength(100, Wt::LengthUnit::ViewportWidth), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
-    // auth_dialog_->setStyleClass("absolute top-0 left-0 right-0 bottom-0 w-screen h-screen m-1 p-1 ");
+    auth_dialog_->setStyleClass("absolute top-0 left-0 right-0 bottom-0 w-screen h-screen");
+    auth_dialog_->setMargin(WLength("-21em"), Side::Left); // .Wt-form width
+    auth_dialog_->setMargin(WLength("-200px"), Side::Top); // ???
     auth_dialog_->contents()->setStyleClass("min-h-screen min-w-screen m-1 p-1 flex items-center justify-center");
     auth_widget_ = auth_dialog_->contents()->addWidget(std::make_unique<AuthWidget>(session_));
     // auto auth_widget = auth_dialog_->contents()->addWidget(std::make_unique<Wt::Auth::AuthWidget>(Session::auth(), session_.users(), session_.login()));
@@ -75,7 +77,6 @@ App::App(const Wt::WEnvironment &env)
     auth_widget_->processEnvironment();
     if(!session_.login().loggedIn()) {
         session_.login().changed().emit();
-        // createApp();
     }
 
     std::cout << "\n\n ------------------------ App::App() - Application instantiated ------------------------ \n\n";

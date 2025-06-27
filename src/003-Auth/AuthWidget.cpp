@@ -132,5 +132,31 @@ void AuthWidget::createInitialData()
   t.commit();
 }
 
+WDialog *AuthWidget::showDialog(const WString& title, std::unique_ptr<WWidget> contents) 
+{
+  if (contents) {
+    dialog_.reset(new WDialog(title));
+    dialog_->contents()->addWidget(std::move(contents));
+    dialog_->setMinimumSize(Wt::WLength(100, Wt::LengthUnit::ViewportWidth), Wt::WLength(100, Wt::LengthUnit::ViewportHeight));
+    dialog_->setStyleClass("absolute top-0 left-0 right-0 bottom-0 w-screen h-screen");
+    dialog_->titleBar()->removeFromParent();
+    dialog_->escapePressed().connect([=]() { dialog_.reset(); });
+    dialog_->contents()->setStyleClass("min-h-screen min-w-screen m-1 p-1 flex items-center justify-center");
+    dialog_->contents()->childrenChanged().connect(this, [=]() { dialog_.reset(); });
 
-// function to add a user with a specific login name, email, and password
+    dialog_->footer()->hide();
+
+    if (!WApplication::instance()->environment().ajax()) {
+      /*
+       * try to center it better, we need to set the half width and
+       * height as negative margins.
+       */
+      dialog_->setMargin(WLength("-21em"), Side::Left); // .Wt-form width
+      dialog_->setMargin(WLength("-200px"), Side::Top); // ???
+    }
+
+    dialog_->show();
+  }
+
+  return dialog_.get();
+}

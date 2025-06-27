@@ -83,7 +83,7 @@ namespace Stylus
         Wt::Signal<Wt::WString>& file_saved() { return   file_saved_; }
         Wt::Signal<>& file_selected() { return file_selected_; }
 
-        Wt::Signal<> folders_changed_; // used mostly by xml files manager to recreate xml file brains
+        Wt::Signal<std::string> folders_changed_; // used mostly by xml files manager to recreate xml file brains
         std::string selected_file_path_;
         
         FilesManagerSidebar* sidebar_;
